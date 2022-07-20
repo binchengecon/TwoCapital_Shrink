@@ -49,7 +49,7 @@ echo "\$SLURM_JOB_NAME"
 
 echo "Program starts \$(date)"
 
-python3 /home/bcheng4/TwoCapital_Bin/abatement/postdamage_spe_psi_gamma_name_moreiteration.py --xi_a 1000.0 --xi_g 1000.0 --id $i --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name}
+python3 /home/bcheng4/TwoCapital_Shrink/abatement/postdamage_spe_psi_gamma_name_moreiteration.py --xi_a 1000.0 --xi_g 1000.0 --id $i --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name}
 
 echo "Program ends \$(date)"
 

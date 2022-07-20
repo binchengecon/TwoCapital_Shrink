@@ -57,7 +57,7 @@ echo "\$SLURM_JOB_NAME"
 
 echo "Program starts \$(date)"
 
-python3 /home/bcheng4/TwoCapital_Bin/abatement/postdamage_spe_psi_gamma_name_moreiteration.py --xi_a 1000.0 --xi_g 1000.0 --id $i --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name}
+python3 /home/bcheng4/TwoCapital_Shrink/abatement/postdamage_spe_psi_gamma_name_moreiteration.py --xi_a 1000.0 --xi_g 1000.0 --id $i --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name}
 
 echo "Program ends \$(date)"
 
@@ -128,15 +128,15 @@ module load python/booth/3.8/3.8.5  gcc/9.2.0
 echo "\$SLURM_JOB_NAME"
 echo "Program starts \$(date)"
 
-python3 /home/bcheng4/TwoCapital_Bin/abatement/predamage_spe_psi_name_moreiteration.py --xi_a 1000.0 --xi_g 1000.0 --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name}
+python3 /home/bcheng4/TwoCapital_Shrink/abatement/predamage_spe_psi_name_moreiteration.py --xi_a 1000.0 --xi_g 1000.0 --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name}
 
 for i in $(seq 0 $ID_MAX_DAMAGE)
 do
-	python3 /home/bcheng4/TwoCapital_Bin/abatement/predamage_frompost.py --xi_a 1000.0 --xi_g 1000.0 --id $i --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name}
+	python3 /home/bcheng4/TwoCapital_Shrink/abatement/predamage_frompost.py --xi_a 1000.0 --xi_g 1000.0 --id $i --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name}
 done
 
 
-python3 /home/bcheng4/TwoCapital_Bin/abatement/predamage_spe_psi_name_moreiteration.py --xi_a 1000.0 --xi_g 1000.0 --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name}
+python3 /home/bcheng4/TwoCapital_Shrink/abatement/predamage_spe_psi_name_moreiteration.py --xi_a 1000.0 --xi_g 1000.0 --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name}
 
 echo "Program ends \$(date)"
 
@@ -197,11 +197,11 @@ for PSI_0 in 0.008 0.010 0.012
 do
 	for PSI_1 in 0.8
 	do 
-		python3 /home/bcheng4/TwoCapital_Bin/abatement/graph_frompre.py --xi_a 1000.0 --xi_g 1000.0 --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name}
+		python3 /home/bcheng4/TwoCapital_Shrink/abatement/graph_frompre.py --xi_a 1000.0 --xi_g 1000.0 --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name}
 	done
 done
 
-python3 /home/bcheng4/TwoCapital_Bin/abatement/Result_spe_name_moreiteration.py --dataname  $action_name --pdfname $server_name
+python3 /home/bcheng4/TwoCapital_Shrink/abatement/Result_spe_name_moreiteration.py --dataname  $action_name --pdfname $server_name
 
 echo "Program ends \$(date)"
 
