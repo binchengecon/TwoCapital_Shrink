@@ -4,7 +4,7 @@
 NUM_DAMAGE=6
 ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
 
-action_name="replicateSuri"
+action_name="replicateSuri_pureoriginal"
 python_name="postdamage_spe_psi_gamma_name_moreiteration.py"
 count=0
 

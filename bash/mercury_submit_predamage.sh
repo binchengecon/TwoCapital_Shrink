@@ -3,7 +3,7 @@
 
 
 
-action_name="replicateSuri"
+action_name="replicateSuri_pureoriginal"
 
 count=0
 
@@ -29,7 +29,7 @@ do
 
 
 ######## login 
-#SBATCH --job-name=reppre-${count}
+#SBATCH --job-name=6pre-${count}
 #SBATCH --output=./job-outs/${action_name}/${PSI_0}_${PSI_1}/mercury_pre_$count.out
 #SBATCH --error=./job-outs/${action_name}/${PSI_0}_${PSI_1}/mercury_pre_$count.err
 

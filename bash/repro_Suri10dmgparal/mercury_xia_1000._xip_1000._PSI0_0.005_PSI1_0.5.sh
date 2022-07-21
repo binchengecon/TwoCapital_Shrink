@@ -20,7 +20,7 @@ echo "$SLURM_JOB_NAME"
 
 echo "Program starts $(date)"
 
-python3 /home/bcheng4/TwoCapital_Shrink/abatement/predamage_spe_xi_psi_gammalist_name.py --num_gamma 10 --xi_a 1000. --xi_g 1000. --psi_0 0.005 --psi_1 0.5 --name repro_Suri10dmgparal --hK 0.2 --hY 0.2 --hL 0.2
+python3 /home/bcheng4/TwoCapital_Shrink/abatement/predamage_spe_xi_psi_gammalist_name2.py --num_gamma 10 --xi_a 1000. --xi_g 1000. --psi_0 0.005 --psi_1 0.5 --name repro_Suri10dmgparal --hK 0.2 --hY 0.2 --hL 0.2
 
 echo "Program ends $(date)"
 

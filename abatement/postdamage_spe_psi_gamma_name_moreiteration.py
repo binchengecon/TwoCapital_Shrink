@@ -168,7 +168,7 @@ model_args = (delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi
 
 model_tech3_post_damage = hjb_post_damage_post_tech(
         K, Y, model_args, v0=None,
-       epsilon=0.1, fraction=0.1 ,tol=1e-8, max_iter=20000, print_iteration=False)
+       epsilon=0.1, fraction=0.1 ,tol=1e-8, max_iter=8000, print_iteration=False)
 
 
 # model_tech3_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech3_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))

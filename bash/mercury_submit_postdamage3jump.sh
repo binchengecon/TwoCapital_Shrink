@@ -2,10 +2,10 @@
 
 
 
-action_name="repro_Suri20dmgparal"
+action_name="repro_Suri10dmgparal_pureoriginal"
 python_name="postdamage_spe_xi_psi_gammalist_name.py"
 
-NUM_DAMAGE=20
+NUM_DAMAGE=10
 ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
 xi_a=(0.0002 0.0002 1000.)
 xi_p=(0.025 0.050 1000.)

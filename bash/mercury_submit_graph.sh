@@ -4,7 +4,7 @@ action_name="replicateSuri"
 server_name="mercury"
 
 
-hK=0.2
+hK=0.1
 hY=0.1
 hL=0.2
 

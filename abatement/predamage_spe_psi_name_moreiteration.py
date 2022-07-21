@@ -209,16 +209,16 @@ print("Compiled.")
 # print("Compiled.")
 
 # delete the separate files
-# for i in range(len(gamma_3_list)):
-    # gamma_3_i = gamma_3_list[i]
-    # # Tech III
-    # model_i_dir = DataDir + "model_tech3_post_damage_gamma_{:.4f}".format(gamma_3_i) 
-    # if os.path.exists(model_i_dir):
-        # os.remove(model_i_dir)
-    # # Tech II
-    # model_i_dir = DataDir + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i) 
-    # if os.path.exists(model_i_dir):
-        # os.remove(model_i_dir)
+for i in range(len(gamma_3_list)):
+    gamma_3_i = gamma_3_list[i]
+    # Tech III
+    model_i_dir = Data_Dir+ File_Name + "model_tech3_post_damage_gamma_{:.4f}".format(gamma_3_i) 
+    if os.path.exists(model_i_dir):
+        os.remove(model_i_dir)
+    # Tech II
+    model_i_dir = Data_Dir+ File_Name  + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i) 
+    if os.path.exists(model_i_dir):
+        os.remove(model_i_dir)
     # # Tech I
     # model_i_dir = DataDir + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) 
     # if os.path.exists(model_i_dir):

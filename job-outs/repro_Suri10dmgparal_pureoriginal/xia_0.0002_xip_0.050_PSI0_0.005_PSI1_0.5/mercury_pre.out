@@ -1,0 +1,15 @@
+==========================================
+SLURM_JOB_ID = 9519794
+SLURM_SUBMIT_DIR = /home/bcheng4/TwoCapital_Shrink
+SLURM_JOB_NODELIST = mcn46
+==========================================
+10pre_1
+Program starts Thu Jul 21 09:47:07 CDT 2022
+Grid dimension: [26, 21, 28]
+
+Grid step: [0.20000000000000018, 0.2, 0.20000000000000018]
+
+-------------------------------------------
+------------Post damage, Tech III----------
+-------------------------------------------
+Program ends Thu Jul 21 09:47:17 CDT 2022

@@ -3,17 +3,17 @@
 
 
 
-action_name="repro_Suri10dmgparal"
+action_name="repro_Suri10dmgparal_pureoriginal"
 python_name="predamage_spe_xi_psi_gammalist_name.py"
 
 
 
 NUM_DAMAGE=10
 ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
-# xi_a=(0.0002 0.0002 1000.)
-# xi_p=(0.025 0.050 1000.)
-xi_a=(1000.)
-xi_p=(1000.)
+xi_a=(0.0002 0.0002 1000.)
+xi_p=(0.025 0.050 1000.)
+# xi_a=(1000.)
+# xi_p=(1000.)
 psi0arr=(0.005)
 psi1arr=(0.5)
 LENGTH_xi=$((${#xi_a[@]}-1))
@@ -48,7 +48,7 @@ do
 
 
 ######## login 
-#SBATCH --job-name=pre_$count
+#SBATCH --job-name=10pre_$count
 #SBATCH --output=./job-outs/${action_name}/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_pre.out
 #SBATCH --error=./job-outs/${action_name}/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_pre.err
 

@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/home/bcheng4/TwoCapital_Shrink/abatement/predamage_spe_xi_psi_gammalist_name.py", line 170, in <module>
+    model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech3_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
+FileNotFoundError: [Errno 2] No such file or directory: './abatement/data_2tech/repro_Suri10dmgparal_pureoriginal/xi_a_0.0002_xi_g_0.025_psi_0_0.005_psi_1_0.5_model_tech3_post_damage_gamma_0.0000'
