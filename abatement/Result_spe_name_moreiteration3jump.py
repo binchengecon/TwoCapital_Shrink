@@ -560,15 +560,18 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,xi_a_grid,xi_p_grid,Ig_initial = 
         # axs1[0].plot(res[0]["years"], (res[0]["x"]/(alpha*np.exp(res[0]["states"][:,0])))*100,linewidth=7.0)
         # axs1[0].plot(res[1]["years"], (res[1]["x"]/(alpha*np.exp(res[1]["states"][:,0])))*100,linewidth=7.0)
         # axs1[0].plot(res[2]["years"], (res[2]["x"]/(alpha*np.exp(res[2]["states"][:,0])))*100,linewidth=7.0)        axs1[0].plot(res[0]["years"], (res[0]["x"]/(alpha*np.exp(res[0]["states"][:,0])))*100,linewidth=7.0)
-        axs1[0].plot(res[0]["years"][res[0]["states"][:,1]<1.5], res[0]["x"][res[0]["states"][:,1]<1.5],linewidth=7.0)
-        axs1[0].plot(res[1]["years"][res[1]["states"][:,1]<1.5], res[1]["x"][res[1]["states"][:,1]<1.5],linewidth=7.0)
-        axs1[0].plot(res[2]["years"][res[2]["states"][:,1]<1.5], res[2]["x"][res[2]["states"][:,1]<1.5],linewidth=7.0)  
+        axs1[0].plot(res[0]["years"][res[0]["states"][:,1]<1.5], res[0]["x"][res[0]["states"][:,1]<1.5],
+         label="$\\xi_r = 0.025$", color="darkblue")
+        axs1[0].plot(res[1]["years"][res[1]["states"][:,1]<1.5], res[1]["x"][res[1]["states"][:,1]<1.5],
+         label="$\\xi_r = 0.050$", color="darkgreen")
+        axs1[0].plot(res[2]["years"][res[2]["states"][:,1]<1.5], res[2]["x"][res[2]["states"][:,1]<1.5],
+         label="$\\xi_r = 1000$", color="C3")
         # axs1[0].plot(res[k]["years"], (res[k]["x"]),label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k]),linewidth=7.0)
         axs1[0].set_xlabel('Years')
-        axs1[0].set_ylabel('$\%$ of GDP')
-        axs1[0].set_title('R&D investment as percentage of  GDP')            
-        # axs1[0].set_ylabel('unit of capital')
-        # axs1[0].set_title('R&D investment in unit of capital')
+        # axs1[0].set_ylabel('$\%$ of GDP')
+        # axs1[0].set_title('R&D investment as percentage of  GDP')            
+        axs1[0].set_ylabel('unit of capital')
+        axs1[0].set_title('R&D investment in unit of capital')
         axs1[0].grid(linestyle=':')
         axs1[0].legend(loc='upper right')
 
