@@ -1,6 +1,6 @@
 #! /bin/bash
 
-action_name="repro_Suri10dmgparal"
+action_name="repro_Suri10dmgparal_pureoriginal"
 server_name="mercury"
 
 

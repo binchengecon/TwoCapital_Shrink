@@ -1,0 +1,9 @@
+==========================================
+SLURM_JOB_ID = 9519801
+SLURM_SUBMIT_DIR = /home/bcheng4/TwoCapital_Shrink
+SLURM_JOB_NODELIST = mcn46
+==========================================
+graph
+Program starts Thu Jul 21 09:59:38 CDT 2022
+['/home/bcheng4/TwoCapital_Shrink/abatement', '/apps/python/3.8/3.8.5/lib/python3.8/site-packages', '/home/bcheng4/petsc/arch-linux2-c-opt/lib', '/apps/python/3.8/3.8.5/lib/python38.zip', '/apps/python/3.8/3.8.5/lib/python3.8', '/apps/python/3.8/3.8.5/lib/python3.8/lib-dynload', '/home/bcheng4/.local/lib/python3.8/site-packages', '/apps/python/3.8/3.8.5/lib/python3.8/site-packages/chardet-3.0.4-py3.8.egg', '/apps/python/3.8/3.8.5/lib/python3.8/site-packages/enum34-1.1.6-py3.8.egg', '/apps/python/3.8/3.8.5/lib/python3.8/site-packages/docloud-1.0.375-py3.8.egg', '/apps/python/3.8/3.8.5/lib/python3.8/site-packages/certifi-2019.9.11-py3.8.egg', '/apps/python/3.8/3.8.5/lib/python3.8/site-packages/idna-2.8-py3.8.egg', '/apps/python/3.8/3.8.5/lib/python3.8/site-packages/six-1.12.0-py3.8.egg']
+Program ends Thu Jul 21 10:01:10 CDT 2022
