@@ -22,6 +22,7 @@ import argparse
 parser = argparse.ArgumentParser(description="xi_r values")
 parser.add_argument("--dataname",type=str,default="ReplicateSuri")
 parser.add_argument("--pdfname",type=str,default="ReplicateSuri")
+parser.add_argument("--Y_max_short",type=float,default=0.2)
 parser.add_argument("--hK",type=float,default=0.2)
 parser.add_argument("--hY",type=float,default=0.2)
 parser.add_argument("--hL",type=float,default=0.2)
@@ -74,14 +75,14 @@ hY    = args.hY # make sure it is float instead of int
 Y     = np.arange(Y_min, Y_max + hY, hY)
 nY    = len(Y)
 L_min = - 5.5
-L_max = - 0.10
+L_max = - 0.
 hL    = args.hL
 L     = np.arange(L_min, L_max,  hL)
 nL    = len(L)
 
 id_2 = np.abs(Y - y_bar).argmin()
 Y_min_short = 0.
-Y_max_short = 3.
+Y_max_short = args.Y_max_short
 Y_short     = np.arange(Y_min_short, Y_max_short + hY, hY)
 nY_short    = len(Y_short)
 # print("bY_short={:d}".format(nY_short))
@@ -94,8 +95,8 @@ stateSpace = np.hstack([K_mat.reshape(-1,1,order = 'F'), Y_mat.reshape(-1,1,orde
 
 
 
-IntPeriod = 60
-timespan = 1/365
+IntPeriod = 50
+timespan = 1/12
 
 # psi_0_grid = np.array([0.006,0.009])
 # # # psi_0_grid = np.array([0.009])

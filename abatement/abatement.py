@@ -17,7 +17,7 @@ from scipy.sparse import coo_matrix
 from scipy.sparse import csr_matrix
 from datetime import datetime
 from solver import solver_3d
-from PostSolver_Bin import hjb_post_damage_post_tech, hjb_pre_damage_post_tech
+from PostSolver import hjb_post_damage_post_tech, hjb_pre_damage_post_tech
 from src.solver import pde_one_interation
 from src.solver import hjb_pre_tech
 import argparse
@@ -34,23 +34,29 @@ now = datetime.now()
 current_time = now.strftime("%d-%H:%M")
 
 parser = argparse.ArgumentParser(description="xi_r values")
-parser.add_argument("--xi_r", type=float, default=1000.)
+parser.add_argument("--xi_a", type=float, default=2/10000.)
+parser.add_argument("--xi_p", type=float, default=0.025)
 args = parser.parse_args()
 
 
 start_time = time.time()
 # Parameters as defined in the paper
-xi_a = 2/10000.  # Smooth ambiguity
-xi_p = 0.025 # Damage poisson
+# xi_a = 2/10000.  # Smooth ambiguity
+# xi_p = 0.025 # Damage poisson
+# xi_b = 1000. # Brownian misspecification
+# xi_g = 0.025  # Technology jump
+
+xi_a = args.xi_a # Smooth ambiguity
+xi_p = args.xi_p # Damage poisson
 xi_b = 1000. # Brownian misspecification
-xi_g = 0.025  # Technology jump
+xi_g = args.xi_p  # Technology jump
 
 # DataDir = "./res_data/xi_p_" + str(xi_p) + "_xi_g_" + str(xi_g) +  "/"
 # DataDir = "./abatement/data/"+"xi_a_"+str(xi_a*10000.) +"_xi_p_" + str(xi_p) + "_xi_g_" + str(xi_g)+"_"
-DataDir = "./abatement/data/xi_a_{}_xi_g_{}_".format(xi_a,xi_g)
+DataDir = "./abatement/data_2tech/repro_Suri10dmg/xi_a_{}_xi_g_{}_".format(xi_a,xi_g)
 
-if not os.path.exists(DataDir):
-    os.mkdir(DataDir)
+if not os.path.exists("./abatement/data_2tech/repro_Suri10dmg/"):
+    os.mkdir("./abatement/data_2tech/repro_Suri10dmg/")
 
 # Model parameters
 delta   = 0.010
@@ -66,7 +72,7 @@ vartheta_bar = 0.0453
 gamma_1 = 1.7675/10000
 gamma_2 = 0.0022 * 2
 # gamma_3 = 0.3853 * 2
-gamma_3_list = np.linspace(0., 1./3., 3)
+gamma_3_list = np.linspace(0., 1./3., 10)
 # gamma_3_list = np.array([0.])
 y_bar = 2.
 y_bar_lower = 1.5
@@ -91,17 +97,17 @@ vartheta_bar_second = 0.
 # Coarse Grids
 K_min = 4.00
 K_max = 9.00
-hK    = 0.20
+hK    = 0.10
 K     = np.arange(K_min, K_max + hK, hK)
 nK    = len(K)
 Y_min = 0.
 Y_max = 5.
-hY    = 0.20 # make sure it is float instead of int
+hY    = 0.10 # make sure it is float instead of int
 Y     = np.arange(Y_min, Y_max + hY, hY)
 nY    = len(Y)
 L_min = - 5.
 L_max = - 0.
-hL    = 0.2
+hL    = 0.1
 L     = np.arange(L_min, L_max,  hL)
 nL    = len(L)
 
@@ -146,7 +152,9 @@ print("-------------------------------------------")
 # model_tech3_post_damage =  []
 # # for gamma_3_i in gamma_3_list:
 
-model_args = (delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi_a, xi_b, gamma_1, gamma_2, 0., y_bar, theta, lambda_bar_second, vartheta_bar_second)
+model_args = (delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, 
+            sigma_y, xi_a, xi_b, gamma_1, gamma_2, 0., y_bar, 
+            theta, lambda_bar_second, vartheta_bar_second)
 
 model_tech3_post_damage = hjb_post_damage_post_tech(
          K, Y, model_args, v0=None,
@@ -184,7 +192,11 @@ for i in range(len(gamma_3_list)):
 
     res = hjb_pre_tech(
             state_grid=(K, Y, L), 
-            model_args=(delta, alpha, theta, vartheta_bar_first, lambda_bar_first, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_g, xi_p),
+            model_args=(delta, alpha, theta, vartheta_bar_first, 
+                        lambda_bar_first, mu_k, kappa, sigma_k, theta_ell, 
+                        pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, 
+                        V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, 
+                        xi_a, xi_g, xi_p),
             V_post_damage=None,
             # v0=Guess[i]["v0"],
             v0=None,
@@ -212,7 +224,10 @@ for i in range(len(gamma_3_list)):
 
     res = hjb_pre_tech(
             state_grid=(K, Y, L),
-            model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech1, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_g, xi_p),
+            model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, 
+            kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, 
+            psi_0, psi_1, sigma_g, V_post_tech1, gamma_1, gamma_2, gamma_3_i, 
+            y_bar, xi_a, xi_g, xi_p),
             V_post_damage=None,
             # v0=Guess[i]["v0"],
             v0=None,
@@ -256,7 +271,9 @@ theta_ell = np.array([temp * np.ones((nK, nY_short)) for temp in theta_ell])
 
 model_tech3_pre_damage = hjb_pre_damage_post_tech(
         K, Y_short, 
-        model_args=(delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi_a, xi_b, xi_p, pi_d_o, v_i, gamma_1, gamma_2, theta, lambda_bar_second, vartheta_bar_second, y_bar_lower),
+        model_args=(delta, alpha, kappa, mu_k, sigma_k, theta_ell, 
+        pi_c_o, sigma_y, xi_a, xi_b, xi_p, pi_d_o, v_i, gamma_1, gamma_2, 
+        theta, lambda_bar_second, vartheta_bar_second, y_bar_lower),
         v0=np.mean(v_i, axis=0), epsilon=0.01, fraction=0.1,
         tol=1e-8, max_iter=15000, print_iteration=True
         )
@@ -290,7 +307,10 @@ v_tech3 = np.zeros((nK, nY_short, nL))
 for i in range(nL):
     v_tech3[:, :, i] = v_post
 
-model_args =(delta, alpha, theta, vartheta_bar_first, lambda_bar_first, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, v_tech3, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a, xi_g, xi_p)
+model_args =(delta, alpha, theta, vartheta_bar_first, lambda_bar_first, 
+mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, 
+psi_0, psi_1, sigma_g, v_tech3, gamma_1, gamma_2, gamma_3_list, y_bar, 
+xi_a, xi_g, xi_p)
 
 # Guess = pickle.load(open(DataDir + "model_tech2_pre_damage", "rb"))
 model_tech2_pre_damage = hjb_pre_tech(
@@ -322,7 +342,10 @@ v_i = np.array(v_i)
 v_tech2 = model_tech2_pre_damage["v0"][:, :nY_short, :]
 
 # Guess = pickle.load(open(DataDir + "model_tech1_pre_damage", "rb"))
-model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a, xi_g, xi_p)
+model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, 
+kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, 
+psi_0, psi_1, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, 
+xi_a, xi_g, xi_p)
 model_tech1_pre_damage = hjb_pre_tech(
         state_grid=(K, Y_short, L), 
         model_args=model_args, V_post_damage=v_i, 

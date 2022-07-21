@@ -4,15 +4,15 @@
 NUM_DAMAGE=6
 ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
 
-action_name="comparisonwitholdpsi01"
-
+action_name="replicateSuri"
+python_name="postdamage_spe_psi_gamma_name_moreiteration.py"
 count=0
 
 for i in $(seq 0 $ID_MAX_DAMAGE)
 do
-	for PSI_0 in 0.005
+	for PSI_0 in 0.008 0.010 0.012
 	do
-		for PSI_1 in 0.5
+		for PSI_1 in 0.8
 		do 
 
 		mkdir -p ./job-outs/${action_name}/${PSI_0}_${PSI_1}/
@@ -49,7 +49,7 @@ echo "\$SLURM_JOB_NAME"
 
 echo "Program starts \$(date)"
 
-python3 /home/bcheng4/TwoCapital_Shrink/abatement/postdamage_spe_psi_gamma_name_moreiteration.py --xi_a 1000.0 --xi_g 1000.0 --id $i --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name}
+python3 /home/bcheng4/TwoCapital_Shrink/abatement/$python_name --xi_a 1000.0 --xi_g 1000.0 --id $i --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name}
 
 echo "Program ends \$(date)"
 
@@ -64,9 +64,9 @@ done
 
 for i in $(seq 0 $ID_MAX_DAMAGE)
 do
-	for PSI_0 in 0.005
+	for PSI_0 in 0.008 0.010 0.012
 	do
-		for PSI_1 in 0.5
+		for PSI_1 in 0.8
 		do 
 		sbatch ./bash/${action_name}/mercury_PSI0_${PSI_0}_PSI1_${PSI_1}_ID_$i.sh 
 

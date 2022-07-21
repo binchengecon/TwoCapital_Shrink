@@ -96,7 +96,7 @@ def _hjb_iteration(
 
 def hjb_post_damage_post_tech(
         k_grid, y_grid, model_args=(), v0=None, 
-        epsilon=1., fraction=.1, tol=1e-8, max_iter=10_000, print_iteration=True
+        epsilon=1., fraction=.1, tol=1e-8, max_iter=10000, print_iteration=True
         ):
 
     delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi_a, xi_b, gamma_1, gamma_2, gamma_3, y_bar, theta, lambda_bar, vartheta_bar = model_args
