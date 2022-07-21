@@ -557,9 +557,12 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,xi_a_grid,xi_p_grid,Ig_initial = 
 
         # for k in range(len(psi_0_meshgrid_1d)*len(xi_a_grid)):
             # axs1[0].plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k//len(psi_0_meshgrid_1d)])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k//len(psi_0_meshgrid_1d)])+'$\xi_a=$'+str(xi_a_grid[k%len(psi_0_meshgrid_1d)]+'$\xi_p=$'+str(xi_p_grid[k%len(psi_0_meshgrid_1d)])),linewidth=7.0)
-        axs1[0].plot(res[0]["years"], (res[0]["x"]/(alpha*np.exp(res[0]["states"][:,0])))*100,linewidth=7.0)
-        axs1[0].plot(res[1]["years"], (res[1]["x"]/(alpha*np.exp(res[1]["states"][:,0])))*100,linewidth=7.0)
-        axs1[0].plot(res[2]["years"], (res[2]["x"]/(alpha*np.exp(res[2]["states"][:,0])))*100,linewidth=7.0)
+        # axs1[0].plot(res[0]["years"], (res[0]["x"]/(alpha*np.exp(res[0]["states"][:,0])))*100,linewidth=7.0)
+        # axs1[0].plot(res[1]["years"], (res[1]["x"]/(alpha*np.exp(res[1]["states"][:,0])))*100,linewidth=7.0)
+        # axs1[0].plot(res[2]["years"], (res[2]["x"]/(alpha*np.exp(res[2]["states"][:,0])))*100,linewidth=7.0)        axs1[0].plot(res[0]["years"], (res[0]["x"]/(alpha*np.exp(res[0]["states"][:,0])))*100,linewidth=7.0)
+        axs1[0].plot(res[0]["years"], res[0]["x"][res[0]["states"][:,1]<1.5],linewidth=7.0)
+        axs1[0].plot(res[1]["years"], res[1]["x"][res[1]["states"][:,1]<1.5],linewidth=7.0)
+        axs1[0].plot(res[2]["years"], res[2]["x"][res[2]["states"][:,1]<1.5],linewidth=7.0)  
         # axs1[0].plot(res[k]["years"], (res[k]["x"]),label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k]),linewidth=7.0)
         axs1[0].set_xlabel('Years')
         axs1[0].set_ylabel('$\%$ of GDP')
