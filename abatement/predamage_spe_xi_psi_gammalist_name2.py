@@ -49,8 +49,14 @@ parser.add_argument("--hK",type=float,default=0.2)
 parser.add_argument("--hY",type=float,default=0.2)
 parser.add_argument("--hL",type=float,default=0.2)
 parser.add_argument("--num_gamma",type=int,default=6)
+parser.add_argument("--epsilonarr",nargs='+',type=float)
+parser.add_argument("--fractionarr",nargs='+',type=float)
+parser.add_argument("--maxiterarr",nargs='+',type=int)
 args = parser.parse_args()
 
+epsilonarr = args.epsilonarr
+fractionarr = args.fractionarr
+maxiterarr = args.maxiterarr
 
 start_time = time.time()
 # Parameters as defined in the paper
@@ -164,15 +170,15 @@ upperLims = np.array([X1_max, X2_max, X3_max], dtype=np.float64)
 print("-------------------------------------------")
 print("------------Post damage, Tech III----------")
 print("-------------------------------------------")
-# model_tech3_post_damage =  []
-# for i in range(len(gamma_3_list)):
-#     gamma_3_i = gamma_3_list[i]
-#     model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech3_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
-#     model_tech3_post_damage.append(model_i)
+model_tech3_post_damage =  []
+for i in range(len(gamma_3_list)):
+    gamma_3_i = gamma_3_list[i]
+    model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech3_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
+    model_tech3_post_damage.append(model_i)
 
-# # model_tech3_post_damage.append(v_post_i)
-# with open(Data_Dir+ File_Name + "model_tech3_post_damage", "wb") as f:
-#     pickle.dump(model_tech3_post_damage, f)
+# model_tech3_post_damage.append(v_post_i)
+with open(Data_Dir+ File_Name + "model_tech3_post_damage", "wb") as f:
+    pickle.dump(model_tech3_post_damage, f)
 
 model_tech3_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech3_post_damage", "rb"))
 print("Compiled.")
@@ -181,14 +187,14 @@ print("Compiled.")
 print("-------------------------------------------")
 print("------------Post damage, Tech II-----------")
 print("-------------------------------------------")
-# model_tech2_post_damage = []
-# for i in range(len(gamma_3_list)):
-#     gamma_3_i = gamma_3_list[i]
-#     model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
-#     model_tech2_post_damage.append(model_i)
+model_tech2_post_damage = []
+for i in range(len(gamma_3_list)):
+    gamma_3_i = gamma_3_list[i]
+    model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
+    model_tech2_post_damage.append(model_i)
 
-# with open(Data_Dir+ File_Name + "model_tech2_post_damage", "wb") as f:
-#     pickle.dump(model_tech2_post_damage, f)
+with open(Data_Dir+ File_Name + "model_tech2_post_damage", "wb") as f:
+    pickle.dump(model_tech2_post_damage, f)
 
 model_tech2_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech2_post_damage", "rb"))
 print("Compiled.")
@@ -197,15 +203,15 @@ print("Compiled.")
 print("-------------------------------------------")
 print("------------Post damage, Tech I------------")
 print("-------------------------------------------")
-# model_tech1_post_damage = []
-# for i in range(len(gamma_3_list)):
-#     gamma_3_i = gamma_3_list[i]
-#     model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
-#     model_tech1_post_damage.append(model_i)
+model_tech1_post_damage = []
+for i in range(len(gamma_3_list)):
+    gamma_3_i = gamma_3_list[i]
+    model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
+    model_tech1_post_damage.append(model_i)
 
 
-# with open(Data_Dir+ File_Name + "model_tech1_post_damage", "wb") as f:
-#     pickle.dump(model_tech1_post_damage, f)
+with open(Data_Dir+ File_Name + "model_tech1_post_damage", "wb") as f:
+    pickle.dump(model_tech1_post_damage, f)
 
 model_tech1_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage", "rb"))
 print("Compiled.")
@@ -264,17 +270,17 @@ theta_ell = np.array([temp * np.ones((nK, nY_short)) for temp in theta_ell])
 ################################
 
 
-# model_tech3_pre_damage = hjb_pre_damage_post_tech(
-#         K, Y_short, 
-#         model_args=(delta, alpha, kappa, mu_k, sigma_k, theta_ell, 
-#         pi_c_o, sigma_y, xi_a, xi_b, xi_p, pi_d_o, v_i, gamma_1, gamma_2, 
-#         theta, lambda_bar_second, vartheta_bar_second, y_bar_lower),
-#         v0=np.mean(v_i, axis=0), epsilon=0.01, fraction=0.1,
-#         tol=1e-7, max_iter=15000, print_iteration=True
-#         )
+model_tech3_pre_damage = hjb_pre_damage_post_tech(
+        K, Y_short, 
+        model_args=(delta, alpha, kappa, mu_k, sigma_k, theta_ell, 
+        pi_c_o, sigma_y, xi_a, xi_b, xi_p, pi_d_o, v_i, gamma_1, gamma_2, 
+        theta, lambda_bar_second, vartheta_bar_second, y_bar_lower),
+        v0=np.mean(v_i, axis=0), epsilon=epsilonarr[0], fraction=fractionarr[0],
+        tol=1e-7, max_iter=maxiterarr[0], print_iteration=True
+        )
 
-# with open(Data_Dir+ File_Name + "model_tech3_pre_damage", "wb") as f:
-#     pickle.dump(model_tech3_pre_damage, f)
+with open(Data_Dir+ File_Name + "model_tech3_pre_damage", "wb") as f:
+    pickle.dump(model_tech3_pre_damage, f)
 
 model_tech3_pre_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech3_pre_damage", "rb"))
 ######################################
@@ -305,7 +311,13 @@ v_tech3 = np.zeros((nK, nY_short, nL))
 for i in range(nL):
     v_tech3[:, :, i] = v_post
 
-model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, 
+# Original 
+# model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, 
+# mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, 
+# psi_0, psi_1, sigma_g, v_tech3, gamma_1, gamma_2, gamma_3_list, y_bar, 
+# xi_a, xi_g, xi_p)
+
+model_args =(delta, alpha, theta, vartheta_bar_first, lambda_bar_first, 
 mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, 
 psi_0, psi_1, sigma_g, v_tech3, gamma_1, gamma_2, gamma_3_list, y_bar, 
 xi_a, xi_g, xi_p)
@@ -319,7 +331,7 @@ Guess = None
 model_tech2_pre_damage = hjb_pre_tech(
         state_grid=(K, Y_short, L), 
         model_args=model_args, V_post_damage=v_i, 
-        tol=1e-8, epsilon=0.01, fraction=0.05, max_iter=50000,
+        tol=1e-8, epsilon=epsilonarr[1], fraction=fractionarr[1], max_iter=maxiterarr[1],
         v0=np.mean(v_i, axis=0),
         smart_guess=Guess,
         )
@@ -354,7 +366,7 @@ xi_a, xi_g, xi_p)
 model_tech1_pre_damage = hjb_pre_tech(
         state_grid=(K, Y_short, L), 
         model_args=model_args, V_post_damage=v_i, 
-        tol=1e-8, epsilon=0.01, fraction=0.05, max_iter=50000,
+        tol=1e-8, epsilon=epsilonarr[2], fraction=fractionarr[2], max_iter=maxiterarr[2],
         v0 = np.mean(v_i, axis=0),
         smart_guess=Guess,
         )

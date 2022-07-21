@@ -1,0 +1,4 @@
+  File "/home/bcheng4/TwoCapital_Shrink/abatement/postdamage_spe_xi_psi_gammalist_name2.py", line 226
+    smart_guess=Guess,        
+    ^
+SyntaxError: invalid syntax

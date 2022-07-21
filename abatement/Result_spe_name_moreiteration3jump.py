@@ -556,7 +556,7 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,xi_a_grid,xi_p_grid,Ig_initial = 
         figwidth = 10
 
         # fig1, axs1 = plt.subplots(3, 1, sharex=True, figsize=(2  * figwidth, 2 *figwidth))  
-        fig1, axs1 = plt.subplots(3, 1, sharex=False, figsize=(12, 3 *figwidth))  
+        fig1, axs1 = plt.subplots(2, 1, sharex=False, figsize=(12, 3 *figwidth))  
 
 
 

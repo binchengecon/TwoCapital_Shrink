@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/home/bcheng4/TwoCapital_Shrink/abatement/postdamage_spe_xi_psi_gammalist_name2.py", line 225, in <module>
+    tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], max_iter=maxiterarr[1],
+IndexError: list index out of range

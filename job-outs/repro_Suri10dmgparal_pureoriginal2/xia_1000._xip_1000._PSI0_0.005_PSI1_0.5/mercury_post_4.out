@@ -1,0 +1,8 @@
+==========================================
+SLURM_JOB_ID = 9519851
+SLURM_SUBMIT_DIR = /home/bcheng4/TwoCapital_Shrink
+SLURM_JOB_NODELIST = mcn24
+==========================================
+post_14
+Program starts Thu Jul 21 10:58:42 CDT 2022
+Program ends Thu Jul 21 10:58:42 CDT 2022

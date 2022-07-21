@@ -2,21 +2,50 @@
 
 
 
-action_name="repro_Suri10dmgparal_pureoriginal"
-python_name="postdamage_spe_xi_psi_gammalist_name.py"
+# action_name="repro_Suri10dmgparal_pureoriginal"
+# python_name="postdamage_spe_xi_psi_gammalist_name.py"
 
-NUM_DAMAGE=10
+
+
+
+# action_name="repro_Suri20dmgparal_pureoriginal2"
+# python_name="postdamage_spe_xi_psi_gammalist_name2.py"
+
+# # under "repro_Suri20dmgparal_pureoriginal2"
+# NUM_DAMAGE=20
+# ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
+# epsilonarr=(0.1 0.1 0.1)
+# fractionarr=(0.1 0.01 0.01)
+# maxiterarr=(20000 20000 20000)
+# hK=0.2
+# hY=0.2
+# hL=0.2
+# Y_max_short=3.0
+# xi_a=(0.0002 0.0002 1000.)
+# xi_p=(0.025 0.050 1000.)
+# psi0arr=(0.005)
+# psi1arr=(0.5)
+# LENGTH_xi=$((${#xi_a[@]}-1))
+# count=0
+
+action_name="repro_Suri1dmgparal_pureoriginal"
+python_name="postdamage_spe_xi_psi_gammalist_name2.py"
+# under "repro_Suri20dmgparal_pureoriginal2"
+NUM_DAMAGE=1
 ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
-xi_a=(0.0002 0.0002 1000.)
-xi_p=(0.025 0.050 1000.)
-psi0arr=(0.005)
-psi1arr=(0.5)
-LENGTH_xi=$((${#xi_a[@]}-1))
-count=0
+epsilonarr=(0.1 0.1 0.1)
+fractionarr=(0.2 0.01 0.01)
+maxiterarr=(5000 10000 10000)
 hK=0.2
 hY=0.2
 hL=0.2
 Y_max_short=3.0
+xi_a=(1000.)
+xi_p=(1000.)
+psi0arr=(0.005)
+psi1arr=(0.5)
+LENGTH_xi=$((${#xi_a[@]}-1))
+count=0
 
 for i in $(seq 0 $ID_MAX_DAMAGE)
 do
@@ -61,7 +90,7 @@ echo "\$SLURM_JOB_NAME"
 
 echo "Program starts \$(date)"
 
-python3 /home/bcheng4/TwoCapital_Shrink/abatement/$python_name --num_gamma $NUM_DAMAGE --xi_a ${xi_a[$j]} --xi_g ${xi_p[$j]}   --id $i --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name} --hK $hK --hY  	$hY --hL  $hL
+python3 /home/bcheng4/TwoCapital_Shrink/abatement/$python_name --num_gamma $NUM_DAMAGE --xi_a ${xi_a[$j]} --xi_g ${xi_p[$j]}  --epsilonarr ${epsilonarr[@]}  --fractionarr ${fractionarr[@]}   --maxiterarr ${maxiterarr[@]}  --id $i --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name} --hK $hK --hY  	$hY --hL  $hL
 
 echo "Program ends \$(date)"
 

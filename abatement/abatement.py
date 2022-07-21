@@ -34,8 +34,8 @@ now = datetime.now()
 current_time = now.strftime("%d-%H:%M")
 
 parser = argparse.ArgumentParser(description="xi_r values")
-parser.add_argument("--xi_a", type=float, default=2/10000.)
-parser.add_argument("--xi_p", type=float, default=0.025)
+parser.add_argument("--xi_a", type=float, default=1000.)
+parser.add_argument("--xi_p", type=float, default=1000.)
 args = parser.parse_args()
 
 
@@ -72,7 +72,7 @@ vartheta_bar = 0.0453
 gamma_1 = 1.7675/10000
 gamma_2 = 0.0022 * 2
 # gamma_3 = 0.3853 * 2
-gamma_3_list = np.linspace(0., 1./3., 10)
+gamma_3_list = np.linspace(0., 1./3., 1)
 # gamma_3_list = np.array([0.])
 y_bar = 2.
 y_bar_lower = 1.5
@@ -97,17 +97,17 @@ vartheta_bar_second = 0.
 # Coarse Grids
 K_min = 4.00
 K_max = 9.00
-hK    = 0.10
+hK    = 0.20
 K     = np.arange(K_min, K_max + hK, hK)
 nK    = len(K)
 Y_min = 0.
-Y_max = 5.
-hY    = 0.10 # make sure it is float instead of int
+Y_max = 4.
+hY    = 0.20 # make sure it is float instead of int
 Y     = np.arange(Y_min, Y_max + hY, hY)
 nY    = len(Y)
-L_min = - 5.
+L_min = - 5.5
 L_max = - 0.
-hL    = 0.1
+hL    = 0.2
 L     = np.arange(L_min, L_max,  hL)
 nL    = len(L)
 
@@ -158,7 +158,7 @@ model_args = (delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o,
 
 model_tech3_post_damage = hjb_post_damage_post_tech(
          K, Y, model_args, v0=None,
-        epsilon=1., fraction=.2,tol=1e-8, max_iter=2000, print_iteration=False)
+        epsilon=0.1, fraction=0.2,tol=1e-8, max_iter=2, print_iteration=False)
 
 
 
@@ -200,7 +200,7 @@ for i in range(len(gamma_3_list)):
             V_post_damage=None,
             # v0=Guess[i]["v0"],
             v0=None,
-            tol=1e-7, epsilon=0.1, fraction=0.01, smart_guess=None,
+            tol=1e-7, epsilon=0.1, fraction=0.01, smart_guess=None, max_iter=2
             )
 
     model_tech2_post_damage.append(res)
@@ -231,7 +231,7 @@ for i in range(len(gamma_3_list)):
             V_post_damage=None,
             # v0=Guess[i]["v0"],
             v0=None,
-            tol=1e-7, epsilon=0.1, fraction=0.01, smart_guess=None,
+            tol=1e-7, epsilon=0.1, fraction=0.01, smart_guess=None, max_iter=2
             )
 
     model_tech1_post_damage.append(res)
@@ -275,7 +275,7 @@ model_tech3_pre_damage = hjb_pre_damage_post_tech(
         pi_c_o, sigma_y, xi_a, xi_b, xi_p, pi_d_o, v_i, gamma_1, gamma_2, 
         theta, lambda_bar_second, vartheta_bar_second, y_bar_lower),
         v0=np.mean(v_i, axis=0), epsilon=0.01, fraction=0.1,
-        tol=1e-8, max_iter=15000, print_iteration=True
+        tol=1e-8, max_iter=2, print_iteration=True
         )
 
 with open(DataDir + "model_tech3_pre_damage", "wb") as f:
@@ -316,7 +316,7 @@ xi_a, xi_g, xi_p)
 model_tech2_pre_damage = hjb_pre_tech(
         state_grid=(K, Y_short, L), 
         model_args=model_args, V_post_damage=v_i, 
-        tol=1e-8, epsilon=0.01, fraction=0.5, max_iter=5000,
+        tol=1e-8, epsilon=0.01, fraction=0.5, max_iter=2,
         v0=np.mean(v_i, axis=0),
         smart_guess=None,
         )
@@ -349,7 +349,7 @@ xi_a, xi_g, xi_p)
 model_tech1_pre_damage = hjb_pre_tech(
         state_grid=(K, Y_short, L), 
         model_args=model_args, V_post_damage=v_i, 
-        tol=1e-8, epsilon=0.01, fraction=0.5, max_iter=10000,
+        tol=1e-8, epsilon=0.01, fraction=0.5, max_iter=2,
         v0 = np.mean(v_i, axis=0),
         smart_guess=None,
         )
