@@ -26,7 +26,7 @@ def Damage_Intensity(Yt, y_bar_lower=1.5):
     return Intensity
 
 def simulate_pre(
-    grid = (), model_args = (), controls = (), initial=(np.log(85/0.115), 1.1, np.log(1/120)), 
+    grid = (), model_args = (), controls = (), initial=(np.log(85/0.115), 1.1, -3.7), 
     T0=0, T=40, dt=1/12,
     printing=False):
 
@@ -251,10 +251,10 @@ psi_1 = 0.5
 
 with open("./abatement/data_2tech/repro_Suri1dmgparal_pureoriginal/xi_a_1000.0_xi_g_1000.0_psi_0_0.005_psi_1_0.5_model_tech1_pre_damage", "rb") as f:
     data_bin = pickle.load(f)
-with open("./abatement/data_2tech/compare/model_tech1_pre_damage", "rb") as f:
-    data_suri = pickle.load(f)
-# with open("./abatement/data_2tech/suri_res_data/10damage/xi_a_1000.0_xi_g_1000.0/model_tech1_pre_damage", "rb") as f:
+# with open("./abatement/data_2tech/compare/model_tech1_pre_damage", "rb") as f:
 #     data_suri = pickle.load(f)
+with open("./abatement/data_2tech/suri_res_data/10damage/xi_a_1000.0_xi_g_1000.0/model_tech1_pre_damage", "rb") as f:
+    data_suri = pickle.load(f)
 
 
 
@@ -333,27 +333,27 @@ res_bin = simulate_pre(grid = (K, Y_short, L), model_args = model_args,
                             controls = (i,e,x, g_tech, g_damage, pi_c), 
                             T0=0, T=IntPeriod, dt=timespan,printing=False)
 
-# K_min = 4.00
-# K_max = 9.00
-# hK    = 0.10
-# K     = np.arange(K_min, K_max + hK, hK)
-# nK    = len(K)
-# Y_min = 0.
-# Y_max = 5.
-# hY    = 0.10 # make sure it is float instead of int
-# Y     = np.arange(Y_min, Y_max + hY, hY)
-# nY    = len(Y)
-# L_min = - 5.
-# L_max = - 0.
-# hL    = 0.10
-# L     = np.arange(L_min, L_max,  hL)
-# nL    = len(L)
+K_min = 4.00
+K_max = 9.00
+hK    = 0.10
+K     = np.arange(K_min, K_max + hK, hK)
+nK    = len(K)
+Y_min = 0.
+Y_max = 5.
+hY    = 0.10 # make sure it is float instead of int
+Y     = np.arange(Y_min, Y_max + hY, hY)
+nY    = len(Y)
+L_min = - 5.
+L_max = - 0.
+hL    = 0.10
+L     = np.arange(L_min, L_max,  hL)
+nL    = len(L)
 
-# id_2 = np.abs(Y - y_bar).argmin()
-# Y_min_short = 0.
-# Y_max_short = 3.
-# Y_short     = np.arange(Y_min_short, Y_max_short + hY, hY)
-# nY_short    = len(Y_short)
+id_2 = np.abs(Y - y_bar).argmin()
+Y_min_short = 0.
+Y_max_short = 3.
+Y_short     = np.arange(Y_min_short, Y_max_short + hY, hY)
+nY_short    = len(Y_short)
 
 i = data_suri["i_star"]
 e = data_suri["e_star"]
