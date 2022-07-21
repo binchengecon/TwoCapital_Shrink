@@ -1,14 +1,1 @@
-Traceback (most recent call last):
-  File "/home/bcheng4/TwoCapital_Shrink/abatement/Result_spe_name_moreiteration3jump.py", line 704, in <module>
-    graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,xi_a_grid,xi_p_grid)
-  File "/home/bcheng4/TwoCapital_Shrink/abatement/Result_spe_name_moreiteration3jump.py", line 693, in graph2
-    graph_solution_extraction(res)
-  File "/home/bcheng4/TwoCapital_Shrink/abatement/Result_spe_name_moreiteration3jump.py", line 563, in graph_solution_extraction
-    axs1[0].plot(res[0]["years"], res[0]["x"][res[0]["states"][:,1]<1.5],linewidth=7.0)
-  File "/apps/python/3.8/3.8.5/lib/python3.8/site-packages/matplotlib/axes/_axes.py", line 1605, in plot
-    lines = [*self._get_lines(*args, data=data, **kwargs)]
-  File "/apps/python/3.8/3.8.5/lib/python3.8/site-packages/matplotlib/axes/_base.py", line 315, in __call__
-    yield from self._plot_args(this, kwargs)
-  File "/apps/python/3.8/3.8.5/lib/python3.8/site-packages/matplotlib/axes/_base.py", line 501, in _plot_args
-    raise ValueError(f"x and y must have same first dimension, but "
-ValueError: x and y must have same first dimension, but have shapes (602,) and (304,)
+No handles with labels found to put in legend.
