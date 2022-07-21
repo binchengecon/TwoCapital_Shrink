@@ -2,7 +2,7 @@
 
 
 ######## login 
-#SBATCH --job-name=post_2
+#SBATCH --job-name=pre_0
 #SBATCH --output=./job-outs/repro_Suri10dmgparal/xia_1000._xip_1000._PSI0_0.005_PSI1_0.5/mercury_pre.out
 #SBATCH --error=./job-outs/repro_Suri10dmgparal/xia_1000._xip_1000._PSI0_0.005_PSI1_0.5/mercury_pre.err
 

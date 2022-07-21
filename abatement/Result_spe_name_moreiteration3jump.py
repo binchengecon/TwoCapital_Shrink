@@ -18,6 +18,11 @@ from src.supportfunctions import finiteDiff_3D
 import os
 import argparse
 
+mpl.rcParams["lines.linewidth"] = 2.5
+mpl.rcParams["savefig.bbox"] = "tight"
+mpl.rcParams["figure.figsize"] = (8,5)
+mpl.rcParams["font.size"] = 13
+mpl.rcParams["legend.frameon"] = False
 
 parser = argparse.ArgumentParser(description="xi_r values")
 parser.add_argument("--dataname",type=str,default="ReplicateSuri")
@@ -573,7 +578,7 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,xi_a_grid,xi_p_grid,Ig_initial = 
         axs1[0].set_ylabel('unit of capital')
         axs1[0].set_title('R&D investment in unit of capital')
         axs1[0].grid(linestyle=':')
-        axs1[0].legend(loc='upper right')
+        axs1[0].legend(loc='upper left')
 
 
             # axs1[1].plot(res[k]["years"], res[k]["i"],label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k]),linewidth=7.0)

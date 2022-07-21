@@ -2,7 +2,7 @@
 
 
 ######## login 
-#SBATCH --job-name=pre-1
+#SBATCH --job-name=reppre-1
 #SBATCH --output=./job-outs/replicateSuri/0.010_0.8/mercury_pre_1.out
 #SBATCH --error=./job-outs/replicateSuri/0.010_0.8/mercury_pre_1.err
 

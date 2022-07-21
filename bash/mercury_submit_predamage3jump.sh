@@ -10,8 +10,10 @@ python_name="predamage_spe_xi_psi_gammalist_name.py"
 
 NUM_DAMAGE=10
 ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
-xi_a=(0.0002 0.0002 1000.)
-xi_p=(0.025 0.050 1000.)
+# xi_a=(0.0002 0.0002 1000.)
+# xi_p=(0.025 0.050 1000.)
+xi_a=(1000.)
+xi_p=(1000.)
 psi0arr=(0.005)
 psi1arr=(0.5)
 LENGTH_xi=$((${#xi_a[@]}-1))

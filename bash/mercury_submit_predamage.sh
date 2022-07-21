@@ -29,7 +29,7 @@ do
 
 
 ######## login 
-#SBATCH --job-name=pre-${count}
+#SBATCH --job-name=reppre-${count}
 #SBATCH --output=./job-outs/${action_name}/${PSI_0}_${PSI_1}/mercury_pre_$count.out
 #SBATCH --error=./job-outs/${action_name}/${PSI_0}_${PSI_1}/mercury_pre_$count.err
 
