@@ -1,20 +1,20 @@
 #! /bin/bash
 
-if [ -f ./bash/delaytest2.sh ]
+if [ -f /scratch/bincheng/bash/delaytest2.sh ]
 then
-		rm ./bash/delaytest2.sh
+		rm /scratch/bincheng/bash/delaytest2.sh
 fi
 
-touch ./bash/delaytest2.sh
+touch /scratch/bincheng/bash/delaytest2.sh
 
-tee -a ./bash/delaytest2.sh << EOF
+tee -a /scratch/bincheng/bash/delaytest2.sh << EOF
 #! /bin/bash
 
 
 ######## login 
 #SBATCH --job-name=delay2
-#SBATCH --output=./job-outs/old/delaytest2.out
-#SBATCH --error=./job-outs/old/delaytest2.err
+#SBATCH --output=/scratch/bincheng/job-outs/test/delaytest2.out
+#SBATCH --error=/scratch/bincheng/job-outs/test/delaytest2.err
 
 #SBATCH --account=pi-lhansen
 #SBATCH --partition=standard
@@ -32,7 +32,7 @@ res1=\$(date +%s.%N)
 echo "Program ends \$(date)"
 
 # main program
-python3 ./abatement/mercury_test2.py
+
 
 echo "Program ends \$(date)"
 
@@ -50,7 +50,7 @@ echo "Program ends time \${dd} day \${dh} hour \${dm} minute \${ds} second"
 EOF
 
 
-sbatch ./bash/delaytest2.sh
+sbatch /scratch/bincheng/bash/delaytest2.sh
 
 echo "All Done"
 

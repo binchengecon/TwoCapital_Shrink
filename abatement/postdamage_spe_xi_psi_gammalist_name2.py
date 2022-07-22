@@ -274,3 +274,4 @@ res = hjb_pre_tech(
 
 with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "wb") as f:
    pickle.dump(res, f)
+   

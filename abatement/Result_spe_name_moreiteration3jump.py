@@ -516,8 +516,9 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,xi_a_grid,xi_p_grid,Ig_initial = 
 
 
     def model_solution_extraction(xi_a,xi_g,psi_0,psi_1):
-    
-        Data_Dir = "./abatement/data_2tech/"+args.dataname+"/"
+        
+        Output_Dir = "/scratch/bincheng/"
+        Data_Dir = Output_Dir+ "abatement/data_2tech/"+args.dataname+"/"
         
 
         File_Dir = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_" .format(xi_a,xi_g,psi_0,psi_1)
@@ -543,8 +544,8 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,xi_a_grid,xi_p_grid,Ig_initial = 
 
 
     def graph_solution_extraction(res):
-
-        PDF_Dir = "./abatement/pdf_2tech/"+args.dataname+"/"
+        Output_Dir = "/home/bcheng4/TwoCapital_Shrink/"    
+        PDF_Dir = Output_Dir + "abatement/pdf_2tech/"+args.dataname+"/"
 
         if not os.path.exists(PDF_Dir):
             os.mkdir(PDF_Dir)
@@ -566,11 +567,12 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,xi_a_grid,xi_p_grid,Ig_initial = 
         # axs1[0].plot(res[1]["years"], (res[1]["x"]/(alpha*np.exp(res[1]["states"][:,0])))*100,linewidth=7.0)
         # axs1[0].plot(res[2]["years"], (res[2]["x"]/(alpha*np.exp(res[2]["states"][:,0])))*100,linewidth=7.0)        axs1[0].plot(res[0]["years"], (res[0]["x"]/(alpha*np.exp(res[0]["states"][:,0])))*100,linewidth=7.0)
         axs1[0].plot(res[0]["years"][res[0]["states"][:,1]<1.5], res[0]["x"][res[0]["states"][:,1]<1.5],
-         label="$\\xi_r = 0.025$", color="darkblue")
-        axs1[0].plot(res[1]["years"][res[1]["states"][:,1]<1.5], res[1]["x"][res[1]["states"][:,1]<1.5],
-         label="$\\xi_r = 0.050$", color="darkgreen")
-        axs1[0].plot(res[2]["years"][res[2]["states"][:,1]<1.5], res[2]["x"][res[2]["states"][:,1]<1.5],
          label="$\\xi_r = 1000$", color="C3")
+        # axs1[0].plot(res[2]["years"][res[0]["states"][:,1]<1.5], res[0]["x"][res[0]["states"][:,1]<1.5],
+        #  label="$\\xi_r = 0.025$", color="darkblue")
+        # axs1[0].plot(res[1]["years"][res[1]["states"][:,1]<1.5], res[1]["x"][res[1]["states"][:,1]<1.5],
+        #  label="$\\xi_r = 0.050$", color="darkgreen")
+
         # axs1[0].plot(res[k]["years"], (res[k]["x"]),label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k]),linewidth=7.0)
         axs1[0].set_xlabel('Years')
         # axs1[0].set_ylabel('$\%$ of GDP')

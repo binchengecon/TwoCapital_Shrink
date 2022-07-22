@@ -34,21 +34,40 @@
 
 
 
-action_name="repro_Suri1dmgparal_pureoriginal"
+# action_name="repro_Suri1dmgparal_pureoriginal"
+# python_name="predamage_spe_xi_psi_gammalist_name2.py"
+# # under "repro_Suri20dmgparal_pureoriginal2"
+# NUM_DAMAGE=1
+# ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
+# epsilonarr=(0.01 0.01 0.01)
+# fractionarr=(0.1 0.5 0.5)
+# maxiterarr=(20000 20000 20000)
+# hK=0.2
+# hY=0.2
+# hL=0.2
+# Y_max_short=3.0
+# xi_a=(1000.)
+# xi_p=(1000.)
+# psi0arr=(0.005)
+# psi1arr=(0.5)
+# LENGTH_xi=$((${#xi_a[@]}-1))
+# count=0
+
+action_name="rep_20dmgparal"
 python_name="predamage_spe_xi_psi_gammalist_name2.py"
-# under "repro_Suri20dmgparal_pureoriginal2"
-NUM_DAMAGE=1
+# under "rep_20dmgparal"
+NUM_DAMAGE=20
 ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
 epsilonarr=(0.01 0.01 0.01)
-fractionarr=(0.1 0.5 0.5)
-maxiterarr=(20000 20000 20000)
-hK=0.2
-hY=0.2
-hL=0.2
+fractionarr=(0.1 0.1 0.1)
+maxiterarr=(90000 90000 900000)
+hK=0.1
+hY=0.1
+hL=0.1
 Y_max_short=3.0
-xi_a=(1000.)
-xi_p=(1000.)
-psi0arr=(0.005)
+xi_a=(10000.)
+xi_p=(10000.)
+psi0arr=(0.01)
 psi1arr=(0.5)
 LENGTH_xi=$((${#xi_a[@]}-1))
 count=0
@@ -77,7 +96,7 @@ do
 
 
 ######## login 
-#SBATCH --job-name=10pre_$count
+#SBATCH --job-name=20pre_$count
 #SBATCH --output=./job-outs/${action_name}/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_pre.out
 #SBATCH --error=./job-outs/${action_name}/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_pre.err
 

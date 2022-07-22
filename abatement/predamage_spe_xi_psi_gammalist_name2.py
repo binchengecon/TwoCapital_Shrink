@@ -144,7 +144,7 @@ X3_max = X3.max()
 # elif NUM_DAMAGE == 6:
 #     DataDir = "./res_data/6damage/psi_0_{:.3f}_psi_1_{:.3f}/xi_a_".format(psi_0, psi_1) + str(xi_a) + "_xi_g_" + str(xi_g) +  "/"
 
-Data_Dir = "./abatement/data_2tech/"+args.name+"/"
+Data_Dir = "/scratch/bincheng/data_2tech/"+args.name+"/"
 
 File_Name = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_" .format(xi_a,xi_g,psi_0,psi_1)
 # os.makedirs(DataDir)

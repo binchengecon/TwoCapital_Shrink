@@ -1,0 +1,1 @@
+slurmstepd: error: Could not run slurm task_prolog [/apps/slurm-admin/bin/taskprolog.sh]: Permission denied
