@@ -144,7 +144,8 @@ X3_max = X3.max()
 # elif NUM_DAMAGE == 6:
 #     DataDir = "./res_data/6damage/psi_0_{:.3f}_psi_1_{:.3f}/xi_a_".format(psi_0, psi_1) + str(xi_a) + "_xi_g_" + str(xi_g) +  "/"
 
-Data_Dir = "/scratch/bincheng/data_2tech/"+args.name+"/"
+Output_Dir = "/scratch/bincheng/"
+Data_Dir = Output_Dir+"abatement/data_2tech/"+args.name+"/"
 
 File_Name = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_" .format(xi_a,xi_g,psi_0,psi_1)
 # os.makedirs(DataDir)
@@ -166,71 +167,81 @@ lowerLims = np.array([X1_min, X2_min, X3_min], dtype=np.float64)
 upperLims = np.array([X1_max, X2_max, X3_max], dtype=np.float64)
 
 
-# Post damage, tech III
-print("-------------------------------------------")
-print("------------Post damage, Tech III----------")
-print("-------------------------------------------")
-model_tech3_post_damage =  []
-for i in range(len(gamma_3_list)):
-    gamma_3_i = gamma_3_list[i]
-    model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech3_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
-    model_tech3_post_damage.append(model_i)
+model_dir_temp = Data_Dir+ File_Name +"model_tech1_pre_damage"
 
-# model_tech3_post_damage.append(v_post_i)
-with open(Data_Dir+ File_Name + "model_tech3_post_damage", "wb") as f:
-    pickle.dump(model_tech3_post_damage, f)
+if not os.path.exists(model_dir_temp):
+    # Post damage, tech III
+    print("-------------------------------------------")
+    print("------------Post damage, Tech III----------")
+    print("-------------------------------------------")
+    model_tech3_post_damage =  []
+    for i in range(len(gamma_3_list)):
+        gamma_3_i = gamma_3_list[i]
+        model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech3_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
+        model_tech3_post_damage.append(model_i)
 
-model_tech3_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech3_post_damage", "rb"))
-print("Compiled.")
+    # model_tech3_post_damage.append(v_post_i)
+    with open(Data_Dir+ File_Name + "model_tech3_post_damage", "wb") as f:
+        pickle.dump(model_tech3_post_damage, f)
 
-# Post damage, tech II
-print("-------------------------------------------")
-print("------------Post damage, Tech II-----------")
-print("-------------------------------------------")
-model_tech2_post_damage = []
-for i in range(len(gamma_3_list)):
-    gamma_3_i = gamma_3_list[i]
-    model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
-    model_tech2_post_damage.append(model_i)
+    model_tech3_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech3_post_damage", "rb"))
+    print("Compiled.")
 
-with open(Data_Dir+ File_Name + "model_tech2_post_damage", "wb") as f:
-    pickle.dump(model_tech2_post_damage, f)
+    # Post damage, tech II
+    print("-------------------------------------------")
+    print("------------Post damage, Tech II-----------")
+    print("-------------------------------------------")
+    model_tech2_post_damage = []
+    for i in range(len(gamma_3_list)):
+        gamma_3_i = gamma_3_list[i]
+        model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
+        model_tech2_post_damage.append(model_i)
 
-model_tech2_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech2_post_damage", "rb"))
-print("Compiled.")
+    with open(Data_Dir+ File_Name + "model_tech2_post_damage", "wb") as f:
+        pickle.dump(model_tech2_post_damage, f)
 
-# Post damage, tech I
-print("-------------------------------------------")
-print("------------Post damage, Tech I------------")
-print("-------------------------------------------")
-model_tech1_post_damage = []
-for i in range(len(gamma_3_list)):
-    gamma_3_i = gamma_3_list[i]
-    model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
-    model_tech1_post_damage.append(model_i)
+    model_tech2_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech2_post_damage", "rb"))
+    print("Compiled.")
+
+    # Post damage, tech I
+    print("-------------------------------------------")
+    print("------------Post damage, Tech I------------")
+    print("-------------------------------------------")
+    model_tech1_post_damage = []
+    for i in range(len(gamma_3_list)):
+        gamma_3_i = gamma_3_list[i]
+        model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
+        model_tech1_post_damage.append(model_i)
 
 
-with open(Data_Dir+ File_Name + "model_tech1_post_damage", "wb") as f:
-    pickle.dump(model_tech1_post_damage, f)
+    with open(Data_Dir+ File_Name + "model_tech1_post_damage", "wb") as f:
+        pickle.dump(model_tech1_post_damage, f)
 
-model_tech1_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage", "rb"))
-print("Compiled.")
+    model_tech1_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage", "rb"))
+    print("Compiled.")
 
-# delete the separate files
-for i in range(len(gamma_3_list)):
-    gamma_3_i = gamma_3_list[i]
-    # Tech III
-    model_i_dir = Data_Dir+ File_Name +"model_tech3_post_damage_gamma_{:.4f}".format(gamma_3_i) 
-    if os.path.exists(model_i_dir):
-        os.remove(model_i_dir)
-    # Tech II
-    model_i_dir = Data_Dir+ File_Name +"model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i) 
-    if os.path.exists(model_i_dir):
-        os.remove(model_i_dir)
-    # Tech I
-    model_i_dir = Data_Dir+ File_Name +"model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) 
-    if os.path.exists(model_i_dir):
-        os.remove(model_i_dir)
+    # delete the separate files
+    for i in range(len(gamma_3_list)):
+        gamma_3_i = gamma_3_list[i]
+        # Tech III
+        model_i_dir = Data_Dir+ File_Name +"model_tech3_post_damage_gamma_{:.4f}".format(gamma_3_i) 
+        if os.path.exists(model_i_dir):
+            os.remove(model_i_dir)
+        # Tech II
+        model_i_dir = Data_Dir+ File_Name +"model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i) 
+        if os.path.exists(model_i_dir):
+            os.remove(model_i_dir)
+        # Tech I
+        model_i_dir = Data_Dir+ File_Name +"model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) 
+        if os.path.exists(model_i_dir):
+            os.remove(model_i_dir)
+
+else:
+    model_tech3_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech3_post_damage", "rb"))
+
+    model_tech2_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech2_post_damage", "rb"))
+
+    model_tech1_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage", "rb"))
 
 ############################### PRE DAMAGE###################################################
 # DataDir = "./res_data/10damage/test/xi_a_" + str(xi_a) + "_xi_g_" + str(xi_g) +  "_xi_p_{}/".format(xi_p)
