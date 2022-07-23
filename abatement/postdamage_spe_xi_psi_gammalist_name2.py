@@ -148,7 +148,8 @@ hX3    = X3[1] - X3[0]
 X3_min = X3.min()
 X3_max = X3.max()
 
-Data_Dir = "./abatement/data_2tech/"+args.name+"/"
+Output_Dir = "/scratch/bincheng/"
+Data_Dir = Output_Dir+"abatement/data_2tech/"+args.name+"/"
 
 File_Name = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_" .format(xi_a,xi_g,psi_0,psi_1)
 

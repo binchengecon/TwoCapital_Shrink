@@ -103,8 +103,8 @@ stateSpace = np.hstack([K_mat.reshape(-1,1,order = 'F'), Y_mat.reshape(-1,1,orde
 
 
 
-IntPeriod = 50
-timespan = 1/12
+IntPeriod = 1
+timespan = 1/2
 
 # psi_0_grid = np.array([0.006,0.009])
 # # # psi_0_grid = np.array([0.009])
@@ -560,28 +560,27 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,xi_a_grid,xi_p_grid,Ig_initial = 
         plotnum = len(psi_0_meshgrid_1d)*len(xi_a_grid)
         # fig1, axs1 = plt.subplots(3, 1, sharex=True, figsize=(2  * figwidth, 2 *figwidth))  
         fig1, axs1 = plt.subplots(nrows=1, ncols=1, sharex=False, figsize=(12, 3 *figwidth),squeeze = False)  
-
         for k in np.arange(plotnum):
             # axs1[0].plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k//len(psi_0_meshgrid_1d)])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k//len(psi_0_meshgrid_1d)])+'$\xi_a=$'+str(xi_a_grid[k%len(psi_0_meshgrid_1d)]+'$\xi_p=$'+str(xi_p_grid[k%len(psi_0_meshgrid_1d)])),linewidth=7.0)
             xi_p_temp = xi_p_grid[k%len(psi_0_meshgrid_1d)]
             xi_a_temp = xi_p_grid[k%len(psi_0_meshgrid_1d)]
-            axs1.plot(res[k]["years"][res[k]["states"][:,1]<1.5], res[k]["x"][res[k]["states"][:,1]<1.5],
-                    label="$\\xi_a={:4f}, \\xi_p={:4f}$" .format(xi_a_temp,xi_p_temp))
+            axs1[0,0].plot(res[k]["years"][res[k]["states"][:,1]<1.5], res[k]["x"][res[k]["states"][:,1]<1.5],label="$\\xi_a={:.1f}, \\xi_p={:.1f}$" .format(xi_a_temp,xi_p_temp))
+            # axs1[0,0].plot(year, RDinvestment)
         # axs1[0].plot(res[2]["years"][res[0]["states"][:,1]<1.5], res[0]["x"][res[0]["states"][:,1]<1.5],
         #  label="$\\xi_r = 0.025$", color="darkblue")
         # axs1[0].plot(res[1]["years"][res[1]["states"][:,1]<1.5], res[1]["x"][res[1]["states"][:,1]<1.5],
         #  label="$\\xi_r = 0.050$", color="darkgreen")
 
         # axs1[0].plot(res[k]["years"], (res[k]["x"]),label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k]),linewidth=7.0)
-        axs1.set_xlabel('Years')
+            axs1[0,0].set_xlabel('Years')
         # axs1[0].set_ylabel('$\%$ of GDP')
         # axs1[0].set_title('R&D investment as percentage of  GDP')            
         # axs1[0].set_ylabel('unit of capital')
         # axs1[0].set_title('R&D investment in unit of capital')
         # axs1[0].set_ylabel('unit of capital')
-        axs1.set_title('R&D investment')
-        axs1.grid(linestyle=':')
-        axs1.legend(loc='upper left')
+            axs1[0,0].set_title('R&D investment')
+            axs1[0,0].grid(linestyle=':')
+            axs1[0,0].legend(loc='upper left')
 
 
             # axs1[1].plot(res[k]["years"], res[k]["i"],label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k]),linewidth=7.0)
