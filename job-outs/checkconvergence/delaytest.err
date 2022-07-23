@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "./abatement/checkSuriConvergenceLevel.py", line 209, in <module>
+    model_tech1_pre_damage = hjb_pre_tech(
+  File "/home/bcheng4/TwoCapital_Shrink/abatement/src/solver.py", line 303, in hjb_pre_tech
+    D -= xi_p * Intensity * (np.sum(pi_d_o * np.exp(- v_i / xi_p), axis=0) - np.exp(- v0 / xi_p)) / np.exp(- v0 / xi_p)
+ValueError: operands could not be broadcast together with shapes (6,51,31,50) (10,51,31,50) 
