@@ -1,10 +1,10 @@
 ==========================================
-SLURM_JOB_ID = 9528279
+SLURM_JOB_ID = 9528476
 SLURM_SUBMIT_DIR = /home/bcheng4/TwoCapital_Shrink
 SLURM_JOB_NODELIST = mcn32
 ==========================================
 delay1
-Program starts Sat Jul 23 13:47:00 CDT 2022
+Program starts Sat Jul 23 13:50:21 CDT 2022
 Grid dimension: [51, 51, 50]
 
 Grid step: [0.09999999999999964, 0.1, 0.09999999999999964]
@@ -18,5 +18,9 @@ Grid step: [0.09999999999999964, 0.1, 0.09999999999999964]
 -----------------------------------
 min i: 0.08665728030146656,	 max i: 0.09000428999682566	
 min e: 0.7000248734671567,	 max e: 82.55761138375965	
-min x: 3.0643039803740844e-35,	 max x: 0.003418007949805255	
-Program ends Sat Jul 23 13:47:11 CDT 2022
+min x: 2.3571569079800587e-35,	 max x: 0.0026292368844727057	
+petsc total: 0.046s
+PETSc preconditioned residual norm is 6.76242e-15; iterations: 2
+Epoch 0 (PETSc): PDE Error: 0.0001902954; False Transient Error: 0.0000000100
+Epoch time: 0.6767
+Program ends Sat Jul 23 13:50:33 CDT 2022

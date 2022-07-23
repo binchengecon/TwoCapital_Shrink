@@ -2,9 +2,9 @@
 
 
 ######## login 
-#SBATCH --job-name=delay1
-#SBATCH --output=./job-outs/checkconvergence/delaytest.out
-#SBATCH --error=./job-outs/checkconvergence/delaytest.err
+#SBATCH --job-name=compare
+#SBATCH --output=./job-outs/compare/compare.out
+#SBATCH --error=./job-outs/compare/compare.err
 
 #SBATCH --account=pi-lhansen
 #SBATCH --partition=standard
@@ -22,7 +22,7 @@ echo "Program starts $(date)"
 # main program
 
 
-python3 ./abatement/checkSuriConvergenceLevel.py
+python3 ./abatement/compare.py
 
 echo "Program ends $(date)"
 

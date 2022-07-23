@@ -49,7 +49,7 @@
 
 # action_name="rep_20dmgparal"
 # python_name="postdamage_spe_xi_psi_gammalist_name2.py"
-# # under "rep_20dmgparal":note Lmin=-5
+# # under "rep_20dmgparal":note Lmin=-5.5
 # NUM_DAMAGE=20
 # ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
 # epsilonarr=(0.1 0.1 0.1)
@@ -61,7 +61,7 @@
 # Y_max_short=3.0
 # xi_a=(10000.)
 # xi_p=(10000.)
-# psi0arr=(0.01)
+# psi0arr=(0.005)
 # psi1arr=(0.5)
 # LENGTH_xi=$((${#xi_a[@]}-1))
 # count=0
@@ -81,7 +81,7 @@
 # Y_max_short=3.0
 # xi_a=(1000.)
 # xi_p=(1000.)
-# psi0arr=(0.01)
+# psi0arr=(0.005)
 # psi1arr=(0.5)
 # LENGTH_xi=$((${#xi_a[@]}-1))
 # count=0
@@ -100,7 +100,7 @@
 # Y_max_short=3.0
 # xi_a=(1000.)
 # xi_p=(1000.)
-# psi0arr=(0.01)
+# psi0arr=(0.005)
 # psi1arr=(0.5)
 # LENGTH_xi=$((${#xi_a[@]}-1))
 # count=0
@@ -122,10 +122,15 @@ hL=0.1
 Y_max_short=3.0
 xi_a=(10000.)
 xi_p=(10000.)
-psi0arr=(0.01)
+psi0arr=(0.005)
 psi1arr=(0.5)
 LENGTH_xi=$((${#xi_a[@]}-1))
 count=0
+
+
+# Actually psi0 should be 0.005 instead of 0.010 
+# This guess can also be verified by checkSuriConvergtence.py, 
+# where psi0=0.010 gievs error at 0.002 and psi0=0.005 gives error at 1e-7or8.
 
 
 for i in $(seq 0 $ID_MAX_DAMAGE)
