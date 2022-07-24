@@ -23,17 +23,139 @@
 # count=0
 
 
-actiontime=2
-action_name="2jump_cobwebversion"
+# actiontime=2
+# action_name="2jump_cobwebversion"
+# python_name="postdamage_2jump_cobweb.py"
+
+# NUM_DAMAGE=3
+# ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
+# epsilonarr=(0.1 0.01)
+# fractionarr=(0.1 0.01)
+# maxiterarr=(50000 50000)
+
+# hXarr=(0.2 0.2 0.2)
+# Xminarr=(4.00 0.0 -5.5 0.0)
+# Xmaxarr=(9.00 4.0 0.0 3.0)
+# xi_a=(1000.)
+# xi_p=(1000.)
+# psi0arr=(0.008 0.010 0.012)
+# psi1arr=(0.8)
+# LENGTH_xi=$((${#xi_a[@]}-1))
+# count=0
+
+
+# actiontime=3
+# action_name="2jump_step02verify_new"
+# python_name="postdamage_2jump.py"
+
+# NUM_DAMAGE=3
+# ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
+# epsilonarr=(0.1 0.01)
+# fractionarr=(0.1 0.01)
+# maxiterarr=(8000 20000)
+
+# hXarr=(0.2 0.2 0.2)
+# Xminarr=(4.00 0.0 -5.5 0.0)
+# Xmaxarr=(9.00 4.0 0.0 3.0)
+# xi_a=(1000.)
+# xi_p=(1000.)
+# psi0arr=(0.008 0.010 0.012)
+# psi1arr=(0.8)
+# LENGTH_xi=$((${#xi_a[@]}-1))
+# count=0
+
+# actiontime=4
+# action_name="2jump_step01verify_new"
+# python_name="postdamage_2jump.py"
+
+# NUM_DAMAGE=3
+# ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
+# epsilonarr=(0.1 0.01)
+# fractionarr=(0.1 0.01)
+# maxiterarr=(20000 40000)
+
+# hXarr=(0.1 0.1 0.1)
+# Xminarr=(4.00 0.0 -5.5 0.0)
+# Xmaxarr=(9.00 4.0 0.0 3.0)
+# xi_a=(1000.)
+# xi_p=(1000.)
+# psi0arr=(0.008 0.010 0.012)
+# psi1arr=(0.8)
+# LENGTH_xi=$((${#xi_a[@]}-1))
+# count=0
+
+# actiontime=5
+# action_name="2jump_step005verify_new"
+# python_name="postdamage_2jump.py"
+
+# NUM_DAMAGE=3
+# ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
+# epsilonarr=(0.1 0.01)
+# fractionarr=(0.1 0.01)
+# maxiterarr=(20000 40000)
+
+# hXarr=(0.05 0.05 0.05)
+# Xminarr=(4.00 0.0 -5.5 0.0)
+# Xmaxarr=(9.00 4.0 0.0 3.0)
+# xi_a=(1000.)
+# xi_p=(1000.)
+# psi0arr=(0.008 0.010 0.012)
+# psi1arr=(0.8)
+# LENGTH_xi=$((${#xi_a[@]}-1))
+# count=0
+
+
+# actiontime=6
+# action_name="2jump_step02verify_cobweb"
+# python_name="postdamage_2jump_cobweb.py"
+
+# NUM_DAMAGE=3
+# ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
+# epsilonarr=(0.1 0.01)
+# fractionarr=(0.1 0.01)
+# maxiterarr=(8000 20000)
+
+# hXarr=(0.2 0.2 0.2)
+# Xminarr=(4.00 0.0 -5.5 0.0)
+# Xmaxarr=(9.00 4.0 0.0 3.0)
+# xi_a=(1000.)
+# xi_p=(1000.)
+# psi0arr=(0.008 0.010 0.012)
+# psi1arr=(0.8)
+# LENGTH_xi=$((${#xi_a[@]}-1))
+# count=0
+
+# actiontime=7
+# action_name="2jump_step01verify_cobweb"
+# python_name="postdamage_2jump_cobweb.py"
+
+# NUM_DAMAGE=3
+# ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
+# epsilonarr=(0.1 0.01)
+# fractionarr=(0.1 0.01)
+# maxiterarr=(20000 40000)
+
+# hXarr=(0.1 0.1 0.1)
+# Xminarr=(4.00 0.0 -5.5 0.0)
+# Xmaxarr=(9.00 4.0 0.0 3.0)
+# xi_a=(1000.)
+# xi_p=(1000.)
+# psi0arr=(0.008 0.010 0.012)
+# psi1arr=(0.8)
+# LENGTH_xi=$((${#xi_a[@]}-1))
+# count=0
+
+actiontime=8
+action_name="2jump_step01verify_cobweb"
 python_name="postdamage_2jump_cobweb.py"
 
 NUM_DAMAGE=3
 ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
 epsilonarr=(0.1 0.01)
 fractionarr=(0.1 0.01)
-maxiterarr=(50000 50000)
+maxiterarr=(20000 40000)
 
-hXarr=(0.2 0.2 0.2)
+hXarr=(0.05 0.05 0.05)
 Xminarr=(4.00 0.0 -5.5 0.0)
 Xmaxarr=(9.00 4.0 0.0 3.0)
 xi_a=(1000.)
@@ -42,8 +164,6 @@ psi0arr=(0.008 0.010 0.012)
 psi1arr=(0.8)
 LENGTH_xi=$((${#xi_a[@]}-1))
 count=0
-
-
 
 
 for i in $(seq 0 $ID_MAX_DAMAGE)

@@ -102,12 +102,12 @@ vartheta_bar_second = 0.
 # Coarse Grids
 K_min = 4.00
 K_max = 9.00
-hK    = 0.10
+hK    = 0.20
 K     = np.arange(K_min, K_max + hK, hK)
 nK    = len(K)
 Y_min = 0.
 Y_max = 4.
-hY    = 0.10 # make sure it is float instead of int
+hY    = 0.20 # make sure it is float instead of int
 Y     = np.arange(Y_min, Y_max + hY, hY)
 nY    = len(Y)
 L_min = - 5.5
@@ -132,7 +132,8 @@ hX3    = X3[1] - X3[0]
 X3_min = X3.min()
 X3_max = X3.max()
 
-Data_Dir = "./abatement/data_2tech/"+args.name+"/"
+Output_Dir = "/scratch/bincheng/"
+Data_Dir = Output_Dir+"abatement/data_2tech/"+args.name+"/"
 
 File_Name = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_" .format(xi_a,xi_g,psi_0,psi_1)
 
@@ -211,22 +212,3 @@ res = hjb_pre_tech(
 with open(Data_Dir+ File_Name  + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "wb") as f:
     pickle.dump(res, f)
 
-# res_i = pickle.load(open(DataDir + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
-
-# # Post damage, tech I
-#print("-------------------------------------------")
-#print("------------Post damage, Tech I------------")
-#print("-------------------------------------------")
-#V_post_tech1 = res_i["v0"]
-
-#res = hjb_pre_tech(
-#        state_grid=(K, Y, L),
-#        model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech1, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_g, xi_p),
-#        V_post_damage=None,
-#        tol=1e-7, epsilon=0.01, fraction=0.01, smart_guess=res_i,
-#        max_iter=20000,
-#        )
-
-
-#with open(DataDir + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "wb") as f:
-#    pickle.dump(res, f)

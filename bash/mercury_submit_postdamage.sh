@@ -1,10 +1,10 @@
 #! /bin/bash
 
 
-NUM_DAMAGE=10
+NUM_DAMAGE=3
 ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
 
-action_name="replicateSuri_pureoriginal"
+action_name="2jump_step02verify_old"
 python_name="postdamage_spe_psi_gamma_name_moreiteration.py"
 count=0
 
