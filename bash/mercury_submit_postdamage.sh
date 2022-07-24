@@ -1,7 +1,7 @@
 #! /bin/bash
 
 
-NUM_DAMAGE=6
+NUM_DAMAGE=10
 ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
 
 action_name="replicateSuri_pureoriginal"

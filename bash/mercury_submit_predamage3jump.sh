@@ -136,24 +136,24 @@
 # count=0
 
 
-action_name="rep_20dmgparal"
-python_name="predamage_spe_xi_psi_gammalist_name2.py"
-# under "rep_20dmgparal":note Lmin=-5.5
-NUM_DAMAGE=20
-ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
-epsilonarr=(0.01 0.01 0.01)
-fractionarr=(0.1 0.1 0.1)
-maxiterarr=(90000 90000 900000)
-hK=0.1
-hY=0.1
-hL=0.1
-Y_max_short=3.0
-xi_a=(10000.)
-xi_p=(10000.)
-psi0arr=(0.005)
-psi1arr=(0.5)
-LENGTH_xi=$((${#xi_a[@]}-1))
-count=0
+# action_name="rep_20dmgparal"
+# python_name="predamage_spe_xi_psi_gammalist_name2.py"
+# # under "rep_20dmgparal":note Lmin=-5.5
+# NUM_DAMAGE=20
+# ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
+# epsilonarr=(0.01 0.01 0.01)
+# fractionarr=(0.1 0.1 0.1)
+# maxiterarr=(90000 90000 900000)
+# hK=0.1
+# hY=0.1
+# hL=0.1
+# Y_max_short=3.0
+# xi_a=(10000.)
+# xi_p=(10000.)
+# psi0arr=(0.005)
+# psi1arr=(0.5)
+# LENGTH_xi=$((${#xi_a[@]}-1))
+# count=0
 
 # action_name="rep_20dmgparal_Lmin55xia1000"
 # python_name="predamage_spe_xi_psi_gammalist_name2.py"
@@ -198,25 +198,25 @@ count=0
 # LENGTH_xi=$((${#xi_a[@]}-1))
 # count=0
 
-# action_name="rep_10dmgparal_Lmin5xia10000"
-# python_name="predamage_spe_xi_psi_gammalist_name3.py"
-# # under "rep_10dmgparal_Lmin5xia1000":note Lmin=-5.0
-# # job name 1e4
-# NUM_DAMAGE=10
-# ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
-# epsilonarr=(0.01 0.01 0.01)
-# fractionarr=(0.1 0.1 0.1)
-# maxiterarr=(90000 90000 900000)
-# hK=0.1
-# hY=0.1
-# hL=0.1
-# Y_max_short=3.0
-# xi_a=(10000.)
-# xi_p=(10000.)
-# psi0arr=(0.005)
-# psi1arr=(0.5)
-# LENGTH_xi=$((${#xi_a[@]}-1))
-# count=0
+action_name="rep_10dmgparal_Lmin5xia10000"
+python_name="predamage_spe_xi_psi_gammalist_name3.py"
+# under "rep_10dmgparal_Lmin5xia1000":note Lmin=-5.0
+# job name 1e4
+NUM_DAMAGE=10
+ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
+epsilonarr=(0.01 0.01 0.01)
+fractionarr=(0.1 0.1 0.1)
+maxiterarr=(90000 90000 900000)
+hK=0.1
+hY=0.1
+hL=0.1
+Y_max_short=3.0
+xi_a=(10000.)
+xi_p=(10000.)
+psi0arr=(0.005)
+psi1arr=(0.5)
+LENGTH_xi=$((${#xi_a[@]}-1))
+count=0
 
 
 

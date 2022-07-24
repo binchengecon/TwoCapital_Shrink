@@ -1,0 +1,48 @@
+/home/bcheng4/TwoCapital_Shrink/abatement/src/solver.py:179: RuntimeWarning: overflow encountered in exp
+  gg = np.exp(1 / xi_g * (v0 - V_post_tech))
+/home/bcheng4/TwoCapital_Shrink/abatement/src/solver.py:194: RuntimeWarning: invalid value encountered in add
+  D = delta * np.log(consumption) + delta * K_mat  - dG * np.sum(theta_ell * pi_c, axis=0) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_g * np.exp(L_mat) * (1 - gg + gg * np.log(gg)) + np.exp(L_mat) * gg * V_post_tech
+/home/bcheng4/TwoCapital_Shrink/abatement/src/solver.py:194: RuntimeWarning: overflow encountered in multiply
+  D = delta * np.log(consumption) + delta * K_mat  - dG * np.sum(theta_ell * pi_c, axis=0) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_g * np.exp(L_mat) * (1 - gg + gg * np.log(gg)) + np.exp(L_mat) * gg * V_post_tech
+/home/bcheng4/TwoCapital_Shrink/abatement/src/solver.py:313: RuntimeWarning: overflow encountered in multiply
+  PDE_rhs = A * v0 + B_1 * dX1 + B_2 * dX2 + B_3 * dX3 + C_1 * ddX1 + C_2 * ddX2 + C_3 * ddX3 + D
+/home/bcheng4/TwoCapital_Shrink/abatement/src/solver.py:313: RuntimeWarning: invalid value encountered in add
+  PDE_rhs = A * v0 + B_1 * dX1 + B_2 * dX2 + B_3 * dX3 + C_1 * ddX1 + C_2 * ddX2 + C_3 * ddX3 + D
+./src/supportfunctions.py:180: RuntimeWarning: invalid value encountered in subtract
+  res[1:-1,:,:] = (1 / (2 * dlt)) * (data[2:,:,:] - data[:-2,:,:])
+./src/supportfunctions.py:181: RuntimeWarning: invalid value encountered in subtract
+  res[-1,:,:] = (1 / dlt) * (data[-1,:,:] - data[-2,:,:])
+./src/supportfunctions.py:182: RuntimeWarning: invalid value encountered in subtract
+  res[0,:,:] = (1 / dlt) * (data[1,:,:] - data[0,:,:])
+./src/supportfunctions.py:186: RuntimeWarning: invalid value encountered in subtract
+  res[:,1:-1,:] = (1 / (2 * dlt)) * (data[:,2:,:] - data[:,:-2,:])
+./src/supportfunctions.py:187: RuntimeWarning: invalid value encountered in subtract
+  res[:,-1,:] = (1 / dlt) * (data[:,-1,:] - data[:,-2,:])
+./src/supportfunctions.py:188: RuntimeWarning: invalid value encountered in subtract
+  res[:,0,:] = (1 / dlt) * (data[:,1,:] - data[:,0,:])
+./src/supportfunctions.py:192: RuntimeWarning: invalid value encountered in subtract
+  res[:,:,1:-1] = (1 / (2 * dlt)) * (data[:,:,2:] - data[:,:,:-2])
+./src/supportfunctions.py:193: RuntimeWarning: invalid value encountered in subtract
+  res[:,:,-1] = (1 / dlt) * (data[:,:,-1] - data[:,:,-2])
+./src/supportfunctions.py:194: RuntimeWarning: invalid value encountered in subtract
+  res[:,:,0] = (1 / dlt) * (data[:,:,1] - data[:,:,0])
+./src/supportfunctions.py:203: RuntimeWarning: invalid value encountered in subtract
+  res[1:-1,:,:] = (1 / dlt ** 2) * (data[2:,:,:] + data[:-2,:,:] - 2 * data[1:-1,:,:])
+./src/supportfunctions.py:204: RuntimeWarning: invalid value encountered in subtract
+  res[-1,:,:] = (1 / dlt ** 2) * (data[-1,:,:] + data[-3,:,:] - 2 * data[-2,:,:])
+./src/supportfunctions.py:205: RuntimeWarning: invalid value encountered in subtract
+  res[0,:,:] = (1 / dlt ** 2) * (data[2,:,:] + data[0,:,:] - 2 * data[1,:,:])
+./src/supportfunctions.py:209: RuntimeWarning: invalid value encountered in subtract
+  res[:,1:-1,:] = (1 / dlt ** 2) * (data[:,2:,:] + data[:,:-2,:] - 2 * data[:,1:-1,:])
+./src/supportfunctions.py:210: RuntimeWarning: invalid value encountered in subtract
+  res[:,-1,:] = (1 / dlt ** 2) * (data[:,-1,:] + data[:,-3,:] - 2 * data[:,-2,:])
+./src/supportfunctions.py:211: RuntimeWarning: invalid value encountered in subtract
+  res[:,0,:] = (1 / dlt ** 2) * (data[:,2,:] + data[:,0,:] - 2 * data[:,1,:])
+./src/supportfunctions.py:215: RuntimeWarning: invalid value encountered in subtract
+  res[:,:,1:-1] = (1 / dlt ** 2) * (data[:,:,2:] + data[:,:,:-2] - 2 * data[:,:,1:-1])
+./src/supportfunctions.py:216: RuntimeWarning: invalid value encountered in subtract
+  res[:,:,-1] = (1 / dlt ** 2) * (data[:,:,-1] + data[:,:,-3] - 2 * data[:,:,-2])
+./src/supportfunctions.py:217: RuntimeWarning: invalid value encountered in subtract
+  res[:,:,0] = (1 / dlt ** 2) * (data[:,:,2] + data[:,:,0] - 2 * data[:,:,1])
+/home/bcheng4/TwoCapital_Shrink/abatement/src/solver.py:315: RuntimeWarning: invalid value encountered in subtract
+  FC_Err = np.max(abs((out_comp - v0)/ epsilon))

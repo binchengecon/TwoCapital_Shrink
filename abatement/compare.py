@@ -246,19 +246,19 @@ mpl.rcParams["legend.frameon"] = True
 mpl.rcParams["legend.framealpha"] = 1
 
 
-psi_0 = 0.010
+psi_0 = 0.005
 psi_1 = 0.5
 
-with open("/scratch/bincheng/abatement/data_2tech/rep_20dmgparal/xi_a_10000.0_xi_g_10000.0_psi_0_0.01_psi_1_0.5_model_tech1_pre_damage", "rb") as f:
+with open("/scratch/bincheng/abatement/data_2tech/rep_20dmgparal/xi_a_10000.0_xi_g_10000.0_psi_0_0.005_psi_1_0.5_model_tech1_pre_damage", "rb") as f:
     data_bincode1 = pickle.load(f)
 
-with open("/scratch/bincheng/abatement/data_2tech/rep_20dmgparal_Lmin55xia1000/xi_a_1000.0_xi_g_1000.0_psi_0_0.01_psi_1_0.5_model_tech1_pre_damage", "rb") as f:
+with open("/scratch/bincheng/abatement/data_2tech/rep_20dmgparal_Lmin55xia1000/xi_a_1000.0_xi_g_1000.0_psi_0_0.005_psi_1_0.5_model_tech1_pre_damage", "rb") as f:
     data_bincode2 = pickle.load(f)
 
-with open("/scratch/bincheng/abatement/data_2tech/rep_10dmgparal_Lmin5xia1000/xi_a_1000.0_xi_g_1000.0_psi_0_0.01_psi_1_0.5_model_tech1_pre_damage", "rb") as f:
+with open("/scratch/bincheng/abatement/data_2tech/rep_10dmgparal_Lmin5xia1000/xi_a_1000.0_xi_g_1000.0_psi_0_0.005_psi_1_0.5_model_tech1_pre_damage", "rb") as f:
     data_bincode3 = pickle.load(f)
 
-with open("/scratch/bincheng/abatement/data_2tech/rep_10dmgparal_Lmin5xia10000/xi_a_10000.0_xi_g_10000.0_psi_0_0.01_psi_1_0.5_model_tech1_pre_damage", "rb") as f:
+with open("/scratch/bincheng/abatement/data_2tech/rep_10dmgparal_Lmin5xia10000/xi_a_10000.0_xi_g_10000.0_psi_0_0.005_psi_1_0.5_model_tech1_pre_damage", "rb") as f:
     data_bincode4 = pickle.load(f)
     
 # with open("./abatement/data_2tech/compare/model_tech1_pre_damage", "rb") as f:

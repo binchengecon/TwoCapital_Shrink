@@ -1,0 +1,78 @@
+==========================================
+SLURM_JOB_ID = 9530067
+SLURM_SUBMIT_DIR = /home/bcheng4/TwoCapital_Shrink
+SLURM_JOB_NODELIST = mcn30
+==========================================
+h1_12
+Program starts Sat Jul 23 19:29:53 CDT 2022
+Grid dimension: [102, 81, 111]
+
+Grid step: [0.04999999999999982, 0.05, 0.04999999999999982]
+
+-------------------------------------------
+------------Post damage, Tech II----------
+-------------------------------------------
+Iteration 1: LHS Error: 0.01691829354475871; RHS Error 0.01693520951862204
+Iteration 2: LHS Error: 0.016901392052410813; RHS Error 0.016918291301164394
+Iteration 3: LHS Error: 0.016884507450800612; RHS Error 0.016901389984701885
+Iteration 4: LHS Error: 0.01686763972260863; RHS Error 0.016884505552356946
+Iteration 5: LHS Error: 0.016850788850657494; RHS Error 0.016867637987270756
+Converged. Total iteration 5: LHS Error: 0.016850788850657494; RHS Error 0.016867637987270756
+-------------------------------------------
+------------Post damage, Tech I-----------
+-------------------------------------------
+Grid dimension: [102, 81, 111]
+
+Grid step: [0.04999999999999982, 0.05, 0.04999999999999982]
+
+-----------------------------------
+---------Epoch 0---------------
+-----------------------------------
+min i: 0.0013633079919182012,	 max i: 0.0013633079919182095	
+min e: 1e-18,	 max e: 0.15502841545993507	
+min x: 0.15220726946465393,	 max x: 3.2334230600457165e+17	
+petsc total: 0.913s
+PETSc preconditioned residual norm is 4.53791e-10; iterations: 10
+Epoch 0 (PETSc): PDE Error: 92471474215198800.0000000000; False Transient Error: 56.6378796044
+Epoch time: 7.9175
+-----------------------------------
+---------Epoch 1---------------
+-----------------------------------
+min i: 0.0013496749119990203,	 max i: 0.0013496749119990285	
+min e: 0.010840730269887308,	 max e: 1.1814359882070755	
+min x: 0.15068519677000738,	 max x: 3.2010888294452595e+17	
+petsc total: 0.739s
+PETSc preconditioned residual norm is 4.21902e-10; iterations: 10
+Epoch 1 (PETSc): PDE Error: 6553.1827046246; False Transient Error: 2.3448014100
+Epoch time: 7.7736
+-----------------------------------
+---------Epoch 2---------------
+-----------------------------------
+min i: 0.0013361781628790312,	 max i: 0.0013361781628790394	
+min e: 0.01830454023761034,	 max e: 2.351057613632743	
+min x: 0.14917834480230732,	 max x: 3.169077941150807e+17	
+petsc total: 0.754s
+PETSc preconditioned residual norm is 4.72621e-10; iterations: 10
+Epoch 2 (PETSc): PDE Error: 9698.1098947160; False Transient Error: 1.0829419049
+Epoch time: 7.8780
+-----------------------------------
+---------Epoch 3---------------
+-----------------------------------
+min i: 0.001322816381250242,	 max i: 0.00132281638125025	
+min e: 0.025693712105656137,	 max e: 3.508983025674497	
+min x: 0.14768656135428423,	 max x: 3.137387161739299e+17	
+petsc total: 0.741s
+PETSc preconditioned residual norm is 5.67346e-10; iterations: 10
+Epoch 3 (PETSc): PDE Error: 7876.4789989956; False Transient Error: 0.6566744373
+Epoch time: 7.7886
+-----------------------------------
+---------Epoch 4---------------
+-----------------------------------
+min i: 0.0013095882174377405,	 max i: 0.0013095882174377486	
+min e: 0.03300899225502148,	 max e: 4.655329183624827	
+min x: 0.14620969574074139,	 max x: 3.106013290121906e+17	
+petsc total: 0.768s
+PETSc preconditioned residual norm is 6.19056e-10; iterations: 10
+Epoch 4 (PETSc): PDE Error: 7813.4006792425; False Transient Error: 0.4843706040
+Epoch time: 7.8865
+Program ends Sat Jul 23 19:30:41 CDT 2022

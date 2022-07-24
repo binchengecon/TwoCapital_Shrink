@@ -11,7 +11,6 @@ hL=0.2
 Y_max_short=2.5
 # Y_max_short=3.0
 
-
 psi0arr=(0.008 0.010 0.012)
 psi1arr=(0.8)
 
