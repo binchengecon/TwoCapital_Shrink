@@ -2,9 +2,9 @@
 
 
 ######## login 
-#SBATCH --job-name=compare
-#SBATCH --output=./job-outs/compare/compare.out
-#SBATCH --error=./job-outs/compare/compare.err
+#SBATCH --job-name=test
+#SBATCH --output=./job-outs/compare/test2.out
+#SBATCH --error=./job-outs/compare/test2.err
 
 #SBATCH --account=pi-lhansen
 #SBATCH --partition=standard
@@ -22,7 +22,7 @@ echo "Program starts $(date)"
 # main program
 
 
-python3 ./abatement/compare.py
+python3 ./abatement/postdamage_2jump_interp_SG.py
 
 echo "Program ends $(date)"
 

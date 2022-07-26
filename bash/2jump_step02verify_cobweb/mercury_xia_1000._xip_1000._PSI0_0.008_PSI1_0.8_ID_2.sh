@@ -2,7 +2,7 @@
 
 
 ######## login 
-#SBATCH --job-name=post6_6
+#SBATCH --job-name=post10_6
 #SBATCH --output=./job-outs/2jump_step02verify_cobweb/xia_1000._xip_1000._PSI0_0.008_PSI1_0.8/mercury_post_2.out
 #SBATCH --error=./job-outs/2jump_step02verify_cobweb/xia_1000._xip_1000._PSI0_0.008_PSI1_0.8/mercury_post_2.err
 
@@ -20,7 +20,7 @@ echo "$SLURM_JOB_NAME"
 
 echo "Program starts $(date)"
 
-python3 /home/bcheng4/TwoCapital_Shrink/abatement/postdamage_2jump_cobweb.py --num_gamma 3 --xi_a 1000. --xi_g 1000.  --epsilonarr 0.1 0.01  --fractionarr 0.1 0.01   --maxiterarr 8000 20000  --id 2 --psi_0 0.008 --psi_1 0.8 --name 2jump_step02verify_cobweb --hXarr 0.2 0.2 0.2 --Xminarr 4.00 0.0 -5.5 0.0 --Xmaxarr 9.00 4.0 0.0 3.0
+python3 /home/bcheng4/TwoCapital_Shrink/abatement/postdamage_2jump_cobweb.py --num_gamma 3 --xi_a 1000. --xi_g 1000.  --epsilonarr 0.1 0.01  --fractionarr 0.1 0.01   --maxiterarr 40000 60000  --id 2 --psi_0 0.008 --psi_1 0.8 --name 2jump_step02verify_cobweb --hXarr 0.2 0.2 0.2 --Xminarr 4.00 0.0 -5.5 0.0 --Xmaxarr 9.00 4.0 0.0 3.0
 
 echo "Program ends $(date)"
 

@@ -75,7 +75,7 @@ gamma_2 = 0.0022 * 2
 # num_gamma = args.num_gamma
 # gamma_3_list = np.linspace(0,1./3.,num_gamma)
 
-gamma_3_list = np.linspace(0., 1./3., 6)
+gamma_3_list = np.linspace(0., 1./3., 3)
 id_damage = args.id
 gamma_3_i = gamma_3_list[id_damage]
 # gamma_3_list = np.array([0.])
@@ -113,7 +113,7 @@ nY    = len(Y)
 L_min = - 5.5
 L_max = - 0.
 hL    = 0.20
-L     = np.arange(L_min, L_max,  hL)
+L     = np.arange(L_min, L_max+hL,  hL)
 nL    = len(L)
 
 X1     = K

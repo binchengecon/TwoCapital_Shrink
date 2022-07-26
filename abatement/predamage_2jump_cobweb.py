@@ -22,8 +22,8 @@ from scipy.sparse import csr_matrix
 from datetime import datetime
 # from solver import solver_3d
 from PostSolver_Bin import hjb_post_damage_post_tech, hjb_pre_damage_post_tech
-from src.solver_Bin import pde_one_interation
-from src.solver_Bin import hjb_pre_tech
+from src.solver_cobweb import pde_one_interation
+from src.solver_cobweb import hjb_pre_tech
 import argparse
 
 reporterror = True
