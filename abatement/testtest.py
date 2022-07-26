@@ -27,6 +27,8 @@ Z1 = interp1(X, Y, Q)
 interp2 = NearestNDInterpolator(list(zip(x_mat_1d, y_mat_1d, q_mat_1d)), z_1d)
 Z2 = interp2(X, Y, Q)
 
+
+print(Z1.max())
 print(Z2.max())
 
 plt.pcolormesh(X[:,:,0], Y[:,:,0], Z1[:,:,0], shading='auto')
@@ -36,6 +38,7 @@ plt.legend()
 plt.colorbar()
 plt.axis("equal")
 plt.savefig("./abatement/pdf_2tech/interpolate/test_linear.pdf")
+plt.savefig("./abatement/pdf_2tech/interpolate/test_linear.png")
 plt.clf()
 
 plt.pcolormesh(X[:,:,0], Y[:,:,0], Z2[:,:,0], shading='auto')
@@ -45,3 +48,35 @@ plt.legend()
 plt.colorbar()
 plt.axis("equal")
 plt.savefig("./abatement/pdf_2tech/interpolate/test_near.pdf")
+plt.savefig("./abatement/pdf_2tech/interpolate/test_near.png")
+plt.clf()
+
+
+
+
+
+
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+img = ax.scatter(X.flatten(), Y.flatten(), Q.flatten(), c=Z1.flatten(), cmap=plt.hot())
+fig.colorbar(img)
+plt.savefig("./abatement/pdf_2tech/interpolate/test_linear_3d.pdf")
+plt.savefig("./abatement/pdf_2tech/interpolate/test_linear_3d.png")
+plt.clf()
+
+
+
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+img = ax.scatter(X.flatten(), Y.flatten(), Q.flatten(), c=Z2.flatten(), cmap=plt.hot())
+fig.colorbar(img)
+plt.savefig("./abatement/pdf_2tech/interpolate/test_near_3d.pdf")
+plt.savefig("./abatement/pdf_2tech/interpolate/test_near_3d.png")
