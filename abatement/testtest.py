@@ -80,3 +80,19 @@ img = ax.scatter(X.flatten(), Y.flatten(), Q.flatten(), c=Z2.flatten(), cmap=plt
 fig.colorbar(img)
 plt.savefig("./abatement/pdf_2tech/interpolate/test_near_3d.pdf")
 plt.savefig("./abatement/pdf_2tech/interpolate/test_near_3d.png")
+plt.clf()
+
+
+
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+img = ax.scatter(x_mat_1d, y_mat_1d, q_mat_1d, c=z_1d, cmap=plt.hot())
+fig.colorbar(img)
+plt.savefig("./abatement/pdf_2tech/interpolate/input_3d.pdf")
+plt.savefig("./abatement/pdf_2tech/interpolate/input_3d.png")
+plt.clf()
+
+
+
+
