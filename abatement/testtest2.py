@@ -5,11 +5,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 rng = np.random.default_rng()
-
 x = rng.random(10) - 0.5
-
 y = rng.random(10) - 0.5
-
 z = np.hypot(x, y)
 
 X = np.linspace(min(x), max(x))
