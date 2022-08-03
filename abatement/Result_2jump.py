@@ -20,12 +20,10 @@ import argparse
 
 
 parser = argparse.ArgumentParser(description="xi_r values")
-parser.add_argument("--dataname",type=str,default="ReplicateSuri")
-parser.add_argument("--pdfname",type=str,default="ReplicateSuri")
+parser.add_argument("--dataname",type=str)
+parser.add_argument("--pdfname",type=str)
 parser.add_argument("--xi_a", type=float, default=1000.)
 parser.add_argument("--xi_g", type=float, default=1000.)
-parser.add_argument("--num_gamma",type=int,default=6)
-parser.add_argument("--name",type=str,default="ReplicateSuri")
 parser.add_argument("--hXarr",nargs='+',type=float)
 parser.add_argument("--Xminarr",nargs='+',type=float)
 parser.add_argument("--Xmaxarr",nargs='+',type=float)
@@ -51,8 +49,6 @@ gamma_1 = 1.7675 / 1000
 gamma_2 = 0.0022 * 2
 
 
-num_gamma = args.num_gamma
-gamma_3_list = np.linspace(0,1./3.,num_gamma)
 
 
 y_bar = 2.
@@ -360,14 +356,16 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,Ig_initial = 1/120):
 
     def model_solution_extraction(xi_a,xi_g,psi_0,psi_1):
     
-        Data_Dir = "./abatement/data_2tech/"+args.dataname+"/"
-        
+        # Data_Dir = "./abatement/data_2tech/"+args.dataname+"/"
+        Output_Dir = "/scratch/bincheng/"
+        Data_Dir = Output_Dir+"abatement/data_2tech/"+args.dataname+"/"
+
 
         File_Dir = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_" .format(xi_a,xi_g,psi_0,psi_1)
 
-        with open(Data_Dir + File_Dir+"model_tech2_pre_damage", "rb") as f:
+        with open(Data_Dir + File_Dir+"model_tech1_pre_damage", "rb") as f:
             tech1 = pickle.load(f)
-            
+        
 
         model_args = (delta, mu_k, kappa,sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar)
         i = tech1["i_star"]
@@ -392,7 +390,7 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,Ig_initial = 1/120):
         if not os.path.exists(PDF_Dir):
             os.mkdir(PDF_Dir)
 
-        File_Dir = args.pdfname+"_Psi0_8_Psi1_81012" 
+        File_Dir = args.pdfname+"_Psi0_8_Psi1_8" 
         
         pdf_pages = PdfPages(PDF_Dir+File_Dir+'Years_'+str(IntPeriod)+'.pdf')
 

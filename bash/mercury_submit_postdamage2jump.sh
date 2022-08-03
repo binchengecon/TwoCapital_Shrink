@@ -128,6 +128,8 @@
 # LENGTH_xi=$((${#xi_a[@]}-1))
 # count=0
 
+
+
 # actiontime=5
 # action_name="2jump_step005verify_new"
 # python_name="postdamage_2jump.py"
@@ -356,15 +358,148 @@
 # LENGTH_xi=$((${#xi_a[@]}-1))
 # count=0
 
-actiontime=17
-action_name="2jump_step0.01verify_new_try0.001epfrac_morehours"
+# result: didn't even get into postdamage-tech2 case, something is off.
+
+# actiontime=17
+# action_name="2jump_step0.01verify_new_try0.001epfrac_morehours"
+# python_name="postdamage_2jump.py"
+# NUM_DAMAGE=3
+# ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
+# epsilonarr=(0.1 0.001)
+# fractionarr=(0.1 0.001)
+# maxiterarr=(60000 80000)
+# hXarr=(0.01 0.01 0.01)
+# Xminarr=(4.00 0.0 -5.5 0.0)
+# Xmaxarr=(9.00 4.0 0.0 3.0)
+# xi_a=(1000.)
+# xi_p=(1000.)
+# psi0arr=(0.008 0.010 0.012)
+# psi1arr=(0.8)
+# LENGTH_xi=$((${#xi_a[@]}-1))
+# count=0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# result is volatile, can't head towards conergence at 79999.
+# but look back on actiontime=4, hey, 0.01 would cut it.
+# so the smaller, is not always better?
+
+# actiontime=30
+# action_name="2jump_step0.10.10.1"
+# python_name="postdamage_2jump.py"
+# NUM_DAMAGE=3
+# ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
+# epsilonarr=(0.1 0.001)
+# fractionarr=(0.1 0.001)
+# maxiterarr=(60000 80000)
+
+# hXarr=(0.1 0.1 0.1)
+# Xminarr=(4.00 0.0 -5.5 0.0)
+# Xmaxarr=(9.00 4.0 0.0 3.0)
+# xi_a=(1000.)
+# xi_p=(1000.)
+# psi0arr=(0.008 0.010 0.012)
+# psi1arr=(0.8)
+# LENGTH_xi=$((${#xi_a[@]}-1))
+# count=0
+
+
+# result is again, even more volatile,  0.001 is not working???
+
+# actiontime=31
+# action_name="2jump_step0.10.10.05"
+# python_name="postdamage_2jump.py"
+# NUM_DAMAGE=3
+# ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
+# epsilonarr=(0.1 0.001)
+# fractionarr=(0.1 0.001)
+# maxiterarr=(60000 80000)
+
+# hXarr=(0.1 0.1 0.05)
+# Xminarr=(4.00 0.0 -5.5 0.0)
+# Xmaxarr=(9.00 4.0 0.0 3.0)
+# xi_a=(1000.)
+# xi_p=(1000.)
+# psi0arr=(0.008 0.010 0.012)
+# psi1arr=(0.8)
+# LENGTH_xi=$((${#xi_a[@]}-1))
+# count=0
+
+# again, result is volatile and should take much longer time to approximate.
+
+# actiontime=32
+# action_name="2jump_step0.10.10.01"
+# python_name="postdamage_2jump.py"
+# NUM_DAMAGE=3
+# ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
+# epsilonarr=(0.1 0.001)
+# fractionarr=(0.1 0.001)
+# maxiterarr=(60000 80000)
+
+# hXarr=(0.1 0.1 0.01)
+# Xminarr=(4.00 0.0 -5.5 0.0)
+# Xmaxarr=(9.00 4.0 0.0 3.0)
+# xi_a=(1000.)
+# xi_p=(1000.)
+# psi0arr=(0.008 0.010 0.012)
+# psi1arr=(0.8)
+# LENGTH_xi=$((${#xi_a[@]}-1))
+# count=0
+
+
+
+# actiontime=33
+# action_name="2jump_step0.050.10.1"
+# python_name="postdamage_2jump.py"
+# NUM_DAMAGE=3
+# ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
+# epsilonarr=(0.1 0.001)
+# fractionarr=(0.1 0.001)
+# maxiterarr=(60000 80000)
+
+# hXarr=(0.05 0.1 0.1)
+# Xminarr=(4.00 0.0 -5.5 0.0)
+# Xmaxarr=(9.00 4.0 0.0 3.0)
+# xi_a=(1000.)
+# xi_p=(1000.)
+# psi0arr=(0.008 0.010 0.012)
+# psi1arr=(0.8)
+# LENGTH_xi=$((${#xi_a[@]}-1))
+# count=0
+
+actiontime=34
+action_name="2jump_step0.010.10.1"
 python_name="postdamage_2jump.py"
 NUM_DAMAGE=3
 ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
 epsilonarr=(0.1 0.001)
 fractionarr=(0.1 0.001)
 maxiterarr=(60000 80000)
-hXarr=(0.01 0.01 0.01)
+
+hXarr=(0.01 0.1 0.1)
 Xminarr=(4.00 0.0 -5.5 0.0)
 Xmaxarr=(9.00 4.0 0.0 3.0)
 xi_a=(1000.)
@@ -373,6 +508,26 @@ psi0arr=(0.008 0.010 0.012)
 psi1arr=(0.8)
 LENGTH_xi=$((${#xi_a[@]}-1))
 count=0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 for i in $(seq 0 $ID_MAX_DAMAGE)
 do

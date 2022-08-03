@@ -292,8 +292,8 @@ fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 img = ax.scatter(K_mat.flatten(), Y_mat.flatten(), L_mat.flatten(), c=v0_diff.flatten(), cmap=plt.hot())
 fig.colorbar(img)
-plt.savefig("./abatement/pdf_2tech/cobweb_original/v0.pdf")
-plt.savefig("./abatement/pdf_2tech/cobweb_original/v0.png")
+plt.savefig("./abatement/pdf_2tech/cobweb_original/v0_diff.pdf")
+plt.savefig("./abatement/pdf_2tech/cobweb_original/v0_diff.png")
 plt.clf()
 
 

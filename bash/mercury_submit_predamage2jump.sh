@@ -25,16 +25,41 @@
 # count=0
 
 
-actiontime=2
-action_name="2jump_cobwebversion"
-python_name="predamage_2jump_cobweb.py"
+# actiontime=2
+# action_name="2jump_cobwebversion"
+# python_name="predamage_2jump_cobweb.py"
+
+
+# epsilonarr=(0.005 0.005)
+# fractionarr=(0.005 0.005)
+# maxiterarr=(90000 90000)
+
+# hXarr=(0.2 0.2 0.2)
+# Xminarr=(4.00 0.0 -5.5 0.0)
+# Xmaxarr=(9.00 4.0 0.0 3.0)
+
+
+
+# NUM_DAMAGE=3
+# ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
+# xi_a=(1000.)
+# xi_p=(1000.)
+# psi0arr=(0.008 0.010 0.012)
+# psi1arr=(0.8)
+# LENGTH_xi=$((${#xi_a[@]}-1))
+# count=0
+
+
+actiontime=10
+action_name="2jump_step_0.1_0.1_0.05_LR_0.007"
+python_name="predamage_2jump.py"
 
 
 epsilonarr=(0.005 0.005)
 fractionarr=(0.005 0.005)
 maxiterarr=(90000 90000)
 
-hXarr=(0.2 0.2 0.2)
+hXarr=(0.1 0.1 0.05)
 Xminarr=(4.00 0.0 -5.5 0.0)
 Xmaxarr=(9.00 4.0 0.0 3.0)
 
@@ -44,10 +69,12 @@ NUM_DAMAGE=3
 ID_MAX_DAMAGE=$((NUM_DAMAGE-1))
 xi_a=(1000.)
 xi_p=(1000.)
-psi0arr=(0.008 0.010 0.012)
+# psi0arr=(0.008 0.010 0.012)
+psi0arr=(0.008)
 psi1arr=(0.8)
 LENGTH_xi=$((${#xi_a[@]}-1))
 count=0
+
 
 
 
@@ -92,7 +119,7 @@ echo "\$SLURM_JOB_NAME"
 
 echo "Program starts \$(date)"
 
-python3 /home/bcheng4/TwoCapital_Shrink/abatement/$python_name --num_gamma $NUM_DAMAGE --xi_a ${xi_a[$j]} --xi_g ${xi_p[$j]}  --epsilonarr ${epsilonarr[@]}  --fractionarr ${fractionarr[@]}   --maxiterarr ${maxiterarr[@]}  --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name} --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]}
+python3 /home/bcheng4/TwoCapital_Shrink/abatement/$python_name --num_gamma $NUM_DAMAGE --xi_a ${xi_a[$j]} --xi_p ${xi_p[$j]}  --epsilonarr ${epsilonarr[@]}  --fractionarr ${fractionarr[@]}   --maxiterarr ${maxiterarr[@]}  --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name} --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]}
 
 echo "Program ends \$(date)"
 

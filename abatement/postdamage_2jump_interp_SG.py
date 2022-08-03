@@ -198,7 +198,7 @@ model_tech2_post_damage = hjb_post_damage_post_tech(
        epsilon=epsilonarr[0], fraction=fractionarr[0] ,tol=1e-8, max_iter=maxiterarr[0], print_iteration=True)
 
 
-# model_tech3_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech3_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
+# model_tech2_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
 
 v_post = model_tech2_post_damage["v"]
 V_post_3D = np.zeros_like(K_mat)
