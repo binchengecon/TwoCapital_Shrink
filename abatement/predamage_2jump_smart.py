@@ -51,6 +51,12 @@ parser.add_argument("--epsilonarr",nargs='+',type=float)
 parser.add_argument("--fractionarr",nargs='+',type=float)
 parser.add_argument("--maxiterarr",nargs='+',type=int)
 
+parser.add_argument("--hXarr_SG",nargs='+',type=float, default=(0.2, 0.2, 0.2))
+parser.add_argument("--Xminarr_SG",nargs='+',type=float, default=(4.0, 0.0, -5.5, 0.0))
+parser.add_argument("--Xmaxarr_SG",nargs='+',type=float, default=(9.0, 4.0, 0.0, 3.0))
+parser.add_argument("--fstr_SG",type=str,default="LinearNDInterpolator")
+parser.add_argument("--interp_action_name",type=str)
+
 args = parser.parse_args()
 
 
@@ -175,33 +181,45 @@ upperLims = np.array([X1_max, X2_max, X3_max], dtype=np.float64)
 print("-------------------------------------------")
 print("------------Post damage, Tech II----------")
 print("-------------------------------------------")
-# model_tech2_post_damage =  []
-# for i in range(len(gamma_3_list)):
-#     gamma_3_i = gamma_3_list[i]
-#     model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
-#     model_tech2_post_damage.append(model_i)
 
-# # model_tech3_post_damage.append(v_post_i)
-# with open(Data_Dir+ File_Name + "model_tech2_post_damage", "wb") as f:
-#     pickle.dump(model_tech2_post_damage, f)
+model_dir_post = Data_Dir+ File_Name + "model_tech2_post_damage"
+if os.path.exists(model_dir_post):
+    model_tech2_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech2_post_damage", "rb"))
+else:
+    model_tech2_post_damage =  []
+    for i in range(len(gamma_3_list)):
+        gamma_3_i = gamma_3_list[i]
+        model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
+        model_tech2_post_damage.append(model_i)
 
-model_tech2_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech2_post_damage", "rb"))
+    # model_tech3_post_damage.append(v_post_i)
+    with open(Data_Dir+ File_Name + "model_tech2_post_damage", "wb") as f:
+        pickle.dump(model_tech2_post_damage, f)
+    model_tech2_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech2_post_damage", "rb"))
+
+
 print("Compiled.")
 
 # Post damage, tech I
 print("-------------------------------------------")
 print("------------Post damage, Tech I-----------")
 print("-------------------------------------------")
-# model_tech1_post_damage = []
-# for i in range(len(gamma_3_list)):
-#     gamma_3_i = gamma_3_list[i]
-#     model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
-#     model_tech1_post_damage.append(model_i)
 
-# with open(Data_Dir+ File_Name + "model_tech1_post_damage", "wb") as f:
-#     pickle.dump(model_tech1_post_damage, f)
+model_dir_post2 = Data_Dir+ File_Name  + "model_tech1_post_damage" 
+if os.path.exists(model_dir_post2):
+    model_tech1_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage", "rb"))
+else:
+    model_tech1_post_damage = []
+    for i in range(len(gamma_3_list)):
+        gamma_3_i = gamma_3_list[i]
+        model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
+        model_tech1_post_damage.append(model_i)
 
-model_tech1_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage", "rb"))
+    with open(Data_Dir+ File_Name + "model_tech1_post_damage", "wb") as f:
+        pickle.dump(model_tech1_post_damage, f)
+
+    model_tech1_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage", "rb"))
+    
 print("Compiled.")
 
 # delete the separate files
@@ -263,6 +281,7 @@ model_tech2_pre_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech2_pre
 ######################################
 ##########End of Compute##############
 ######################################
+
 
 
 # Pre damage, tech I

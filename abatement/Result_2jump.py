@@ -106,7 +106,7 @@ stateSpace = np.hstack([K_mat.reshape(-1,1,order = 'F'), Y_mat.reshape(-1,1,orde
 
 
 
-IntPeriod = 50
+IntPeriod = 60
 timespan = 1/12
 
 # psi_0_grid = np.array([0.006,0.009])
@@ -123,11 +123,11 @@ psi_0_meshgrid_1d =psi_0_meshgrid.ravel(order='F')
 psi_1_meshgrid_1d = psi_1_meshgrid.ravel(order='F')
 
 
-font = {'family' : 'monospace',
-        'weight' : 'bold',
-        'size'   : 18}
-
-plt.rc('font', **font)  # pass in the font dict as kwargs
+mpl.rcParams["lines.linewidth"] = 2.5
+mpl.rcParams["savefig.bbox"] = "tight"
+mpl.rcParams["figure.figsize"] = (8,5)
+mpl.rcParams["font.size"] = 13
+mpl.rcParams["legend.frameon"] = False
 
 
 def simulate_pre(
@@ -254,10 +254,6 @@ def simulate_pre(
                 climate_func = climate_func_list[i]
                 pi_c_t[i, 0] = climate_func(hist[0, :])
             
-#             gt_dmg[0] = damage_func(hist[0, :])
-#             ME_base_t[0] = ME_base_func(hist[0, :])
-            
-#             scc_hist[0] = scc_func(hist[0, :])
 
         else:
             # other periods
@@ -383,6 +379,8 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,Ig_initial = 1/120):
         return res
 
 
+
+
     def graph_solution_extraction(res):
 
         PDF_Dir = "./abatement/pdf_2tech/"+args.dataname+"/"
@@ -390,7 +388,7 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,Ig_initial = 1/120):
         if not os.path.exists(PDF_Dir):
             os.mkdir(PDF_Dir)
 
-        File_Dir = args.pdfname+"_Psi0_8_Psi1_8" 
+        File_Dir = args.pdfname+"_Psi0_8_Psi1_81012" 
         
         pdf_pages = PdfPages(PDF_Dir+File_Dir+'Years_'+str(IntPeriod)+'.pdf')
 
@@ -522,7 +520,30 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,Ig_initial = 1/120):
         plt.close()
 
         pdf_pages.close()          
-    
+
+        # R&D Investment
+
+        # plt.plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k]),linewidth=7.0)
+        # # axs1[0].plot(res[k]["years"], (res[k]["x"]),label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k]),linewidth=7.0)
+        # plt.set_xlabel('Years')
+        # plt.set_ylabel('$\%$ of GDP')
+        # plt.set_title('R&D investment as percentage of  GDP')            
+        # # plt.set_ylabel('unit of capital')
+        # # plt.set_title('R&D investment in unit of capital')
+        # plt.grid(linestyle=':')
+        for k in range(len(psi_0_meshgrid_1d)):
+
+            plt.legend(loc='upper right')        
+            # plt.plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k]),color="C3")
+            plt.plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k]))
+
+            plt.xlabel('Years')
+            plt.ylabel('$\%$ of GDP')
+            plt.title('R&D investment as percentage of  GDP')   
+            plt.ylim(0)
+
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RDInvestment.pdf")
+        plt.close()
     
     res = []
     for psi_0,psi_1 in zip(psi_0_meshgrid_1d,psi_1_meshgrid_1d):
