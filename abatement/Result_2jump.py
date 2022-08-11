@@ -358,24 +358,41 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,Ig_initial = 1/120):
 
 
         File_Dir = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_" .format(xi_a,xi_g,psi_0,psi_1)
+        model_dir_post = Data_Dir + File_Dir+"model_tech1_pre_damage"
 
-        with open(Data_Dir + File_Dir+"model_tech1_pre_damage", "rb") as f:
-            tech1 = pickle.load(f)
-        
+        model_simul_dir_post = Data_Dir + File_Dir+"model_tech1_pre_damage_simul"
 
-        model_args = (delta, mu_k, kappa,sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar)
-        i = tech1["i_star"]
-        e = tech1["e_star"]
-        x = tech1["x_star"]
-        pi_c = tech1["pi_c"]
-        g_tech = tech1["g_tech"]
-        g_damage =  tech1["g_damage"]
+
+        if os.path.exists(model_simul_dir_post):
+            print("which passed 1")
+            res = pickle.load(open(model_simul_dir_post, "rb"))
+
+        else:
+            print("which passed 2")
+
+            with open(model_dir_post, "rb") as f:
+                tech1 = pickle.load(f)
+            
+            model_args = (delta, mu_k, kappa,sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar)
+            i = tech1["i_star"]
+            e = tech1["e_star"]
+            x = tech1["x_star"]
+            pi_c = tech1["pi_c"]
+            g_tech = tech1["g_tech"]
+            g_damage =  tech1["g_damage"]
+            
+            
+            # g_damage = np.ones((1, nK, nY, nL))
+            res = simulate_pre(grid = (K, Y_short, L), model_args = model_args, 
+                                        controls = (i,e,x, g_tech, g_damage, pi_c), 
+                                        T0=0, T=IntPeriod, dt=timespan,printing=False)
+
+            with open(model_simul_dir_post, "wb") as f:
+                pickle.dump(res,f)
+
+            res = pickle.load(open(model_simul_dir_post, "rb"))
+
         
-        
-        # g_damage = np.ones((1, nK, nY, nL))
-        res = simulate_pre(grid = (K, Y_short, L), model_args = model_args, 
-                                    controls = (i,e,x, g_tech, g_damage, pi_c), 
-                                    T0=0, T=IntPeriod, dt=timespan,printing=False)
         return res
 
 
@@ -535,7 +552,7 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,Ig_initial = 1/120):
 
             plt.legend(loc='upper left')        
             # plt.plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k]),color="C3")
-            plt.plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k]))
+            plt.plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label='$\\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$, \\psi_1=$'+str(psi_1_meshgrid_1d[k]))
             plt.grid(linestyle=':')
             plt.xlabel('Years')
             plt.ylabel('$\%$ of GDP')
@@ -543,13 +560,14 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,Ig_initial = 1/120):
             plt.ylim(0)
 
         plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RDInvestment.pdf")
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RDInvestment.png")
         plt.close()
 
         for k in range(len(psi_0_meshgrid_1d)):
 
             plt.legend(loc='upper left')        
             # plt.plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k]),color="C3")
-            plt.plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label=r'$\psi_0=${:.4f},'+'$\psi_1=${:.4f}'.format(psi_0_meshgrid_1d[k],psi_1_meshgrid_1d[k])  )
+            plt.plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label='$\\psi_0=$'+'{:.3f},'+'$\\psi_1=${:.3f}'.format(psi_0_meshgrid_1d[k],psi_1_meshgrid_1d[k])  )
             plt.grid(linestyle=':')
             plt.xlabel('Years')
             plt.ylabel('$\%$ of GDP')
@@ -557,6 +575,7 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,Ig_initial = 1/120):
             plt.ylim(0)
 
         plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RDInvestment_newlegend.pdf")
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RDInvestment_newlegend.png")
         plt.close()
     
     res = []
