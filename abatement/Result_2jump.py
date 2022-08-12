@@ -551,14 +551,14 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,Ig_initial = 1/120):
         # plt.grid(linestyle=':')
         for k in range(len(psi_0_meshgrid_1d)):
 
-            plt.legend(loc='upper left')        
             # plt.plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k]),color="C3")
             plt.plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label='$\\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$, \\psi_1=$'+str(psi_1_meshgrid_1d[k]))
             plt.grid(linestyle=':')
             plt.xlabel('Years')
             plt.ylabel('$\%$ of GDP')
             plt.title('R&D investment as percentage of  GDP')   
-            plt.ylim(0)
+            plt.ylim(0,0.4)
+            plt.legend(loc='upper left')        
 
         plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RDInvestment.pdf")
         plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RDInvestment.png")
@@ -566,14 +566,14 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,Ig_initial = 1/120):
 
         for k in range(len(psi_0_meshgrid_1d)):
 
-            plt.legend(loc='upper left')        
             # plt.plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k]),color="C3")
             plt.plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label='$\\psi_0=$'+'{:.3f},'+'$\\psi_1=${:.3f}'.format(psi_0_meshgrid_1d[k],psi_1_meshgrid_1d[k])  )
             plt.grid(linestyle=':')
             plt.xlabel('Years')
             plt.ylabel('$\%$ of GDP')
             plt.title('R&D investment as percentage of  GDP')   
-            plt.ylim(0)
+            plt.ylim(0,0.4)
+            plt.legend(loc='upper left')        
 
         plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RDInvestment_newlegend.pdf")
         plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RDInvestment_newlegend.png")
