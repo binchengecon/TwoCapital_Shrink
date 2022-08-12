@@ -567,7 +567,7 @@ def graph2(psi_0_meshgrid_1d,psi_1_meshgrid_1d,Ig_initial = 1/120):
         for k in range(len(psi_0_meshgrid_1d)):
 
             # plt.plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k]),color="C3")
-            plt.plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label='$\\psi_0=$'+'{:.3f},'+'$\\psi_1=${:.3f}'.format(psi_0_meshgrid_1d[k],psi_1_meshgrid_1d[k])  )
+            plt.plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label='$\psi_0=${:.3f},$\psi_1=${:.3f}' .format(psi_0_meshgrid_1d[k],psi_1_meshgrid_1d[k])  )
             plt.grid(linestyle=':')
             plt.xlabel('Years')
             plt.ylabel('$\%$ of GDP')
