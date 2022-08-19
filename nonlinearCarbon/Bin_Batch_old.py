@@ -350,7 +350,7 @@ if ImpulsePattern == 0:
     # ImpulseStep = 100
     # ImpulsePathSize = int((ImpulseMax-ImpulseMin)/ImpulseStep )
 
-    Carbon   = np.array([0, 100, 500, 1000, 5000, 10000, 50000, 100000])
+    Carbon   = np.array([0, 100, 500, 1000])
 
     ImpulsePathSize = len(Carbon)
     CeMatrix = np.zeros((ImpulsePathSize,t_span))
@@ -376,7 +376,8 @@ elif ImpulsePattern ==2:
 ## cearth, tauc Path
 
 cearth_taucMatrix = [[35., 6603. ],
-                     [0.107, 20]    ]
+                     [0.107, 20],
+                     [0.373, 30]]
 
 cearth_taucMatrixSize = len(cearth_taucMatrix)
 
@@ -417,7 +418,7 @@ for ctpathnum in range(cearth_taucMatrixSize):
         axs[2].plot(tv, Tvmid-TvmidBase, label=f"ImpulseValue_{CeMatrix[pathnum,plotnum]*2.13}_Compared2_0")
         axs[2].set_xlabel('Time (year)',fontsize = 16)
         axs[2].set_ylabel('Degree Celsius',fontsize = 16)
-        axs[2].set_title('Impulse Response per Teratonne of Carbon')
+        axs[2].set_title('Impulse Response per Gigatonne of Carbon')
         axs[2].grid(linestyle=':')
         axs[2].legend()
 
@@ -428,6 +429,7 @@ for ctpathnum in range(cearth_taucMatrixSize):
 
     plt.tight_layout()
     plt.savefig(f"ImpulsePtn_{ImpulsePattern}_cearth_{cearth}_tauc_{tauc}.pdf")
+    plt.savefig(f"ImpulsePtn_{ImpulsePattern}_cearth_{cearth}_tauc_{tauc}.png")
 
 
 

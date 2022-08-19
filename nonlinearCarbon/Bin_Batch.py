@@ -489,8 +489,8 @@ Figure_Dir = "./nonlinearCarbon/figure/"
 
 for ctpathnum in range(cearth_taucMatrixSize):
     figwidth = 10
-    fig, axs = plt.subplots(4, 1, sharex=True, figsize=(2  * figwidth, 2 *figwidth))
-    # fig, axs = plt.subplots(3, 1, sharex=True, figsize=(2  * figwidth, 2 *figwidth))
+    # fig, axs = plt.subplots(4, 1, sharex=True, figsize=(2  * figwidth, 2 *figwidth))
+    fig, axs = plt.subplots(3, 1, sharex=True, figsize=(2  * figwidth, 2 *figwidth))
     TvmidBase = np.zeros(10000)
 
     for pathnum in range(ImpulsePathSize):
@@ -524,12 +524,12 @@ for ctpathnum in range(cearth_taucMatrixSize):
         axs[2].set_title('Impulse Response per Gigatonne of Carbon')
         axs[2].grid(linestyle=':')
         axs[2].legend()        
-        axs[3].plot(tv, Gv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
-        axs[3].set_xlabel('Time (year)',fontsize = 16)
-        axs[3].set_ylabel('Total',fontsize = 16)
-        axs[3].set_title('Total Emission')
-        axs[3].grid(linestyle=':')
-        axs[3].legend()
+        # axs[3].plot(tv, Gv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
+        # axs[3].set_xlabel('Time (year)',fontsize = 16)
+        # axs[3].set_ylabel('Total',fontsize = 16)
+        # axs[3].set_title('Total Emission')
+        # axs[3].grid(linestyle=':')
+        # axs[3].legend()
 
 
 
