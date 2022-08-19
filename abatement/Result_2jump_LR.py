@@ -489,7 +489,6 @@ def graph2(psi_0_grid,psi_1_grid,Ig_initial = 1/120):
         for k in range(len(psi_0_grid)):
 
 
-
             axs3[0].plot(res[k]["years"], res[k]["distorted_tech_prob"],label=r'$\psi_0=$'+str(psi_0_grid[k])+'$\psi_1=$'+str(psi_1_grid[k]),linewidth=7.0)
             # axs3[0].plot(res2["years"], res2["distorted_tech_prob"],label=r'$\xi_p=\xi_g=0.050$',linewidth=7.0)
             # axs3[0].plot(res3["years"], res3["distorted_tech_prob"],label='baseline',linewidth=7.0)
