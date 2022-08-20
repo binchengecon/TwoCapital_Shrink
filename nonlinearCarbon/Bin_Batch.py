@@ -527,7 +527,10 @@ for ctpathnum in range(cearth_taucMatrixSize):
         axs[1].set_title('Carbon Concentration Dynamics')
         axs[1].grid(linestyle=':')
         axs[1].legend()
-        axs[2].plot(tv, Tvmid-TvmidBase, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
+        if pathnum==0:
+            axs[2].plot(tv, Tvmid-TvmidBase, label="baseline")
+        else: 
+            axs[2].plot(tv, Tvmid-TvmidBase, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
         axs[2].set_xlabel('Time (year)')
         axs[2].set_ylabel('Degree Celsius')
         axs[2].set_title('Impulse Response per Gigatonne of Carbon')
