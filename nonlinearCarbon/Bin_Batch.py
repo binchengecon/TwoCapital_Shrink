@@ -523,8 +523,8 @@ for ctpathnum in range(cearth_taucMatrixSize):
             axs[0].plot(tv, Tvmid, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
         # axs[0].plot(tv, Tvmid, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
         axs[0].set_xlabel('Time (year)')
-        axs[0].set_ylabel('Temperature  (K)')
-        axs[0].set_title('Temperature Anomaly Dynamics')
+        axs[0].set_ylabel('Temperature (K)')
+        axs[0].set_title('Temperature Anomaly Dynamics T')
         axs[0].grid(linestyle=':')
         axs[0].legend()
         if pathnum==0:
@@ -534,7 +534,7 @@ for ctpathnum in range(cearth_taucMatrixSize):
         # axs[1].plot(tv, Cv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
         axs[1].set_xlabel('Time (year)')
         axs[1].set_ylabel('Carbon (ppm)')
-        axs[1].set_title('Carbon Concentration Dynamics')
+        axs[1].set_title('Carbon Concentration Dynamics C')
         axs[1].grid(linestyle=':')
         axs[1].legend()
         if pathnum==0:
@@ -545,7 +545,7 @@ for ctpathnum in range(cearth_taucMatrixSize):
         # axs[2].plot(tv, Gv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
         axs[2].set_xlabel('Time (year)',fontsize = 16)
         axs[2].set_ylabel('Total',fontsize = 16)
-        axs[2].set_title('Total Emission')
+        axs[2].set_title('Total Emission Dynamics G')
         axs[2].grid(linestyle=':')
         axs[2].legend()
         if pathnum==0:
