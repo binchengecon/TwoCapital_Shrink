@@ -437,8 +437,8 @@ for ctpathnum in range(cearth_taucMatrixSize):
 
     plt.tight_layout()
 
-    plt.savefig(Figure_Dir+f"ImpulsePtn_{ImpulsePattern}_cearth_{cearth}_tauc_{tauc}_old.pdf")
-    plt.savefig(Figure_Dir+f"ImpulsePtn_{ImpulsePattern}_cearth_{cearth}_tauc_{tauc}_old.png")
+    plt.savefig(Figure_Dir+f"ImpulsePtn={ImpulsePattern}, cearth={cearth}, tauc={tauc}_old.pdf")
+    plt.savefig(Figure_Dir+f"ImpulsePtn={ImpulsePattern}, cearth={cearth}, tauc={tauc}_old.png")
 
 
 
