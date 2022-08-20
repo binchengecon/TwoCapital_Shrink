@@ -29,7 +29,7 @@ from scipy import fft, arange, signal
 mpl.rcParams["lines.linewidth"] = 2.5
 mpl.rcParams["savefig.bbox"] = "tight"
 mpl.rcParams["figure.figsize"] = (8,5)
-mpl.rcParams["font.size"] = 13
+mpl.rcParams["font.size"] = 18
 mpl.rcParams["legend.frameon"] = False
 
 ##################################################################
@@ -458,7 +458,7 @@ if ImpulsePattern == 0:
     # ImpulseStep = 100
     # ImpulsePathSize = int((ImpulseMax-ImpulseMin)/ImpulseStep )
 
-    Carbon   = np.array([0, 100, 500, 1000])
+    Carbon   = np.array([0, 100, 250, 500])
 
     ImpulsePathSize = len(Carbon)
     CeMatrix = np.zeros((ImpulsePathSize,t_span))
@@ -497,7 +497,7 @@ Figure_Dir = "./nonlinearCarbon/figure/"
 for ctpathnum in range(cearth_taucMatrixSize):
     figwidth = 10
     # fig, axs = plt.subplots(4, 1, sharex=True, figsize=(2  * figwidth, 2 *figwidth))
-    fig, axs = plt.subplots(3, 1, sharex=True, figsize=(2  * figwidth, 2 *figwidth))
+    fig, axs = plt.subplots(3, 1, sharex=True, figsize=(12, 2 *figwidth))
     TvmidBase = np.zeros(10000)
 
     for pathnum in range(ImpulsePathSize):
@@ -514,8 +514,8 @@ for ctpathnum in range(cearth_taucMatrixSize):
             TvmidBase = Tvmid
 
         axs[0].plot(tv, Tvmid, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
-        axs[0].set_xlabel('Time (year)',fontsize = 16)
-        axs[0].set_ylabel('Temperature  (K)',fontsize = 16)
+        axs[0].set_xlabel('Time (year)')
+        axs[0].set_ylabel('Temperature  (K)')
         axs[0].set_title('Temperature Anomaly Dynamics')
         axs[0].grid(linestyle=':')
         axs[0].legend()
@@ -526,8 +526,8 @@ for ctpathnum in range(cearth_taucMatrixSize):
         axs[1].grid(linestyle=':')
         axs[1].legend()
         axs[2].plot(tv, Tvmid-TvmidBase, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
-        axs[2].set_xlabel('Time (year)',fontsize = 16)
-        axs[2].set_ylabel('Degree Celsius',fontsize = 16)
+        axs[2].set_xlabel('Time (year)')
+        axs[2].set_ylabel('Degree Celsius')
         axs[2].set_title('Impulse Response per Gigatonne of Carbon')
         axs[2].grid(linestyle=':')
         axs[2].legend()        
