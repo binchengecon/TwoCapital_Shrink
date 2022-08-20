@@ -395,7 +395,7 @@ Figure_Dir = "./nonlinearCarbon/figure/"
 
 for ctpathnum in range(cearth_taucMatrixSize):
     figwidth = 10
-    fig, axs = plt.subplots(3, 1, sharex=True, figsize=(2  * figwidth, 2 *figwidth))
+    fig, axs = plt.subplots(3, 1, sharex=True, figsize=(12, 2 *figwidth))
     TvmidBase = np.zeros(10000)
 
     for pathnum in range(ImpulsePathSize):
