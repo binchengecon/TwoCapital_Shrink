@@ -437,7 +437,8 @@ def model2(Ts, Cs, Gs, cearth, tauc, Ce=np.zeros(t_span)):
     tv = sol.t
 
 
-    Tvmid = Tv - 286.7 
+    # Tvmid = Tv - 286.7 
+    Tvmid = Tv - 286.6
 
     return tv, Tvmid, Cv, Gv
 

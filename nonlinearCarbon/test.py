@@ -1,6 +1,7 @@
-##################################################################
-## Section 1: Global Parameters and Library
-##################################################################
+
+from numpy import meshgrid
+from sklearn.cluster import mean_shift
+
 
 
 ##################################################################
@@ -24,6 +25,9 @@ import scipy.optimize as optim
 from scipy.optimize import curve_fit
 from scipy import interpolate
 from scipy import fft, arange, signal
+
+
+
 
 ##################################################################
 ## Section 1.2: Parameter Initialization
@@ -77,39 +81,102 @@ sa = 1 # Switch to take anthropogenic emissions
 
 
 ##################################################################
-##################################################################
-##################################################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-##################################################################
-## Section 2: Function Definitions
+## Section 3.1: Model Parameter
 ##################################################################
 
+sa = 1
+Ts = 286.7 + 0.56 # 282.9
+Cs = 389 # 275.5
+
+#wa = 0.05
+#cod = 0.15
+alphaland = 0.28
+bP = 0.05
+bB = 0.08
+cod = 3.035
+
+# cearth = 0.107
+# tauc = 20
+# cearth = 35.
+# tauc = 6603.
+
+coc0 =350
+## Ocean albedo parameters
+Talphaocean_low = 219
+Talphaocean_high = 299
+alphaocean_max = 0.84
+alphaocean_min = 0.255
+
+
+Cbio_low = 50
+Cbio_high = 700
+
+T0 = 298
+C0 = 280
+
+## CO2 uptake by vegetation
+wa = 0.015
+vegcover = 0.4
+
+Thigh = 315
+Tlow = 282
+Topt1 = 295
+Topt2 = 310
+acc = 5
+
+
 ##################################################################
-## Section 2.1: Definitions
-################################################################## 
-
-## Time Period: 100 Years
-
+## Section 3.1: Function Parameter
+##################################################################
 t_span = 100
+
+
+
+
+##################################################################
+## Impulse Path
+ImpulsePattern = 0
+
+## Pattern = 1
+if ImpulsePattern == 0:
+    """Equivalent Impulse Horizon with Hetero-Value"""
+    # ImpulseMin = 0 
+    # ImpulseMax = 1100
+    # ImpulseStep = 100
+    # ImpulsePathSize = int((ImpulseMax-ImpulseMin)/ImpulseStep )
+
+    Carbon   = np.array([0, 100, 500, 1000])
+
+    ImpulsePathSize = len(Carbon)
+    CeMatrix = np.zeros((ImpulsePathSize,t_span))
+
+    CeMatrix[:,0] =     Carbon[:] /2.13
+
+elif ImpulsePattern ==1:
+    """Heterogenous Impulse Horizon with Homo-value"""
+    ImpulsePathSize = 10
+    ImpulseValue = 100
+    
+    CeMatrix = ImpulseValue*np.eye(ImpulsePathSize, t_span)
+
+elif ImpulsePattern ==2:
+    """Fixed Impulse Response"""
+    ImpulsePathSize = 2
+    ImpulseValue = 10
+    
+    CeMatrix = np.zeros((ImpulsePathSize, t_span))
+    CeMatrix[1,:] = ImpulseValue*np.ones((1,t_span))/2.13
+
+
+## cearth, tauc Path
+
+cearth_taucMatrix = [[35., 6603. ],
+                     [10, 1886]    ]
+
+cearth_taucMatrixSize = len(cearth_taucMatrix)
+
+
+
 t_val = np.linspace(0, t_span-1, t_span)
 
 def Yam(t,CcTemp):
@@ -273,119 +340,12 @@ def model(Ts, Cs, cearth, tauc, Ce=np.zeros(t_span)):
     tv = sol.t
 
 
-    # Tvmid = Tv - 286.7 
-    Tvmid = Tv - 286.7 -0.56
+    Tvmid = Tv - 286.7 
 
     return tv, Tvmid, Cv
 
-##################################################################
-##################################################################
-##################################################################
 
-
-
-
-
-
-
-##################################################################
-## Section 3: Model Execution
-##################################################################
-
-##################################################################
-## Section 3.1: Model Parameter
-##################################################################
-
-sa = 1
-Ts = 286.7 + 0.56 # 282.9
-Cs = 389 # 275.5
-
-#wa = 0.05
-#cod = 0.15
-alphaland = 0.28
-bP = 0.05
-bB = 0.08
-cod = 3.035
-
-# cearth = 0.107
-# tauc = 20
-# cearth = 35.
-# tauc = 6603.
-
-coc0 =350
-## Ocean albedo parameters
-Talphaocean_low = 219
-Talphaocean_high = 299
-alphaocean_max = 0.84
-alphaocean_min = 0.255
-
-
-Cbio_low = 50
-Cbio_high = 700
-
-T0 = 298
-C0 = 280
-
-## CO2 uptake by vegetation
-wa = 0.015
-vegcover = 0.4
-
-Thigh = 315
-Tlow = 282
-Topt1 = 295
-Topt2 = 310
-acc = 5
-
-##################################################################
-## Section 3.2: Model with Different Impulse Path
-##################################################################
-
-## Impulse Path
-ImpulsePattern = 0
-
-## Pattern = 1
-if ImpulsePattern == 0:
-    """Equivalent Impulse Horizon with Hetero-Value"""
-    # ImpulseMin = 0 
-    # ImpulseMax = 1100
-    # ImpulseStep = 100
-    # ImpulsePathSize = int((ImpulseMax-ImpulseMin)/ImpulseStep )
-
-    Carbon   = np.array([0, 100, 500, 1000])
-
-    ImpulsePathSize = len(Carbon)
-    CeMatrix = np.zeros((ImpulsePathSize,t_span))
-
-    CeMatrix[:,0] =     Carbon[:] /2.13
-
-elif ImpulsePattern ==1:
-    """Heterogenous Impulse Horizon with Homo-value"""
-    ImpulsePathSize = 10
-    ImpulseValue = 100
     
-    CeMatrix = ImpulseValue*np.eye(ImpulsePathSize, t_span)
-
-elif ImpulsePattern ==2:
-    """Fixed Impulse Response"""
-    ImpulsePathSize = 2
-    ImpulseValue = 10
-    
-    CeMatrix = np.zeros((ImpulsePathSize, t_span))
-    CeMatrix[1,:] = ImpulseValue*np.ones((1,t_span))/2.13
-
-
-## cearth, tauc Path
-
-cearth_taucMatrix = [[35., 6603. ],
-                     [0.107, 20],
-                     [0.373, 30]]
-
-cearth_taucMatrixSize = len(cearth_taucMatrix)
-
-
-Figure_Dir = "./nonlinearCarbon/figure/"
-
-## Looping
 
 for ctpathnum in range(cearth_taucMatrixSize):
     figwidth = 10
@@ -401,13 +361,19 @@ for ctpathnum in range(cearth_taucMatrixSize):
         tv, Tvmid, Cv = model(Ts, Cs, cearth, tauc, Ce)
 
         plotnum = ImpulsePattern*pathnum
-
+        
+        
+        Coef_Correction = 1
+        
         if pathnum ==0:
             TvmidBase = Tvmid
 
+        else :
+            Coef_Correction = Carbon[-1]/Carbon[pathnum]
+
         axs[0].plot(tv, Tvmid, label=f"ImpulseValue_{CeMatrix[pathnum,plotnum]*2.13}")
-        axs[0].set_xlabel('Time (year)')
-        axs[0].set_ylabel('Temperature  (K)')
+        axs[0].set_xlabel('Time (year)',fontsize = 16)
+        axs[0].set_ylabel('Temperature  (K)',fontsize = 16)
         axs[0].set_title('Temperature Anomaly Dynamics')
         axs[0].grid(linestyle=':')
         axs[0].legend()
@@ -417,85 +383,17 @@ for ctpathnum in range(cearth_taucMatrixSize):
         axs[1].set_title('Carbon Concentration Dynamics')
         axs[1].grid(linestyle=':')
         axs[1].legend()
-        axs[2].plot(tv, Tvmid-TvmidBase, label=f"ImpulseValue_{CeMatrix[pathnum,plotnum]*2.13}_Compared2_0")
-        axs[2].set_xlabel('Time (year)')
-        axs[2].set_ylabel('Degree Celsius')
-        axs[2].set_title('Impulse Response per Gigatonne of Carbon')
+        axs[2].plot(tv, (Tvmid-TvmidBase)*Coef_Correction, label=f"ImpulseValue_{CeMatrix[pathnum,plotnum]*2.13}_Compared2_0")
+        axs[2].set_xlabel('Time (year)',fontsize = 16)
+        axs[2].set_ylabel('Degree Celsius',fontsize = 16)
+        axs[2].set_title('Impulse Response per Teratonne of Carbon')
         axs[2].grid(linestyle=':')
         axs[2].legend()
 
 
 
-        # np.save(f"ImpPtnPath_{ImpulsePattern}_{CeMatrix[pathnum,plotnum]*2.13}_cearth_{cearth}_tauc_{tauc}.npy", [tv, Tvmid, Cv])
-
 
     plt.tight_layout()
-
-    plt.savefig(Figure_Dir+f"ImpulsePtn_{ImpulsePattern}_cearth_{cearth}_tauc_{tauc}_old.pdf")
-    plt.savefig(Figure_Dir+f"ImpulsePtn_{ImpulsePattern}_cearth_{cearth}_tauc_{tauc}_old.png")
+    plt.savefig(f"./nonlinearCarbon/Year_{t_span}_ImpulsePtn_{ImpulsePattern}_cearth_{cearth}_tauc_{tauc}.png")
 
 
-
-
-
-
-
-##################################################################
-## Section 3.3: Model Testing
-##################################################################
-
-# TestCode = 2
-
-# Ce_test = np.load("test2.npy")
-
-
-# ImpulsePathSize = 1
-    
-# CeMatrix = np.zeros((ImpulsePathSize, t_span))
-# CeMatrix[0,:] = Ce_test[0:t_span]
-
-
-
-# ## cearth, tauc Path
-
-# cearth_taucMatrix = [# [35., 6603. ],
-#                      [0.107, 20]    ]
-
-# cearth_taucMatrixSize = len(cearth_taucMatrix)
-
-
-
-# ## Looping
-
-# for ctpathnum in range(cearth_taucMatrixSize):
-#     figwidth = 10
-#     fig, axs = plt.subplots(1, 2, sharex=True, figsize=(2 * figwidth, 0.5 * figwidth))
-#     for pathnum in range(ImpulsePathSize):
-
-#         Ce = CeMatrix[pathnum,:]
-#         cearth, tauc = cearth_taucMatrix[ctpathnum]
-
-#         tv, Tvmid, Cv = model(Ts, Cs, cearth, tauc, Ce)
-
-#         axs[0].plot(tv, Tvmid, label=f"ImpPtnPath_{ImpulsePattern}_{CeMatrix[pathnum,0]}_cearth_{cearth}_tauc_{tauc}")
-#         axs[0].set_xlabel('Time (year)',fontsize = 16)
-#         axs[0].set_ylabel('Temperature (K)',fontsize = 16)
-#         axs[0].set_title('Temperature dynamics')
-#         axs[0].grid(linestyle=':')
-#         axs[0].legend()
-#         axs[1].plot(tv, Cv, label=f"ImpPtnPath_{ImpulsePattern}_{CeMatrix[pathnum,0]}_cearth_{cearth}_tauc_{tauc}")
-#         axs[1].set_xlabel('Time (year)')
-#         axs[1].set_ylabel('Carbon (ppm)')
-#         axs[1].set_title('Carbon dynamics')
-#         axs[1].grid(linestyle=':')
-#         axs[1].legend()
-#         np.save(f"TestCode_{TestCode}_{CeMatrix[pathnum,0]}_cearth_{cearth}_tauc_{tauc}.npy", [tv, Tvmid, Cv])
-
-#     plt.tight_layout()
-#     plt.savefig(f"TestCode_{TestCode}_cearth_{cearth}_tauc_{tauc}.pdf")
-
-
-# res = np.load("ImpPtnPath_0_469.4835680751174_cearth_0.107_tauc_20.npy")
-# res2 = np.load("ImpPtnPath_0_422.53521126760563_cearth_0.107_tauc_20.npy")
-
-# print(res-res2)

@@ -55,6 +55,6 @@ for ctpathnum in range(cearth_taucMatrixSize):
 
 
     plt.tight_layout()
-    plt.savefig(f"./nonlinearCarbon/Year_{t_span}_ImpulsePtn_{ImpulsePattern}_cearth_{cearth}_tauc_{tauc}.pdf")
+    plt.savefig(f"./nonlinearCarbon/Year_{t_span}_ImpulsePtn_{ImpulsePattern}_cearth_{cearth}_tauc_{tauc}.png")
 
 

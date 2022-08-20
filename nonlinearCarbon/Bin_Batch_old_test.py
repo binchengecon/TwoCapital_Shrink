@@ -82,10 +82,44 @@ sa = 1 # Switch to take anthropogenic emissions
 
 
 
+sa = 1
+Ts = 286.7 + 0.56 # 282.9
+Cs = 389 # 275.5
+
+#wa = 0.05
+#cod = 0.15
+alphaland = 0.28
+bP = 0.05
+bB = 0.08
+cod = 3.035
+# cearth = 0.107
+# tauc = 20
+cearth = 35.
+tauc = 6603.
+coc0 =350
+
+## Ocean albedo parameters
+Talphaocean_low = 219
+Talphaocean_high = 299
+alphaocean_max = 0.84
+alphaocean_min = 0.255
 
 
+Cbio_low = 50
+Cbio_high = 700
 
+T0 = 298
+C0 = 280
 
+## CO2 uptake by vegetation
+wa = 0.015
+vegcover = 0.4
+
+Thigh = 315
+Tlow = 282
+Topt1 = 295
+Topt2 = 310
+acc = 5
 
 
 
@@ -273,8 +307,7 @@ def model(Ts, Cs, cearth, tauc, Ce=np.zeros(t_span)):
     tv = sol.t
 
 
-    # Tvmid = Tv - 286.7 
-    Tvmid = Tv - 286.7 -0.56
+    Tvmid = Tv - 286.7 
 
     return tv, Tvmid, Cv
 
@@ -296,45 +329,45 @@ def model(Ts, Cs, cearth, tauc, Ce=np.zeros(t_span)):
 ## Section 3.1: Model Parameter
 ##################################################################
 
-sa = 1
-Ts = 286.7 + 0.56 # 282.9
-Cs = 389 # 275.5
+# sa = 1
+# Ts = 286.7 + 0.56 # 282.9
+# Cs = 389 # 275.5
 
-#wa = 0.05
-#cod = 0.15
-alphaland = 0.28
-bP = 0.05
-bB = 0.08
-cod = 3.035
+# #wa = 0.05
+# #cod = 0.15
+# alphaland = 0.28
+# bP = 0.05
+# bB = 0.08
+# cod = 3.035
 
-# cearth = 0.107
-# tauc = 20
-# cearth = 35.
-# tauc = 6603.
+# # cearth = 0.107
+# # tauc = 20
+# # cearth = 35.
+# # tauc = 6603.
 
-coc0 =350
-## Ocean albedo parameters
-Talphaocean_low = 219
-Talphaocean_high = 299
-alphaocean_max = 0.84
-alphaocean_min = 0.255
+# coc0 =350
+# ## Ocean albedo parameters
+# Talphaocean_low = 219
+# Talphaocean_high = 299
+# alphaocean_max = 0.84
+# alphaocean_min = 0.255
 
 
-Cbio_low = 50
-Cbio_high = 700
+# Cbio_low = 50
+# Cbio_high = 700
 
-T0 = 298
-C0 = 280
+# T0 = 298
+# C0 = 280
 
-## CO2 uptake by vegetation
-wa = 0.015
-vegcover = 0.4
+# ## CO2 uptake by vegetation
+# wa = 0.015
+# vegcover = 0.4
 
-Thigh = 315
-Tlow = 282
-Topt1 = 295
-Topt2 = 310
-acc = 5
+# Thigh = 315
+# Tlow = 282
+# Topt1 = 295
+# Topt2 = 310
+# acc = 5
 
 ##################################################################
 ## Section 3.2: Model with Different Impulse Path
@@ -376,9 +409,7 @@ elif ImpulsePattern ==2:
 
 ## cearth, tauc Path
 
-cearth_taucMatrix = [[35., 6603. ],
-                     [0.107, 20],
-                     [0.373, 30]]
+cearth_taucMatrix = [[35., 6603. ]]
 
 cearth_taucMatrixSize = len(cearth_taucMatrix)
 
@@ -431,8 +462,8 @@ for ctpathnum in range(cearth_taucMatrixSize):
 
     plt.tight_layout()
 
-    plt.savefig(Figure_Dir+f"ImpulsePtn_{ImpulsePattern}_cearth_{cearth}_tauc_{tauc}_old.pdf")
-    plt.savefig(Figure_Dir+f"ImpulsePtn_{ImpulsePattern}_cearth_{cearth}_tauc_{tauc}_old.png")
+    plt.savefig(Figure_Dir+f"ImpulsePtn_{ImpulsePattern}_cearth_{cearth}_tauc_{tauc}_old_test.pdf")
+    plt.savefig(Figure_Dir+f"ImpulsePtn_{ImpulsePattern}_cearth_{cearth}_tauc_{tauc}_old_test.png")
 
 
 
