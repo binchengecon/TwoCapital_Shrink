@@ -460,7 +460,7 @@ if ImpulsePattern == 0:
     # ImpulsePathSize = int((ImpulseMax-ImpulseMin)/ImpulseStep )
 
     # Carbon   = np.array([0, 100, 150, 200])
-    Carbon   = np.array([0, 200])
+    Carbon   = np.array([0])
 
     ImpulsePathSize = len(Carbon)
     CeMatrix = np.zeros((ImpulsePathSize,t_span))
@@ -499,8 +499,8 @@ Figure_Dir = "./nonlinearCarbon/figure/"
 
 for ctpathnum in range(cearth_taucMatrixSize):
     figwidth = 10
-    # fig, axs = plt.subplots(4, 1, sharex=True, figsize=(2  * figwidth, 2 *figwidth))
-    fig, axs = plt.subplots(3, 1, sharex=True, figsize=(12, 2 *figwidth))
+    fig, axs = plt.subplots(4, 1, sharex=True, figsize=(12, 2 *figwidth))
+    # fig, axs = plt.subplots(3, 1, sharex=True, figsize=(12, 2 *figwidth))
     # fig, axs = plt.subplots(2, 1, sharex=True, figsize=(12, 2 *figwidth))
     TvmidBase = np.zeros(10000)
 
@@ -527,43 +527,45 @@ for ctpathnum in range(cearth_taucMatrixSize):
         axs[0].set_title('Temperature Anomaly Dynamics')
         axs[0].grid(linestyle=':')
         axs[0].legend()
-        # if pathnum==0:
-        #     axs[1].plot(tv, Cv, label="baseline")
-        # else: 
-        #     axs[1].plot(tv, Cv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
-        # # axs[1].plot(tv, Cv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
-        # axs[1].set_xlabel('Time (year)')
-        # axs[1].set_ylabel('Carbon (ppm)')
-        # axs[1].set_title('Carbon Concentration Dynamics')
-        # axs[1].grid(linestyle=':')
-        # axs[1].legend()
         if pathnum==0:
-            axs[2].plot(tv, Tvmid-TvmidBase, label="baseline")
-            axs[2].legend()        
-
+            axs[1].plot(tv, Cv, label="baseline")
         else: 
-            axs[2].plot(tv, Tvmid-TvmidBase, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
-        axs[2].set_xlabel('Time (year)')
-        axs[2].set_ylabel('Degree Celsius')
-        axs[2].set_title('Impulse Response of temperature anomaly per Gigatonne of Carbon')
+            axs[1].plot(tv, Cv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
+        # axs[1].plot(tv, Cv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
+        axs[1].set_xlabel('Time (year)')
+        axs[1].set_ylabel('Carbon (ppm)')
+        axs[1].set_title('Carbon Concentration Dynamics')
+        axs[1].grid(linestyle=':')
+        axs[1].legend()
+        if pathnum==0:
+            axs[2].plot(tv, Gv, label="baseline")
+            # axs[2].legend()        
+        else: 
+            axs[2].plot(tv, Gv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
+        axs[2].plot(tv, Gv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
+        axs[2].set_xlabel('Time (year)',fontsize = 16)
+        axs[2].set_ylabel('Total',fontsize = 16)
+        axs[2].set_title('Total Emission')
         axs[2].grid(linestyle=':')
-        axs[2].legend()        
-        # axs[3].plot(tv, Gv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
-        # axs[3].set_xlabel('Time (year)',fontsize = 16)
-        # axs[3].set_ylabel('Total',fontsize = 16)
-        # axs[3].set_title('Total Emission')
-        # axs[3].grid(linestyle=':')
-        # axs[3].legend()
-
-
+        axs[2].legend()
+        if pathnum==0:
+            axs[3].plot(tv, Tvmid-TvmidBase, label="baseline")
+            # axs[2].legend()        
+        else: 
+            axs[3].plot(tv, Tvmid-TvmidBase, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
+        axs[3].set_xlabel('Time (year)')
+        axs[3].set_ylabel('Degree Celsius')
+        axs[3].set_title('Impulse Response of temperature anomaly per Gigatonne of Carbon')
+        axs[3].grid(linestyle=':')
+        axs[3].legend()        
 
         # np.save(f"ImpPtnPath_{ImpulsePattern}_{CeMatrix[pathnum,plotnum]*2.13}_cearth_{cearth}_tauc_{tauc}.npy", [tv, Tvmid, Cv])
 
 
     plt.tight_layout()
-    # plt.savefig(Figure_Dir+f"ImpulsePtn={ImpulsePattern}, cearth={cearth}, tauc={tauc}_new.pdf")
-    # plt.savefig(Figure_Dir+f"ImpulsePtn={ImpulsePattern}, cearth={cearth}, tauc={tauc}_new.png")    
-    plt.savefig(Figure_Dir+"sample_with0.pdf")
+    plt.savefig(Figure_Dir+f"ImpulsePtn={ImpulsePattern}, cearth={cearth}, tauc={tauc}_new1.pdf")
+    plt.savefig(Figure_Dir+f"ImpulsePtn={ImpulsePattern}, cearth={cearth}, tauc={tauc}_new1.png")    
+    # plt.savefig(Figure_Dir+"sample_with0.pdf")
 
 
 
