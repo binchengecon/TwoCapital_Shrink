@@ -538,7 +538,7 @@ for ctpathnum in range(cearth_taucMatrixSize):
         # axs[1].grid(linestyle=':')
         # axs[1].legend()
         if pathnum==0:
-            # axs[2].plot(tv, Tvmid-TvmidBase, label="baseline")
+            axs[2].plot(tv, Tvmid-TvmidBase, label="baseline")
             axs[2].legend()        
 
         else: 
@@ -563,7 +563,7 @@ for ctpathnum in range(cearth_taucMatrixSize):
     plt.tight_layout()
     # plt.savefig(Figure_Dir+f"ImpulsePtn={ImpulsePattern}, cearth={cearth}, tauc={tauc}_new.pdf")
     # plt.savefig(Figure_Dir+f"ImpulsePtn={ImpulsePattern}, cearth={cearth}, tauc={tauc}_new.png")    
-    plt.savefig(Figure_Dir+"sample.pdf")
+    plt.savefig(Figure_Dir+"sample_with0.pdf")
 
 
 
