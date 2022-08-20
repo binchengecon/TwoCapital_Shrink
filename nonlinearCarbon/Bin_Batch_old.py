@@ -384,7 +384,8 @@ elif ImpulsePattern ==2:
 
 cearth_taucMatrix = [[35., 6603. ],
                      [0.107, 20],
-                     [0.373, 30]]
+                     [0.373, 30],
+                     [10, 1886]]
 
 cearth_taucMatrixSize = len(cearth_taucMatrix)
 
