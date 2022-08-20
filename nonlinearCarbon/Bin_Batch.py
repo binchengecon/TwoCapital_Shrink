@@ -515,13 +515,21 @@ for ctpathnum in range(cearth_taucMatrixSize):
         if pathnum ==0:
             TvmidBase = Tvmid
 
+        if pathnum==0:
+            axs[0].plot(tv, Tvmid, label="baseline")
+        else: 
+            axs[0].plot(tv, Tvmid, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
         axs[0].plot(tv, Tvmid, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
         axs[0].set_xlabel('Time (year)')
         axs[0].set_ylabel('Temperature  (K)')
         axs[0].set_title('Temperature Anomaly Dynamics')
         axs[0].grid(linestyle=':')
         axs[0].legend()
-        axs[1].plot(tv, Cv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
+        if pathnum==0:
+            axs[1].plot(tv, Cv, label="baseline")
+        else: 
+            axs[1].plot(tv, Cv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
+        # axs[1].plot(tv, Cv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
         axs[1].set_xlabel('Time (year)')
         axs[1].set_ylabel('Carbon (ppm)')
         axs[1].set_title('Carbon Concentration Dynamics')
