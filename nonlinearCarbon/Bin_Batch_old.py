@@ -411,19 +411,19 @@ for ctpathnum in range(cearth_taucMatrixSize):
         if pathnum ==0:
             TvmidBase = Tvmid
 
-        axs[0].plot(tv, Tvmid, label=f"ImpulseValue_{CeMatrix[pathnum,plotnum]*2.13}")
+        axs[0].plot(tv, Tvmid, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
         axs[0].set_xlabel('Time (year)')
         axs[0].set_ylabel('Temperature  (K)')
         axs[0].set_title('Temperature Anomaly Dynamics')
         axs[0].grid(linestyle=':')
         axs[0].legend()
-        axs[1].plot(tv, Cv, label=f"ImpulseValue_{CeMatrix[pathnum,plotnum]*2.13}")
+        axs[1].plot(tv, Cv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
         axs[1].set_xlabel('Time (year)')
         axs[1].set_ylabel('Carbon (ppm)')
         axs[1].set_title('Carbon Concentration Dynamics')
         axs[1].grid(linestyle=':')
         axs[1].legend()
-        axs[2].plot(tv, Tvmid-TvmidBase, label=f"ImpulseValue_{CeMatrix[pathnum,plotnum]*2.13}_Compared2_0")
+        axs[2].plot(tv, Tvmid-TvmidBase, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
         axs[2].set_xlabel('Time (year)')
         axs[2].set_ylabel('Degree Celsius')
         axs[2].set_title('Impulse Response per Gigatonne of Carbon')
