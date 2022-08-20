@@ -459,7 +459,8 @@ if ImpulsePattern == 0:
     # ImpulseStep = 100
     # ImpulsePathSize = int((ImpulseMax-ImpulseMin)/ImpulseStep )
 
-    Carbon   = np.array([0, 100, 150, 200])
+    # Carbon   = np.array([0, 100, 150, 200])
+    Carbon   = np.array([0, 200])
 
     ImpulsePathSize = len(Carbon)
     CeMatrix = np.zeros((ImpulsePathSize,t_span))
@@ -525,16 +526,16 @@ for ctpathnum in range(cearth_taucMatrixSize):
         axs[0].set_title('Temperature Anomaly Dynamics')
         axs[0].grid(linestyle=':')
         axs[0].legend()
-        if pathnum==0:
-            axs[1].plot(tv, Cv, label="baseline")
-        else: 
-            axs[1].plot(tv, Cv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
-        # axs[1].plot(tv, Cv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
-        axs[1].set_xlabel('Time (year)')
-        axs[1].set_ylabel('Carbon (ppm)')
-        axs[1].set_title('Carbon Concentration Dynamics')
-        axs[1].grid(linestyle=':')
-        axs[1].legend()
+        # if pathnum==0:
+        #     axs[1].plot(tv, Cv, label="baseline")
+        # else: 
+        #     axs[1].plot(tv, Cv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
+        # # axs[1].plot(tv, Cv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
+        # axs[1].set_xlabel('Time (year)')
+        # axs[1].set_ylabel('Carbon (ppm)')
+        # axs[1].set_title('Carbon Concentration Dynamics')
+        # axs[1].grid(linestyle=':')
+        # axs[1].legend()
         if pathnum==0:
             axs[2].plot(tv, Tvmid-TvmidBase, label="baseline")
         else: 
@@ -557,8 +558,9 @@ for ctpathnum in range(cearth_taucMatrixSize):
 
 
     plt.tight_layout()
-    plt.savefig(Figure_Dir+f"ImpulsePtn={ImpulsePattern}, cearth={cearth}, tauc={tauc}_new.pdf")
-    plt.savefig(Figure_Dir+f"ImpulsePtn={ImpulsePattern}, cearth={cearth}, tauc={tauc}_new.png")
+    # plt.savefig(Figure_Dir+f"ImpulsePtn={ImpulsePattern}, cearth={cearth}, tauc={tauc}_new.pdf")
+    # plt.savefig(Figure_Dir+f"ImpulsePtn={ImpulsePattern}, cearth={cearth}, tauc={tauc}_new.png")    
+    plt.savefig(Figure_Dir+"sample.pdf")
 
 
 
