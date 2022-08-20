@@ -501,6 +501,7 @@ for ctpathnum in range(cearth_taucMatrixSize):
     figwidth = 10
     # fig, axs = plt.subplots(4, 1, sharex=True, figsize=(2  * figwidth, 2 *figwidth))
     fig, axs = plt.subplots(3, 1, sharex=True, figsize=(12, 2 *figwidth))
+    # fig, axs = plt.subplots(2, 1, sharex=True, figsize=(12, 2 *figwidth))
     TvmidBase = np.zeros(10000)
 
     for pathnum in range(ImpulsePathSize):
@@ -542,7 +543,7 @@ for ctpathnum in range(cearth_taucMatrixSize):
             axs[2].plot(tv, Tvmid-TvmidBase, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
         axs[2].set_xlabel('Time (year)')
         axs[2].set_ylabel('Degree Celsius')
-        axs[2].set_title('Impulse Response per Gigatonne of Carbon')
+        axs[2].set_title('Impulse Response of temperature anomaly per Gigatonne of Carbon')
         axs[2].grid(linestyle=':')
         axs[2].legend()        
         # axs[3].plot(tv, Gv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
