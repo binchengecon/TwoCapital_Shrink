@@ -26,10 +26,10 @@ from scipy.optimize import curve_fit
 from scipy import interpolate
 from scipy import fft, arange, signal
 
-mpl.rcParams["lines.linewidth"] = 2.5
+mpl.rcParams["lines.linewidth"] = 3.5
 mpl.rcParams["savefig.bbox"] = "tight"
 mpl.rcParams["figure.figsize"] = (8,5)
-mpl.rcParams["font.size"] = 18
+mpl.rcParams["font.size"] = 20
 mpl.rcParams["legend.frameon"] = False
 
 ##################################################################
