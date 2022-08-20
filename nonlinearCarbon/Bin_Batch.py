@@ -538,7 +538,9 @@ for ctpathnum in range(cearth_taucMatrixSize):
         # axs[1].grid(linestyle=':')
         # axs[1].legend()
         if pathnum==0:
-            axs[2].plot(tv, Tvmid-TvmidBase, label="baseline")
+            # axs[2].plot(tv, Tvmid-TvmidBase, label="baseline")
+            axs[2].legend()        
+
         else: 
             axs[2].plot(tv, Tvmid-TvmidBase, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
         axs[2].set_xlabel('Time (year)')
