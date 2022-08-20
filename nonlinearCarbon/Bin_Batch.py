@@ -542,7 +542,7 @@ for ctpathnum in range(cearth_taucMatrixSize):
             # axs[2].legend()        
         else: 
             axs[2].plot(tv, Gv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
-        axs[2].plot(tv, Gv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
+        # axs[2].plot(tv, Gv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
         axs[2].set_xlabel('Time (year)',fontsize = 16)
         axs[2].set_ylabel('Total',fontsize = 16)
         axs[2].set_title('Total Emission')
