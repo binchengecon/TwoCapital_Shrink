@@ -19,11 +19,18 @@ from matplotlib import rcParams
 from matplotlib.colors import SymLogNorm
 import matplotlib.mlab
 import scipy.io as sio
+import matplotlib as mpl
 import pandas as pd
 import scipy.optimize as optim
 from scipy.optimize import curve_fit
 from scipy import interpolate
 from scipy import fft, arange, signal
+
+mpl.rcParams["lines.linewidth"] = 2.5
+mpl.rcParams["savefig.bbox"] = "tight"
+mpl.rcParams["figure.figsize"] = (8,5)
+mpl.rcParams["font.size"] = 13
+mpl.rcParams["legend.frameon"] = False
 
 ##################################################################
 ## Section 1.2: Parameter Initialization
