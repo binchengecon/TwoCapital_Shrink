@@ -36,93 +36,17 @@ mpl.rcParams["legend.frameon"] = False
 ## Section 1.2: Parameter Initialization
 ##################################################################
 
-## heat capacity, incoming radiation
+# cearth = 0.373 # heat capacity
+
 Q0 = 342.5 #Incoming radiation
 
-cearth = 0.373
 
 
 ## land fraction and albedo
+
 p = 0.3 #Fraction of land on the planet
-# alphaland = 0.28328 # land albedo
-alphaland = 0.28
+alphaland = 0.28 # land albedo (0.28328) 
 
-
-## outgoing radiation linearized
-kappa = 1.74
-Tkappa = 154
-
-## CO2 radiative forcing
-a = 5.35 # CO2 radiative forcing
-# renamed into "B"->"a"
-
-C0 = 280 # CO2 params. C0 is the reference C02 level
-
-
-## ocean carbon pumps
-# bP = 0.077 # Solubility dependence on temperature (value from Fowler et al)
-# bB = 0.090 # Biopump dependence on temperature (Value from Fowler)
-
-bP = 0.029 # Solubility dependence on temperature (value from Fowler et al)
-bB = 0.069 # Biopump dependence on temperature (Value from Fowler)
-
-cod = 2.2 # Ocean carbon pump modulation parameter
-
-
-## timescale and reference temperature (from Fowler)
-# tauc = 20 # timescale 
-tauc = 30 # timescale 
-
-T0 = 288 # Temperature reference
-
-# Tmean = 286.6
-
-## Coc0 ocean carbon depending on depth
-# coc0 = 73.78
-coc0 = 330
-
-## CO2 uptake by vegetation
-# wa = 0.015
-wa = 0.006
-
-
-vegcover = 0.4
-
-# Thigh = 305
-# Tlow = 275
-Thigh = 307.15
-Tlow = 286.15
-
-# Topt1 = 285
-# Topt2 = 295
-Topt1 = 290.16
-Topt2 = 302.15
-
-T_vl_minus= 286.15
-T_vl_plus = T_vl_minus+4
-
-T_ol_minus= 290.15
-T_ol_plus = T_ol_minus+4
-
-
-# acc = 5 actually renamed "acc"-> "k"
-acc=8
-
-Gl= 150
-Gh=750
-
-## Volcanism
-V = 0.028
-
-## Anthropogenic carbon
-sa = 1 # Switch to take anthropogenic emissions
-
-# Ts = 286.7 + 0.56 # 282.9
-# Cs = 389 # 275.5
-
-Ts = 286.6 # 282.9
-Cs = 268.6 # 275.5
-Gs = 0
 
 ## Ocean albedo parameters
 Talphaocean_low = 219
@@ -131,20 +55,75 @@ Talphaocean_high = 299
 # alphaocean_min = 0.255
 alphaocean_max = 0.843
 alphaocean_min = 0.254
+
+
+## outgoing radiation linearized
+kappa = 1.74
+T_kappa = 154
+
+
+## CO2 radiative forcing
+a = 5.35 # CO2 radiative forcing W/m^2
+C0 = 280 # CO2 params. C0 is the reference C02 level, unit ppm
+
+
+## ocean carbon pumps
+
+bP = 0.029 # Solubility dependence on temperature (value from Fowler et al) K^(-1) (0.077)
+bB = 0.069 # Biopump dependence on temperature (Value from Fowler) unit K^(-1) (0.090)
+
+
+## Characteristics Time
+# tauc=30 # Characteristics Time
+
+## CO2 uptake by vegetation
+W_a = 0.006 # (0.015)
+
+
+T_vh = 307.15 # (305)
+T_vl = 286.15 # (275)
+
+
+T_ol = 290.15 # (285)
+T_oh = 302.15 # (295)
+
+T_vl_minus= T_vl
+T_vl_plus = T_vl_minus+4
+
+T_ol_minus= T_ol
+T_ol_plus = T_ol_minus+4
+
+k = 8 #  Maximum Vegetaion Development Factor
+
+
+lamb = 2.2 # Ocean carbon pump modulation parameter
+
+Gl = 150 # Cumulative carbon lower bound
+Gh = 750 # Cumulative carbon upper bound
+
+## C_0,oc ocean carbon depending on depth
+C_0_ocean = 330 # (73.78)
+
+
+T0 = 288 # Ocean Pumps Reference Temperature Factor
+
+
+## Volcanism
+V = 0.028 # Volcanism
+
+
+
+
+## Anthropogenic carbon
+sa = 1 # Switch to take anthropogenic emissions
+
+T_mean = 286.6 # unit K 282.9
+C_mean = 268.6 # unit ppm 275.5 
+G_mean = 0
+
 ##################################################################
 ##################################################################
 ##################################################################
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -164,7 +143,7 @@ alphaocean_min = 0.254
 
 ## Time Period: 100 Years
 
-t_span = 100
+t_span = 1000
 t_val = np.linspace(0, t_span-1, t_span)
 
 def Yam(t,CcTemp):
@@ -185,17 +164,8 @@ def alphaocean(T):
         return alphaocean_min
 
 
-#
-# def fracseaice(T):
-#     """Fraction of ocean covered by ice"""
-#     if T < Talphaocean_low:
-#         return 1
-#     elif T < Talphaocean_high:
-#         return 1 - 1 / (Talphaocean_high - Talphaocean_low) * (T - Talphaocean_low)
-#     else: # so T is higher
-#         return 0
 
-def fracseaice(T):
+def beta_func(T):
     """Fraction of ocean covered by ice"""
     if T < Talphaocean_low:
         return 1
@@ -216,7 +186,7 @@ def Ri(T, cearth, tauc):
 # 
 def Ro(T, C, cearth, tauc):
     """Outgoing radiation modified by greenhouse effect"""
-    return 1/cearth * (kappa * (T - Tkappa) -  a * np.log(C / C0))
+    return 1/cearth * (kappa * (T - T_kappa) -  a * np.log(C / C0))
 
 
 def kappaP(T):
@@ -227,167 +197,89 @@ def kappaP(T):
 
 
 
-def biopump_vec(CcTemp):
-    """Goal: vectorize Function biopump"""
-    """Output: Grid Points for Interpolation"""
-    def biopump(CcTempW1):
-        if CcTempW1 < Cbio_low:
-            return 1
-        elif CcTempW1 < Cbio_high:
-            return 1 - 1 / (Cbio_high - Cbio_low) * (CcTempW1 - Cbio_low)
-        else: # so Cc is higher
-            return 0
-    
-    biopump = np.vectorize(biopump)
-    biomodulation = [biopump(val) for val in CcTemp]
-    biomod = np.float_(biomodulation)
-    return biomod
-
-
-
-def bioefficiency(t,biomodTemp):
-    t_points = t_val
-    em_points = biomodTemp
-    
-    tck = interpolate.splrep(t_points, em_points)
-    return interpolate.splev(t,tck)
-
-
 def oceanatmphysflux(T):
     """Sum of two terms that reflect, respectively, the physical (or solubility) carbon pump in the ocean and Wally """
     """Broecker’s “biopump”, due to thermally enhanced bioproductivity (Fowler et al., 2013)"""
-    return 1 / tauc * (coc0 * (np.exp(-bP * (T - T0))))
+    return 1 / tauc * (C_0_ocean * (np.exp(-bP * (T - T0))))
 
-# def oceanbioflux(T, t, biomodTemp):
-#      return 1/tauc * (coc0 * (np.exp(bB * bioefficiency(t, biomodTemp) * (T - T0))))
 
-# def oceanbioflux(T, t, biomodTemp):
-#      return 1/tauc * (coc0 * (np.exp(bB  * (T - T0))))
+
 
 def oceanbioflux(T):
-     return 1/tauc * (coc0 * (np.exp(bB  * (T - T0))))
-
+     return 1/tauc * (C_0_ocean * (np.exp(bB  * (T - T0))))
 
 
 
 def oceanatmcorrflux(C):
-    return 1 / tauc * (- cod * C)
+    return 1 / tauc * (- lamb * C)
 
 
 def veggrowth(T):
     """Vegetation growth function"""
-    if T < Tlow:
+    if T < T_vl:
         return 0
-    if (T >= Tlow) and (T < Topt1):
-        return acc / (Topt1 - Tlow) * (T - Tlow)
-    if (T >= Topt1) and (T <= Topt2):
-        return acc
-    if (T > Topt2) and (T < Thigh):
-        #return acc
-        return acc / (Topt2 - Thigh) * (T - Thigh)
-    if T > Thigh:
-        #return acc
+    if (T >= T_vl) and (T < T_ol):
+        return k / (T_ol - T_vl) * (T - T_vl)
+    if (T >= T_ol) and (T <= T_oh):
+        return k
+    if (T > T_oh) and (T < T_vh):
+        #return k
+        return k / (T_oh - T_vh) * (T - T_vh)
+    if T > T_vh:
+        #return k
         return 0
 
 
 def veggrowth2(T,G):
 
-    if T < T_vl(G):
+    if T < T_vl_func(G):
         return 0
-    if (T > T_vl(G)) and (T < T_ol(G)):
-        return acc / (Topt1 - Tlow) * (T - Tlow)
-    if (T > T_ol(G)) and (T <= Topt2):
-        return acc
-    if (T > Topt2) and (T <= Thigh):
-        #return acc
-        return acc / (Topt2 - Thigh) * (T - Thigh)
-    if T > Thigh:
-        #return acc
+
+    if (T >= T_vl_func(G)) and (T < T_ol_func(G)):
+        return k / (T_ol_func(G) - T_vl_func(G)) * (T - T_vl_func(G))
+
+    if (T > T_ol_func(G)) and (T <= T_oh):
+        return k
+
+    if (T > T_oh) and (T <= T_vh):
+        return k / (T_oh - T_vh) * (T - T_vh)
+
+    if T > T_vh:
+        #return k
         return 0
 
 
-def T_ol(G):
+def T_ol_func(G):
     if G<Gl:
         return T_ol_minus
+
     if (G>Gl) and (G<=Gh):
         return T_ol_minus+(T_ol_plus-T_ol_minus)*(G-Gl)/(Gh-Gl)
+
     if (G>Gh):
         return T_ol_plus
 
-def T_vl(G):
+def T_vl_func(G):
     if G<Gl:
         return T_vl_minus
+
     if (G>Gl) and (G<=Gh):
         return T_vl_minus+(T_vl_plus-T_vl_minus)*(G-Gl)/(Gh-Gl)
+        
     if (G>Gh):
         return T_vl_plus
 
 
 
-def model(Ts, Cs, cearth, tauc, Ce=np.zeros(t_span)):
-    """Input: Starting Temp, CO2, Impulse """
-    """Transition: Dynamic Equation"""
-    """Output: Whole Array of Temp, Temp Anamoly, CO2"""
-    Ce[Ce <0] = 0
-    Cc = np.cumsum(Ce)
-    # Cc = 1.34*12/44*1000/2.13 + np.cumsum(Ce) 
-    biomod = biopump_vec(Cc)
 
-    def dydt(t, y):
-        """Transition: Dynamic Equation (3 Input)"""
-        """t: time sequence"""
-        """y: Starting Temp, CO2"""
-        """Cc: Cumulated Carbon **Constant Array** """
-        T = y[0]
-        C = y[1]
-
-        dT = Ri(T, cearth, tauc) 
-        dT -= Ro(T, C, cearth, tauc)
-    
-        dC = V
-        dC += Yam(t,Ce) * sa                                  #  anthropogenic emissions from Ca spline                                                # volcanism 
-        dC -= wa * C * vegcover * veggrowth(T)             # carbon uptake by vegetation
-        dC += oceanatmphysflux(T) * (1 - fracseaice(T))    # physical solubility into ocean * fraction of ice-free ocean
-        
-        
-        dC +=  oceanbioflux(T, t, biomod) * (1 - fracseaice(T))
-        
-        # dC += oceanbioflux(T, t, Cc) * (1 - fracseaice(T))      # biological pump flux * fraction sea ice
-        
-        
-        
-        dC += oceanatmcorrflux(C) * (1 - fracseaice(T))    # correction parameter
-
-        return dT, dC
-
-    init = [Ts, Cs]
-
-    t_eval = np.linspace(0, t_span, 10000)
-
-    sol = solve_ivp(dydt, t_eval[[0, -1]], init, t_eval=t_eval, method='RK45', max_step=0.1)
-
-    # sol = solve_ivp(dydt, t_eval[[0, -1]], init, t_eval=t_eval, method='BDF')
-    # -
-
-    #Extract values of temperature and CO2
-    Tv = sol.y[0, :]
-    Cv = sol.y[1, :]
-    tv = sol.t
-
-
-    Tvmid = Tv - 286.7 
-
-    return tv, Tvmid, Cv
-
-
-def model2(Ts, Cs, Gs, cearth, tauc, Ce=np.zeros(t_span)):
+def model2(T_mean, C_mean, G_mean, cearth, tauc, Ce=np.zeros(t_span)):
     """Input: Starting Temp, CO2, Impulse """
     """Transition: Dynamic Equation"""
     """Output: Whole Array of Temp, Temp Anamoly, CO2"""
     Ce[Ce <0] = 0
     # Cc = np.cumsum(Ce)
     # Cc = 1.34*12/44*1000/2.13 + np.cumsum(Ce) 
-    Cc = Gs/2.13 + np.cumsum(Ce) 
+    Cc = G_mean/2.13 + np.cumsum(Ce) 
     # biomod = biopump_vec(Cc)
 
     def dydt(t, y):
@@ -404,24 +296,21 @@ def model2(Ts, Cs, Gs, cearth, tauc, Ce=np.zeros(t_span)):
     
         dC = V
         dC += Yam(t,Ce) * sa                                  #  anthropogenic emissions from Ca spline                                                # volcanism 
-        dC -= wa * C * vegcover * veggrowth2(T,G)             # carbon uptake by vegetation
-        dC += oceanatmphysflux(T) * (1 - fracseaice(T))    # physical solubility into ocean * fraction of ice-free ocean
-        
-        
-        dC +=  oceanbioflux(T) * (1 - fracseaice(T))
-        
-        # dC += oceanbioflux(T, t, Cc) * (1 - fracseaice(T))      # biological pump flux * fraction sea ice
+        dC -= W_a * C  * veggrowth2(T,G)             # carbon uptake by vegetation
+        dC += oceanatmphysflux(T) * (1 - beta_func(T))    # physical solubility into ocean * fraction of ice-free ocean
+        dC +=  oceanbioflux(T) * (1 - beta_func(T)) # biological pump flux * fraction sea ice
         
         
         
-        dC += oceanatmcorrflux(C) * (1 - fracseaice(T))    # correction parameter
+        
+        dC += oceanatmcorrflux(C) * (1 - beta_func(T))    # correction parameter
 
         dG = Yam(t,Ce) * sa
 
 
         return dT, dC, dG
 
-    init = [Ts, Cs, Cc[0]]
+    init = [T_mean, C_mean, Cc[0]]
 
     t_eval = np.linspace(0, t_span, 10000)
 
@@ -510,7 +399,7 @@ for ctpathnum in range(cearth_taucMatrixSize):
         Ce = CeMatrix[pathnum,:]
         cearth, tauc = cearth_taucMatrix[ctpathnum]
 
-        tv, Tvmid, Cv, Gv = model2(Ts, Cs, Gs, cearth, tauc, Ce)
+        tv, Tvmid, Cv, Gv = model2(T_mean, C_mean, G_mean, cearth, tauc, Ce)
 
         plotnum = ImpulsePattern*pathnum
 
@@ -608,7 +497,7 @@ for ctpathnum in range(cearth_taucMatrixSize):
 #         Ce = CeMatrix[pathnum,:]
 #         cearth, tauc = cearth_taucMatrix[ctpathnum]
 
-#         tv, Tvmid, Cv = model(Ts, Cs, cearth, tauc, Ce)
+#         tv, Tvmid, Cv = model(T_mean, C_mean, cearth, tauc, Ce)
 
 #         axs[0].plot(tv, Tvmid, label=f"ImpPtnPath_{ImpulsePattern}_{CeMatrix[pathnum,0]}_cearth_{cearth}_tauc_{tauc}")
 #         axs[0].set_xlabel('Time (year)',fontsize = 16)
