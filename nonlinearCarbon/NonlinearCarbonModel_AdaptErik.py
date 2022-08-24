@@ -206,46 +206,40 @@ def oceanatmphysflux(T):
 
 
 def oceanbioflux(T):
-     return 1/tauc * (C_0_ocean * (np.exp(bB  * (T - T0))))
+    return 1/tauc * (C_0_ocean * (np.exp(bB  * (T - T0))))
 
 
 
 def oceanatmcorrflux(C):
     return 1 / tauc * (- lamb * C)
 
+def T_ol_func(G):
+    if G < Gl:
+        return T_ol_minus
+    elif G < Gh:
+        return T_ol_minus+(T_ol_plus-T_ol_minus)*(G-Gl)/(Gh-Gl)
+    else :
+        return T_ol_plus
+
 def T_ol_func_vec(CcTemp):
     """Goal: vectorize Function biopump"""
-    """Output: Grid Points for Interpolation"""
-
-    def T_ol_func(G):
-        if G<Gl:
-            return T_ol_minus
-
-        if (G>Gl) and (G<=Gh):
-            return T_ol_minus+(T_ol_plus-T_ol_minus)*(G-Gl)/(Gh-Gl)
-
-        if (G>Gh):
-            return T_ol_plus
-        
+    """Output: Grid Points for Interpolation"""        
     T_ol_func_vec = np.vectorize(T_ol_func)
     T_ol_func_vec_modulation = [T_ol_func_vec(val) for val in CcTemp]
     T_ol_mod = np.float_(T_ol_func_vec_modulation)
     return T_ol_mod
 
+def T_vl_func(G):
+    if G<Gl:
+        return T_vl_minus
+    elif G<Gh:
+        return T_vl_minus+(T_vl_plus-T_vl_minus)*(G-Gl)/(Gh-Gl)
+    else :
+        return T_vl_plus
+
 def T_vl_func_vec(CcTemp):
     """Goal: vectorize Function biopump"""
     """Output: Grid Points for Interpolation"""
-
-    def T_vl_func(G):
-        if G<Gl:
-            return T_vl_minus
-
-        if (G>Gl) and (G<=Gh):
-            return T_vl_minus+(T_vl_plus-T_vl_minus)*(G-Gl)/(Gh-Gl)
-            
-        if (G>Gh):
-            return T_vl_plus
-        
     T_vl_func_vec = np.vectorize(T_vl_func)
     T_vl_func_vec_modulation = [T_vl_func_vec(val) for val in CcTemp]
     T_vl_mod = np.float_(T_vl_func_vec_modulation)
@@ -319,7 +313,7 @@ def model3(T_mean, C_mean, G_mean, cearth, tauc, Ce=np.zeros(t_span)):
 
     init = [T_mean, C_mean]
 
-    t_eval = np.linspace(0, 1000, 10000)
+    t_eval = np.linspace(0, 100, 10000)
 
     sol = solve_ivp(dydt, t_eval[[0, -1]], init, t_eval=t_eval, method='RK45', max_step=0.1)
 
