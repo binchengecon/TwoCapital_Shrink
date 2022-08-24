@@ -214,20 +214,20 @@ def oceanatmcorrflux(C):
     return 1 / tauc * (- lamb * C)
 
 
-def veggrowth(T):
-    """Vegetation growth function"""
-    if T < T_vl:
-        return 0
-    if (T >= T_vl) and (T < T_ol):
-        return k / (T_ol - T_vl) * (T - T_vl)
-    if (T >= T_ol) and (T <= T_oh):
-        return k
-    if (T > T_oh) and (T < T_vh):
-        #return k
-        return k / (T_oh - T_vh) * (T - T_vh)
-    if T > T_vh:
-        #return k
-        return 0
+# def veggrowth(T):
+#     """Vegetation growth function"""
+#     if T < T_vl:
+#         return 0
+#     if (T >= T_vl) and (T < T_ol):
+#         return k / (T_ol - T_vl) * (T - T_vl)
+#     if (T >= T_ol) and (T <= T_oh):
+#         return k
+#     if (T > T_oh) and (T < T_vh):
+#         #return k
+#         return k / (T_oh - T_vh) * (T - T_vh)
+#     if T > T_vh:
+#         #return k
+#         return 0
 
 
 def veggrowth2(T,G):
