@@ -53,8 +53,8 @@ Talphaocean_low = 219
 Talphaocean_high = 299
 # alphaocean_max = 0.84
 # alphaocean_min = 0.255
-alphaocean_max = 0.843
-alphaocean_min = 0.254
+alphaocean_max = 0.85
+alphaocean_min = 0.25
 
 
 ## outgoing radiation linearized
@@ -117,8 +117,8 @@ V = 0.028 # Volcanism
 ## Anthropogenic carbon
 sa = 1 # Switch to take anthropogenic emissions
 
-T_mean = 286.6 # unit K 282.9
-C_mean = 268.6 # unit ppm 275.5 
+T_mean = 286.5 # unit K 282.9
+C_mean = 269 # unit ppm 275.5 
 G_mean = 0
 
 ##################################################################
@@ -170,7 +170,7 @@ def beta_func(T):
     if T < Talphaocean_low:
         return 1
     elif T < Talphaocean_high:
-        return  1 / (Talphaocean_high - Talphaocean_low) * (T - Talphaocean_low)
+        return  1 -  1 / (Talphaocean_high - Talphaocean_low) * (T - Talphaocean_low)
     else: # so T is higher
         return 0
 
@@ -261,47 +261,6 @@ def T_l_interpolation(t,T_l_mod):
 
 
 
-# def T_ol_func(G):
-#     if G<Gl:
-#         return T_ol_minus
-
-#     if (G>Gl) and (G<=Gh):
-#         return T_ol_minus+(T_ol_plus-T_ol_minus)*(G-Gl)/(Gh-Gl)
-
-#     if (G>Gh):
-#         return T_ol_plus
-
-# def T_vl_func(G):
-#     if G<Gl:
-#         return T_vl_minus
-
-#     if (G>Gl) and (G<=Gh):
-#         return T_vl_minus+(T_vl_plus-T_vl_minus)*(G-Gl)/(Gh-Gl)
-        
-#     if (G>Gh):
-#         return T_vl_plus
-
-
-
-
-# def veggrowth2(T,G):
-
-#     if T < T_vl_func(G):
-#         return 0
-
-#     if (T >= T_vl_func(G)) and (T < T_ol_func(G)):
-#         return k / (T_ol_func(G) - T_vl_func(G)) * (T - T_vl_func(G))
-
-#     if (T > T_ol_func(G)) and (T <= T_oh):
-#         return k
-
-#     if (T > T_oh) and (T <= T_vh):
-#         return k / (T_oh - T_vh) * (T - T_vh)
-
-#     if T > T_vh:
-#         #return k
-#         return 0
-
 def veggrowth2(T,t,T_vl_mod,T_ol_mod):
 
     if T < T_l_interpolation(t,T_vl_mod):
@@ -329,9 +288,8 @@ def model3(T_mean, C_mean, G_mean, cearth, tauc, Ce=np.zeros(t_span)):
     """Transition: Dynamic Equation"""
     """Output: Whole Array of Temp, Temp Anamoly, CO2"""
     Ce[Ce <0] = 0
-    # Cc = np.cumsum(Ce)
-    # Cc = 1.34*12/44*1000/2.13 + np.cumsum(Ce) 
     Cc = G_mean/2.13 + np.cumsum(Ce) 
+    Cc[0]=0
     T_vl_mod = T_vl_func_vec(Cc)
     T_ol_mod = T_ol_func_vec(Cc)
 
@@ -353,8 +311,6 @@ def model3(T_mean, C_mean, G_mean, cearth, tauc, Ce=np.zeros(t_span)):
         dC +=  oceanbioflux(T) * (1 - beta_func(T)) # biological pump flux * fraction sea ice
         
         
-        
-        
         dC += oceanatmcorrflux(C) * (1 - beta_func(T))    # correction parameter
 
 
@@ -363,7 +319,7 @@ def model3(T_mean, C_mean, G_mean, cearth, tauc, Ce=np.zeros(t_span)):
 
     init = [T_mean, C_mean]
 
-    t_eval = np.linspace(0, t_span, 10000)
+    t_eval = np.linspace(0, 1000, 10000)
 
     sol = solve_ivp(dydt, t_eval[[0, -1]], init, t_eval=t_eval, method='RK45', max_step=0.1)
 
@@ -397,8 +353,8 @@ if ImpulsePattern == 0:
     # ImpulseStep = 100
     # ImpulsePathSize = int((ImpulseMax-ImpulseMin)/ImpulseStep )
 
-    Carbon   = np.array([0, 100, 150, 200])
-    # Carbon   = np.array([0])
+    # Carbon   = np.array([0, 100, 150, 200])
+    Carbon   = np.array([0])
 
     ImpulsePathSize = len(Carbon)
     CeMatrix = np.zeros((ImpulsePathSize,t_span))
@@ -428,7 +384,7 @@ elif ImpulsePattern ==2:
 #                      [0.373, 30],
 #                      [10, 1886]]
 
-cearth_taucMatrix = [[0.373, 30]]
+cearth_taucMatrix = [[0.3725, 30]]
 
 cearth_taucMatrixSize = len(cearth_taucMatrix)
 
@@ -449,7 +405,7 @@ for ctpathnum in range(cearth_taucMatrixSize):
 
         Ce = CeMatrix[pathnum,:]
         cearth, tauc = cearth_taucMatrix[ctpathnum]
-
+        print(cearth)
         tv, Tvmid, Cv = model3(T_mean, C_mean, G_mean, cearth, tauc, Ce)
 
         plotnum = ImpulsePattern*pathnum
