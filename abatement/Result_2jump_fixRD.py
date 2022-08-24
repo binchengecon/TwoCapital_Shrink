@@ -123,7 +123,7 @@ psi_0_meshgrid_1d =psi_0_meshgrid.ravel(order='F')
 psi_1_meshgrid_1d = psi_1_meshgrid.ravel(order='F')
 
 
-mpl.rcParams["lines.linewidth"] = 2.5
+mpl.rcParams["lines.linewidth"] = 4
 mpl.rcParams["savefig.bbox"] = "tight"
 mpl.rcParams["figure.figsize"] = (12,7)
 mpl.rcParams["font.size"] = 20
