@@ -348,8 +348,8 @@ if ImpulsePattern == 0:
     # ImpulseStep = 100
     # ImpulsePathSize = int((ImpulseMax-ImpulseMin)/ImpulseStep )
 
-    # Carbon   = np.array([0, 100, 150, 200])
-    Carbon   = np.array([0])
+    Carbon   = np.array([0, 100, 150, 200])
+    # Carbon   = np.array([0])
 
     ImpulsePathSize = len(Carbon)
     CeMatrix = np.zeros((ImpulsePathSize,t_span))
