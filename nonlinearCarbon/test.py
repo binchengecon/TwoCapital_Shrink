@@ -18,11 +18,18 @@ from matplotlib import rcParams
 from matplotlib.colors import SymLogNorm
 import matplotlib.mlab
 import scipy.io as sio
+import matplotlib as mpl
 import pandas as pd
 import scipy.optimize as optim
 from scipy.optimize import curve_fit
 from scipy import interpolate
 from scipy import fft, arange, signal
+
+mpl.rcParams["lines.linewidth"] = 2.5
+mpl.rcParams["savefig.bbox"] = "tight"
+mpl.rcParams["figure.figsize"] = (16,10)
+mpl.rcParams["font.size"] = 15
+mpl.rcParams["legend.frameon"] = False
 
 # os.chdir('/Users/erikchavez/Documents/Economic_Policy/C-T-dynamic-ODEs/')
 def model(impulse):
@@ -406,7 +413,7 @@ TvmidBase = np.zeros(10000)
 pathnum=0
 
 
-for impulse in (0,25):
+for impulse in 0:
 
 
     Tvmid, Cv, tv, Cebis = model(impulse)
