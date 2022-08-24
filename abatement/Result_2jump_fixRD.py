@@ -125,7 +125,7 @@ psi_1_meshgrid_1d = psi_1_meshgrid.ravel(order='F')
 
 mpl.rcParams["lines.linewidth"] = 2.5
 mpl.rcParams["savefig.bbox"] = "tight"
-mpl.rcParams["figure.figsize"] = (8,5)
+mpl.rcParams["figure.figsize"] = (12,7)
 mpl.rcParams["font.size"] = 20
 mpl.rcParams["legend.frameon"] = False
 
@@ -833,7 +833,7 @@ def graph_fixpsi1(psi_0_grid,psi_1,Ig_initial = 1/120):
         for k in range(len(psi_0_grid)):
 
             # plt.plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k]),color="C3")
-            plt.plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label='$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(psi_0_meshgrid_1d[k],psi_1_meshgrid_1d[k])  )
+            plt.plot(res[k]["years"], (res[k]["x"]/(alpha*np.exp(res[k]["states"][:,0])))*100,label='$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(psi_0_grid[k],psi_1)  )
             plt.grid(linestyle=':')
             plt.xlabel('Years')
             plt.ylabel('$\%$ of GDP')
