@@ -413,7 +413,7 @@ TvmidBase = np.zeros(10000)
 pathnum=0
 
 
-for impulse in 0:
+for impulse in (0,100):
 
 
     Tvmid, Cv, tv, Cebis = model(impulse)
