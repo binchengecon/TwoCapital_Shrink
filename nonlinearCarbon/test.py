@@ -402,7 +402,7 @@ def model(impulse):
 
 
 
-Figure_Dir="./nonlinearCarbon/figure/Adpt_new_"
+Figure_Dir="./nonlinearCarbon/figure/"
 
 figwidth = 10
 # fig, axs = plt.subplots(4, 1, sharex=True, figsize=(12, 2 *figwidth))
@@ -412,8 +412,9 @@ TvmidBase = np.zeros(10000)
 
 pathnum=0
 
+array = np.array((0,20))
 
-for impulse in (0,100):
+for impulse in array:
 
 
     Tvmid, Cv, tv, Cebis = model(impulse)
@@ -469,8 +470,8 @@ for impulse in (0,100):
     print(pathnum)
 
 plt.tight_layout()
-plt.savefig(Figure_Dir+f"ImpulsePtn_new1.pdf")
-plt.savefig(Figure_Dir+f"ImpulsePtn_new1.png")    
+plt.savefig(Figure_Dir+f"Pulse=0,{array.max()}.pdf")
+plt.savefig(Figure_Dir+f"Pulse=0,{array.max()}.png")    
 # plt.savefig(Figure_Dir+"sample_with0.pdf")
 
 
