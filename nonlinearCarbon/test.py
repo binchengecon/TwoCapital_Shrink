@@ -409,7 +409,7 @@ figwidth = 10
 
 baseline = 100
 
-for max in (150, 200, 300):
+for max in (500, 700):
 
     # fig, axs = plt.subplots(4, 1, sharex=True, figsize=(12, 2 *figwidth))
     fig, axs = plt.subplots(3, 1, sharex=True, figsize=(12, 2 *figwidth))
