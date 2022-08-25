@@ -82,7 +82,8 @@ V = 0.028
 # Switch to take anthropogenic emissions
 sa = 1
 # Anthropogenic emissions (zero or one)
-Can = pd.read_csv("./nonlinearCarbon/data/pulseco2eq.csv")
+file_name = "rcp85co2eqv3" 
+Can = pd.read_csv("./nonlinearCarbon/data/"+file_name+".csv")
 #Can = pd.read_csv("Et-sim2.csv")
 #times2co2eq
 #rcp85co2eq.csv
@@ -647,8 +648,8 @@ axs[1].legend()
 
 
 plt.tight_layout()
-plt.savefig(Figure_Dir+f"Pulse=original.pdf")
-plt.savefig(Figure_Dir+f"Pulse=original.png")    
+plt.savefig(Figure_Dir+f"Pulse="+file_name+".pdf")
+plt.savefig(Figure_Dir+f"Pulse="+file_name+".png")
 
 
 
