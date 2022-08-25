@@ -25,7 +25,7 @@ from scipy.optimize import curve_fit
 from scipy import interpolate
 from scipy import fft, arange, signal
 
-mpl.rcParams["lines.linewidth"] = 2.5
+mpl.rcParams["lines.linewidth"] = 1.5
 mpl.rcParams["savefig.bbox"] = "tight"
 mpl.rcParams["figure.figsize"] = (16,10)
 mpl.rcParams["font.size"] = 15
@@ -405,74 +405,77 @@ def model(impulse):
 Figure_Dir="./nonlinearCarbon/figure/"
 
 figwidth = 10
-# fig, axs = plt.subplots(4, 1, sharex=True, figsize=(12, 2 *figwidth))
-fig, axs = plt.subplots(3, 1, sharex=True, figsize=(12, 2 *figwidth))
-# fig, axs = plt.subplots(2, 1, sharex=True, figsize=(12, 2 *figwidth))
-TvmidBase = np.zeros(10000)
 
-pathnum=0
+for max in (5,10,15,20):
+    
+    # fig, axs = plt.subplots(4, 1, sharex=True, figsize=(12, 2 *figwidth))
+    fig, axs = plt.subplots(3, 1, sharex=True, figsize=(12, 2 *figwidth))
+    # fig, axs = plt.subplots(2, 1, sharex=True, figsize=(12, 2 *figwidth))
+    TvmidBase = np.zeros(10000)
 
-array = np.array((0,20))
+    pathnum=0
 
-for impulse in array:
+    array = np.array((0,max))
 
-
-    Tvmid, Cv, tv, Cebis = model(impulse)
-
-
-    if pathnum ==0:
-        TvmidBase = Tvmid
+    for impulse in array:
 
 
-    if pathnum==0:
-        axs[0].plot(tv, Tvmid, label="baseline")
-    else: 
-        axs[0].plot(tv, Tvmid, label=f"CarbonImpulse={impulse}")
-    axs[0].set_xlabel('Time (year)')
-    axs[0].set_ylabel('Temperature (K)')
-    axs[0].set_title('Temperature Anomaly Dynamics T')
-    axs[0].grid(linestyle=':')
-    axs[0].legend()
+        Tvmid, Cv, tv, Cebis = model(impulse)
 
-    if pathnum==0:
-        axs[1].plot(tv, Cv, label="baseline")
-    else: 
-        axs[1].plot(tv, Cv, label=f"CarbonImpulse={impulse}")
-    axs[1].set_xlabel('Time (year)')
-    axs[1].set_ylabel('Carbon (ppm)')
-    axs[1].set_title('Carbon Concentration Dynamics C')
-    axs[1].grid(linestyle=':')
-    axs[1].legend()
 
-    # if pathnum==0:
-    #     axs[2].plot(tv, Cebis, label="baseline")
-    #     # axs[2].legend()        
-    # else: 
-    #     axs[2].plot(tv, Cebis*2.13**2, label=f"CarbonImpulse={impulse}")
-    # # axs[2].plot(tv, Gv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
-    # axs[2].set_xlabel('Time (year)',fontsize = 16)
-    # axs[2].set_ylabel('Total',fontsize = 16)
-    # axs[2].set_title('Total Emission Dynamics G')
-    # axs[2].grid(linestyle=':')
-    # axs[2].legend()
+        if pathnum ==0:
+            TvmidBase = Tvmid
 
-    if pathnum==0:
-        axs[2].plot(tv, Tvmid-TvmidBase, label="baseline")
-    else: 
-        axs[2].plot(tv, Tvmid-TvmidBase, label=f"CarbonImpulse={impulse}")
-    axs[2].set_xlabel('Time (year)')
-    axs[2].set_ylabel('Degree Celsius')
-    axs[2].set_title('Impulse Response of temperature anomaly per Gigatonne of Carbon')
-    axs[2].grid(linestyle=':')
-    axs[2].legend()        
 
-    pathnum =  pathnum + 1
-    print(pathnum)
+        if pathnum==0:
+            axs[0].plot(tv, Tvmid, label="baseline")
+        else: 
+            axs[0].plot(tv, Tvmid, label=f"CarbonImpulse={impulse}")
+        axs[0].set_xlabel('Time (year)')
+        axs[0].set_ylabel('Temperature (K)')
+        axs[0].set_title('Temperature Anomaly Dynamics T')
+        axs[0].grid(linestyle=':')
+        axs[0].legend()
 
-plt.tight_layout()
-plt.savefig(Figure_Dir+f"Pulse=0,{array.max()}.pdf")
-plt.savefig(Figure_Dir+f"Pulse=0,{array.max()}.png")    
-# plt.savefig(Figure_Dir+"sample_with0.pdf")
+        if pathnum==0:
+            axs[1].plot(tv, Cv, label="baseline")
+        else: 
+            axs[1].plot(tv, Cv, label=f"CarbonImpulse={impulse}")
+        axs[1].set_xlabel('Time (year)')
+        axs[1].set_ylabel('Carbon (ppm)')
+        axs[1].set_title('Carbon Concentration Dynamics C')
+        axs[1].grid(linestyle=':')
+        axs[1].legend()
+
+        # if pathnum==0:
+        #     axs[2].plot(tv, Cebis, label="baseline")
+        #     # axs[2].legend()        
+        # else: 
+        #     axs[2].plot(tv, Cebis*2.13**2, label=f"CarbonImpulse={impulse}")
+        # # axs[2].plot(tv, Gv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
+        # axs[2].set_xlabel('Time (year)',fontsize = 16)
+        # axs[2].set_ylabel('Total',fontsize = 16)
+        # axs[2].set_title('Total Emission Dynamics G')
+        # axs[2].grid(linestyle=':')
+        # axs[2].legend()
+
+        if pathnum==0:
+            axs[2].plot(tv, Tvmid-TvmidBase, label="baseline")
+        else: 
+            axs[2].plot(tv, Tvmid-TvmidBase, label=f"CarbonImpulse={impulse}")
+        axs[2].set_xlabel('Time (year)')
+        axs[2].set_ylabel('Degree Celsius')
+        axs[2].set_title('Impulse Response of temperature anomaly per Gigatonne of Carbon')
+        axs[2].grid(linestyle=':')
+        axs[2].legend()        
+
+        pathnum =  pathnum + 1
+        print(pathnum)
+
+    plt.tight_layout()
+    plt.savefig(Figure_Dir+f"Pulse=0,{array.max()}.pdf")
+    plt.savefig(Figure_Dir+f"Pulse=0,{array.max()}.png")    
+    # plt.savefig(Figure_Dir+"sample_with0.pdf")
 
 
 
