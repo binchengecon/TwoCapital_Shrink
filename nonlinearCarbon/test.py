@@ -99,7 +99,7 @@ def model(impulse):
     Gh = 750
 
 
-    tspan = 100
+    tspan = 1000
 
     Ce = np.arange(tspan) * 1.0
     #np.min(Ca)
@@ -139,7 +139,6 @@ def model(impulse):
 
 
     #### FUNCTIONS
-    tspan = 100
     # Anthropogenic carbon fitting with cubic spline
     t_val = np.linspace(0, tspan-1, tspan)
 
@@ -375,7 +374,7 @@ def model(impulse):
     #k = 2
     #Cs = C0
     init = [Ts, Cs, Gs]
-    t_eval = np.linspace(0, 1000, 100000)
+    t_eval = np.linspace(0, tspan, 100000)
     sol = solve_ivp(dydt, t_eval[[0, -1]], init, t_eval=t_eval, method='RK45', max_step=0.1)
 
     #sol = solve_ivp(dydt, t_eval[[0, -1]], init, t_eval=t_eval, method='BDF')
@@ -398,8 +397,8 @@ def model(impulse):
     Tvmin = np.min(Tv)
     Tvmax = np.max(Tv) 
     np.mean(Cv) 
-
-    return Tvmid, Cv, tv, Gv
+    Te = np.arange(tspan) * 1.0
+    return Tvmid, Cv, tv, Gv, Te, Cc
 
 
 
@@ -409,76 +408,77 @@ figwidth = 10
 
 baseline = 100
 
-for max in (500, 700):
+# for max in (150, 200, 300, 500, 700):
 
-    # fig, axs = plt.subplots(4, 1, sharex=True, figsize=(12, 2 *figwidth))
-    fig, axs = plt.subplots(3, 1, sharex=True, figsize=(12, 2 *figwidth))
-    # fig, axs = plt.subplots(2, 1, sharex=True, figsize=(12, 2 *figwidth))
-    TvmidBase = np.zeros(10000)
+fig, axs = plt.subplots(4, 1, sharex=True, figsize=(12, 2 *figwidth))
+# fig, axs = plt.subplots(3, 1, sharex=True, figsize=(12, 2 *figwidth))
+# fig, axs = plt.subplots(2, 1, sharex=True, figsize=(12, 2 *figwidth))
+TvmidBase = np.zeros(10000)
 
-    pathnum=0
+pathnum=0
 
-    array = np.array((baseline,max))
+array = np.array((baseline, 150, 200, 300))
 
-    for impulse in array:
-
-
-        Tvmid, Cv, tv, Cebis = model(impulse)
+for impulse in array:
 
 
-        if pathnum ==0:
-            TvmidBase = Tvmid
+    Tvmid, Cv, tv, Cebis, Te, Cc = model(impulse)
+
+    print(Cc.shape)
+    if pathnum ==0:
+        TvmidBase = Tvmid
 
 
-        if pathnum==0:
-            axs[0].plot(tv, Tvmid, label="baseline")
-        else: 
-            axs[0].plot(tv, Tvmid, label=f"CarbonImpulse={impulse}")
-        axs[0].set_xlabel('Time (year)')
-        axs[0].set_ylabel('Temperature (K)')
-        axs[0].set_title('Temperature Anomaly Dynamics T')
-        axs[0].grid(linestyle=':')
-        axs[0].legend()
+    if pathnum==0:
+        axs[0].plot(tv, Tvmid, label="baseline")
+    else: 
+        axs[0].plot(tv, Tvmid, label=f"CarbonImpulse={impulse}")
+    axs[0].set_xlabel('Time (year)')
+    axs[0].set_ylabel('Temperature (K)')
+    axs[0].set_title('Temperature Anomaly Dynamics T')
+    axs[0].grid(linestyle=':')
+    axs[0].legend()
 
-        if pathnum==0:
-            axs[1].plot(tv, Cv, label="baseline")
-        else: 
-            axs[1].plot(tv, Cv, label=f"CarbonImpulse={impulse}")
-        axs[1].set_xlabel('Time (year)')
-        axs[1].set_ylabel('Carbon (ppm)')
-        axs[1].set_title('Carbon Concentration Dynamics C')
-        axs[1].grid(linestyle=':')
-        axs[1].legend()
+    if pathnum==0:
+        axs[1].plot(tv, Cv, label="baseline")
+    else: 
+        axs[1].plot(tv, Cv, label=f"CarbonImpulse={impulse}")
+    axs[1].set_xlabel('Time (year)')
+    axs[1].set_ylabel('Carbon (ppm)')
+    axs[1].set_title('Carbon Concentration Dynamics C')
+    axs[1].grid(linestyle=':')
+    axs[1].legend()
 
-        # if pathnum==0:
-        #     axs[2].plot(tv, Cebis, label="baseline")
-        #     # axs[2].legend()        
-        # else: 
-        #     axs[2].plot(tv, Cebis*2.13**2, label=f"CarbonImpulse={impulse}")
-        # # axs[2].plot(tv, Gv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
-        # axs[2].set_xlabel('Time (year)',fontsize = 16)
-        # axs[2].set_ylabel('Total',fontsize = 16)
-        # axs[2].set_title('Total Emission Dynamics G')
-        # axs[2].grid(linestyle=':')
-        # axs[2].legend()
+    print(tv.shape)
+    if pathnum==0:
+        axs[2].plot(Te, Cc*2.13, label="baseline")
+        # axs[2].legend()        
+    else: 
+        axs[2].plot(Te, Cc*2.13, label=f"CarbonImpulse={impulse}")
+    # axs[2].plot(tv, Gv, label=f"CarbonImpulse={CeMatrix[pathnum,plotnum]*2.13}")
+    axs[2].set_xlabel('Time (year)',fontsize = 16)
+    axs[2].set_ylabel('Total',fontsize = 16)
+    axs[2].set_title('Total Emission Dynamics G')
+    axs[2].grid(linestyle=':')
+    axs[2].legend()
 
-        if pathnum==0:
-            axs[2].plot(tv, Tvmid-TvmidBase, label="baseline")
-        else: 
-            axs[2].plot(tv, Tvmid-TvmidBase, label=f"CarbonImpulse={impulse}")
-        axs[2].set_xlabel('Time (year)')
-        axs[2].set_ylabel('Degree Celsius')
-        axs[2].set_title('Impulse Response of temperature anomaly per Gigatonne of Carbon')
-        axs[2].grid(linestyle=':')
-        axs[2].legend()        
+    if pathnum==0:
+        axs[3].plot(tv, Tvmid-TvmidBase, label="baseline")
+    else: 
+        axs[3].plot(tv, Tvmid-TvmidBase, label=f"CarbonImpulse={impulse}")
+    axs[3].set_xlabel('Time (year)')
+    axs[3].set_ylabel('Degree Celsius')
+    axs[3].set_title('Impulse Response of temperature anomaly per Gigatonne of Carbon')
+    axs[3].grid(linestyle=':')
+    axs[3].legend()        
 
-        pathnum =  pathnum + 1
-        print(pathnum)
+    pathnum =  pathnum + 1
+    print(pathnum)
 
-    plt.tight_layout()
-    plt.savefig(Figure_Dir+f"Pulse={array[0]},{array[1]}.pdf")
-    plt.savefig(Figure_Dir+f"Pulse={array[0]},{array[1]}.png")
-    # plt.savefig(Figure_Dir+"sample_with0.pdf")
+plt.tight_layout()
+plt.savefig(Figure_Dir+f"Pulse={array[0]},{array[1]},{array[2]},{array[3]}.pdf")
+plt.savefig(Figure_Dir+f"Pulse={array[0]},{array[1]},{array[2]},{array[3]}.png")
+# plt.savefig(Figure_Dir+"sample_with0.pdf")
 
 
 
