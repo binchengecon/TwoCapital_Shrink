@@ -407,8 +407,10 @@ Figure_Dir="./nonlinearCarbon/figure/"
 
 figwidth = 10
 
-for max in (10, 20, 50, 150, 200):
-    
+baseline = 100
+
+for max in (150, 200, 300):
+
     # fig, axs = plt.subplots(4, 1, sharex=True, figsize=(12, 2 *figwidth))
     fig, axs = plt.subplots(3, 1, sharex=True, figsize=(12, 2 *figwidth))
     # fig, axs = plt.subplots(2, 1, sharex=True, figsize=(12, 2 *figwidth))
@@ -416,7 +418,7 @@ for max in (10, 20, 50, 150, 200):
 
     pathnum=0
 
-    array = np.array((100,max))
+    array = np.array((baseline,max))
 
     for impulse in array:
 
@@ -474,8 +476,8 @@ for max in (10, 20, 50, 150, 200):
         print(pathnum)
 
     plt.tight_layout()
-    plt.savefig(Figure_Dir+f"Pulse=100,{max}.pdf")
-    plt.savefig(Figure_Dir+f"Pulse=100,{max}.png")    
+    plt.savefig(Figure_Dir+f"Pulse={array[0]},{array[1]}.pdf")
+    plt.savefig(Figure_Dir+f"Pulse={array[0]},{array[1]}.png")
     # plt.savefig(Figure_Dir+"sample_with0.pdf")
 
 
