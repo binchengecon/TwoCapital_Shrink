@@ -34,7 +34,7 @@ mpl.rcParams["legend.frameon"] = False
 #### INPUT PARAMETERS
 
 def model(time,pulse):
-        ## heat capacity, incoming radiation
+    ## heat capacity, incoming radiation
     # Earth heat capacity
     cearth = 0.3725
     #Incoming radiation
@@ -74,7 +74,7 @@ def model(time,pulse):
     coc0 = 330
 
     ## CO2 uptake by vegetation
-    wa = 0.0056
+    wa = 0.006
     #vegcover = 0.4
     Thigh = 307.15
     Tlow = 286.15
@@ -617,7 +617,7 @@ def model(time,pulse):
     C0 = 280
 
     ## CO2 uptake by vegetation
-    wa = 0.0056
+    wa = 0.006
     #vegcover = 0.4
 
     Thigh = 307.15
