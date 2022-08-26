@@ -24,6 +24,7 @@ import scipy.optimize as optim
 from scipy.optimize import curve_fit
 from scipy import interpolate
 from scipy import fft, arange, signal
+from statsmodels.tsa.api import ExponentialSmoothing, SimpleExpSmoothing, Holt
 
 mpl.rcParams["lines.linewidth"] = 1.5
 mpl.rcParams["savefig.bbox"] = "tight"
@@ -97,8 +98,8 @@ def model(time,pulse):
     #rcp85co2eq.csv
     #Ca = Can[(Can["YEARS"] > 1899) & (Can["YEARS"] < 2201)]
     #Ca = Can[(Can["YEARS"] > 1799) & (Can["YEARS"] < 2501)]
-    # Ca = Can[(Can["YEARS"] > 1799) & (Can["YEARS"] < 2801)]
-    Ca = Can[(Can["YEARS"] < 2801)]
+    Ca = Can[(Can["YEARS"] > 1799) & (Can["YEARS"] < 2801)]
+    # Ca = Can[(Can["YEARS"] < 2801)]
     Ca1 = Can[(Can["YEARS"] > 1799) & (Can["YEARS"] < 2801)]
     #Ca["YEARS"] = np.arange(start=0,stop=401,step=1)
     #Ca = Ca.pd.DataFrame()
@@ -667,6 +668,7 @@ Figure_Dir="./nonlinearCarbon/figure/"
 
 
 maxarray = np.array((10, 25, 50, 75, 100, 150, 200))
+# maxarray = np.array((10, 25))
 
 time =245
 
@@ -743,6 +745,11 @@ for max in maxarray:
         axs[3].grid(linestyle=':')
         axs[3].legend()        
 
+        if pathnum==0:
+            plt.tight_layout()
+            plt.savefig(Figure_Dir+"Pulse="+file_name+".pdf")
+            plt.savefig(Figure_Dir+"Pulse="+file_name+".png")
+
         pathnum =  pathnum + 1
         print(pathnum)
 
@@ -751,7 +758,6 @@ for max in maxarray:
     plt.tight_layout()
     plt.savefig(Figure_Dir+"Pulse="+file_name+"_pulsetime="+str(year)+",pulsesize="+str(max)+".pdf")
     plt.savefig(Figure_Dir+"Pulse="+file_name+"_pulsetime="+str(year)+",pulsesize="+str(max)+".png")
-
 
 
 
