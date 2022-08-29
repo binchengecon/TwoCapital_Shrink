@@ -702,7 +702,7 @@ for max in maxarray:
     for impulse in pulsearray:
 
 
-        tv, Tvmid, Cv, Te, Cc, file_name = model(time-10,time, time+10, time +20, impulse)
+        tv, Tvmid, Cv, Te, Cc, file_name = model(time-1,time, time+1, time +2, impulse)
 
         print(Tvmid.shape)
 
@@ -768,8 +768,8 @@ for max in maxarray:
     year = time +1765
 
     plt.tight_layout()
-    plt.savefig(Figure_Dir+"Pulse="+file_name+"_pulsetime="+str(year)+",pulsesize="+str(max)+"_4SP"+".pdf")
-    plt.savefig(Figure_Dir+"Pulse="+file_name+"_pulsetime="+str(year)+",pulsesize="+str(max)+"_4SP"+".png")
+    plt.savefig(Figure_Dir+"Pulse="+file_name+"_pulsetime="+str(year)+",pulsesize="+str(max)+"_4SPEven"+".pdf")
+    plt.savefig(Figure_Dir+"Pulse="+file_name+"_pulsetime="+str(year)+",pulsesize="+str(max)+"_4SPEven"+".png")
 
 
 
