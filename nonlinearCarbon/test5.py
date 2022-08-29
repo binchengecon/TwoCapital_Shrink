@@ -33,7 +33,7 @@ mpl.rcParams["font.size"] = 15
 mpl.rcParams["legend.frameon"] = False
 #### INPUT PARAMETERS
 
-def model(time,pulse):
+def model(time,length, pulse):
     ## heat capacity, incoming radiation
     # Earth heat capacity
     cearth = 0.3725
@@ -147,8 +147,9 @@ def model(time,pulse):
     for i in range(len(Ce)):
         if i == 0:
             Ce[i] = 0
-        elif i == time:
-            Ce[i] = Ca[i] - Ca[i-1] +pulse/2.13
+        elif i >= time and i <= time + length-1:
+            Ce[i] = Ca[i] - Ca[i-1] +pulse/2.13/length
+
         else :
             Ce[i] = Ca[i] - Ca[i-1]
 
@@ -158,8 +159,8 @@ def model(time,pulse):
     for i in range(len(Cebis)):
         if i == 0:
             Cebis[i] = 0
-        elif i == time:
-            Cebis[i] = np.max( Ca[i] - Ca[i-1], 0) +pulse/2.13
+        elif i >= time and i <= time + length-1:
+            Cebis[i] = np.max( Ca[i] - Ca[i-1], 0) +pulse/2.13/length
         else :
             Cebis[i] = np.max( Ca[i] - Ca[i-1], 0)
             
@@ -669,7 +670,7 @@ Figure_Dir="./nonlinearCarbon/figure/"
 timearray = np.array((230,240,245,250))
 # maxarray = np.array((10, 25, 50, 75, 100, 150, 200))
 maxarray2 = np.array((10, 25, 50, 75, 100, 150, 200))
-
+lengtharray = np.array((1,5,10))
 # maxarray = np.array((10, 25))
 
 # time =245
@@ -687,7 +688,7 @@ for max in maxarray2:
 
 
     time = 245
-    tvBase, TvmidBase, CvBase, TeBase, CcBase, file_name = model(time, 0)
+    tvBase, TvmidBase, CvBase, TeBase, CcBase, file_name = model(time, 1, 0)
 
     axs[0].plot(tvBase, TvmidBase, label="baseline")
     axs[0].set_xlabel('Time (year)')
@@ -725,30 +726,30 @@ for max in maxarray2:
     pathnum =  pathnum + 1
     print(pathnum)
 
-    for time in timearray:
+    for length in lengtharray:
 
 
-        tv, Tvmid, Cv, Te, Cc, file_name = model(time, max)
+        tv, Tvmid, Cv, Te, Cc, file_name = model(time, length, max)
 
         year = time +1765
 
 
 
-        axs[0].plot(tv, Tvmid, label=f"Impulse={max},Time={year}")
+        axs[0].plot(tv, Tvmid, label=f"Impulse={max},Length={length}")
         axs[0].set_xlabel('Time (year)')
         axs[0].set_ylabel('Temperature (K)')
         axs[0].set_title('Temperature Anomaly Dynamics T')
         axs[0].grid(linestyle=':')
         axs[0].legend()
 
-        axs[1].plot(tv, Cv, label=f"Impulse={max},Time={year}")
+        axs[1].plot(tv, Cv, label=f"Impulse={max},Time={length}")
         axs[1].set_xlabel('Time (year)')
         axs[1].set_ylabel('Carbon (ppm)')
         axs[1].set_title('Carbon Concentration Dynamics C')
         axs[1].grid(linestyle=':')
         axs[1].legend()
 
-        axs[2].plot(Te, Cc*2.13, label=f"Impulse={max},Time={year}")
+        axs[2].plot(Te, Cc*2.13, label=f"Impulse={max},Time={length}")
         axs[2].set_xlabel('Time (year)',fontsize = 16)
         axs[2].set_ylabel('Total',fontsize = 16)
         axs[2].set_title('Total Emission Dynamics G')
@@ -756,7 +757,7 @@ for max in maxarray2:
         axs[2].legend()
 
 
-        axs[3].plot(tv, Tvmid-TvmidBase, label=f"Impulse={max},Time={year}")
+        axs[3].plot(tv, Tvmid-TvmidBase, label=f"Impulse={max},Time={length}")
         axs[3].set_xlabel('Time (year)')
         axs[3].set_ylabel('Degree Celsius')
         axs[3].set_title('Impulse Response of temperature anomaly per Gigatonne of Carbon')
@@ -770,8 +771,8 @@ for max in maxarray2:
 
 
     plt.tight_layout()
-    plt.savefig(Figure_Dir+"Pulse="+file_name+"_pulsetime="+str(timearray+1765)+",pulsesize="+str(max)+".pdf")
-    plt.savefig(Figure_Dir+"Pulse="+file_name+"_pulsetime="+str(timearray+1765)+",pulsesize="+str(max)+".png")
+    plt.savefig(Figure_Dir+"Pulse="+file_name+"_pulselength="+str(lengtharray)+",pulsesize="+str(max)+".pdf")
+    plt.savefig(Figure_Dir+"Pulse="+file_name+"_pulselength="+str(lengtharray)+",pulsesize="+str(max)+".png")
 
 
 
