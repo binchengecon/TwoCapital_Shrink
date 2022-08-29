@@ -803,7 +803,8 @@ columns = len(maxarray2)
 num = 0
 
 for max in maxarray2:
-    Image = cv2.imread(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+1765)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".jpg")
+    Image = cv2.imread(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+1765)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".png")
+    Image = np.flip(Image, axis=-1) 
     fig.add_subplot(rows, columns, num+1)
     plt.imshow(Image)
     plt.axis('off')
@@ -811,7 +812,7 @@ for max in maxarray2:
     num = num + 1
 
 # Image = cv2.imread(Figure_Dir+"Pulse=rcp45co2eqv3,pulseyear=2010,pulselength=[ 1  5 10],pulsesize=200.jpg")
-plt.savefig(Figure_Dir+"Pulse="+file_name+",pulselength="+str(lengtharray)+",back2back.jpg")
+plt.savefig(Figure_Dir+"Pulse="+file_name+",pulselength="+str(lengtharray)+",back2back.png")
 plt.close()
 
 
