@@ -169,9 +169,9 @@ def model(time, length, pulse):
     # np.min(Ca)
     for i in range(len(Cc)):
         if i == 0:
-            Cc[i] = 102.03836999999999
+            Cc[i] = 217.3417281
         else:
-            Cc[i] = 102.03836999999999 + sum(Cebis[0:i])
+            Cc[i] = 217.3417281 + sum(Cebis[0:i])
 
     # Ocean albedo parameters
     Talphaocean_low = 219
@@ -590,7 +590,8 @@ def model(time, length, pulse):
     # Ts = 286.5
     # Cs = 269
     Ts = 288.05847735100105
-    Cs = 265.87438476522175
+    # Cs = 265.87
+    Cs = 389
 
     #wa = 0.05
     #cod = 0.15
@@ -656,7 +657,7 @@ def model(time, length, pulse):
 
     T = np.arange(tspan)*1.0
 
-    return tv, Tvmid, Cv, T, Cc, file_name
+    return tv, Tvmid, Cv, T, Cc, file_name, Cs
 
 
 Figure_Dir = "./nonlinearCarbon/figure/"
@@ -682,7 +683,8 @@ for max in maxarray2:
 
     pathnum = 0
 
-    tvBase, TvmidBase, CvBase, TeBase, CcBase, file_name = model(time, 1, 0)
+    tvBase, TvmidBase, CvBase, TeBase, CcBase, file_name, CsBase = model(
+        time, 1, 0)
     # print(CcBase)
     TeBase = TeBase + 2010
     tvBase = tvBase + 2010
@@ -718,15 +720,15 @@ for max in maxarray2:
     axs[3].legend()
 
     plt.tight_layout()
-    plt.savefig(Figure_Dir+"Pulse="+file_name+".pdf")
-    plt.savefig(Figure_Dir+"Pulse="+file_name+".png")
+    plt.savefig(Figure_Dir+"Pulse="+file_name+",C0="+str(CsBase)+".pdf")
+    plt.savefig(Figure_Dir+"Pulse="+file_name+",C0="+str(CsBase)+".png")
 
     pathnum = pathnum + 1
     print(pathnum)
 
     for length in lengtharray:
 
-        tv, Tvmid, Cv, Te, Cc, file_name = model(time, length, max)
+        tv, Tvmid, Cv, Te, Cc, file_name, Cs = model(time, length, max)
         year = time + 2010
 
         Te = Te + 2010
@@ -769,11 +771,10 @@ for max in maxarray2:
 
     plt.tight_layout()
     plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+2010) +
-                ",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".pdf")
+                ",pulselength="+str(lengtharray)+",pulsesize="+str(max)+",C0="+str(Cs)+".pdf")
     plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+2010) +
-                ",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".jpg")
-    plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+2010) +
-                ",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".png")
+                ",pulselength="+str(lengtharray)+",pulsesize="+str(max)+",C0="+str(Cs)+".png")
+
     plt.close()
 
 
@@ -791,10 +792,11 @@ columns = len(maxarray2)
 # # reading images
 
 num = 0
+# Cs = 389
 
 for max in maxarray2:
     Image = cv2.imread(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+2010) +
-                       ",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".png")
+                       ",pulselength="+str(lengtharray)+",pulsesize="+str(max)+",C0="+str(Cs)+".png")
     Image = np.flip(Image, axis=-1)
     fig.add_subplot(rows, columns, num+1)
     plt.imshow(Image)
@@ -803,7 +805,7 @@ for max in maxarray2:
     num = num + 1
 
 plt.savefig(Figure_Dir+"Pulse="+file_name+",pulselength=" +
-            str(lengtharray)+",back2back.png")
+            str(lengtharray)+",C0="+str(Cs)+",back2back.png")
 plt.close()
 
 
