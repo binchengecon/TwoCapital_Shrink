@@ -89,26 +89,29 @@ def model(time,length, pulse):
     # Switch to take anthropogenic emissions
     sa = 1
     # Anthropogenic emissions (zero or one)
-    file_name = "rcp45co2eqv3" 
+    file_name = "newbaseline" 
     # time = 245
     # pulse = 25
-    Can = pd.read_csv("./nonlinearCarbon/data/"+file_name+".csv")
-    #Can = pd.read_csv("Et-sim2.csv")
-    #times2co2eq
-    #rcp85co2eq.csv
-    #Ca = Can[(Can["YEARS"] > 1899) & (Can["YEARS"] < 2201)]
-    #Ca = Can[(Can["YEARS"] > 1799) & (Can["YEARS"] < 2501)]
-    Ca = Can[(Can["YEARS"] > 1799) & (Can["YEARS"] < 2801)]
-    # Ca = Can[(Can["YEARS"] < 2801)]
-    Ca1 = Can[(Can["YEARS"] > 1799) & (Can["YEARS"] < 2801)]
-    #Ca["YEARS"] = np.arange(start=0,stop=401,step=1)
-    #Ca = Ca.pd.DataFrame()
-    Ca = Ca["CO2EQ"]
-    #Ca = Ca - 286.76808
-    Ca = Ca - 281.69873
-    Ca = Ca.to_numpy()
+    # Can = pd.read_csv("./nonlinearCarbon/data/"+file_name+".csv")
+    # #Can = pd.read_csv("Et-sim2.csv")
+    # #times2co2eq
+    # #rcp85co2eq.csv
+    # #Ca = Can[(Can["YEARS"] > 1899) & (Can["YEARS"] < 2201)]
+    # #Ca = Can[(Can["YEARS"] > 1799) & (Can["YEARS"] < 2501)]
+    # Ca = Can[(Can["YEARS"] > 1799) & (Can["YEARS"] < 2801)]
+    # # Ca = Can[(Can["YEARS"] < 2801)]
+    # Ca1 = Can[(Can["YEARS"] > 1799) & (Can["YEARS"] < 2801)]
+    # #Ca["YEARS"] = np.arange(start=0,stop=401,step=1)
+    # #Ca = Ca.pd.DataFrame()
+    # Ca = Ca["CO2EQ"]
+    # #Ca = Ca - 286.76808
+    # Ca = Ca - 281.69873
+    # Ca = Ca.to_numpy()
 
-    tspan = len(Ca)
+    tspan = 100
+    # Ca = 102.03836999999999*np.ones(tspan)
+    # Ca[0] = 0
+
 
     # #Ce = np.arange(401)
     # # Ce = np.arange(601)
@@ -147,11 +150,11 @@ def model(time,length, pulse):
     for i in range(len(Ce)):
         if i == 0:
             Ce[i] = 0
-        elif i >= time and i <= time + length-1:
-            Ce[i] = Ca[i] - Ca[i-1] +pulse/2.13/length
+        elif i > time and i <= time + length:
+            Ce[i] =pulse/2.13/length
 
         else :
-            Ce[i] = Ca[i] - Ca[i-1]
+            Ce[i] = 0
 
 
     Cebis = np.zeros(tspan) * 1.0
@@ -159,18 +162,18 @@ def model(time,length, pulse):
     for i in range(len(Cebis)):
         if i == 0:
             Cebis[i] = 0
-        elif i >= time and i <= time + length-1:
-            Cebis[i] = np.max( Ca[i] - Ca[i-1], 0) +pulse/2.13/length
+        elif i > time and i <= time + length:
+            Cebis[i] =  pulse/2.13/length
         else :
-            Cebis[i] = np.max( Ca[i] - Ca[i-1], 0)
+            Cebis[i] = 0
             
     Cc = np.zeros(tspan) * 1.0
     #np.min(Ca)
     for i in range(len(Cc)):
         if i == 0:
-            Cc[i] = 0
+            Cc[i] = 102.03836999999999
         else:
-            Cc[i] = sum(Cebis[0:i])
+            Cc[i] = 102.03836999999999 + sum(Cebis[0:i])
 
 
 
@@ -223,8 +226,8 @@ def model(time,length, pulse):
     # plt.plot(t_val, Cc)
     # plt.plot(t_val, Ycm(t_val))
 
-    #t_val_v2 = np.linspace(1800, 2800, 1001)
-    #tv2 = np.linspace(1800, 2800, 100000)
+    #t_val_v2 = np.linspace(2010, 2800, 1001)
+    #tv2 = np.linspace(2010, 2800, 100000)
     #Ycm30 = Ycm(t_val_v2)
     
     #plt.figure(figsize=(10, 5))
@@ -240,7 +243,7 @@ def model(time,length, pulse):
     #plt.ylabel('Temperature annomaly (K)',fontsize = 18);
     #plt.grid(linestyle=':')
 
-    #t_val_v2 = np.linspace(1800, 2800, 1001)
+    #t_val_v2 = np.linspace(2010, 2800, 1001)
     #plt.plot(t_val_v2[0:600], Yam(t_val)[0:600])
     #plt.tick_params(axis='both', which='major', labelsize=13)
     #plt.xlabel('Time (years)',fontsize = 14);
@@ -334,14 +337,14 @@ def model(time,length, pulse):
     #plt.ylabel('Bio pump efficiency',fontsize = 18);
     #plt.grid(linestyle=':')
 
-    #t_val_v2 = np.linspace(1800, 2800, 1001)
+    #t_val_v2 = np.linspace(2010, 2800, 1001)
     #plt.plot(t_val_v2, bioefficiency(t_val))
     #plt.tick_params(axis='both', which='major', labelsize=18)
     #plt.xlabel('Time (years)',fontsize = 18);
     #plt.ylabel('Bio efficiency',fontsize = 18);
     #plt.grid(linestyle=':')
 
-    #t_val_v2 = np.linspace(1800, 2800, 1001)
+    #t_val_v2 = np.linspace(2010, 2800, 1001)
     #plt.plot(t_val_v2[0:600], bioefficiency(t_val)[0:600])
     #plt.tick_params(axis='both', which='major', labelsize=18)
     #plt.xlabel('Time (years)',fontsize = 18);
@@ -439,7 +442,7 @@ def model(time,length, pulse):
         tck = interpolate.splrep(t_points, em_points)
         return interpolate.splev(t,tck)
 
-    # t_val_v2 = np.linspace(1800, 2800, 1001)
+    # t_val_v2 = np.linspace(2010, 2800, 1001)
     # plt.plot(t_val_v2[0:600], Tvegoptlow(t_val)[0:600])
     # plt.tick_params(axis='both', which='major', labelsize=13)
     # plt.xlabel('Time (years)',fontsize = 14);
@@ -494,7 +497,7 @@ def model(time,length, pulse):
         tck = interpolate.splrep(t_points, em_points)
         return interpolate.splev(t,tck)
 
-    # t_val_v2 = np.linspace(1800, 2800, 1001)
+    # t_val_v2 = np.linspace(2010, 2800, 1001)
     # plt.plot(t_val_v2[0:600], Tveglow(t_val)[0:600])
     # plt.tick_params(axis='both', which='major', labelsize=13)
     # plt.xlabel('Time (years)',fontsize = 14);
@@ -591,8 +594,12 @@ def model(time,length, pulse):
 
     sa = 1
     #Ts = 282.9
-    Ts = 286.5
-    Cs = 269
+    # T_2010 = 288.05847735100105, C_2010 = 265.87438476522175, G_2010 = 102.03836999999999
+
+    # Ts = 286.5
+    # Cs = 269
+    Ts = 288.05847735100105
+    Cs = 265.87438476522175
 
     #wa = 0.05
     #cod = 0.15
@@ -649,7 +656,7 @@ def model(time,length, pulse):
     print('Tp = {:.1f}'.format(Tv[-1]))
     print('Cp = {:.1f}'.format(Cv[-1]))
 
-    Tvmid = Tv - 286.6181299517094
+    Tvmid = Tv - 288.05847735100105
     Cvmid = Cv - 268.6226981649593
     #Tvmid = Tv - 271.0298639974771
     Tvmean = np.mean(Tv) 
@@ -667,7 +674,7 @@ def model(time,length, pulse):
 
 Figure_Dir="./nonlinearCarbon/figure/"
 
-timearray = np.array((230,240,245,250))
+# timearray = np.array((230,240,245,250))
 # maxarray = np.array((10, 25, 50, 75, 100, 150, 200))
 maxarray2 = np.array((10, 25, 50, 75, 100, 150, 200))
 # maxarray2 = np.array((150, 200))
@@ -676,6 +683,7 @@ lengtharray = np.array((1,5,10))
 
 # time =245
 
+time = 0
 
 for max in maxarray2:
 # max = 10
@@ -688,13 +696,12 @@ for max in maxarray2:
     pathnum=0
 
 
-    time = 210
     tvBase, TvmidBase, CvBase, TeBase, CcBase, file_name = model(time, 1, 0)
-
-    TeBase = TeBase + 1800
-    tvBase = tvBase + 1800
-
-
+    # print(CcBase)
+    TeBase = TeBase + 2010
+    tvBase = tvBase + 2010
+    # T_2010 = 288.05847735100105, C_2010 = 265.87438476522175, G_2010 = 102.03836999999999
+    # print("T_2010 = {}, C_2010 = {}, G_2010 = {}" .format(TvmidBase[int(time/len(TeBase)*len(tvBase)-1)]+286.6181299517094, CvBase[int(time/len(TeBase)*len(tvBase)-1)], CcBase[time-1]))
     axs[0].plot(tvBase, TvmidBase, label="baseline")
     axs[0].set_xlabel('Time (year)')
     axs[0].set_ylabel('Temperature (K)')
@@ -735,11 +742,12 @@ for max in maxarray2:
 
 
         tv, Tvmid, Cv, Te, Cc, file_name = model(time, length, max)
-        year = time +1800
+        year = time +2010
 
-        Te = Te + 1800
-        tv = tv + 1800
+        Te = Te + 2010
+        tv = tv + 2010
 
+        # print(Cc)
 
         axs[0].plot(tv, Tvmid, label=f"Impulse={max},Length={length}")
         axs[0].set_xlabel('Time (year)')
@@ -777,43 +785,43 @@ for max in maxarray2:
 
 
     plt.tight_layout()
-    plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+1800)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".pdf")
-    plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+1800)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".jpg")
-    plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+1800)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".png")
+    plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+2010)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".pdf")
+    plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+2010)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".jpg")
+    plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+2010)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".png")
     plt.close()
 
 
 
 
 
-# code for displaying multiple images in one figure
+# # code for displaying multiple images in one figure
   
-#import libraries
-import cv2
-from matplotlib import pyplot as plt
+# #import libraries
+# import cv2
+# from matplotlib import pyplot as plt
   
-# create figure
-fig = plt.figure(figsize=(100, 25))
+# # create figure
+# fig = plt.figure(figsize=(100, 25))
   
-# setting values to rows and column variables
-rows = 1
-columns = len(maxarray2)
+# # setting values to rows and column variables
+# rows = 1
+# columns = len(maxarray2)
   
-# reading images
+# # reading images
 
-num = 0
+# num = 0
 
-for max in maxarray2:
-    Image = cv2.imread(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+1765)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".png")
-    Image = np.flip(Image, axis=-1) 
-    fig.add_subplot(rows, columns, num+1)
-    plt.imshow(Image)
-    plt.axis('off')
-    plt.title(f"Carbon Impulse={max}")
-    num = num + 1
+# for max in maxarray2:
+#     Image = cv2.imread(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+1765)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".png")
+#     Image = np.flip(Image, axis=-1) 
+#     fig.add_subplot(rows, columns, num+1)
+#     plt.imshow(Image)
+#     plt.axis('off')
+#     plt.title(f"Carbon Impulse={max}")
+#     num = num + 1
 
-plt.savefig(Figure_Dir+"Pulse="+file_name+",pulselength="+str(lengtharray)+",back2back.png")
-plt.close()
+# plt.savefig(Figure_Dir+"Pulse="+file_name+",pulselength="+str(lengtharray)+",back2back.png")
+# plt.close()
 
 
 # Figure_Dir="./nonlinearCarbon/figure/"
@@ -859,7 +867,7 @@ plt.close()
 # #Plot results
 # #Time series
 
-# #t_val_years = np.linspace(1800, 2800, 100000)
+# #t_val_years = np.linspace(2010, 2800, 100000)
 # #tv2 = np.linspace(1397, 2399, 100000)
 
 # #plt.figure(figsize=(10, 5))
@@ -893,7 +901,7 @@ plt.close()
 # #Cvmid85 = Cvmid 
 
 
-# tv2 = np.linspace(1800, 2800, 100000)
+# tv2 = np.linspace(2010, 2800, 100000)
 
 # plt.figure(figsize=(10, 5))
 # #plt.plot(tv, Tvmid)
@@ -905,7 +913,7 @@ plt.close()
 # plt.grid(linestyle=':')
 
 
-# tv2 = np.linspace(1800, 2800, 100000)
+# tv2 = np.linspace(2010, 2800, 100000)
 
 # plt.figure(figsize=(10, 5))
 # #plt.plot(tv, Tvmid)
@@ -918,7 +926,7 @@ plt.close()
 
 
 
-# tv2 = np.linspace(1800, 2800, 100000)
+# tv2 = np.linspace(2010, 2800, 100000)
 
 # plt.figure(figsize=(10, 5))
 # #plt.plot(tv, Tvmid)
@@ -932,7 +940,7 @@ plt.close()
 # Tvmidv5 = Tvmid[0:59999]
 
 
-# tv2 = np.linspace(1800, 2800, 100000)
+# tv2 = np.linspace(2010, 2800, 100000)
 
 # plt.figure(figsize=(10, 5))
 # #plt.plot(tv, Tvmid)
@@ -953,7 +961,7 @@ plt.close()
 
 
 # Tcel = Tv - 273.15
-# tv2 = np.linspace(1800, 2800, 100000)
+# tv2 = np.linspace(2010, 2800, 100000)
 
 # plt.figure(figsize=(10, 5))
 # #plt.plot(tv, Tvmid)
@@ -974,7 +982,7 @@ plt.close()
 # plt.grid(linestyle=':')
 
 
-# tv2 = np.linspace(1800, 2800, 100000)
+# tv2 = np.linspace(2010, 2800, 100000)
 
 # plt.figure(figsize=(10, 5))
 # #plt.plot(tv, Tvmid)
