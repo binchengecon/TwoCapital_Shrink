@@ -5,11 +5,12 @@
 @author: erik
 """
 
-## version including anthropogenic emissions
+# version including anthropogenic emissions
 
+import cv2
 import os
 import numpy as np
-import configparser 
+import configparser
 import sys
 from scipy.integrate import solve_ivp
 from scipy.fft import fft, fftfreq
@@ -24,39 +25,40 @@ import scipy.optimize as optim
 from scipy.optimize import curve_fit
 from scipy import interpolate
 from scipy import fft, arange, signal
-from statsmodels.tsa.api import ExponentialSmoothing, SimpleExpSmoothing, Holt
+# from statsmodels.tsa.api import ExponentialSmoothing, SimpleExpSmoothing, Holt
 
 mpl.rcParams["lines.linewidth"] = 1.5
 mpl.rcParams["savefig.bbox"] = "tight"
-mpl.rcParams["figure.figsize"] = (16,10)
+mpl.rcParams["figure.figsize"] = (16, 10)
 mpl.rcParams["font.size"] = 15
 mpl.rcParams["legend.frameon"] = False
-#### INPUT PARAMETERS
+# INPUT PARAMETERS
 
-def model(time,length, pulse):
-    ## heat capacity, incoming radiation
+
+def model(time, length, pulse):
+    # heat capacity, incoming radiation
     # Earth heat capacity
     cearth = 0.3725
-    #Incoming radiation
+    # Incoming radiation
     Q0 = 342.5
 
-    ## land fraction and albedo
-    #Fraction of land on the planet
+    # land fraction and albedo
+    # Fraction of land on the planet
     p = 0.3
     # land albedo
     alphaland = 0.28
 
-    ## outgoing radiation linearized
+    # outgoing radiation linearized
     kappa = 1.74
     Tkappa = 154
 
-    ## CO2 radiative forcing
+    # CO2 radiative forcing
     # Greenhouse effect parameter
     B = 5.35
     # CO2 params. C0 is the reference C02 level
     C0 = 280
 
-    ## ocean carbon pumps
+    # ocean carbon pumps
     # Solubility dependence on temperature (value from Fowler et al)
     bP = 0.029
     # Biopump dependence on temperature (Value from Fowler)
@@ -64,16 +66,16 @@ def model(time,length, pulse):
     # Ocean carbon pump modulation parameter
     cod = 2.2
 
-    ## timescale and reference temperature (from Fowler)
-    # timescale 
+    # timescale and reference temperature (from Fowler)
+    # timescale
     tauc = 30
     # Temperature reference
     T0 = 288
 
-    ## Coc0 ocean carbon depending on depth
+    # Coc0 ocean carbon depending on depth
     coc0 = 330
 
-    ## CO2 uptake by vegetation
+    # CO2 uptake by vegetation
     wa = 0.006
     #vegcover = 0.4
     Thigh = 307.15
@@ -82,14 +84,14 @@ def model(time,length, pulse):
     Topt2 = 302.15
     acc = 8
 
-    ## Volcanism
+    # Volcanism
     V = 0.028
 
-    ## Anthropogenic carbon
+    # Anthropogenic carbon
     # Switch to take anthropogenic emissions
     sa = 1
     # Anthropogenic emissions (zero or one)
-    file_name = "newbaseline" 
+    file_name = "newbaseline"
     # time = 245
     # pulse = 25
     # Can = pd.read_csv("./nonlinearCarbon/data/"+file_name+".csv")
@@ -112,7 +114,6 @@ def model(time,length, pulse):
     # Ca = 102.03836999999999*np.ones(tspan)
     # Ca[0] = 0
 
-
     # #Ce = np.arange(401)
     # # Ce = np.arange(601)
     # # Ce = np.arange(1001) * 1.0
@@ -122,7 +123,7 @@ def model(time,length, pulse):
     #     if i == 0:
     #         Ce[i] = 0
     #     else:
-    #         Ce[i] = Ca[i] - Ca[i-1] 
+    #         Ce[i] = Ca[i] - Ca[i-1]
 
     # Cebis = np.zeros(tspan) * 1.0
     # #np.min(Ca)
@@ -130,7 +131,7 @@ def model(time,length, pulse):
     #     if i == 0:
     #         Cebis[i] = 0
     #     else:
-    #         Cebis[i] = max( Ca[i] - Ca[i-1], 0) 
+    #         Cebis[i] = max( Ca[i] - Ca[i-1], 0)
 
     # Cc = np.zeros(tspan) * 1.0
     # #np.min(Ca)
@@ -140,56 +141,49 @@ def model(time,length, pulse):
     #     else:
     #         Cc[i] = sum(Cebis[0:i])
 
-
-
     #Ce = np.arange(401)
     # Ce = np.arange(601)
     # Ce = np.arange(1001) * 1.0
     Ce = np.zeros(tspan)
-    #np.min(Ca)
+    # np.min(Ca)
     for i in range(len(Ce)):
         if i == 0:
             Ce[i] = 0
         elif i > time and i <= time + length:
-            Ce[i] =pulse/2.13/length
+            Ce[i] = pulse/2.13/length
 
-        else :
+        else:
             Ce[i] = 0
 
-
     Cebis = np.zeros(tspan) * 1.0
-    #np.min(Ca)
+    # np.min(Ca)
     for i in range(len(Cebis)):
         if i == 0:
             Cebis[i] = 0
         elif i > time and i <= time + length:
-            Cebis[i] =  pulse/2.13/length
-        else :
+            Cebis[i] = pulse/2.13/length
+        else:
             Cebis[i] = 0
-            
+
     Cc = np.zeros(tspan) * 1.0
-    #np.min(Ca)
+    # np.min(Ca)
     for i in range(len(Cc)):
         if i == 0:
             Cc[i] = 102.03836999999999
         else:
             Cc[i] = 102.03836999999999 + sum(Cebis[0:i])
 
-
-
-
-    ## Ocean albedo parameters
+    # Ocean albedo parameters
     Talphaocean_low = 219
     Talphaocean_high = 299
     alphaocean_max = 0.85
     alphaocean_min = 0.25
 
-    ## Biopump parameters
+    # Biopump parameters
     #Cbio_low = 100
     #Cbio_high = 700
 
-
-    #### FUNCTIONS
+    # FUNCTIONS
 
     # Anthropogenic carbon fitting with cubic spline
     t_val = np.linspace(0, tspan-1, tspan)
@@ -199,23 +193,23 @@ def model(time,length, pulse):
     def Yem(t):
         t_points = t_val
         em_points = Ca
-        
+
         tck = interpolate.splrep(t_points, em_points)
-        return interpolate.splev(t,tck)
+        return interpolate.splev(t, tck)
 
     def Yam(t):
         t_points = t_val
         em_points = Ce
-        
+
         tck = interpolate.splrep(t_points, em_points)
-        return interpolate.splev(t,tck)
+        return interpolate.splev(t, tck)
 
     def Ycm(t):
         t_points = t_val
         em_points = Cc
-        
+
         tck = interpolate.splrep(t_points, em_points)
-        return interpolate.splev(t,tck)
+        return interpolate.splev(t, tck)
 
     #plt.plot(t_val, Ca)
     #plt.plot(t_val, Yem(t_val))
@@ -229,7 +223,7 @@ def model(time,length, pulse):
     #t_val_v2 = np.linspace(2010, 2800, 1001)
     #tv2 = np.linspace(2010, 2800, 100000)
     #Ycm30 = Ycm(t_val_v2)
-    
+
     #plt.figure(figsize=(10, 5))
     #plt.plot(tv, Tvmid)
 
@@ -241,14 +235,14 @@ def model(time,length, pulse):
     #plt.tick_params(axis='both', which='major', labelsize=18)
     #plt.xlabel('Time (year)',fontsize = 18);
     #plt.ylabel('Temperature annomaly (K)',fontsize = 18);
-    #plt.grid(linestyle=':')
+    # plt.grid(linestyle=':')
 
     #t_val_v2 = np.linspace(2010, 2800, 1001)
     #plt.plot(t_val_v2[0:600], Yam(t_val)[0:600])
     #plt.tick_params(axis='both', which='major', labelsize=13)
     #plt.xlabel('Time (years)',fontsize = 14);
     #plt.ylabel('Annual emissions (ppm/year)',fontsize = 14);
-    #plt.grid(linestyle=':')
+    # plt.grid(linestyle=':')
 
     # Ocean albedo
     def alphaocean(T):
@@ -256,7 +250,7 @@ def model(time,length, pulse):
             return alphaocean_max
         elif T < Talphaocean_high:
             return alphaocean_max + (alphaocean_min - alphaocean_max) / (Talphaocean_high - Talphaocean_low) * (T - Talphaocean_low)
-        else: # so T is higher
+        else:  # so T is higher
             return alphaocean_min
 
     # T_values = np.linspace(200, 330, 201)
@@ -266,15 +260,14 @@ def model(time,length, pulse):
     # plt.xlabel('Temperature (K)',fontsize = 14);
     # plt.ylabel('Ocean albedo',fontsize = 14);
 
+    # Fraction of ocean covered by ice
 
-
-    #Fraction of ocean covered by ice
     def fracseaice(T):
         if T < Talphaocean_low:
             return 1
         elif T < Talphaocean_high:
             return 1 - 1 / (Talphaocean_high - Talphaocean_low) * (T - Talphaocean_low)
-        else: # so T is higher
+        else:  # so T is higher
             return 0
 
     # plt.plot(T_values, [fracseaice(val) for val in T_values])
@@ -291,13 +284,12 @@ def model(time,length, pulse):
     Cbio_low = 150
     Cbio_high = 750
 
-
-    #def biopump(Cc):
+    # def biopump(Cc):
     #    if Cc < Cbio_low:
     #        return 1
     #    elif Cc < Cbio_high:
     #        return 1 - 1 / (Cbio_high - Cbio_low) * (Cc - Cbio_low)
-            #return 1 - 2 / (Cbio_high - Cbio_low) * (Cc - Cbio_low)
+    # return 1 - 2 / (Cbio_high - Cbio_low) * (Cc - Cbio_low)
     #    else: # so Cc is higher
     #        return 0
     #        #return -1
@@ -309,7 +301,7 @@ def model(time,length, pulse):
     #plt.tick_params(axis='both', which='major', labelsize=13)
     #plt.xlabel('Cumulative anthropogenic emissions (ppm)',fontsize = 14);
     #plt.ylabel('Bio pump efficiency',fontsize = 14);
-    #plt.grid(linestyle=':')
+    # plt.grid(linestyle=':')
 
     # Time varying biopump modulation
 
@@ -317,17 +309,17 @@ def model(time,length, pulse):
     #plt.tick_params(axis='both', which='major', labelsize=13)
     #plt.xlabel('Time (years)',fontsize = 14);
     #plt.ylabel('Bio pump efficiency',fontsize = 14);
-    #plt.grid(linestyle=':')
+    # plt.grid(linestyle=':')
 
     # switch between Ca and Cc to allow for reversal of ocean acidity or locking it
 
     #biomodulation = [biopump(val) for val in Cc]
     #biomod = np.float_(biomodulation)
 
-    #def bioefficiency(t):
+    # def bioefficiency(t):
     #    t_points = t_val
     #    em_points = biomod
-        
+
     #    tck = interpolate.splrep(t_points, em_points)
     #    return interpolate.splev(t,tck)
 
@@ -335,30 +327,31 @@ def model(time,length, pulse):
     #plt.tick_params(axis='both', which='major', labelsize=18)
     #plt.xlabel('Time (years)',fontsize = 18);
     #plt.ylabel('Bio pump efficiency',fontsize = 18);
-    #plt.grid(linestyle=':')
+    # plt.grid(linestyle=':')
 
     #t_val_v2 = np.linspace(2010, 2800, 1001)
     #plt.plot(t_val_v2, bioefficiency(t_val))
     #plt.tick_params(axis='both', which='major', labelsize=18)
     #plt.xlabel('Time (years)',fontsize = 18);
     #plt.ylabel('Bio efficiency',fontsize = 18);
-    #plt.grid(linestyle=':')
+    # plt.grid(linestyle=':')
 
     #t_val_v2 = np.linspace(2010, 2800, 1001)
     #plt.plot(t_val_v2[0:600], bioefficiency(t_val)[0:600])
     #plt.tick_params(axis='both', which='major', labelsize=18)
     #plt.xlabel('Time (years)',fontsize = 18);
     #plt.ylabel('Bio pump efficiency',fontsize = 18);
-    #plt.grid(linestyle=':')
+    # plt.grid(linestyle=':')
 
     #t_val_v3 = np.linspace(1, 1, 1001)
     #plt.plot(t_val_v2[0:600], t_val_v3[0:600])
     #plt.tick_params(axis='both', which='major', labelsize=18)
     #plt.xlabel('Time (years)',fontsize = 18);
     #plt.ylabel('Bio pump efficiency',fontsize = 18);
-    #plt.grid(linestyle=':')
+    # plt.grid(linestyle=':')
 
     # Vegetation growth function
+
     def veggrowth(T):
         if T < Tlow:
             return 0
@@ -367,12 +360,11 @@ def model(time,length, pulse):
         if (T >= Topt1) and (T <= Topt2):
             return acc
         if (T > Topt2) and (T < Thigh):
-            #return acc
+            # return acc
             return acc / (Topt2 - Thigh) * (T - Thigh)
         if T >= Thigh:
-            #return acc
+            # return acc
             return 0
-
 
     Thigh = 307.15
     Tlow = 286.15
@@ -387,15 +379,14 @@ def model(time,length, pulse):
     # plt.ylabel('Vegetation growth',fontsize = 14);
     # plt.grid(linestyle=':')
 
-    #veggrowth(286.6181299517094)
+    # veggrowth(286.6181299517094)
     #veggrowth_vectorized = np.vectorize(veggrowth)
-    #veggrowth_vectorized(Tv)
+    # veggrowth_vectorized(Tv)
 
-    #veggrowth(Tvmean)
-    #veggrowth(Tvmax)
-    #veggrowth(Tvmin)
-    #veggrowth(Tv)
-
+    # veggrowth(Tvmean)
+    # veggrowth(Tvmax)
+    # veggrowth(Tvmin)
+    # veggrowth(Tv)
 
     Tbiopt1_low = Topt1
     Tbiopt1_high = Topt1 + 5
@@ -407,11 +398,11 @@ def model(time,length, pulse):
         if Cc < Cbio_low:
             return Tbiopt1_low
         elif Cc < Cbio_high:
-            return Tbiopt1_low + (Tbiopt1_high - Tbiopt1_low)/ (Cbio_high - Cbio_low) * (Cc - Cbio_low)
-            #return 1 - 2 / (Cbio_high - Cbio_low) * (Cc - Cbio_low)
-        else: # so Cc is higher
+            return Tbiopt1_low + (Tbiopt1_high - Tbiopt1_low) / (Cbio_high - Cbio_low) * (Cc - Cbio_low)
+            # return 1 - 2 / (Cbio_high - Cbio_low) * (Cc - Cbio_low)
+        else:  # so Cc is higher
             return Tbiopt1_high
-            #return -1
+            # return -1
 
     Tbioptlow = np.vectorize(Tbioptlow)
 
@@ -428,7 +419,7 @@ def model(time,length, pulse):
     #plt.tick_params(axis='both', which='major', labelsize=13)
     #plt.xlabel('Time (years)',fontsize = 14);
     #plt.ylabel('Bio pump efficiency',fontsize = 14);
-    #plt.grid(linestyle=':')
+    # plt.grid(linestyle=':')
 
     # switch between Ca and Cc to allow for reversal of ocean acidity or locking it
 
@@ -438,9 +429,9 @@ def model(time,length, pulse):
     def Tvegoptlow(t):
         t_points = t_val
         em_points = Toptmod
-        
+
         tck = interpolate.splrep(t_points, em_points)
-        return interpolate.splev(t,tck)
+        return interpolate.splev(t, tck)
 
     # t_val_v2 = np.linspace(2010, 2800, 1001)
     # plt.plot(t_val_v2[0:600], Tvegoptlow(t_val)[0:600])
@@ -449,8 +440,7 @@ def model(time,length, pulse):
     # plt.ylabel('Lower opt. temperature (K)',fontsize = 14);
     # plt.grid(linestyle=':')
 
-
-    ## Tbiolow
+    # Tbiolow
 
     Tbiolow_low = Tlow
     Tbiolow_high = Tlow + 5
@@ -462,11 +452,11 @@ def model(time,length, pulse):
         if Cc < Cbio_low:
             return Tbiolow_low
         elif Cc < Cbio_high:
-            return Tbiolow_low + (Tbiolow_high - Tbiolow_low)/ (Cbio_high - Cbio_low) * (Cc - Cbio_low)
-            #return 1 - 2 / (Cbio_high - Cbio_low) * (Cc - Cbio_low)
-        else: # so Cc is higher
+            return Tbiolow_low + (Tbiolow_high - Tbiolow_low) / (Cbio_high - Cbio_low) * (Cc - Cbio_low)
+            # return 1 - 2 / (Cbio_high - Cbio_low) * (Cc - Cbio_low)
+        else:  # so Cc is higher
             return Tbiolow_high
-            #return -1
+            # return -1
 
     Tbiolow = np.vectorize(Tbiolow)
 
@@ -483,7 +473,7 @@ def model(time,length, pulse):
     #plt.tick_params(axis='both', which='major', labelsize=13)
     #plt.xlabel('Time (years)',fontsize = 14);
     #plt.ylabel('Bio pump efficiency',fontsize = 14);
-    #plt.grid(linestyle=':')
+    # plt.grid(linestyle=':')
 
     # switch between Ca and Cc to allow for reversal of ocean acidity or locking it
 
@@ -493,9 +483,9 @@ def model(time,length, pulse):
     def Tveglow(t):
         t_points = t_val
         em_points = Tlowmod
-        
+
         tck = interpolate.splrep(t_points, em_points)
-        return interpolate.splev(t,tck)
+        return interpolate.splev(t, tck)
 
     # t_val_v2 = np.linspace(2010, 2800, 1001)
     # plt.plot(t_val_v2[0:600], Tveglow(t_val)[0:600])
@@ -504,45 +494,45 @@ def model(time,length, pulse):
     # plt.ylabel('Lower veg. lim temperature (K)',fontsize = 14);
     # plt.grid(linestyle=':')
 
-    #def vegetationgrowth(T,t):
+    # def vegetationgrowth(T,t):
     #    return veggrowth(T) * bioefficiency(t)
 
     # Vegetation growth function
-    def veggrowthdyn(T,t):
+    def veggrowthdyn(T, t):
         if T < Tveglow(t):
             return 0
         if (T >= Tveglow(t)) and (T < Tvegoptlow(t)):
-            return acc / (Tvegoptlow(t)- Tveglow(t)) * (T - Tveglow(t))
+            return acc / (Tvegoptlow(t) - Tveglow(t)) * (T - Tveglow(t))
         if (T >= Tvegoptlow(t)) and (T <= Topt2):
             return acc
         if (T > Topt2) and (T < Thigh):
-            #return acc
+            # return acc
             return acc / (Topt2 - Thigh) * (T - Thigh)
         if T > Thigh:
-            #return acc
+            # return acc
             return 0
 
-    #Incoming radiation modified by albedo
+    # Incoming radiation modified by albedo
     def Ri(T):
         return 1/cearth * (Q0 * (1 - p * alphaland - (1 - p) * alphaocean(T)))
 
     #plt.plot(T_values, [Ri(val) for val in T_values])
     #plt.xlabel('Temperature (K)')
-    #plt.grid(linestyle=':')
+    # plt.grid(linestyle=':')
 
     # Outgoing radiation modified by greenhouse effect
     def Ro(T, C):
-        return 1/cearth * (kappa * (T - Tkappa) -  B * np.log(C / C0))
+        return 1/cearth * (kappa * (T - Tkappa) - B * np.log(C / C0))
 
-    #Solubility of atmospheric carbon into the oceans
+    # Solubility of atmospheric carbon into the oceans
     # carbon pumps
-    #def kappaP(T):
+    # def kappaP(T):
     #    np.exp(-bP * (T - T0))
 
-    #def kappaB(T):
+    # def kappaB(T):
     #    np.exp(bB * (T - T0))
 
-    #Sum of two terms that reflect, respectively, the physical (or solubility) carbon pump in the ocean and Wally Broecker’s “biopump”, due to thermally enhanced bioproductivity (Fowler et al., 2013)
+    # Sum of two terms that reflect, respectively, the physical (or solubility) carbon pump in the ocean and Wally Broecker’s “biopump”, due to thermally enhanced bioproductivity (Fowler et al., 2013)
 
     def oceanatmphysflux(T):
         return 1 / tauc * (coc0 * (np.exp(-bP * (T - T0))))
@@ -553,44 +543,45 @@ def model(time,length, pulse):
     def oceanatmcorrflux(C):
         return 1 / tauc * (- cod * C)
 
-    #def vegflux(T,C,t):
+    # def vegflux(T,C,t):
     #    return wa * bioefficiency(t) * C * vegcover * veggrowth(T)
 
-    #def vegfluxdyn(T,C,t):
+    # def vegfluxdyn(T,C,t):
     #    return wa * C * vegcover * veggrowthdyn(T,t)
 
-    def vegfluxdyn(T,C,t):
-        return wa * C * veggrowthdyn(T,t)
+    def vegfluxdyn(T, C, t):
+        return wa * C * veggrowthdyn(T, t)
 
-    #def oceanbioflux(T,t):
+    # def oceanbioflux(T,t):
     #    return 1/tauc * (coc0 * (np.exp(bB * bioefficiency(t) * (T - T0))))
 
-
-
-    #### MODEL EQUATIONS
+    # MODEL EQUATIONS
 
     def dydt(t, y):
         T = y[0]
         C = y[1]
 
-        dT = Ri(T) 
+        dT = Ri(T)
         dT -= Ro(T, C)
-        
+
         dC = V
-        dC += Yam(t) * sa                                  #  anthropogenic emissions from Ca spline                                                # volcanism 
-        #dC += Ca * sa                                       # added for bif diagrams
-        #dC -= wa * C * vegcover * veggrowth(T)             # carbon uptake by vegetation
+        # anthropogenic emissions from Ca spline                                                # volcanism
+        dC += Yam(t) * sa
+        # dC += Ca * sa                                       # added for bif diagrams
+        # dC -= wa * C * vegcover * veggrowth(T)             # carbon uptake by vegetation
         #dC -= vegflux(T, C, t)
-        dC -= vegfluxdyn(T,C,t)
-        dC += oceanatmphysflux(T) * (1 - fracseaice(T))    # physical solubility into ocean * fraction of ice-free ocean
-        #dC += oceanbioflux(T,t) * (1 - fracseaice(T))      # biological pump flux * fraction sea ice
-        dC += oceanbioflux(T) * (1 - fracseaice(T))      # biological pump flux * fraction sea ice
-        dC += oceanatmcorrflux(C) * (1 - fracseaice(T))    # correction parameter
+        dC -= vegfluxdyn(T, C, t)
+        # physical solubility into ocean * fraction of ice-free ocean
+        dC += oceanatmphysflux(T) * (1 - fracseaice(T))
+        # dC += oceanbioflux(T,t) * (1 - fracseaice(T))      # biological pump flux * fraction sea ice
+        # biological pump flux * fraction sea ice
+        dC += oceanbioflux(T) * (1 - fracseaice(T))
+        dC += oceanatmcorrflux(C) * (1 - fracseaice(T)
+                                     )    # correction parameter
 
         return dT, dC
 
-
-    #Integrate the ODE
+    # Integrate the ODE
 
     sa = 1
     #Ts = 282.9
@@ -611,12 +602,11 @@ def model(time,length, pulse):
     cearth = 0.3725
     tauc = 30
     coc0 = 330
-    ## Ocean albedo parameters
+    # Ocean albedo parameters
     Talphaocean_low = 219
     Talphaocean_high = 299
     alphaocean_max = 0.843
     alphaocean_min = 0.254
-
 
     #Cbio_low = 50
     #Cbio_high = 700
@@ -624,7 +614,7 @@ def model(time,length, pulse):
     T0 = 288
     C0 = 280
 
-    ## CO2 uptake by vegetation
+    # CO2 uptake by vegetation
     wa = 0.006
     #vegcover = 0.4
 
@@ -642,43 +632,40 @@ def model(time,length, pulse):
     #Cs = C0
     init = [Ts, Cs]
     t_eval = np.linspace(0, tspan, 100000)
-    sol = solve_ivp(dydt, t_eval[[0, -1]], init, t_eval=t_eval, method='RK45', max_step=0.1)
+    sol = solve_ivp(dydt, t_eval[[0, -1]], init,
+                    t_eval=t_eval, method='RK45', max_step=0.1)
 
     #sol = solve_ivp(dydt, t_eval[[0, -1]], init, t_eval=t_eval, method='BDF')
 
-    #Extract values of temperature and C02
+    # Extract values of temperature and C02
     Tv = sol.y[0, :]
     Cv = sol.y[1, :]
     tv = sol.t
 
-
-    #Fixed points
+    # Fixed points
     print('Tp = {:.1f}'.format(Tv[-1]))
     print('Cp = {:.1f}'.format(Cv[-1]))
 
     Tvmid = Tv - 288.05847735100105
     Cvmid = Cv - 268.6226981649593
     #Tvmid = Tv - 271.0298639974771
-    Tvmean = np.mean(Tv) 
+    Tvmean = np.mean(Tv)
     Tvmin = np.min(Tv)
-    Tvmax = np.max(Tv) 
-    np.mean(Cv) 
+    Tvmax = np.max(Tv)
+    np.mean(Cv)
 
     T = np.arange(tspan)*1.0
 
-    return tv, Tvmid, Cv, T, Cc,file_name
+    return tv, Tvmid, Cv, T, Cc, file_name
 
 
-
-
-
-Figure_Dir="./nonlinearCarbon/figure/"
+Figure_Dir = "./nonlinearCarbon/figure/"
 
 # timearray = np.array((230,240,245,250))
 # maxarray = np.array((10, 25, 50, 75, 100, 150, 200))
 maxarray2 = np.array((10, 25, 50, 75, 100, 150, 200))
 # maxarray2 = np.array((150, 200))
-lengtharray = np.array((1,5,10))
+lengtharray = np.array((1, 5, 10))
 # maxarray = np.array((10, 25))
 
 # time =245
@@ -686,15 +673,14 @@ lengtharray = np.array((1,5,10))
 time = 0
 
 for max in maxarray2:
-# max = 10
+    # max = 10
     baseline = 0
 
     figwidth = 10
 
-    fig, axs = plt.subplots(4, 1, sharex=True, figsize=(12, 2 *figwidth))
+    fig, axs = plt.subplots(4, 1, sharex=True, figsize=(12, 2 * figwidth))
 
-    pathnum=0
-
+    pathnum = 0
 
     tvBase, TvmidBase, CvBase, TeBase, CcBase, file_name = model(time, 1, 0)
     # print(CcBase)
@@ -717,32 +703,31 @@ for max in maxarray2:
     axs[1].legend()
 
     axs[2].plot(TeBase, CcBase*2.13, label="baseline")
-    axs[2].set_xlabel('Time (year)',fontsize = 16)
-    axs[2].set_ylabel('Total',fontsize = 16)
+    axs[2].set_xlabel('Time (year)', fontsize=16)
+    axs[2].set_ylabel('Total', fontsize=16)
     axs[2].set_title('Total Emission Dynamics G')
     axs[2].grid(linestyle=':')
     axs[2].legend()
 
-
     axs[3].plot(tvBase, TvmidBase-TvmidBase, label="baseline")
     axs[3].set_xlabel('Time (year)')
     axs[3].set_ylabel('Degree Celsius')
-    axs[3].set_title('Impulse Response of temperature anomaly per Gigatonne of Carbon')
+    axs[3].set_title(
+        'Impulse Response of temperature anomaly per Gigatonne of Carbon')
     axs[3].grid(linestyle=':')
-    axs[3].legend()        
+    axs[3].legend()
 
     plt.tight_layout()
     plt.savefig(Figure_Dir+"Pulse="+file_name+".pdf")
     plt.savefig(Figure_Dir+"Pulse="+file_name+".png")
 
-    pathnum =  pathnum + 1
+    pathnum = pathnum + 1
     print(pathnum)
 
     for length in lengtharray:
 
-
         tv, Tvmid, Cv, Te, Cc, file_name = model(time, length, max)
-        year = time +2010
+        year = time + 2010
 
         Te = Te + 2010
         tv = tv + 2010
@@ -764,64 +749,62 @@ for max in maxarray2:
         axs[1].legend()
 
         axs[2].plot(Te, Cc*2.13, label=f"Impulse={max},length={length}")
-        axs[2].set_xlabel('Time (year)',fontsize = 16)
-        axs[2].set_ylabel('Total',fontsize = 16)
+        axs[2].set_xlabel('Time (year)', fontsize=16)
+        axs[2].set_ylabel('Total', fontsize=16)
         axs[2].set_title('Total Emission Dynamics G')
         axs[2].grid(linestyle=':')
         axs[2].legend()
 
-
-        axs[3].plot(tv, Tvmid-TvmidBase, label=f"Impulse={max},length={length}")
+        axs[3].plot(tv, Tvmid-TvmidBase,
+                    label=f"Impulse={max},length={length}")
         axs[3].set_xlabel('Time (year)')
         axs[3].set_ylabel('Degree Celsius')
-        axs[3].set_title('Impulse Response of temperature anomaly per Gigatonne of Carbon')
+        axs[3].set_title(
+            'Impulse Response of temperature anomaly per Gigatonne of Carbon')
         axs[3].grid(linestyle=':')
-        axs[3].legend()        
+        axs[3].legend()
 
-
-
-        pathnum =  pathnum + 1
+        pathnum = pathnum + 1
         print(pathnum)
 
-
     plt.tight_layout()
-    plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+2010)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".pdf")
-    plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+2010)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".jpg")
-    plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+2010)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".png")
+    plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+2010) +
+                ",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".pdf")
+    plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+2010) +
+                ",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".jpg")
+    plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+2010) +
+                ",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".png")
     plt.close()
 
 
-
-
-
 # # code for displaying multiple images in one figure
-  
+
 # #import libraries
-# import cv2
-# from matplotlib import pyplot as plt
-  
+
 # # create figure
-# fig = plt.figure(figsize=(100, 25))
-  
+fig = plt.figure(figsize=(100, 25))
+
 # # setting values to rows and column variables
-# rows = 1
-# columns = len(maxarray2)
-  
+rows = 1
+columns = len(maxarray2)
+
 # # reading images
 
-# num = 0
+num = 0
 
-# for max in maxarray2:
-#     Image = cv2.imread(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+1765)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".png")
-#     Image = np.flip(Image, axis=-1) 
-#     fig.add_subplot(rows, columns, num+1)
-#     plt.imshow(Image)
-#     plt.axis('off')
-#     plt.title(f"Carbon Impulse={max}")
-#     num = num + 1
+for max in maxarray2:
+    Image = cv2.imread(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+2010) +
+                       ",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".png")
+    Image = np.flip(Image, axis=-1)
+    fig.add_subplot(rows, columns, num+1)
+    plt.imshow(Image)
+    plt.axis('off')
+    plt.title(f"Carbon Impulse={max}")
+    num = num + 1
 
-# plt.savefig(Figure_Dir+"Pulse="+file_name+",pulselength="+str(lengtharray)+",back2back.png")
-# plt.close()
+plt.savefig(Figure_Dir+"Pulse="+file_name+",pulselength=" +
+            str(lengtharray)+",back2back.png")
+plt.close()
 
 
 # Figure_Dir="./nonlinearCarbon/figure/"
@@ -851,19 +834,6 @@ for max in maxarray2:
 # axs[1].legend()
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 # #Plot results
 # #Time series
 
@@ -877,7 +847,6 @@ for max in maxarray2:
 # #plt.xlabel('Time (year)',fontsize = 18);
 # #plt.ylabel('Temperature annomaly (K)',fontsize = 18);
 # #plt.grid(linestyle=':')
-
 
 
 # #figwidth = 10
@@ -898,7 +867,7 @@ for max in maxarray2:
 # #Cv85 = Cv
 # #tv85 = tv
 # #Tvmid85 = Tvmid
-# #Cvmid85 = Cvmid 
+# #Cvmid85 = Cvmid
 
 
 # tv2 = np.linspace(2010, 2800, 100000)
@@ -923,7 +892,6 @@ for max in maxarray2:
 # plt.xlabel('Time (year)',fontsize = 18);
 # plt.ylabel('Temperature annomaly (K)',fontsize = 18);
 # plt.grid(linestyle=':')
-
 
 
 # tv2 = np.linspace(2010, 2800, 100000)
@@ -972,7 +940,6 @@ for max in maxarray2:
 # plt.grid(linestyle=':')
 
 
-
 # plt.figure(figsize=(10, 5))
 # #plt.plot(tv, Tvmid)
 # plt.plot(tv2[0:5999], Tcel[0:5999])
@@ -993,7 +960,6 @@ for max in maxarray2:
 # plt.grid(linestyle=':')
 
 
-
 # veggrowth_vectorized = np.vectorize(veggrowth)
 # veggrowthcoeff = veggrowth_vectorized(Tv)
 
@@ -1009,9 +975,8 @@ for max in maxarray2:
 # plt.grid(linestyle=':')
 
 
-
 # vegfluxdyn_vectorized = np.vectorize(vegfluxdyn)
-# vegfluxdyn_values = vegfluxdyn_vectorized(Tv, Cv, tv2) 
+# vegfluxdyn_values = vegfluxdyn_vectorized(Tv, Cv, tv2)
 
 # oceanatmphysflux_vectorized = np.vectorize(oceanatmphysflux)
 # oceanatmphysflux_values = oceanatmphysflux_vectorized(Tv)
@@ -1032,8 +997,8 @@ for max in maxarray2:
 # lis_full = [vegfluxdyn_values, total_ocean_flux]
 # ratio_flux = [i / j for i, j in zip(*lis_full)]
 
-# Fo_mean = np.mean(total_ocean_flux[0:59999]) 
-# Fv_mean = np.mean(vegfluxdyn_values[0:59999]) 
+# Fo_mean = np.mean(total_ocean_flux[0:59999])
+# Fv_mean = np.mean(vegfluxdyn_values[0:59999])
 
 # fig = plt.figure(figsize=(10, 5))
 # #plt.plot(tv, Tvmid)
@@ -1140,8 +1105,6 @@ for max in maxarray2:
 # plt.grid(linestyle=':')
 
 
-
-
 # figwidth = 10
 # fig, axs = plt.subplots(1, 2, sharex=True, figsize=(2 * figwidth, 0.5 * figwidth))
 # axs[0].plot(tv, oceanphyflux)
@@ -1196,7 +1159,7 @@ for max in maxarray2:
 # Tvs[0:2999] = Tvmid[0:2999]
 # for i in range(2999, 100000):
 #     Tvs[i] = np.mean(Tvmid[i-2999:i])
-    
+
 # #Plot results
 # #Time series
 # figwidth = 10
@@ -1211,7 +1174,6 @@ for max in maxarray2:
 # axs[1].set_ylabel('Carbon (ppm)')
 # axs[1].set_title('Carbon dynamics');
 # axs[1].grid(linestyle=':')
-
 
 
 # tv2 = np.linspace(1397, 2399, 100000)
@@ -1246,7 +1208,6 @@ for max in maxarray2:
 # ax.grid(linestyle=':')
 
 
-
 # #Scatter plots
 
 # fig, ax = plt.subplots(1, 1, figsize=(0.5 * figwidth, 0.5 * figwidth))
@@ -1265,7 +1226,7 @@ for max in maxarray2:
 # for i, C_value in enumerate(C_values):
 #     for j, T_value in enumerate(T_values):
 #         z[i, j, :] = dydt(0, [T_value, C_value])
-        
+
 # z = np.abs(z)**0.2 * np.sign(z)
 
 # plt.plot(T_values, [dydt(0, [val, C0])[0] for val in T_values], label=r'$C=C_{0}$')
@@ -1281,7 +1242,6 @@ for max in maxarray2:
 
 # #T_values = np.linspace(150, 310, 201)
 # #C_values = np.linspace(0, 700, 200)
-
 
 
 # fig, axs = plt.subplots(1, 2, sharex=True, sharey=True, figsize=(2 * figwidth, figwidth))
@@ -1328,7 +1288,6 @@ for max in maxarray2:
 # fig.savefig('nullclines-v2.png')
 
 
-
 # #Nullclines
 # T_values = np.linspace(260, 310, 501)
 # C_values = np.linspace(150, 350, 500)
@@ -1337,7 +1296,7 @@ for max in maxarray2:
 # for i, C_value in enumerate(C_values):
 #     for j, T_value in enumerate(T_values):
 #         z[i, j, :] = dydt(0, [T_value, C_value])
-        
+
 # z = np.abs(z)**0.2 * np.sign(z)
 
 # plt.plot(T_values, [dydt(0, [val, C0])[0] for val in T_values], label=r'$C=C_{0}$')
@@ -1390,8 +1349,6 @@ for max in maxarray2:
 # Topt2 = 302.15
 
 
-
-
 # #Nullclines
 # T_values = np.linspace(278, 305, 501)
 # C_values = np.linspace(230, 350, 500)
@@ -1400,7 +1357,7 @@ for max in maxarray2:
 # for i, C_value in enumerate(C_values):
 #     for j, T_value in enumerate(T_values):
 #         z[i, j, :] = dydt(0, [T_value, C_value])
-        
+
 # z = np.abs(z)**0.2 * np.sign(z)
 
 # plt.plot(T_values, [dydt(0, [val, C0])[0] for val in T_values], label=r'$C=C_{0}$')
