@@ -688,12 +688,13 @@ for max in maxarray2:
     pathnum=0
 
 
-    time = 245
+    time = 210
     tvBase, TvmidBase, CvBase, TeBase, CcBase, file_name = model(time, 1, 0)
 
-    TeBase = TeBase + 1765
-    tvBase = tvBase+1765
+    TeBase = TeBase + 1800
+    tvBase = tvBase + 1800
 
+    print("T_2010 = {}, C_2010 = {}, G_2010 = {}", .format(TvmidBase[time/len(TeBase)*len(tv)-1], CvBase[time/len(TeBase)*len(tv)-1], CcBase[time-1]))
     axs[0].plot(tvBase, TvmidBase, label="baseline")
     axs[0].set_xlabel('Time (year)')
     axs[0].set_ylabel('Temperature (K)')
@@ -734,10 +735,10 @@ for max in maxarray2:
 
 
         tv, Tvmid, Cv, Te, Cc, file_name = model(time, length, max)
-        year = time +1765
+        year = time +1800
 
-        Te = Te + 1765
-        tv = tv+1765
+        Te = Te + 1800
+        tv = tv + 1800
 
 
         axs[0].plot(tv, Tvmid, label=f"Impulse={max},Length={length}")
@@ -776,9 +777,9 @@ for max in maxarray2:
 
 
     plt.tight_layout()
-    plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+1765)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".pdf")
-    plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+1765)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".jpg")
-    plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+1765)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".png")
+    plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+1800)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".pdf")
+    plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+1800)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".jpg")
+    plt.savefig(Figure_Dir+"Pulse="+file_name+",pulseyear="+str(time+1800)+",pulselength="+str(lengtharray)+",pulsesize="+str(max)+".png")
     plt.close()
 
 
@@ -811,7 +812,6 @@ for max in maxarray2:
     plt.title(f"Carbon Impulse={max}")
     num = num + 1
 
-# Image = cv2.imread(Figure_Dir+"Pulse=rcp45co2eqv3,pulseyear=2010,pulselength=[ 1  5 10],pulsesize=200.jpg")
 plt.savefig(Figure_Dir+"Pulse="+file_name+",pulselength="+str(lengtharray)+",back2back.png")
 plt.close()
 
