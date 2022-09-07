@@ -110,34 +110,6 @@ def model(time,pulse):
 
     tspan = len(Ca)
 
-    # #Ce = np.arange(401)
-    # # Ce = np.arange(601)
-    # # Ce = np.arange(1001) * 1.0
-    # Ce = np.zeros(tspan)
-    # #np.min(Ca)
-    # for i in range(len(Ce)):
-    #     if i == 0:
-    #         Ce[i] = 0
-    #     else:
-    #         Ce[i] = Ca[i] - Ca[i-1] 
-
-    # Cebis = np.zeros(tspan) * 1.0
-    # #np.min(Ca)
-    # for i in range(len(Cebis)):
-    #     if i == 0:
-    #         Cebis[i] = 0
-    #     else:
-    #         Cebis[i] = max( Ca[i] - Ca[i-1], 0) 
-
-    # Cc = np.zeros(tspan) * 1.0
-    # #np.min(Ca)
-    # for i in range(len(Cc)):
-    #     if i == 0:
-    #         Cc[i] = 0
-    #     else:
-    #         Cc[i] = sum(Cebis[0:i])
-
-
 
     #Ce = np.arange(401)
     # Ce = np.arange(601)

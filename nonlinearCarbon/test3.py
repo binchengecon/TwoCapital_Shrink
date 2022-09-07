@@ -33,7 +33,8 @@ mpl.rcParams["legend.frameon"] = False
 #### INPUT PARAMETERS
 
 def model(time,pulse):
-        ## heat capacity, incoming radiation
+    
+    ## heat capacity, incoming radiation
     # Earth heat capacity
     cearth = 0.3725
     #Incoming radiation
