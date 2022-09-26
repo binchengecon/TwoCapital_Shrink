@@ -697,7 +697,7 @@ for max in maxarray2:
 
     axs[2].plot(TeBase, CcBase*2.13, label="baseline")
     axs[2].set_xlabel('Time (year)', fontsize=16)
-    axs[2].set_ylabel('Total', fontsize=16)
+    axs[2].set_ylabel('Total (Gigatonne)', fontsize=16)
     axs[2].set_title('Total Emission Dynamics G')
     axs[2].grid(linestyle=':')
     axs[2].legend()
@@ -741,7 +741,7 @@ for max in maxarray2:
 
         axs[2].plot(Te, Cc*2.13, label=f"Impulse={max},length={length}")
         axs[2].set_xlabel('Time (year)', fontsize=16)
-        axs[2].set_ylabel('Total', fontsize=16)
+        axs[2].set_ylabel('Total (Gigatonne)', fontsize=16)
         axs[2].set_title('Total Emission Dynamics G')
         axs[2].grid(linestyle=':')
         axs[2].legend()
