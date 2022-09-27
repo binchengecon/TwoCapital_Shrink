@@ -76,12 +76,11 @@ def pde_one_interation(ksp, petsc_mat, X1_mat_1d, X2_mat_1d, X3_mat_1d, lowerLim
 
 def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
 
-    bpointstart = time.time()
     hX1, hX2, hX3 = steps
     K_mat, Y_mat, L_mat = states
     delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_g = args
+
     i_star, e_star, x_star = controls
-    bpointInit = time.time()
     # First order derivative
     dX1  = finiteDiff_3D(v0,0,1,hX1)
     dX1[dX1 <= 1e-16] = 1e-16
@@ -91,13 +90,12 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     dX3  = finiteDiff_3D(v0,2,1,hX3)
     dX3[dX3 <= 1e-16] = 1e-16
     dL = dX3
-    bpointDV = time.time()
     ######## second order
     ddX1 = finiteDiff_3D(v0,0,2,hX1)
     ddX2 = finiteDiff_3D(v0,1,2,hX2)
     ddY = ddX2
     ddX3 = finiteDiff_3D(v0,2,2,hX3)
-    bpointDDV = time.time()
+
      # updating controls
     if theta == 2 and psi_1 == 1:
         mc = dL * psi_1 * psi_0 * np.exp(K_mat - L_mat)
@@ -163,28 +161,20 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
         i_new = - (mc / dK - 1) / kappa
         i_new[i_new <= 1e-16] = 1e-16
         x_new = (mc / (dL * psi_0 * psi_1) * np.exp(psi_1 * (L_mat - K_mat)) )**(1 / (psi_1 - 1))
-    
+
     ii = i_new * fraction + i_star * (1 - fraction)
     ee = e_new * fraction + e_star * (1 - fraction)
     xx = x_new * fraction + x_star * (1 - fraction)
-    bpointcontrolFOC = time.time()
     print("min i: {},\t max i: {}\t".format(ii.min(), ii.max()))
     print("min e: {},\t max e: {}\t".format(ee.min(), ee.max()))
     print("min x: {},\t max x: {}\t".format(xx.min(), xx.max()))
     # update smooth ambiguity
-    bpointsmoothFOC0 = time.time()
-    log_pi_c_ratio = - G * ee * theta_ell / xi_a # line 1
-    bpointsmoothFOC1 = time.time()
-    pi_c_ratio = log_pi_c_ratio - np.max(log_pi_c_ratio) # line 2
-    bpointsmoothFOC2 = time.time()
-    pi_c = np.exp(pi_c_ratio) * pi_c_o # line 3
-    bpointsmoothFOC3 = time.time()
-    pi_c = (pi_c <= 0) * 1e-16 + (pi_c > 0) * pi_c # line 4
-    bpointsmoothFOC4 = time.time()
-    pi_c = pi_c / np.sum(pi_c, axis=0) # line 5
-    bpointsmoothFOC5 = time.time()
-    entropy = np.sum(pi_c * (np.log(pi_c) - np.log(pi_c_o)), axis=0) # line 6
-    bpointsmoothFOC = time.time()
+    log_pi_c_ratio = - G * ee * theta_ell / xi_a
+    pi_c_ratio = log_pi_c_ratio - np.max(log_pi_c_ratio)
+    pi_c = np.exp(pi_c_ratio) * pi_c_o
+    pi_c = (pi_c <= 0) * 1e-16 + (pi_c > 0) * pi_c
+    pi_c = pi_c / np.sum(pi_c, axis=0)
+    entropy = np.sum(pi_c * (np.log(pi_c) - np.log(pi_c_o)), axis=0)
     # Technology
     gg = np.exp(1 / xi_g * (v0 - V_post_tech))
     gg[gg <=1e-16] = 1e-16
@@ -193,7 +183,6 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     jj[jj <= 1e-16] = 1e-16
     consumption = alpha - ii - jj - xx
     consumption[consumption <= 1e-16] = 1e-16
-    bpointtechFOC = time.time()
     # Step (2), solve minimization problem in HJB and calculate drift distortion
     A   = - delta * np.ones(K_mat.shape) - np.exp(L_mat) * gg
     B_1 = mu_k + ii - 0.5 * kappa * ii**2 - 0.5 * sigma_k**2
@@ -203,20 +192,7 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     C_2 = 0.5 * sigma_y**2 * ee**2
     C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
     D = delta * np.log(consumption) + delta * K_mat  - dG * np.sum(theta_ell * pi_c, axis=0) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_g * np.exp(L_mat) * (1 - gg + gg * np.log(gg)) + np.exp(L_mat) * gg * V_post_tech
-    bpointupdate = time.time()
-    print("Initilization: {:.3f}s".format(bpointInit - bpointstart))
-    print("Diff_dV: {:.3f}s".format(bpointDV - bpointInit))
-    print("Diff_ddV: {:.3f}s".format(bpointDDV - bpointDV))
-    print("controlFOC: {:.3f}s".format(bpointcontrolFOC - bpointDDV))
-    print("smoothFOC1: {:.3f}s".format(bpointsmoothFOC1 - bpointsmoothFOC0))
-    print("smoothFOC2: {:.3f}s".format(bpointsmoothFOC2 - bpointsmoothFOC1))
-    print("smoothFOC3: {:.3f}s".format(bpointsmoothFOC3 - bpointsmoothFOC2))
-    print("smoothFOC4: {:.3f}s".format(bpointsmoothFOC4 - bpointsmoothFOC3))
-    print("smoothFOC5: {:.3f}s".format(bpointsmoothFOC5 - bpointsmoothFOC4))
-    print("smoothFOC6: {:.3f}s".format(bpointsmoothFOC - bpointsmoothFOC5))
-    print("techFOC: {:.3f}s".format(bpointtechFOC - bpointsmoothFOC))
-    print("finalupdate: {:.3f}s".format(bpointupdate - bpointtechFOC))
-    
+
     return A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c
 
 def hjb_pre_tech(

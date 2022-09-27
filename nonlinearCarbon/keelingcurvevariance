@@ -1,0 +1,72 @@
+import numpy as np
+import pandas as pd
+from matplotlib import pyplot as plt
+
+
+file_name = "co2_mm_mlo"
+# time = 245
+# pulse = 25
+# Can = pd.read_csv("./nonlinearCarbon/data/"+file_name+".csv")
+Can = pd.read_csv("./nonlinearCarbon/data/"+file_name+".csv")
+# Can_CO2 = Can["CO2"]
+Can_CO2 = Can["average"]
+Can_deseason = Can["deseasonalized"]
+# plt.plot(Can)
+# plt.show()
+# plt.savefig
+
+Can_CO2_diff = np.diff(Can_CO2)
+# plt.plot(Ca)
+# plt.show()
+Can_CO2_std = np.std(Can_CO2_diff)
+
+Can_deseason_diff = np.diff(Can_deseason)
+# plt.plot(Ca)
+# plt.show()
+Can_deseason_std = np.std(Can_deseason_diff)
+
+figwidth = 10
+fig, axs = plt.subplots(2, 1, sharex=True, figsize=(
+    12, 2 * figwidth))
+
+
+axs[0].plot(Can_CO2,
+            label="keeling curve")
+axs[0].set_xlabel('Year')
+axs[0].set_ylabel('Carbon (ppm)')
+axs[0].set_title('Carbon Concentration Dynamics C')
+axs[0].grid(linestyle=':')
+axs[0].legend()
+
+axs[0].plot(Can_deseason,
+            label="deseasonalized keeling curve")
+axs[0].set_xlabel('Year')
+axs[0].set_ylabel('Carbon (ppm)')
+axs[0].set_title('Carbon Concentration Dynamics C')
+axs[0].grid(linestyle=':')
+axs[0].legend()
+
+
+axs[1].plot(Can_CO2_diff,
+            label="keeling curve, $\sigma_C$={:.4f}".format(Can_CO2_std))
+axs[1].set_xlabel('Year ')
+axs[1].set_ylabel('Carbon (ppm)')
+axs[1].set_title('First Order Difference of Carbon Concentration Dynamics C')
+axs[1].grid(linestyle=':')
+axs[1].legend()
+
+axs[1].plot(Can_deseason_diff,
+            label="deseasonalized keeling curve, $\sigma_C$={:.4f}".format(Can_deseason_std))
+axs[1].set_xlabel('Year ')
+axs[1].set_ylabel('Carbon (ppm)')
+axs[1].set_title('First Order Difference of Carbon Concentration Dynamics C')
+axs[1].grid(linestyle=':')
+axs[1].legend()
+
+
+Figure_Dir = "./nonlinearCarbon/figure/"
+
+plt.tight_layout()
+plt.savefig(Figure_Dir+"keelingcurve_2.pdf")
+plt.savefig(Figure_Dir+"keelingcurve_2.png")
+plt.close()
