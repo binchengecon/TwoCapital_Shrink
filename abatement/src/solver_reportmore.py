@@ -169,12 +169,17 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     print("min e: {},\t max e: {}\t".format(ee.min(), ee.max()))
     print("min x: {},\t max x: {}\t".format(xx.min(), xx.max()))
     # update smooth ambiguity
+    start_ksp1 = time.time()
     log_pi_c_ratio = - G * ee * theta_ell / xi_a
-    pi_c_ratio = log_pi_c_ratio - np.max(log_pi_c_ratio)
-    pi_c = np.exp(pi_c_ratio) * pi_c_o
-    pi_c = (pi_c <= 0) * 1e-16 + (pi_c > 0) * pi_c
+    # start_ksp2 = time.time()
+    pi_c = np.exp(log_pi_c_ratio)
+    # start_ksp3 = time.time()
+    # pi_c = (pi_c <= 0) * 1e-16 + (pi_c > 0) * pi_c
     pi_c = pi_c / np.sum(pi_c, axis=0)
-    entropy = np.sum(pi_c * (np.log(pi_c) - np.log(pi_c_o)), axis=0)
+    # start_ksp4 = time.time()
+    # entropy = np.sum(pi_c * (np.log(pi_c) - np.log(pi_c_o)), axis=0)
+    start_ksp5 = time.time()
+    print("linecomputation={:f}".format(start_ksp5-start_ksp1))
     # Technology
     gg = np.exp(1 / xi_g * (v0 - V_post_tech))
     gg[gg <=1e-16] = 1e-16
