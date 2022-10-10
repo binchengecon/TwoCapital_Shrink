@@ -78,7 +78,7 @@ def model(time, pulse, cearth):
     # CO2 uptake by vegetation
     wa = 0.006
 
-    #vegcover = 0.4
+    # vegcover = 0.4
     Thigh = 307.15
     Tlow = 286.15
     Topt1 = 286.15
@@ -96,18 +96,18 @@ def model(time, pulse, cearth):
     # time = 245
     # pulse = 25
     Can = pd.read_csv("./nonlinearCarbon/data/"+file_name+".csv")
-    #Can = pd.read_csv("Et-sim2.csv")
+    # Can = pd.read_csv("Et-sim2.csv")
     # times2co2eq
     # rcp85co2eq.csv
-    #Ca = Can[(Can["YEARS"] > 1899) & (Can["YEARS"] < 2201)]
-    #Ca = Can[(Can["YEARS"] > 1799) & (Can["YEARS"] < 2501)]
+    # Ca = Can[(Can["YEARS"] > 1899) & (Can["YEARS"] < 2201)]
+    # Ca = Can[(Can["YEARS"] > 1799) & (Can["YEARS"] < 2501)]
     Ca = Can[(Can["YEARS"] > 1799) & (Can["YEARS"] < 2801)]
     # Ca = Can[(Can["YEARS"] < 2801)]
     Ca1 = Can[(Can["YEARS"] > 1799) & (Can["YEARS"] < 2801)]
-    #Ca["YEARS"] = np.arange(start=0,stop=401,step=1)
-    #Ca = Ca.pd.DataFrame()
+    # Ca["YEARS"] = np.arange(start=0,stop=401,step=1)
+    # Ca = Ca.pd.DataFrame()
     Ca = Ca["CO2EQ"]
-    #Ca = Ca - 286.76808
+    # Ca = Ca - 286.76808
     Ca = Ca - 281.69873
     Ca = Ca.to_numpy()
 
@@ -140,7 +140,7 @@ def model(time, pulse, cearth):
     #     else:
     #         Cc[i] = sum(Cebis[0:i])
 
-    #Ce = np.arange(401)
+    # Ce = np.arange(401)
     # Ce = np.arange(601)
     # Ce = np.arange(1001) * 1.0
     Ce = np.zeros(tspan)
@@ -178,14 +178,14 @@ def model(time, pulse, cearth):
     alphaocean_min = 0.25
 
     # Biopump parameters
-    #Cbio_low = 100
-    #Cbio_high = 700
+    # Cbio_low = 100
+    # Cbio_high = 700
 
     # FUNCTIONS
 
     # Anthropogenic carbon fitting with cubic spline
     t_val = np.linspace(0, tspan-1, tspan)
-    #t_val = np.linspace(0, 700, 701)
+    # t_val = np.linspace(0, 700, 701)
     # t_val = np.linspace(0, 1000, 1001)
 
     def Yem(t):
@@ -209,37 +209,37 @@ def model(time, pulse, cearth):
         tck = interpolate.splrep(t_points, em_points)
         return interpolate.splev(t, tck)
 
-    #plt.plot(t_val, Ca)
-    #plt.plot(t_val, Yem(t_val))
+    # plt.plot(t_val, Ca)
+    # plt.plot(t_val, Yem(t_val))
 
-    #plt.plot(t_val, Ce)
-    #plt.plot(t_val, Yam(t_val))
+    # plt.plot(t_val, Ce)
+    # plt.plot(t_val, Yam(t_val))
 
     # plt.plot(t_val, Cc)
     # plt.plot(t_val, Ycm(t_val))
 
-    #t_val_v2 = np.linspace(1800, 2800, 1001)
-    #tv2 = np.linspace(1800, 2800, 100000)
-    #Ycm30 = Ycm(t_val_v2)
+    # t_val_v2 = np.linspace(1800, 2800, 1001)
+    # tv2 = np.linspace(1800, 2800, 100000)
+    # Ycm30 = Ycm(t_val_v2)
 
-    #plt.figure(figsize=(10, 5))
-    #plt.plot(tv, Tvmid)
+    # plt.figure(figsize=(10, 5))
+    # plt.plot(tv, Tvmid)
 
-    #plt.plot(t_val_v2[0:600], Ycm[0:600])
-    #plt.plot(t_val_v2[0:600], Ycm60[0:600])
-    #plt.plot(t_val_v2[0:600], Ycm45[0:600])
-    #plt.plot(t_val_v2[0:600], Ycm30[0:600])
+    # plt.plot(t_val_v2[0:600], Ycm[0:600])
+    # plt.plot(t_val_v2[0:600], Ycm60[0:600])
+    # plt.plot(t_val_v2[0:600], Ycm45[0:600])
+    # plt.plot(t_val_v2[0:600], Ycm30[0:600])
 
-    #plt.tick_params(axis='both', which='major', labelsize=18)
-    #plt.xlabel('Time (year)',fontsize = 18);
-    #plt.ylabel('Temperature annomaly (K)',fontsize = 18);
+    # plt.tick_params(axis='both', which='major', labelsize=18)
+    # plt.xlabel('Time (year)',fontsize = 18);
+    # plt.ylabel('Temperature annomaly (K)',fontsize = 18);
     # plt.grid(linestyle=':')
 
-    #t_val_v2 = np.linspace(1800, 2800, 1001)
-    #plt.plot(t_val_v2[0:600], Yam(t_val)[0:600])
-    #plt.tick_params(axis='both', which='major', labelsize=13)
-    #plt.xlabel('Time (years)',fontsize = 14);
-    #plt.ylabel('Annual emissions (ppm/year)',fontsize = 14);
+    # t_val_v2 = np.linspace(1800, 2800, 1001)
+    # plt.plot(t_val_v2[0:600], Yam(t_val)[0:600])
+    # plt.tick_params(axis='both', which='major', labelsize=13)
+    # plt.xlabel('Time (years)',fontsize = 14);
+    # plt.ylabel('Annual emissions (ppm/year)',fontsize = 14);
     # plt.grid(linestyle=':')
 
     # Ocean albedo
@@ -276,8 +276,8 @@ def model(time, pulse, cearth):
 
     # Biopump modulation
 
-    #Cbio_low = 150
-    #Cbio_high = 615
+    # Cbio_low = 150
+    # Cbio_high = 615
 
     Cbio_low = 150
     Cbio_high = 750
@@ -292,27 +292,27 @@ def model(time, pulse, cearth):
     #        return 0
     #        #return -1
 
-    #biopump = np.vectorize(biopump)
+    # biopump = np.vectorize(biopump)
 
-    #Cc_values = np.linspace(0, 1500, 201)
-    #plt.plot(Cc_values, [biopump(val) for val in Cc_values])
-    #plt.tick_params(axis='both', which='major', labelsize=13)
-    #plt.xlabel('Cumulative anthropogenic emissions (ppm)',fontsize = 14);
-    #plt.ylabel('Bio pump efficiency',fontsize = 14);
+    # Cc_values = np.linspace(0, 1500, 201)
+    # plt.plot(Cc_values, [biopump(val) for val in Cc_values])
+    # plt.tick_params(axis='both', which='major', labelsize=13)
+    # plt.xlabel('Cumulative anthropogenic emissions (ppm)',fontsize = 14);
+    # plt.ylabel('Bio pump efficiency',fontsize = 14);
     # plt.grid(linestyle=':')
 
     # Time varying biopump modulation
 
-    #plt.plot(t_val, [biopump(val) for val in Ca])
-    #plt.tick_params(axis='both', which='major', labelsize=13)
-    #plt.xlabel('Time (years)',fontsize = 14);
-    #plt.ylabel('Bio pump efficiency',fontsize = 14);
+    # plt.plot(t_val, [biopump(val) for val in Ca])
+    # plt.tick_params(axis='both', which='major', labelsize=13)
+    # plt.xlabel('Time (years)',fontsize = 14);
+    # plt.ylabel('Bio pump efficiency',fontsize = 14);
     # plt.grid(linestyle=':')
 
     # switch between Ca and Cc to allow for reversal of ocean acidity or locking it
 
-    #biomodulation = [biopump(val) for val in Cc]
-    #biomod = np.float_(biomodulation)
+    # biomodulation = [biopump(val) for val in Cc]
+    # biomod = np.float_(biomodulation)
 
     # def bioefficiency(t):
     #    t_points = t_val
@@ -321,31 +321,31 @@ def model(time, pulse, cearth):
     #    tck = interpolate.splrep(t_points, em_points)
     #    return interpolate.splev(t,tck)
 
-    #plt.plot(t_val, bioefficiency(t_val))
-    #plt.tick_params(axis='both', which='major', labelsize=18)
-    #plt.xlabel('Time (years)',fontsize = 18);
-    #plt.ylabel('Bio pump efficiency',fontsize = 18);
+    # plt.plot(t_val, bioefficiency(t_val))
+    # plt.tick_params(axis='both', which='major', labelsize=18)
+    # plt.xlabel('Time (years)',fontsize = 18);
+    # plt.ylabel('Bio pump efficiency',fontsize = 18);
     # plt.grid(linestyle=':')
 
-    #t_val_v2 = np.linspace(1800, 2800, 1001)
-    #plt.plot(t_val_v2, bioefficiency(t_val))
-    #plt.tick_params(axis='both', which='major', labelsize=18)
-    #plt.xlabel('Time (years)',fontsize = 18);
-    #plt.ylabel('Bio efficiency',fontsize = 18);
+    # t_val_v2 = np.linspace(1800, 2800, 1001)
+    # plt.plot(t_val_v2, bioefficiency(t_val))
+    # plt.tick_params(axis='both', which='major', labelsize=18)
+    # plt.xlabel('Time (years)',fontsize = 18);
+    # plt.ylabel('Bio efficiency',fontsize = 18);
     # plt.grid(linestyle=':')
 
-    #t_val_v2 = np.linspace(1800, 2800, 1001)
-    #plt.plot(t_val_v2[0:600], bioefficiency(t_val)[0:600])
-    #plt.tick_params(axis='both', which='major', labelsize=18)
-    #plt.xlabel('Time (years)',fontsize = 18);
-    #plt.ylabel('Bio pump efficiency',fontsize = 18);
+    # t_val_v2 = np.linspace(1800, 2800, 1001)
+    # plt.plot(t_val_v2[0:600], bioefficiency(t_val)[0:600])
+    # plt.tick_params(axis='both', which='major', labelsize=18)
+    # plt.xlabel('Time (years)',fontsize = 18);
+    # plt.ylabel('Bio pump efficiency',fontsize = 18);
     # plt.grid(linestyle=':')
 
-    #t_val_v3 = np.linspace(1, 1, 1001)
-    #plt.plot(t_val_v2[0:600], t_val_v3[0:600])
-    #plt.tick_params(axis='both', which='major', labelsize=18)
-    #plt.xlabel('Time (years)',fontsize = 18);
-    #plt.ylabel('Bio pump efficiency',fontsize = 18);
+    # t_val_v3 = np.linspace(1, 1, 1001)
+    # plt.plot(t_val_v2[0:600], t_val_v3[0:600])
+    # plt.tick_params(axis='both', which='major', labelsize=18)
+    # plt.xlabel('Time (years)',fontsize = 18);
+    # plt.ylabel('Bio pump efficiency',fontsize = 18);
     # plt.grid(linestyle=':')
 
     # Vegetation growth function
@@ -378,7 +378,7 @@ def model(time, pulse, cearth):
     # plt.grid(linestyle=':')
 
     # veggrowth(286.6181299517094)
-    #veggrowth_vectorized = np.vectorize(veggrowth)
+    # veggrowth_vectorized = np.vectorize(veggrowth)
     # veggrowth_vectorized(Tv)
 
     # veggrowth(Tvmean)
@@ -389,8 +389,8 @@ def model(time, pulse, cearth):
     Tbiopt1_low = Topt1
     Tbiopt1_high = Topt1 + 5
 
-    #Cbio_low = 150
-    #Cbio_high = 600
+    # Cbio_low = 150
+    # Cbio_high = 600
 
     def Tbioptlow(Cc):
         if Cc < Cbio_low:
@@ -413,10 +413,10 @@ def model(time, pulse, cearth):
 
     # Time varying biopump modulation
 
-    #plt.plot(t_val, [biopump(val) for val in Ca])
-    #plt.tick_params(axis='both', which='major', labelsize=13)
-    #plt.xlabel('Time (years)',fontsize = 14);
-    #plt.ylabel('Bio pump efficiency',fontsize = 14);
+    # plt.plot(t_val, [biopump(val) for val in Ca])
+    # plt.tick_params(axis='both', which='major', labelsize=13)
+    # plt.xlabel('Time (years)',fontsize = 14);
+    # plt.ylabel('Bio pump efficiency',fontsize = 14);
     # plt.grid(linestyle=':')
 
     # switch between Ca and Cc to allow for reversal of ocean acidity or locking it
@@ -443,8 +443,8 @@ def model(time, pulse, cearth):
     Tbiolow_low = Tlow
     Tbiolow_high = Tlow + 5
 
-    #Cbio_low = 150
-    #Cbio_high = 600
+    # Cbio_low = 150
+    # Cbio_high = 600
 
     def Tbiolow(Cc):
         if Cc < Cbio_low:
@@ -467,10 +467,10 @@ def model(time, pulse, cearth):
 
     # Time varying biopump modulation
 
-    #plt.plot(t_val, [biopump(val) for val in Ca])
-    #plt.tick_params(axis='both', which='major', labelsize=13)
-    #plt.xlabel('Time (years)',fontsize = 14);
-    #plt.ylabel('Bio pump efficiency',fontsize = 14);
+    # plt.plot(t_val, [biopump(val) for val in Ca])
+    # plt.tick_params(axis='both', which='major', labelsize=13)
+    # plt.xlabel('Time (years)',fontsize = 14);
+    # plt.ylabel('Bio pump efficiency',fontsize = 14);
     # plt.grid(linestyle=':')
 
     # switch between Ca and Cc to allow for reversal of ocean acidity or locking it
@@ -514,8 +514,8 @@ def model(time, pulse, cearth):
     def Ri(T):
         return 1/cearth * (Q0 * (1 - p * alphaland - (1 - p) * alphaocean(T)))
 
-    #plt.plot(T_values, [Ri(val) for val in T_values])
-    #plt.xlabel('Temperature (K)')
+    # plt.plot(T_values, [Ri(val) for val in T_values])
+    # plt.xlabel('Temperature (K)')
     # plt.grid(linestyle=':')
 
     # Outgoing radiation modified by greenhouse effect
@@ -567,7 +567,7 @@ def model(time, pulse, cearth):
         dC += Yam(t) * sa
         # dC += Ca * sa                                       # added for bif diagrams
         # dC -= wa * C * vegcover * veggrowth(T)             # carbon uptake by vegetation
-        #dC -= vegflux(T, C, t)
+        # dC -= vegflux(T, C, t)
         dC -= vegfluxdyn(T, C, t)
         # physical solubility into ocean * fraction of ice-free ocean
         dC += oceanatmphysflux(T) * (1 - fracseaice(T))
@@ -582,17 +582,17 @@ def model(time, pulse, cearth):
     # Integrate the ODE
 
     sa = 1
-    #Ts = 282.9
+    # Ts = 282.9
     Ts = 286.5
     Cs = 269
 
-    #wa = 0.05
-    #cod = 0.15
+    # wa = 0.05
+    # cod = 0.15
     alphaland = 0.28
     bP = 0.05
     bB = 0.05
     # cod = 2.2
-    #cearth = 35
+    # cearth = 35
     # cearth = 0.3725
     tauc = 30
     coc0 = 330
@@ -602,15 +602,15 @@ def model(time, pulse, cearth):
     alphaocean_max = 0.843
     alphaocean_min = 0.254
 
-    #Cbio_low = 50
-    #Cbio_high = 700
+    # Cbio_low = 50
+    # Cbio_high = 700
 
     T0 = 288
     C0 = 280
 
     # CO2 uptake by vegetation
     # wa = 0.0056
-    #vegcover = 0.4
+    # vegcover = 0.4
 
     Thigh = 307.15
     Tlow = 286.15
@@ -618,18 +618,18 @@ def model(time, pulse, cearth):
     Topt2 = 302.15
     acc = 8
 
-    #Thigh = 305
-    #Tlow = 282
-    #Topt1 = 295
-    #Topt2 = 282.5
-    #acc = 2
-    #Cs = C0
+    # Thigh = 305
+    # Tlow = 282
+    # Topt1 = 295
+    # Topt2 = 282.5
+    # acc = 2
+    # Cs = C0
     init = [Ts, Cs]
     t_eval = np.linspace(0, tspan, 10000)
     sol = solve_ivp(dydt, t_eval[[0, -1]], init,
                     t_eval=t_eval, method='RK45', max_step=0.1)
 
-    #sol = solve_ivp(dydt, t_eval[[0, -1]], init, t_eval=t_eval, method='BDF')
+    # sol = solve_ivp(dydt, t_eval[[0, -1]], init, t_eval=t_eval, method='BDF')
 
     # Extract values of temperature and C02
     Tv = sol.y[0, :]
@@ -642,7 +642,7 @@ def model(time, pulse, cearth):
 
     Tvmid = Tv - 286.6181299517094
     Cvmid = Cv - 268.6226981649593
-    #Tvmid = Tv - 271.0298639974771
+    # Tvmid = Tv - 271.0298639974771
     Tvmean = np.mean(Tv)
     Tvmin = np.min(Tv)
     Tvmax = np.max(Tv)
@@ -660,15 +660,16 @@ figwidth = 10
 fig, axs = plt.subplots(3, 1, sharex=True, figsize=(12, 2 * figwidth))
 
 
-ceartharray = np.array((.33, 20, 50, 500))
+# ceartharray = np.array((.33, 20, 50, 500))
 # ceartharray = np.array((50, 500, 1000, 2000))
-
+ceartharray = np.array((.33, 20))
 pathnum = 0
 
+time = 210
 for cearth in ceartharray:
 
     tvBase, TvmidBase, CvBase, TeBase, CcBase, file_name, bP, bB, cearth = model(
-        0, 0, cearth)
+        time, 200, cearth)
     # print(CcBase)
 
     print(f"bP={bP}")
@@ -709,6 +710,8 @@ for cearth in ceartharray:
 
 
 plt.tight_layout()
-plt.savefig(Figure_Dir+"Pulse="+file_name+",cearth"+str(ceartharray)+".pdf")
-plt.savefig(Figure_Dir+"Pulse="+file_name+",cearth"+str(ceartharray)+".png")
+plt.savefig(Figure_Dir+"Pulse="+file_name+",cearth" +
+            str(ceartharray)+"year"+str(time+1800)+".pdf")
+plt.savefig(Figure_Dir+"Pulse="+file_name+",cearth" +
+            str(ceartharray)+"year"+str(time+1800)+".png")
 plt.close()
