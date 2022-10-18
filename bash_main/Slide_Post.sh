@@ -1,7 +1,15 @@
 #! /bin/bash
 
+# Coarse Grid: PSI1 = 0.5 0.8 done
+# Find Grid: TBD
+
 # epsilonarray=(0.005 0.008 0.012 0.1)
-epsilonarray=(0.1)
+# epsilonarray=(0.1) #Computation of coarse grid and psi10.5
+# epsilonarray=(0.008) #Computation of coarse grid and psi10.8
+
+epsilonarray=(0.1 0.008) # Computation of fine grid and psi10.5 test 0.1 and 0.008 work or not
+# epsilonarray=(0.005 0.008) # Computation of fine grid and psi10.8 test 0.005 and 0.008 work or not
+
 actiontime=1
 python_name="postdamage_2jump_repless.py"
 
@@ -15,7 +23,8 @@ declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr3=([0]=0.05 [1]=0.05 [2]=0.05)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-hXarrays=(hXarr1)
+# hXarrays=(hXarr1)
+hXarrays=(hXarr3)
 
 Xminarr=(4.00 0.0 -5.5 0.0)
 Xmaxarr=(9.00 4.0 0.0 3.0)
