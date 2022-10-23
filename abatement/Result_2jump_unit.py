@@ -587,7 +587,7 @@ def graph_unit(psi_0,psi_1,Ig_initial = 1/120):
         plt.xlabel('Years')
         plt.ylabel("Technology jump intensity")
         plt.title("Technology jump intensity")
-        ply.ylim(0,0.23)
+        plt.ylim(0,0.23)
         plt.grid(linestyle=':')
         plt.legend(loc='upper left')
 
