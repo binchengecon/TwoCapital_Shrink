@@ -39,7 +39,7 @@ current_time = now.strftime("%d-%H:%M")
 
 parser = argparse.ArgumentParser(description="xi_r values")
 parser.add_argument("--xi_a", type=float, default=1000.)
-parser.add_argument("--xi_p", type=float, default=1000.)
+parser.add_argument("--xi_g", type=float, default=1000.)
 parser.add_argument("--psi_0", type=float, default=0.003)
 parser.add_argument("--psi_1", type=float, default=0.5)
 parser.add_argument("--num_gamma",type=int,default=6)
@@ -69,9 +69,9 @@ maxiterarr = args.maxiterarr
 start_time = time.time()
 # Parameters as defined in the paper
 xi_a = args.xi_a # Smooth ambiguity
-xi_p = args.xi_p  # Damage poisson
+xi_p = args.xi_g  # Damage poisson
 xi_b = 1000. # Brownian misspecification
-xi_g = args.xi_p  # Technology jump
+xi_g = args.xi_g  # Technology jump
 
 # DataDir = "./res_data/6damage/xi_a_" + str(xi_a) + "_xi_g_" + str(xi_g) +  "/"
 # if not os.path.exists(DataDir):

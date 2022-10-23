@@ -324,7 +324,7 @@ def hjb_pre_tech(
         FC_Err = np.max(abs((out_comp - v0)/ epsilon))
         if epoch%1000==0:
 
-            print("Epoch {:d} (PETSc): PDE Error: {:.10f}; False Transient Error: {:.10f}" .format(epoch, PDE_Err, FC_Err))
+            print("Epoch {:d} (PETSc): PDE Error: {:.10f}; False Transient Error: {:.10f}" .format(epoch, PDE_Err, FC_Err),flush=True)
             print("Epoch time: {:.4f}".format(time.time() - start_ep))
 
         v0     = out_comp

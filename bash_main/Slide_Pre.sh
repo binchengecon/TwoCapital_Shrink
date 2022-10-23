@@ -10,8 +10,16 @@
 # epsilonarray=(0.1 0.008) # Computation of fine grid and psi10.5 test 0.1 and 0.008 work or not
 # epsilonarray=(0.005 0.008) # Computation of fine grid and psi10.8 test 0.005 and 0.008 work or not
 
+# epsilonarraypost=(0.1)  # Computation of coarse grid and psi10.5, post
+# epsilonarraypre=(0.005) # Computation of coarse grid and psi10.5, pre
+
+# actiontime=1
+# epsilonarraypost=(0.008) # Computation of coarse grid and psi10.8, post
+# epsilonarraypre=(0.005)  # Computation of coarse grid and psi10.8, pre
+
 actiontime=1
-epsilonarray=(0.005) # Computation of coarse grid and psi10.5
+epsilonarraypost=(0.008) # Computation of fine grid and psi10.5, post
+epsilonarraypre=(0.005)  # Computation of fine grid and psi10.5, pre
 
 python_name="predamage_2jump_repless.py"
 
@@ -25,8 +33,8 @@ declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr3=([0]=0.05 [1]=0.05 [2]=0.05)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-hXarrays=(hXarr1)
-# hXarrays=(hXarr3)
+# hXarrays=(hXarr1)
+hXarrays=(hXarr3)
 
 Xminarr=(4.00 0.0 -5.5 0.0)
 Xmaxarr=(9.00 4.0 0.0 3.0)
@@ -50,17 +58,16 @@ Xmaxarr_SG=(9.00 4.0 0.0 3.0)
 interp_action_name="2jump_step_0.2_0.2_0.2_LR_0.01"
 fstr_SG="NearestNDInterpolator"
 
-for epsilon in ${epsilonarray[@]}; do
-	for hXarri in "${hXarrays[@]}"; do
-		count=0
-		declare -n hXarr="$hXarri"
+for epsilon in ${epsilonarraypre[@]}; do
+	for epsilonpost in ${epsilonarraypost[@]}; do
+		for hXarri in "${hXarrays[@]}"; do
+			count=0
+			declare -n hXarr="$hXarri"
 
-		action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_Psi01ComparisonSlide"
+			action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_Psi01ComparisonSlide"
 
-		epsilonarr=(0.01 ${epsilon})
-		fractionarr=(0.01 ${epsilon})
-
-		for i in $(seq 0 $ID_MAX_DAMAGE); do
+			epsilonarr=(0.01 ${epsilon})
+			fractionarr=(0.01 ${epsilon})
 			for PSI_0 in ${psi0arr[@]}; do
 				for PSI_1 in ${psi1arr[@]}; do
 					for j in $(seq 0 $LENGTH_xi); do
@@ -80,15 +87,15 @@ for epsilon in ${epsilonarray[@]}; do
 
 
 ######## login 
-#SBATCH --job-name=${hXarr[0]}_$i
+#SBATCH --job-name=pre${hXarr[0]}
 #SBATCH --output=./job-outs/${action_name}/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_pre_${actiontime}.out
 #SBATCH --error=./job-outs/${action_name}/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_pre_${actiontime}.err
 
 
 #SBATCH --account=pi-lhansen
 #SBATCH --partition=standard
-#SBATCH --cpus-per-task=3
-#SBATCH --mem=16G
+#SBATCH --cpus-per-task=5
+#SBATCH --mem=25G
 #SBATCH --time=7-00:00:00
 
 ####### load modules
