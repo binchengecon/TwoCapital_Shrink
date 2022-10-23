@@ -544,6 +544,7 @@ def graph_unit(psi_0,psi_1,Ig_initial = 1/120):
         plt.xlabel('Years')
         plt.ylabel("Capital investment")
         plt.title("Capital investment")
+        plt.ylim(60,220)
         plt.grid(linestyle=':')
         plt.legend(loc='upper left')
 
@@ -557,6 +558,7 @@ def graph_unit(psi_0,psi_1,Ig_initial = 1/120):
         plt.xlabel('Years')
         plt.ylabel("Emission")
         plt.title("Emission")
+        plt.ylim(8,22)
         plt.grid(linestyle=':')
         plt.legend(loc='upper left')
 
@@ -571,6 +573,7 @@ def graph_unit(psi_0,psi_1,Ig_initial = 1/120):
         plt.xlabel('Years')
         plt.ylabel("Temperature anomaly")
         plt.title("Temperature anomaly")
+        plt.ylim(1,2.8)
         plt.grid(linestyle=':')
         plt.legend(loc='upper left')
 
@@ -584,6 +587,7 @@ def graph_unit(psi_0,psi_1,Ig_initial = 1/120):
         plt.xlabel('Years')
         plt.ylabel("Technology jump intensity")
         plt.title("Technology jump intensity")
+        ply.ylim(0,0.23)
         plt.grid(linestyle=':')
         plt.legend(loc='upper left')
 
@@ -599,6 +603,7 @@ def graph_unit(psi_0,psi_1,Ig_initial = 1/120):
         plt.xlabel('Years')
         plt.ylabel("Distorted probability of first technology jump")
         plt.title("Distorted probability of first technology jump")
+        plt.ylim(0,1)
         plt.grid(linestyle=':')
         plt.legend(loc='upper left')
 
@@ -612,6 +617,7 @@ def graph_unit(psi_0,psi_1,Ig_initial = 1/120):
         plt.xlabel('Years')
         plt.ylabel("Distorted probability of damage changes")
         plt.title("Distorted probability of damage changes")
+        plt.ylim(0,1)
         plt.grid(linestyle=':')
         plt.legend(loc='upper left')
 
@@ -625,6 +631,7 @@ def graph_unit(psi_0,psi_1,Ig_initial = 1/120):
         plt.xlabel("Years")
         plt.ylabel("True probability of first technology jump")
         plt.title("True probability of first technology jump")
+        plt.ylim(0,1)
         plt.grid(linestyle=':')
         plt.legend(loc='upper left')
 
@@ -638,6 +645,7 @@ def graph_unit(psi_0,psi_1,Ig_initial = 1/120):
         plt.xlabel("Years")
         plt.ylabel("True probability of damage changes")
         plt.title("True probability of damage changes")
+        plt.ylim(0,1)
         plt.grid(linestyle=':')
         plt.legend(loc='upper left')
 
