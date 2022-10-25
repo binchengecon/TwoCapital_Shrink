@@ -2,16 +2,24 @@
 # epsilonarraypost=(0.1)  # Computation of coarse grid and psi10.5, post
 # epsilonarraypre=(0.005) # Computation of coarse grid and psi10.5, pre
 
-actiontime=1
-epsilonarraypost=(0.008) # Computation of coarse grid and psi10.8, post
-epsilonarraypre=(0.005)  # Computation of coarse grid and psi10.8, pre
+# actiontime=2
+# epsilonarraypost=(0.008) # Computation of coarse grid and psi10.8, post
+# epsilonarraypre=(0.005)  # Computation of coarse grid and psi10.8, pre
+
+actiontime=3
+epsilonarraypost=(0.008) # Computation of fine grid and psi10.5, post
+epsilonarraypre=(0.005)  # Computation of fine grid and psi10.5, pre
+
+# actiontime=4
+# epsilonarraypost=(0.008) # Computation of coarse grid and psi10.8, post
+# epsilonarraypre=(0.005)  # Computation of coarse grid and psi10.8, pre
 
 declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr3=([0]=0.05 [1]=0.05 [2]=0.05)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-hXarrays=(hXarr1)
-# hXarrays=(hXarr3)
+# hXarrays=(hXarr1)
+hXarrays=(hXarr3)
 
 Xminarr=(4.00 0.0 -5.5 0.0)
 Xmaxarr=(9.00 4.0 0.0 3.0)
@@ -23,8 +31,8 @@ xi_p=(1000.)
 
 psi0arr=(0.005 0.008 0.010 0.012)
 # psi1arr=(0.5 0.6 0.7 0.8)
-# psi1arr=(0.5)
-psi1arr=(0.8)
+psi1arr=(0.5)
+# psi1arr=(0.8)
 python_name_unit="Result_2jump_unit.py"
 server_name="mercury"
 
