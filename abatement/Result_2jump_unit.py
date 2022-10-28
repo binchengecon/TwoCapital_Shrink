@@ -415,7 +415,7 @@ def graph_unit(psi_0,psi_1,Ig_initial = 1/120):
         # axs1[0].plot(res["years"], (res["x"]),label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k]),linewidth=7.0)
         axs1[0].set_xlabel('Years')
         axs1[0].set_ylabel('$\%$ of GDP')
-        axs1[0].set_ylim(0,0.45)
+        axs1[0].set_ylim(0,0.47)
         axs1[0].set_title('R&D investment as percentage of GDP')            
         # axs1[0].set_ylabel('unit of capital')
         # axs1[0].set_title('R&D investment in unit of capital')
@@ -532,7 +532,7 @@ def graph_unit(psi_0,psi_1,Ig_initial = 1/120):
         plt.xlabel('Years')
         plt.ylabel('$\%$ of GDP')
         plt.title('R&D investment as percentage of  GDP')   
-        plt.ylim(0,0.45)
+        plt.ylim(0,0.47)
         plt.legend(loc='upper left')        
 
         plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RD,psi0={:.3f},psi1={:.3f}.pdf".format(psi_0,psi_1))
