@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # Coarse Grid: PSI1 = 0.5 0.8 done
-# Find Grid: TBD
+# Fine Grid: PSI1 = 0.5 0.8 done
 
 # epsilonarray=(0.005 0.008 0.012 0.1)
 # epsilonarray=(0.1) #Computation of coarse grid and psi10.5
@@ -17,9 +17,15 @@
 # epsilonarraypost=(0.008) # Computation of coarse grid and psi10.8, post
 # epsilonarraypre=(0.005)  # Computation of coarse grid and psi10.8, pre
 
+# actiontime=1
+# epsilonarraypost=(0.008) # Computation of fine grid and psi10.5, post
+# epsilonarraypre=(0.005)  # Computation of fine grid and psi10.5, pre
+
+
 actiontime=1
-epsilonarraypost=(0.008) # Computation of fine grid and psi10.5, post
-epsilonarraypre=(0.005)  # Computation of fine grid and psi10.5, pre
+epsilonarraypost=(0.005) # Computation of fine grid and psi10.8, post
+epsilonarraypre=(0.005)  # Computation of fine grid and psi10.8, pre
+
 
 python_name="predamage_2jump_repless.py"
 
@@ -46,8 +52,8 @@ xi_p=(1000.)
 
 psi0arr=(0.005 0.008 0.010 0.012)
 # psi1arr=(0.5 0.6 0.7 0.8)
-psi1arr=(0.5)
-# psi1arr=(0.8)
+# psi1arr=(0.5)
+psi1arr=(0.8)
 
 LENGTH_psi=$((${#psi0arr[@]} - 1))
 LENGTH_xi=$((${#xi_a[@]} - 1))

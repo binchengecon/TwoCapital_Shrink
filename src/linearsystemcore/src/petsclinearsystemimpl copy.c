@@ -75,7 +75,7 @@ static inline void fill_mat_values_Upwind(PetscScalar *State, PetscInt i, PetscI
     vals[center] += -dt*(-firstCoefEF*(firstCoefEF > 0) + firstCoefEB*( firstCoefEB<0))/dVec[j] - dt*(-2)*secondCoefE/(PetscPowReal(dVec[j],2));
     vals[center+1+2*j] = -dt*firstCoefEF*(firstCoefEF > 0)/dVec[j] - dt*secondCoefE/(PetscPowReal(dVec[j],2));
     vals[center-1-2*j] = -dt*-firstCoefEB*(firstCoefEB < 0)/dVec[j] - dt*secondCoefE/(PetscPowReal(dVec[j],2));
-    cols[center-1-2*j] = i - incVec[j]; // ?? why this term
+    cols[center-1-2*j] = i - incVec[j]; 
     if (i + incVec[j] < maxcols) cols[center+1+2*j] = i + incVec[j]; // ignore out of bound entries
   }
 }
