@@ -532,7 +532,7 @@ def graph_unit(psi_0,psi_1,Ig_initial = 1/120):
         plt.xlabel('Years')
         plt.ylabel('$\%$ of GDP')
         plt.title('R&D investment as percentage of  GDP')   
-        plt.ylim(0,0.47)
+        plt.ylim(0,0.50)
         plt.legend(loc='upper left')        
 
         plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RD,psi0={:.3f},psi1={:.3f}.pdf".format(psi_0,psi_1))
