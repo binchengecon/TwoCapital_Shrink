@@ -14,30 +14,11 @@ APP_KEY = "xfyyilhghe0tjgx"
 APP_SECRET = "i4usp8n8zd1m1za"
 DROPBOX_ACCESS_TOKEN = 'sl.BSp2M7eldpMjchM7fVxec79meoXB3SWZyot82JJeegbKLGKXzCBO7Fmzeo4oeHg32jCKp1pAbyCOTF3lU2jLmt52NM_cziZreHyAdAMvlV1lr-qRTD6jySXrHMl_8rLU1Egcs2Ud63zs'
 
-auth_flow = DropboxOAuth2FlowNoRedirect(APP_KEY,
-                                        consumer_secret=APP_SECRET,
-                                        token_access_type='offline',
-                                        scope=['account_info.write', 'files.metadata.write', 'files.content.write', 'files.content.read', 'sharing.write', 'file_requests.write', 'contacts.write'])
+access_token = 'sl.BSrM6Z8d20gqiOyR31ILy1wJHv9bJSMbrGg9mqSaTt7gBtHzdLeHUtOPDdNycHtgXWFbIuXLJsyYwRhb1Qb2PZfTEgzyzTVVigho38FRoMfXzfn3GTpmMWdYDlCk8eM9Oo7KC1m5OFsa'
+refresh_token = 'e99Iglh-M9sAAAAAAAAAASDcaEO5UfEss3MdSD4mnygTsN3J6VTxDt6_FLqz7HhA'
 
-authorize_url = auth_flow.start()
-print("1. Go to: " + authorize_url)
-print("2. Click \"Allow\" (you might have to log in first).")
-print("3. Copy the authorization code.")
-auth_code = input("Enter the authorization code here: ").strip()
-
-
-try:
-    oauth_result = auth_flow.finish(auth_code)
-    # Oauth token has files.metadata.read scope only
-    # assert oauth_result.scope == 'files.metadata.read'
-except Exception as e:
-    print('Error: %s' % (e,))
-    exit(1)
-
-
-with dropbox.Dropbox(oauth2_access_token=oauth_result.access_token,
-                     oauth2_access_token_expiration=oauth_result.expires_at,
-                     oauth2_refresh_token=oauth_result.refresh_token,
+with dropbox.Dropbox(oauth2_access_token=access_token,
+                     oauth2_refresh_token=refresh_token,
                      app_key=APP_KEY,
                      app_secret=APP_SECRET):
     print("Successfully set up client!")
@@ -208,9 +189,8 @@ def dropbox_upload_folder_LARGE_LongToken(
     chunk_size=4 * 1024 * 1024,
 ):
     try:
-        dbx = dropbox.Dropbox(oauth2_access_token=oauth_result.access_token,
-                              oauth2_access_token_expiration=oauth_result.expires_at,
-                              oauth2_refresh_token=oauth_result.refresh_token,
+        dbx = dropbox.Dropbox(oauth2_access_token=access_token,
+                              oauth2_refresh_token=refresh_token,
                               app_key=APP_KEY,
                               app_secret=APP_SECRET)
         # enumerate local files recursively
