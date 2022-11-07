@@ -2,10 +2,46 @@ import pathlib
 import pandas as pd
 import dropbox
 from dropbox.exceptions import AuthError
-import os 
+from dropbox import DropboxOAuth2FlowNoRedirect
+
+import os
 from tqdm import tqdm
 
-DROPBOX_ACCESS_TOKEN = 'sl.BSog5nrKOvcAMBiQXiq98pOaBbmetsYokn8s3RNfGRESfSWpYSAR5HNu002qakYRAJEMVI1GjYRG6fvIqg8yIA6h5a2xoeX0pDdBzQIb0bW2WGKq_sNt-J3grdj7tFI2GYprRuA63bQq'
+'''
+Populate your app key in order to run this locally
+'''
+APP_KEY = "xfyyilhghe0tjgx"
+APP_SECRET = "i4usp8n8zd1m1za"
+DROPBOX_ACCESS_TOKEN = 'sl.BSp2M7eldpMjchM7fVxec79meoXB3SWZyot82JJeegbKLGKXzCBO7Fmzeo4oeHg32jCKp1pAbyCOTF3lU2jLmt52NM_cziZreHyAdAMvlV1lr-qRTD6jySXrHMl_8rLU1Egcs2Ud63zs'
+
+auth_flow = DropboxOAuth2FlowNoRedirect(APP_KEY,
+                                        consumer_secret=APP_SECRET,
+                                        token_access_type='offline',
+                                        scope=['account_info.write', 'files.metadata.write', 'files.content.write', 'files.content.read', 'sharing.write', 'file_requests.write', 'contacts.write'])
+
+authorize_url = auth_flow.start()
+print("1. Go to: " + authorize_url)
+print("2. Click \"Allow\" (you might have to log in first).")
+print("3. Copy the authorization code.")
+auth_code = input("Enter the authorization code here: ").strip()
+
+
+try:
+    oauth_result = auth_flow.finish(auth_code)
+    # Oauth token has files.metadata.read scope only
+    # assert oauth_result.scope == 'files.metadata.read'
+except Exception as e:
+    print('Error: %s' % (e,))
+    exit(1)
+
+
+with dropbox.Dropbox(oauth2_access_token=oauth_result.access_token,
+                     oauth2_access_token_expiration=oauth_result.expires_at,
+                     oauth2_refresh_token=oauth_result.refresh_token,
+                     app_key=APP_KEY,
+                     app_secret=APP_SECRET):
+    print("Successfully set up client!")
+
 
 def dropbox_connect():
     """Create a connection to Dropbox."""
@@ -15,6 +51,7 @@ def dropbox_connect():
     except AuthError as e:
         print('Error connecting to Dropbox with access token: ' + str(e))
     return dbx
+
 
 def dropbox_list_files(path):
     """Return a Pandas dataframe of files in a given Dropbox folder path in the Apps directory.
@@ -43,6 +80,7 @@ def dropbox_list_files(path):
     except Exception as e:
         print('Error getting list of files from Dropbox: ' + str(e))
 
+
 def dropbox_download_file(dropbox_file_path, local_file_path):
     """Download a file from Dropbox to the local machine."""
 
@@ -55,9 +93,8 @@ def dropbox_download_file(dropbox_file_path, local_file_path):
     except Exception as e:
         print('Error downloading file from Dropbox: ' + str(e))
 
+
 def dropbox_upload_file(local_path, local_file, dropbox_file_path):
-
-
     """Upload a file from the local machine to a path in the Dropbox app directory.
 
     Args:
@@ -78,7 +115,8 @@ def dropbox_upload_file(local_path, local_file, dropbox_file_path):
         local_file_path = pathlib.Path(local_path) / local_file
 
         with local_file_path.open("rb") as f:
-            meta = dbx.files_upload(f.read(), dropbox_file_path, mode=dropbox.files.WriteMode("overwrite"))
+            meta = dbx.files_upload(
+                f.read(), dropbox_file_path, mode=dropbox.files.WriteMode("overwrite"))
 
             return meta
     except Exception as e:
@@ -88,7 +126,7 @@ def dropbox_upload_file(local_path, local_file, dropbox_file_path):
 def dropbox_upload_folder(local_folder_path, Dropbox_folder_path):
     try:
         dbx = dropbox_connect()
-    
+
         # enumerate local files recursively
         for root, dirs, files in os.walk(local_folder_path):
 
@@ -102,9 +140,11 @@ def dropbox_upload_folder(local_folder_path, Dropbox_folder_path):
                 dropbox_path = os.path.join(Dropbox_folder_path, relative_path)
 
                 with open(local_path, "rb") as f:
-                    meta = dbx.files_upload(f.read(), dropbox_path, mode=dropbox.files.WriteMode("overwrite"))
+                    meta = dbx.files_upload(
+                        f.read(), dropbox_path, mode=dropbox.files.WriteMode("overwrite"))
     except Exception as e:
         print('Error uploading file to Dropbox: ' + str(e))
+
 
 def dropbox_upload_folder_LARGE(
     local_folder_path,
@@ -113,7 +153,7 @@ def dropbox_upload_folder_LARGE(
     chunk_size=4 * 1024 * 1024,
 ):
     try:
-        dbx = dropbox.Dropbox(DROPBOX_ACCESS_TOKEN, timeout=timeout)    
+        dbx = dropbox.Dropbox(DROPBOX_ACCESS_TOKEN, timeout=timeout)
         # enumerate local files recursively
         for root, dirs, files in os.walk(local_folder_path):
 
@@ -129,7 +169,7 @@ def dropbox_upload_folder_LARGE(
                 with open(local_path, "rb") as f:
                     file_size = os.path.getsize(local_path)
                     if file_size <= chunk_size:
-                        print(dbx.files_upload(f.read(), dropbox_path))  
+                        print(dbx.files_upload(f.read(), dropbox_path))
                     else:
                         with tqdm(total=file_size, desc="Uploaded") as pbar:
                             upload_session_start_result = dbx.files_upload_session_start(
@@ -140,7 +180,8 @@ def dropbox_upload_folder_LARGE(
                                 session_id=upload_session_start_result.session_id,
                                 offset=f.tell(),
                             )
-                            commit = dropbox.files.CommitInfo(path=dropbox_path)
+                            commit = dropbox.files.CommitInfo(
+                                path=dropbox_path)
                             while f.tell() < file_size:
                                 if (file_size - f.tell()) <= chunk_size:
                                     print(
@@ -160,5 +201,64 @@ def dropbox_upload_folder_LARGE(
         print('Error uploading file to Dropbox: ' + str(e))
 
 
+def dropbox_upload_folder_LARGE_LongToken(
+    local_folder_path,
+    Dropbox_folder_path,
+    timeout=900,
+    chunk_size=4 * 1024 * 1024,
+):
+    try:
+        dbx = dropbox.Dropbox(oauth2_access_token=oauth_result.access_token,
+                              oauth2_access_token_expiration=oauth_result.expires_at,
+                              oauth2_refresh_token=oauth_result.refresh_token,
+                              app_key=APP_KEY,
+                              app_secret=APP_SECRET)
+        # enumerate local files recursively
+        for root, dirs, files in os.walk(local_folder_path):
 
-dropbox_upload_folder_LARGE('/scratch/bincheng/abatement/','/climatemodeling/IMSI_Mitigation/data/abatement/')
+            for filename in files:
+
+                # construct the full local path
+                local_path = os.path.join(root, filename)
+
+                # construct the full Dropbox path
+                relative_path = os.path.relpath(local_path, local_folder_path)
+                dropbox_path = os.path.join(Dropbox_folder_path, relative_path)
+
+                with open(local_path, "rb") as f:
+                    file_size = os.path.getsize(local_path)
+                    if file_size <= chunk_size:
+                        print(dbx.files_upload(f.read(), dropbox_path))
+                    else:
+                        with tqdm(total=file_size, desc="Uploaded") as pbar:
+                            upload_session_start_result = dbx.files_upload_session_start(
+                                f.read(chunk_size)
+                            )
+                            pbar.update(chunk_size)
+                            cursor = dropbox.files.UploadSessionCursor(
+                                session_id=upload_session_start_result.session_id,
+                                offset=f.tell(),
+                            )
+                            commit = dropbox.files.CommitInfo(
+                                path=dropbox_path)
+                            while f.tell() < file_size:
+                                if (file_size - f.tell()) <= chunk_size:
+                                    print(
+                                        dbx.files_upload_session_finish(
+                                            f.read(chunk_size), cursor, commit
+                                        )
+                                    )
+                                else:
+                                    dbx.files_upload_session_append(
+                                        f.read(chunk_size),
+                                        cursor.session_id,
+                                        cursor.offset,
+                                    )
+                                    cursor.offset = f.tell()
+                                pbar.update(chunk_size)
+    except Exception as e:
+        print('Error uploading file to Dropbox: ' + str(e))
+
+
+dropbox_upload_folder_LARGE_LongToken('/scratch/bincheng/abatement/',
+                                      '/climatemodeling/IMSI_Mitigation/data/abatement/')
