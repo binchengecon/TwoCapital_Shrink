@@ -6,16 +6,35 @@ from dropbox import DropboxOAuth2FlowNoRedirect
 
 import os
 from tqdm import tqdm
+import sys
+import argparse
+
+parser = argparse.ArgumentParser(description="Folder")
+parser.add_argument("--Folder",type=str)
+parser.add_argument("--MotherRoot",type=str)
+parser.add_argument("--DaughterRoot",type=str)
+parser.add_argument("--access_token",type=str)
+parser.add_argument("--refresh_token",type=str)
+
+args = parser.parse_args()
+
+
+Folder = args.Folder
+MotherRoot=args.MotherRoot
+DaughterRoot=args.DaughterRoot
+
+
+
 
 '''
 Populate your app key in order to run this locally
 '''
 APP_KEY = "xfyyilhghe0tjgx"
 APP_SECRET = "i4usp8n8zd1m1za"
-DROPBOX_ACCESS_TOKEN = 'sl.BSp2M7eldpMjchM7fVxec79meoXB3SWZyot82JJeegbKLGKXzCBO7Fmzeo4oeHg32jCKp1pAbyCOTF3lU2jLmt52NM_cziZreHyAdAMvlV1lr-qRTD6jySXrHMl_8rLU1Egcs2Ud63zs'
+# DROPBOX_ACCESS_TOKEN = 'sl.BSp2M7eldpMjchM7fVxec79meoXB3SWZyot82JJeegbKLGKXzCBO7Fmzeo4oeHg32jCKp1pAbyCOTF3lU2jLmt52NM_cziZreHyAdAMvlV1lr-qRTD6jySXrHMl_8rLU1Egcs2Ud63zs'
 
-access_token = 'sl.BSqupgtEqeZmRo3u8eWYZajHtgU6Dr6D4yd1SrBoysW2nTeq7zn2Ehy3hx7BV0GwyAbPOiDKy1aSD3AVUPZumYFB6PKBnmKJrTWr428e02ddOyXpyjh5mDBFD3aCrAP77cAzdv0uo5xV'
-refresh_token = 'eFI4U0o6pBAAAAAAAAAAAVZDnMd9rda1jBMsLCvk9QHI-Y0AdSquvxPNpVWAJOxf'
+access_token = args.access_token
+refresh_token = args.refresh_token
 
 with dropbox.Dropbox(oauth2_access_token=access_token,
                      oauth2_refresh_token=refresh_token,
@@ -240,5 +259,7 @@ def dropbox_upload_folder_LARGE_LongToken(
         print('Error uploading file to Dropbox: ' + str(e))
 
 
-dropbox_upload_folder_LARGE_LongToken('/scratch/bincheng/abatement/',
-                                      '/climatemodeling/IMSI_Mitigation/data/abatement/')
+MotherFolder=MotherRoot+Folder+"/"
+DaugherFolder=DaughterRoot+Folder+"/"
+
+dropbox_upload_folder_LARGE_LongToken(MotherFolder,DaugherFolder)

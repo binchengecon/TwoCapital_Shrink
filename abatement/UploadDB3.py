@@ -17,12 +17,14 @@ authorize_url = auth_flow.start()
 print("1. Go to: " + authorize_url)
 print("2. Click \"Allow\" (you might have to log in first).")
 print("3. Copy the authorization code.")
-# auth_code = input("Enter the authorization code here: ").strip()
+auth_code = input("Enter the authorization code here: ").strip()
 
-auth_code = "onK8w2voafAAAAAAAAAO-8WnWH7OnIPzAZN7iuZLKF0"
+# auth_code = "onK8w2voafAAAAAAAAAO-8WnWH7OnIPzAZN7iuZLKF0"
 
 try:
     oauth_result = auth_flow.finish(auth_code)
+    print(oauth_result.access_token)
+    print(oauth_result.refresh_token)
     # Oauth token has files.metadata.read scope only
     # assert oauth_result.scope == 'files.metadata.read'
 except Exception as e:

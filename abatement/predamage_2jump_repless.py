@@ -182,15 +182,15 @@ upperLims = np.array([X1_max, X2_max, X3_max], dtype=np.float64)
 print("-------------------------------------------")
 print("------------Post damage, Tech II----------")
 print("-------------------------------------------")
-# model_tech2_post_damage =  []
-# for i in range(len(gamma_3_list)):
-#     gamma_3_i = gamma_3_list[i]
-#     model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
-#     model_tech2_post_damage.append(model_i)
+model_tech2_post_damage =  []
+for i in range(len(gamma_3_list)):
+    gamma_3_i = gamma_3_list[i]
+    model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
+    model_tech2_post_damage.append(model_i)
 
-# # model_tech3_post_damage.append(v_post_i)
-# with open(Data_Dir+ File_Name + "model_tech2_post_damage", "wb") as f:
-#     pickle.dump(model_tech2_post_damage, f)
+# model_tech3_post_damage.append(v_post_i)
+with open(Data_Dir+ File_Name + "model_tech2_post_damage", "wb") as f:
+    pickle.dump(model_tech2_post_damage, f)
 
 model_tech2_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech2_post_damage", "rb"))
 print("Compiled.")
@@ -199,14 +199,14 @@ print("Compiled.")
 print("-------------------------------------------")
 print("------------Post damage, Tech I-----------")
 print("-------------------------------------------")
-# model_tech1_post_damage = []
-# for i in range(len(gamma_3_list)):
-#     gamma_3_i = gamma_3_list[i]
-#     model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
-#     model_tech1_post_damage.append(model_i)
+model_tech1_post_damage = []
+for i in range(len(gamma_3_list)):
+    gamma_3_i = gamma_3_list[i]
+    model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
+    model_tech1_post_damage.append(model_i)
 
-# with open(Data_Dir+ File_Name + "model_tech1_post_damage", "wb") as f:
-#     pickle.dump(model_tech1_post_damage, f)
+with open(Data_Dir+ File_Name + "model_tech1_post_damage", "wb") as f:
+    pickle.dump(model_tech1_post_damage, f)
 
 model_tech1_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage", "rb"))
 print("Compiled.")

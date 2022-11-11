@@ -61,7 +61,6 @@ parser.add_argument("--Xminarr_SG",nargs='+',type=float, default=(4.0, 0.0, -5.5
 parser.add_argument("--Xmaxarr_SG",nargs='+',type=float, default=(9.0, 4.0, 0.0, 3.0))
 parser.add_argument("--fstr_SG",type=str,default="LinearNDInterpolator")
 parser.add_argument("--interp_action_name",type=str,default="2jump_step02verify_new")
-
 args = parser.parse_args()
 
 epsilonarr = args.epsilonarr

@@ -25,6 +25,9 @@ from PostSolver_repless import hjb_post_damage_post_tech, hjb_pre_damage_post_te
 from src.solver_repless import pde_one_interation
 from src.solver_repless import hjb_pre_tech
 import argparse
+from scipy.interpolate import LinearNDInterpolator
+from scipy.interpolate import NearestNDInterpolator
+import matplotlib.pyplot as plt
 
 reporterror = True
 # Linear solver choices
