@@ -49,6 +49,10 @@ gamma_1 = 1.7675 / 1000
 gamma_2 = 0.0022 * 2
 
 
+xi_a = args.xi_a # Smooth ambiguity
+xi_p = args.xi_g  # Damage poisson
+xi_b = 1000. # Brownian misspecification
+xi_g = args.xi_g  # Technology jump
 
 
 y_bar = 2.

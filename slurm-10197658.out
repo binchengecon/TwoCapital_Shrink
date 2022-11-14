@@ -1,0 +1,83 @@
+==========================================
+SLURM_JOB_ID = 10197658
+SLURM_SUBMIT_DIR = /home/bcheng4/TwoCapital_Shrink
+SLURM_JOB_NODELIST = mcn26
+==========================================
+#! /bin/bash
+
+
+######## login 
+#SBATCH --job-name=graph0
+#SBATCH --output=./job-outs/2jump_step_0.1_0.1_0.1_LR_0.005_xiagComparisonSlide/xia_1000._xip_1000._PSI0_0.005_PSI1_0.5/graph_mercury.out
+#SBATCH --error=./job-outs/2jump_step_0.1_0.1_0.1_LR_0.005_xiagComparisonSlide/xia_1000._xip_1000._PSI0_0.005_PSI1_0.5/graph_mercury.err
+
+#SBATCH --account=pi-lhansen
+#SBATCH --partition=standard
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=16G
+#SBATCH --time=2-00:00:00
+
+####### load modules
+module load python/booth/3.8/3.8.5  gcc/9.2.0
+
+
+echo "$SLURM_JOB_NAME"
+echo "Program starts $(date)"
+
+python3 /home/bcheng4/TwoCapital_Shrink/abatement/Result_2jump_unit2_before15.py --dataname  2jump_step_0.1_0.1_0.1_LR_0.005_xiagComparisonSlide --pdfname mercury --psi0 0.005 --psi1 0.5  --xi_a 1000. --xi_g 1000.   --hXarr 0.1 0.1 0.1 --Xminarr 4.00 0.0 -5.5 0.0 --Xmaxarr 9.00 4.0 0.0 3.0
+
+echo "Program ends $(date)"
+
+sbatch: error: Batch job submission failed: Socket timed out on send/recv operation
+#! /bin/bash
+
+
+######## login 
+#SBATCH --job-name=graph1
+#SBATCH --output=./job-outs/2jump_step_0.1_0.1_0.1_LR_0.005_xiagComparisonSlide/xia_0.0002_xip_0.05_PSI0_0.005_PSI1_0.5/graph_mercury.out
+#SBATCH --error=./job-outs/2jump_step_0.1_0.1_0.1_LR_0.005_xiagComparisonSlide/xia_0.0002_xip_0.05_PSI0_0.005_PSI1_0.5/graph_mercury.err
+
+#SBATCH --account=pi-lhansen
+#SBATCH --partition=standard
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=16G
+#SBATCH --time=2-00:00:00
+
+####### load modules
+module load python/booth/3.8/3.8.5  gcc/9.2.0
+
+
+echo "$SLURM_JOB_NAME"
+echo "Program starts $(date)"
+
+python3 /home/bcheng4/TwoCapital_Shrink/abatement/Result_2jump_unit2_before15.py --dataname  2jump_step_0.1_0.1_0.1_LR_0.005_xiagComparisonSlide --pdfname mercury --psi0 0.005 --psi1 0.5  --xi_a 0.0002 --xi_g 0.05   --hXarr 0.1 0.1 0.1 --Xminarr 4.00 0.0 -5.5 0.0 --Xmaxarr 9.00 4.0 0.0 3.0
+
+echo "Program ends $(date)"
+
+sbatch: error: Batch job submission failed: Socket timed out on send/recv operation
+#! /bin/bash
+
+
+######## login 
+#SBATCH --job-name=graph2
+#SBATCH --output=./job-outs/2jump_step_0.1_0.1_0.1_LR_0.005_xiagComparisonSlide/xia_0.0002_xip_0.025_PSI0_0.005_PSI1_0.5/graph_mercury.out
+#SBATCH --error=./job-outs/2jump_step_0.1_0.1_0.1_LR_0.005_xiagComparisonSlide/xia_0.0002_xip_0.025_PSI0_0.005_PSI1_0.5/graph_mercury.err
+
+#SBATCH --account=pi-lhansen
+#SBATCH --partition=standard
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=16G
+#SBATCH --time=2-00:00:00
+
+####### load modules
+module load python/booth/3.8/3.8.5  gcc/9.2.0
+
+
+echo "$SLURM_JOB_NAME"
+echo "Program starts $(date)"
+
+python3 /home/bcheng4/TwoCapital_Shrink/abatement/Result_2jump_unit2_before15.py --dataname  2jump_step_0.1_0.1_0.1_LR_0.005_xiagComparisonSlide --pdfname mercury --psi0 0.005 --psi1 0.5  --xi_a 0.0002 --xi_g 0.025   --hXarr 0.1 0.1 0.1 --Xminarr 4.00 0.0 -5.5 0.0 --Xmaxarr 9.00 4.0 0.0 3.0
+
+echo "Program ends $(date)"
+
+Submitted batch job 10197671

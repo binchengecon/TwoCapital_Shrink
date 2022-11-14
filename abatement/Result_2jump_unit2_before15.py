@@ -530,7 +530,7 @@ def graph_unit(psi_0,psi_1,xi_a,xi_g,Ig_initial = 1/120):
         #######################
         
         # plt.plot(res["years"], (res["x"]/(alpha*np.exp(res["states"][:,0])))*100,label=r'$\psi_0=$'+str(psi_0_meshgrid_1d[k])+'$\psi_1=$'+str(psi_1_meshgrid_1d[k]),color="C3")
-        plt.plot(res["years"], (res["x"]/(alpha*np.exp(res["states"][:,0])))*100,label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
+        plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["x"]/(alpha*np.exp(res["states"][:,0])))*100)[res["states"][:, 1]<1.5],label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
         plt.grid(linestyle=':')
         plt.xlabel('Years')
         plt.ylabel('$\%$ of GDP')
@@ -538,23 +538,23 @@ def graph_unit(psi_0,psi_1,xi_a,xi_g,Ig_initial = 1/120):
         plt.ylim(0,0.65)
         plt.legend(loc='upper left')        
 
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RD,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.pdf".format(xi_a,xi_g,psi_0,psi_1))
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RD,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.png".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RD,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.pdf".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RD,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.png".format(xi_a,xi_g,psi_0,psi_1))
         plt.close()
     
 
-        plt.plot(res["years"], res["i"],label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
+        plt.plot(res["years"][res["states"][:, 1]<1.5], res["i"][res["states"][:, 1]<1.5],label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
         plt.xlabel('Years')
         plt.title("Capital investment")
         plt.ylim(60,220)
         plt.grid(linestyle=':')
         plt.legend(loc='upper left')
 
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/CapI,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.pdf".format(xi_a,xi_g,psi_0,psi_1))
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/CapI,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.png".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/CapI,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.pdf".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/CapI,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.png".format(xi_a,xi_g,psi_0,psi_1))
         plt.close()
 
-        plt.plot(res["years"], res["e"],label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
+        plt.plot(res["years"][res["states"][:, 1]<1.5], res["e"][res["states"][:, 1]<1.5],label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
         # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["e"][res2["states"][:, 1]<1.5],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
         # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["e"][res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
         plt.xlabel('Years')
@@ -563,12 +563,12 @@ def graph_unit(psi_0,psi_1,xi_a,xi_g,Ig_initial = 1/120):
         plt.grid(linestyle=':')
         plt.legend(loc='upper left')
 
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/E,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.pdf".format(xi_a,xi_g,psi_0,psi_1))
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/E,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.png".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/E,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.pdf".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/E,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.png".format(xi_a,xi_g,psi_0,psi_1))
         plt.close()
 
         
-        plt.plot(res["years"], res["states"][:, 1],label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
+        plt.plot(res["years"][res["states"][:, 1]<1.5], res["states"][:, 1][res["states"][:, 1]<1.5],label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
         # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["states"][:, 1][res2["states"][:, 1]<1.5],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
         # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["states"][:, 1][res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
         plt.xlabel('Years')
@@ -577,11 +577,11 @@ def graph_unit(psi_0,psi_1,xi_a,xi_g,Ig_initial = 1/120):
         plt.grid(linestyle=':')
         plt.legend(loc='upper left')
 
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TA,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.pdf".format(xi_a,xi_g,psi_0,psi_1))
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TA,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.png".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TA,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.pdf".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TA,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.png".format(xi_a,xi_g,psi_0,psi_1))
         plt.close()
 
-        plt.plot(res["years"], np.exp(res["states"][:, 2]),label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
+        plt.plot(res["years"][res["states"][:, 1]<1.5], np.exp(res["states"][:, 2])[res["states"][:, 1]<1.5],label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
         # plt.plot(res2["years"][res2["states"][:, 1]<1.5], np.exp(res2["states"][:, 2])[res2["states"][:, 1]<1.5],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
         # plt.plot(res3["years"][res3["states"][:, 1]<1.5], np.exp(res3["states"][:, 2])[res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
         plt.xlabel('Years')
@@ -591,12 +591,12 @@ def graph_unit(psi_0,psi_1,xi_a,xi_g,Ig_initial = 1/120):
         plt.legend(loc='upper left')
 
 
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Ig,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.pdf".format(xi_a,xi_g,psi_0,psi_1))
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Ig,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.png".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Ig,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.pdf".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Ig,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.png".format(xi_a,xi_g,psi_0,psi_1))
         plt.close()
 
 
-        plt.plot(res["years"], res["distorted_tech_prob"],label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
+        plt.plot(res["years"][res["states"][:, 1]<1.5], res["distorted_tech_prob"][res["states"][:, 1]<1.5],label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
         # plt.plot(res2["years"], res2["distorted_tech_prob"],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
         # plt.plot(res3["years"], res3["distorted_tech_prob"],label='baseline',linewidth=7.0)
         plt.xlabel('Years')
@@ -605,11 +605,11 @@ def graph_unit(psi_0,psi_1,xi_a,xi_g,Ig_initial = 1/120):
         plt.grid(linestyle=':')
         plt.legend(loc='upper left')
 
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIgd,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.pdf".format(xi_a,xi_g,psi_0,psi_1))
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIgd,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.png".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIgd,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.pdf".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIgd,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.png".format(xi_a,xi_g,psi_0,psi_1))
         plt.close()
 
-        plt.plot(res["years"], res["distorted_damage_prob"],label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
+        plt.plot(res["years"][res["states"][:, 1]<1.5], res["distorted_damage_prob"][res["states"][:, 1]<1.5],label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
         # plt.plot(res2["years"], res2["distorted_damage_prob"],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
         # plt.plot(res3["years"], res3["distorted_damage_prob"],label='baseline',linewidth=7.0)
         plt.xlabel('Years')
@@ -618,12 +618,12 @@ def graph_unit(psi_0,psi_1,xi_a,xi_g,Ig_initial = 1/120):
         plt.grid(linestyle=':')
         plt.legend(loc='upper left')
 
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIdd,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.pdf".format(xi_a,xi_g,psi_0,psi_1))
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIdd,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.png".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIdd,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.pdf".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIdd,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.png".format(xi_a,xi_g,psi_0,psi_1))
         plt.close()
 
 
-        plt.plot(res["years"], res["true_tech_prob"],label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
+        plt.plot(res["years"][res["states"][:, 1]<1.5], res["true_tech_prob"][res["states"][:, 1]<1.5],label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
 
         plt.xlabel("Years")
         plt.title("True probability of first technology jump")
@@ -631,12 +631,12 @@ def graph_unit(psi_0,psi_1,xi_a,xi_g,Ig_initial = 1/120):
         plt.grid(linestyle=':')
         plt.legend(loc='upper left')
 
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPIg,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.pdf".format(xi_a,xi_g,psi_0,psi_1))
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPIg,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.png".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPIg,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.pdf".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPIg,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.png".format(xi_a,xi_g,psi_0,psi_1))
         plt.close()
 
 
-        plt.plot(res["years"], res["true_damage_prob"],label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
+        plt.plot(res["years"][res["states"][:, 1]<1.5], res["true_damage_prob"][res["states"][:, 1]<1.5],label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
 
         plt.xlabel("Years")
         plt.title("True probability of damage changes")
@@ -644,10 +644,9 @@ def graph_unit(psi_0,psi_1,xi_a,xi_g,Ig_initial = 1/120):
         plt.grid(linestyle=':')
         plt.legend(loc='upper left')
 
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPId,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.pdf".format(xi_a,xi_g,psi_0,psi_1))
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPId,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.png".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPId,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.pdf".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPId,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.png".format(xi_a,xi_g,psi_0,psi_1))
         plt.close()
-
 
         # histogram of gamma_3
         NUM_DAMAGE = res["gt_dmg"].shape[0]
@@ -666,8 +665,8 @@ def graph_unit(psi_0,psi_1,xi_a,xi_g,Ig_initial = 1/120):
         plt.xlabel("$\\gamma_3$")
         plt.legend(loc='upper left')
 
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Gamma3,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.pdf".format(xi_a,xi_g,psi_0,psi_1))
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Gamma3,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.png".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Gamma3,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.pdf".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Gamma3,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.png".format(xi_a,xi_g,psi_0,psi_1))
         plt.close()
 
         # histogram of beta_f
@@ -686,8 +685,8 @@ def graph_unit(psi_0,psi_1,xi_a,xi_g,Ig_initial = 1/120):
 
         plt.ylim(0, 1.4)
         plt.xlabel("Climate Sensitivity")
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.pdf".format(xi_a,xi_g,psi_0,psi_1))
-        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f}.png".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.pdf".format(xi_a,xi_g,psi_0,psi_1))
+        plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.png".format(xi_a,xi_g,psi_0,psi_1))
         plt.close()
 
     res=(model_solution_extraction(xi_a,xi_g,psi_0,psi_1))

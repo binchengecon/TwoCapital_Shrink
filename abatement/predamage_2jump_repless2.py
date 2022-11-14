@@ -21,9 +21,9 @@ from scipy.sparse import coo_matrix
 from scipy.sparse import csr_matrix
 from datetime import datetime
 # from solver import solver_3d
-from PostSolver import hjb_post_damage_post_tech, hjb_pre_damage_post_tech
-from src.solver import pde_one_interation
-from src.solver import hjb_pre_tech
+from PostSolver_repless import hjb_post_damage_post_tech, hjb_pre_damage_post_tech
+from src.solver_repless import pde_one_interation
+from src.solver_repless import hjb_pre_tech
 import argparse
 
 reporterror = True
@@ -39,7 +39,7 @@ current_time = now.strftime("%d-%H:%M")
 
 parser = argparse.ArgumentParser(description="xi_r values")
 parser.add_argument("--xi_a", type=float, default=1000.)
-parser.add_argument("--xi_p", type=float, default=1000.)
+parser.add_argument("--xi_g", type=float, default=1000.)
 parser.add_argument("--psi_0", type=float, default=0.003)
 parser.add_argument("--psi_1", type=float, default=0.5)
 parser.add_argument("--num_gamma",type=int,default=6)
@@ -50,6 +50,13 @@ parser.add_argument("--Xmaxarr",nargs='+',type=float)
 parser.add_argument("--epsilonarr",nargs='+',type=float)
 parser.add_argument("--fractionarr",nargs='+',type=float)
 parser.add_argument("--maxiterarr",nargs='+',type=int)
+
+parser.add_argument("--hXarr_SG",nargs='+',type=float, default=(0.2, 0.2, 0.2))
+parser.add_argument("--Xminarr_SG",nargs='+',type=float, default=(4.0, 0.0, -5.5, 0.0))
+parser.add_argument("--Xmaxarr_SG",nargs='+',type=float, default=(9.0, 4.0, 0.0, 3.0))
+parser.add_argument("--fstr_SG",type=str,default="LinearNDInterpolator")
+parser.add_argument("--interp_action_name",type=str,default="2jump_step02verify_new")
+
 
 args = parser.parse_args()
 
@@ -62,9 +69,9 @@ maxiterarr = args.maxiterarr
 start_time = time.time()
 # Parameters as defined in the paper
 xi_a = args.xi_a # Smooth ambiguity
-xi_p = args.xi_p  # Damage poisson
+xi_p = args.xi_g  # Damage poisson
 xi_b = 1000. # Brownian misspecification
-xi_g = args.xi_p  # Technology jump
+xi_g = args.xi_g  # Technology jump
 
 # DataDir = "./res_data/6damage/xi_a_" + str(xi_a) + "_xi_g_" + str(xi_g) +  "/"
 # if not os.path.exists(DataDir):
@@ -305,6 +312,6 @@ model_tech1_pre_damage = hjb_pre_tech(
         smart_guess=Guess,
         )
 
-with open(Data_Dir+ File_Name + "model_tech1_pre_damage", "wb") as f:
+with open(Data_Dir+ File_Name + "model_tech1_pre_damage_eps_{:.4f}".format(epsilonarr[1]), "wb") as f:
     pickle.dump(model_tech1_pre_damage, f)
 
