@@ -106,7 +106,7 @@ stateSpace = np.hstack([K_mat.reshape(-1,1,order = 'F'), Y_mat.reshape(-1,1,orde
 
 
 
-IntPeriod = 60
+IntPeriod = 50
 timespan = 1/12
 
 # psi_0_grid = np.array([0.006,0.009])
@@ -358,7 +358,7 @@ def graph_unit(psi_0,psi_1,xi_a,xi_g,Ig_initial = 1/120):
         File_Dir = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_" .format(xi_a,xi_g,psi_0,psi_1)
         model_dir_post = Data_Dir + File_Dir+"model_tech1_pre_damage"
 
-        model_simul_dir_post = Data_Dir + File_Dir+"model_tech1_pre_damage_simul"
+        model_simul_dir_post = Data_Dir + File_Dir+"model_tech1_pre_damage_simul_{}" .format(IntPeriod)
 
 
         if os.path.exists(model_simul_dir_post):
@@ -657,9 +657,9 @@ def graph_unit(psi_0,psi_1,xi_a,xi_g,Ig_initial = 1/120):
         γ3_distort = res["gt_dmg"][:, -1] 
         plt.figure(figsize=(16,10))
         plt.hist(gamma_3_list, weights=np.ones(len(gamma_3_list)) / len(gamma_3_list), 
-                alpha=0.5, color="C3", ec="darkgray")
+                alpha=0.5, color="C3", ec="darkgray",label='baseline')
         plt.hist(gamma_3_list, weights= γ3_distort / np.sum(γ3_distort), 
-                alpha=0.5, color="C0", ec="darkgray",label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
+                alpha=0.5, color="C0", ec="darkgray",label='$\\xi_a={:.4f}$,$\\xi_g=\\xi_d={:.3f}$' .format(xi_a,xi_g,xi_g)  )
         plt.ylim(0, 0.3)
         plt.title("Distorted probability of Damage Models")
         plt.xlabel("$\\gamma_3$")
@@ -677,9 +677,9 @@ def graph_unit(psi_0,psi_1,xi_a,xi_g,Ig_initial = 1/120):
         plt.figure(figsize=(16,10))
 
         plt.hist(theta_ell, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
-                alpha=0.5, ec="darkgrey", color="C3")
+                alpha=0.5, ec="darkgrey", color="C3",label='baseline')
         plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
-                alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_a={:.4f}$,$\\xi_g={:.3f}$,$\psi_0=${:.3f},$\psi_1=${:.1f}' .format(xi_a,xi_g,psi_0,psi_1)  )
+                alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_a={:.4f}$,$\\xi_g=\\xi_d={:.3f}$' .format(xi_a,xi_g,xi_g)  )
         plt.legend(loc='upper left')
         plt.title("Distorted probability of Climate Models")
 

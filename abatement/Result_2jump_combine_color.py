@@ -32,13 +32,16 @@ parser.add_argument("--psi1arr",nargs='+',type=float)
 parser.add_argument("--hXarr",nargs='+',type=float)
 parser.add_argument("--Xminarr",nargs='+',type=float)
 parser.add_argument("--Xmaxarr",nargs='+',type=float)
+
+# parser.add_argument("--Update",type=int)
+
 # parser.add_argument("--year",type=int,default=60)
 # parser.add_argument("--time",type=float,default=1/12.)
 args = parser.parse_args()
 
 
-
-IntPeriod = 60
+# Update = args.Update
+IntPeriod = 50
 timespan = 1/12
 
 # psi0arr = np.array([0.006,0.009])
@@ -358,12 +361,13 @@ def model_solution_extraction(xi_a,xi_g,psi_0,psi_1):
         File_Dir = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_" .format(xi_a,xi_g,psi_0,psi_1)
         model_dir_post = Data_Dir + File_Dir+"model_tech1_pre_damage"
 
-        model_simul_dir_post = Data_Dir + File_Dir+"model_tech1_pre_damage_simul"
+        model_simul_dir_post = Data_Dir + File_Dir+"model_tech1_pre_damage_simul_{}" .format(IntPeriod)
 
 
         if os.path.exists(model_simul_dir_post):
             print("which passed 1")
             res = pickle.load(open(model_simul_dir_post, "rb"))
+
 
         else:
             print("which passed 2")
@@ -407,7 +411,9 @@ for id_xiag in range(len(xiaarr)):
             plt.xlabel('Years')
             plt.ylabel('$\%$ of GDP')
             plt.title('R&D investment as percentage of  GDP')   
-            plt.ylim(0,0.65)
+            plt.ylim(0,0.8)
+            plt.xlim(0,IntPeriod)
+
             plt.legend(loc='upper left')        
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RD,xia={},xig={},psi0={},psi1={}_v2.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
@@ -429,6 +435,7 @@ for id_xiag in range(len(xiaarr)):
             plt.xlabel('Years')
             plt.title("Capital investment")
             plt.ylim(60,220)
+            plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/CapI,xia={},xig={},psi0={},psi1={}_v2.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
@@ -449,8 +456,9 @@ for id_xiag in range(len(xiaarr)):
             # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["e"][res2["states"][:, 1]<1.5],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
             # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["e"][res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
             plt.xlabel('Years')
-            plt.title("Emission")
+            plt.title("Carbon Emissions")
             plt.ylim(6,22)
+            plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/E,xia={},xig={},psi0={},psi1={}_v2.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
@@ -474,6 +482,7 @@ for id_xiag in range(len(xiaarr)):
             plt.xlabel('Years')
             plt.title("Temperature anomaly")
             plt.ylim(1,2.8)
+            plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TA,xia={},xig={},psi0={},psi1={}_v2.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
@@ -498,6 +507,7 @@ for id_xiag in range(len(xiaarr)):
             plt.xlabel('Years')
             plt.title("Technology jump intensity")
             plt.ylim(0,0.23)
+            plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
 
 
@@ -521,8 +531,9 @@ for id_xiag in range(len(xiaarr)):
             # plt.plot(res2["years"], res2["distorted_tech_prob"],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
             # plt.plot(res3["years"], res3["distorted_tech_prob"],label='baseline',linewidth=7.0)
             plt.xlabel('Years')
-            plt.title("Distorted probability of first technology jump")
+            plt.title("Distorted probability of a technology jump")
             plt.ylim(0,1)
+            plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIgd,xia={},xig={},psi0={},psi1={}_v2.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
@@ -545,6 +556,7 @@ for id_xiag in range(len(xiaarr)):
             plt.xlabel('Years')
             plt.title("Distorted probability of damage changes")
             plt.ylim(0,1)
+            plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIdd,xia={},xig={},psi0={},psi1={}_v2.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
@@ -566,6 +578,7 @@ for id_xiag in range(len(xiaarr)):
             plt.xlabel("Years")
             plt.title("True probability of first technology jump")
             plt.ylim(0,1)
+            plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPIg,xia={},xig={},psi0={},psi1={}_v2.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
@@ -588,6 +601,7 @@ for id_xiag in range(len(xiaarr)):
             plt.xlabel("Years")
             plt.title("True probability of damage changes")
             plt.ylim(0,1)
+            plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPId,xia={},xig={},psi0={},psi1={}_v2.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
@@ -609,6 +623,7 @@ for id_xiag in range(len(xiaarr)):
             plt.xlabel("Years")
             plt.title("Social Cost of Carbon")
             plt.ylim(0,1)
+            plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/SCC,xia={},xig={},psi0={},psi1={}_v2.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
@@ -670,8 +685,8 @@ for id_xiag in range(len(xiaarr)):
             # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["e"][res2["states"][:, 1]<1.5],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
             # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["e"][res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
             plt.xlabel('Years')
-            plt.title("Emission")
-            plt.ylim(6,22)
+            plt.title("Carbon Emissions")
+            plt.ylim(4,14)
             plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/E,xia={},xig={},psi0={},psi1={},BC_v2.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
@@ -736,7 +751,7 @@ for id_xiag in range(len(xiaarr)):
             # plt.plot(res2["years"], res2["distorted_tech_prob"],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
             # plt.plot(res3["years"], res3["distorted_tech_prob"],label='baseline',linewidth=7.0)
             plt.xlabel('Years')
-            plt.title("Distorted probability of first technology jump")
+            plt.title("Distorted probability of a technology jump")
             plt.ylim(0,1)
             plt.legend(loc='upper left')
 
@@ -781,7 +796,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.plot(res["years"][res["states"][:, 1]<1.5], res["true_tech_prob"][res["states"][:, 1]<1.5],label='$\\xi_a={:.4f}$,$\\xi_g=\\xi_d={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
 
             plt.xlabel("Years")
-            plt.title("True probability of first technology jump")
+            plt.title("True probability of a technology jump")
             plt.ylim(0,1)
             plt.legend(loc='upper left')
 
