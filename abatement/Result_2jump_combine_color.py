@@ -622,7 +622,7 @@ for id_xiag in range(len(xiaarr)):
 
             plt.xlabel("Years")
             plt.title("Social Cost of Carbon")
-            plt.ylim(0,1)
+            plt.ylim(0,250)
             plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
 
@@ -840,7 +840,7 @@ for id_xiag in range(len(xiaarr)):
 
             plt.xlabel("Years")
             plt.title("Social Cost of Carbon")
-            plt.ylim(0,1)
+            plt.ylim(0,250)
             plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/SCC,xia={},xig={},psi0={},psi1={},BC_v2.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
