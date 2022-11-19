@@ -398,6 +398,8 @@ def model_solution_extraction(xi_a,xi_g,psi_0,psi_1):
         return res
 
 
+os.makedirs("./abatement/pdf_2tech/"+args.dataname+"/")
+
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
         for id_psi1 in range(len(psi1arr)):
