@@ -423,7 +423,7 @@ for id_xiag in range(len(xiaarr)):
                     alpha=0.5, color="C0", ec="darkgray",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$'.format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
             plt.ylim(0, 0.3)
             # plt.title("Distorted probability of Damage Models")
-            plt.xlabel("$\\gamma_3$")
+            plt.xlabel("Damage Curvature")
             plt.legend(loc='upper left')
 
             plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Gamma3,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
