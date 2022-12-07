@@ -41,7 +41,7 @@ args = parser.parse_args()
 
 
 # Update = args.Update
-IntPeriod = 50
+IntPeriod = 51
 timespan = 1/12
 
 # psi0arr = np.array([0.006,0.009])

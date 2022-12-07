@@ -41,7 +41,7 @@ args = parser.parse_args()
 
 
 # Update = args.Update
-IntPeriod = 47
+IntPeriod = 55
 timespan = 1/12
 
 # psi0arr = np.array([0.006,0.009])
@@ -129,12 +129,12 @@ stateSpace = np.hstack([K_mat.reshape(-1,1,order = 'F'), Y_mat.reshape(-1,1,orde
 
 
 
-mpl.rcParams["lines.linewidth"] = 2.5
 mpl.rcParams["savefig.bbox"] = "tight"
 mpl.rcParams["figure.figsize"] = (8,5)
-mpl.rcParams["font.size"] = 13
+mpl.rcParams["font.size"] = 12
 mpl.rcParams["legend.frameon"] = False
 mpl.style.use('classic')
+mpl.rcParams["lines.linewidth"] = 7.0
 
 def simulate_pre(
     grid = (), model_args = (), controls = (), initial=(np.log(85/0.115), 1.1, -3.7), 
@@ -243,8 +243,10 @@ def simulate_pre(
 
     mu_K_hist = np.zeros([pers])
     mu_L_hist = np.zeros([pers])
+
     Ambiguity_mean_undis = np.zeros([pers])
     Ambiguity_mean_dis = np.zeros([pers])
+    Ambiguity_mean_dis_h = np.zeros([pers])
     
 
     for tm in range(pers):
@@ -268,8 +270,9 @@ def simulate_pre(
                 climate_func = climate_func_list[i]
                 pi_c_t[i, 0] = climate_func(hist[0, :])
 
-            Ambiguity_mean_undis[0] = np.mean(theta_ell)
-            Ambiguity_mean_dis[0] = np.average(theta_ell,weights=pi_c_t[:,0])
+            Ambiguity_mean_undis[tm] = np.mean(theta_ell)
+            Ambiguity_mean_dis[tm] = np.average(theta_ell,weights=pi_c_t[:,tm])
+            Ambiguity_mean_dis_h[tm] = np.average(theta_ell + sigma_y*gt_mean[tm],weights=pi_c_t[:,tm])
 
             theta_ell_hist[:,0] = theta_ell + sigma_y*gt_mean[0]
             
@@ -306,7 +309,7 @@ def simulate_pre(
 
             Ambiguity_mean_undis[tm] = np.mean(theta_ell)
             Ambiguity_mean_dis[tm] = np.average(theta_ell,weights=pi_c_t[:,tm])
-
+            Ambiguity_mean_dis_h[tm] = np.average(theta_ell + sigma_y*gt_mean[tm],weights=pi_c_t[:,tm])
 
         if printing==True:
             print("time={}, K={},Y={},L={},mu_K={},mu_Y={},mu_L={},ii={},ee={},xx={}" .format(tm, hist[tm,0],hist[tm,1],hist[tm,2],mu_K_hist[tm],beta_f * e_hist[tm],mu_L_hist[tm],ii.max(),ee.max(),xx.max()))
@@ -362,7 +365,7 @@ def simulate_pre(
         theta_ell_new = theta_ell_hist,
         Ambiguity_mean_undis = Ambiguity_mean_undis,
         Ambiguity_mean_dis = Ambiguity_mean_dis,
-        
+        Ambiguity_mean_dis_h = Ambiguity_mean_dis_h,
     )
     
 #     if pre_damage:
@@ -659,6 +662,26 @@ plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/SCC,xia={},xig={},psi0={},p
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/SCC,xia={},xig={},psi0={},psi1={}_v2.png".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.close()
 
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+
+            res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+            if xigarr[id_xiag]>10:
+
+                plt.plot(res["years"], res["gt_mean_mul"],label='baseline'  )
+            else:
+                plt.plot(res["years"], res["gt_mean_mul"],label='$\\xi_a={:.1f}$,$\\xi_g=\\xi_d=\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
+
+            plt.xlabel("Years")
+            plt.title("$1000\sigma_yh$")
+            plt.ylim(0,0.08)
+            plt.legend(loc='upper left')
+
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/h,xia={},xig={},psi0={},psi1={}_v2.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/h,xia={},xig={},psi0={},psi1={}_v2.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.close()
+
 
 
 for id_xiag in range(len(xiaarr)): 
@@ -877,6 +900,25 @@ plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/SCC,xia={},xig={},psi0={},p
 plt.close()
 
 
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+
+            res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+            if xigarr[id_xiag]>10:
+
+                plt.plot(res["years"][res["states"][:, 1]<1.5], res["gt_mean_mul"][res["states"][:, 1]<1.5],label='baseline'  )
+            else:
+                plt.plot(res["years"][res["states"][:, 1]<1.5], res["gt_mean_mul"][res["states"][:, 1]<1.5],label='$\\xi_a={:.1f}$,$\\xi_g=\\xi_d=\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
+
+            plt.xlabel("Years")
+            plt.title("$1000\sigma_yh$")
+            plt.ylim(0,0.06)
+            plt.legend(loc='upper left')
+
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/h,xia={},xig={},psi0={},psi1={},BC_v2.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/h,xia={},xig={},psi0={},psi1={},BC_v2.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.close()
 
 
 
@@ -953,8 +995,107 @@ for id_xiag in range(len(xiaarr)):
             plt.legend(loc='upper left')
             plt.title("Distorted probability of Climate Models")
 
+
+            print("mean of uncondition = {}" .format(np.average(theta_ell,weights = pi_c_o)))
+            print("mean of condition = {}" .format(np.average(theta_ell,weights = pi_c)))
+                
+
             plt.ylim(0, 1.4)
             plt.xlabel("Climate Sensitivity")
             plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_pmean,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
             plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_pmean,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
             plt.close()
+
+
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+
+            res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+            
+            
+            if xigarr[id_xiag]>10:
+
+                plt.plot(res["years"][res["states"][:, 1]<1.5], (res["Ambiguity_mean_dis"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5])*1000,label='baseline'  )
+            else:
+                plt.plot(res["years"][res["states"][:, 1]<1.5], (res["Ambiguity_mean_dis"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5])*1000,label='$\\xi_a={:.1f}$,$\\xi_g=\\xi_d=\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
+
+            plt.xlabel("Years")
+            plt.title("Mean Difference")
+            # plt.ylim(0,250)
+            plt.legend(loc='upper left')
+
+
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={},BC_v2.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={},BC_v2.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.close()
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+
+            res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+            
+            
+            if xigarr[id_xiag]>10:
+
+                plt.plot(res["years"], (res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000,label='baseline'  )
+            else:
+                plt.plot(res["years"], (res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000,label='$\\xi_a={:.1f}$,$\\xi_g=\\xi_d=\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
+
+            plt.xlabel("Years")
+            plt.title("Mean Difference")
+            # plt.ylim(0,250)
+            plt.legend(loc='lower right')
+
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={}_v2.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={}_v2.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.close()
+
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+
+            res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+            
+            
+            if xigarr[id_xiag]>10:
+
+                plt.plot(res["years"][res["states"][:, 1]<1.5], (res["Ambiguity_mean_dis"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5])*1000,label='baseline'  )
+            else:
+                plt.plot(res["years"][res["states"][:, 1]<1.5], (res["Ambiguity_mean_dis_h"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5])*1000,label='$\\xi_a={:.1f}$,$\\xi_g=\\xi_d=\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
+
+            plt.xlabel("Years")
+            plt.title("Mean Difference")
+            # plt.ylim(0,250)
+            plt.legend(loc='upper left')
+
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff_h,xia={},xig={},psi0={},psi1={},BC_v2.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff_h,xia={},xig={},psi0={},psi1={},BC_v2.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.close()
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+
+            res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+            
+            
+            if xigarr[id_xiag]>10:
+
+                plt.plot(res["years"], (res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000,label='baseline'  )
+            else:
+                plt.plot(res["years"], (res["Ambiguity_mean_dis_h"]-res["Ambiguity_mean_undis"])*1000,label='$\\xi_a={:.1f}$,$\\xi_g=\\xi_d=\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
+
+            plt.xlabel("Years")
+            plt.title("Mean Difference")
+            # plt.ylim(0,250)
+            plt.legend(loc='lower right')
+
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff_h,xia={},xig={},psi0={},psi1={}_v2.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff_h,xia={},xig={},psi0={},psi1={}_v2.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.close()
