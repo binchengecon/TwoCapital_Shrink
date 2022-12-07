@@ -831,6 +831,26 @@ plt.close()
 
 
 
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+
+            res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+            if xiaarr[id_xiag]>10:
+
+                plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc"][res["states"][:, 1]<1.5]),label='baseline' ,linewidth=5.0 )
+            else:
+                plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc"][res["states"][:, 1]<1.5]),label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0 )
+            plt.xlabel("Years")
+            # plt.ylim(0,2)
+            plt.legend(loc='upper left')
+
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.close()
+
+
+
 
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
@@ -885,6 +905,9 @@ for id_xiag in range(len(xiaarr)):
 
             plt.figure(figsize=(16,10))
 
+            print("mean of uncondition = {}" .format(np.average(theta_ell,weights = pi_c_o)))
+            print("mean of condition = {}" .format(np.average(theta_ell,weights = pi_c)))
+                
             plt.hist(theta_ell, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
                     alpha=0.5, ec="darkgrey", color="C3",label='baseline')
             plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
