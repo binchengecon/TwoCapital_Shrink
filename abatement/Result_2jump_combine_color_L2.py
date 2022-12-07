@@ -132,7 +132,7 @@ stateSpace = np.hstack([K_mat.reshape(-1,1,order = 'F'), Y_mat.reshape(-1,1,orde
 mpl.rcParams["lines.linewidth"] = 20
 mpl.rcParams["savefig.bbox"] = "tight"
 mpl.rcParams["figure.figsize"] = (8,5)
-mpl.rcParams["font.size"] = 15
+mpl.rcParams["font.size"] = 25
 mpl.rcParams["legend.frameon"] = False
 
 def simulate_pre(
