@@ -14,8 +14,8 @@ APP_KEY = "xfyyilhghe0tjgx"
 APP_SECRET = "i4usp8n8zd1m1za"
 DROPBOX_ACCESS_TOKEN = 'sl.BSp2M7eldpMjchM7fVxec79meoXB3SWZyot82JJeegbKLGKXzCBO7Fmzeo4oeHg32jCKp1pAbyCOTF3lU2jLmt52NM_cziZreHyAdAMvlV1lr-qRTD6jySXrHMl_8rLU1Egcs2Ud63zs'
 
-access_token = 'sl.BSqupgtEqeZmRo3u8eWYZajHtgU6Dr6D4yd1SrBoysW2nTeq7zn2Ehy3hx7BV0GwyAbPOiDKy1aSD3AVUPZumYFB6PKBnmKJrTWr428e02ddOyXpyjh5mDBFD3aCrAP77cAzdv0uo5xV'
-refresh_token = 'eFI4U0o6pBAAAAAAAAAAAVZDnMd9rda1jBMsLCvk9QHI-Y0AdSquvxPNpVWAJOxf'
+access_token = 'sl.BUdkFiV-mUVer58zMF6TWAo3xR1cGINTa80sc13euJhwcfp_F1eCMNwCc-5hKSLNfxfSY6q-XfeKLIvLq65dX8Py2frBPldP9wwqmXDXMNQQsmBo3NKKjHrPyeuWhzzOXaGI3u9yYR8I'
+refresh_token = 'DXH_gwRhkcgAAAAAAAAAAZXXA6ZhOAjAYfs4H4yP7-PKIYKqze-BWJRJVfiazj2_'
 
 with dropbox.Dropbox(oauth2_access_token=access_token,
                      oauth2_refresh_token=refresh_token,
@@ -240,5 +240,5 @@ def dropbox_upload_folder_LARGE_LongToken(
         print('Error uploading file to Dropbox: ' + str(e))
 
 
-dropbox_upload_folder_LARGE_LongToken('/scratch/bincheng/abatement/',
-                                      '/climatemodeling/IMSI_Mitigation/data/abatement/')
+dropbox_upload_folder_LARGE_LongToken('/scratch/bincheng/abatement/data_2tech/2jump_step_0.2_0.2_0.2_LR_0.005_hterm',
+                                      '/climatemodeling/IMSI_Mitigation/data/important/')

@@ -839,7 +839,6 @@ for id_xiag in range(len(xiaarr)):
                 plt.plot(res["years"][res["states"][:, 1]<1.5], res["scc"][res["states"][:, 1]<1.5],label='baseline'  )
             else:
                 plt.plot(res["years"][res["states"][:, 1]<1.5], res["scc"][res["states"][:, 1]<1.5],label='$\\xi_a={:.4f}$,$\\xi_g=\\xi_d={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
-
             plt.xlabel("Years")
             plt.title("Social Cost of Carbon")
             plt.ylim(0,250)

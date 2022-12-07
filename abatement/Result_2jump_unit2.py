@@ -677,6 +677,10 @@ def graph_unit(psi_0,psi_1,xi_a,xi_g,Ig_initial = 1/120):
         pi_c = res["pic_t"][:, -1]
         plt.figure(figsize=(16,10))
 
+
+        print("mean of uncondition = {}" .format(np.average(theta_ell,weights = pi_c_o)))
+        print("mean of condition = {}" .format(np.average(theta_ell,weights = pi_c)))
+
         plt.hist(theta_ell, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
                 alpha=0.5, ec="darkgrey", color="C3")
         plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 

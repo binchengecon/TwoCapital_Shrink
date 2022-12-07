@@ -42,6 +42,10 @@ parser.add_argument("--xi_a", type=float, default=1000.)
 parser.add_argument("--xi_p", type=float, default=1000.)
 parser.add_argument("--psi_0", type=float, default=0.003)
 parser.add_argument("--psi_1", type=float, default=0.5)
+parser.add_argument("--psi_2", type=float, default=0.4)
+parser.add_argument("--s", type=float, default=0.0)
+parser.add_argument("--tau", type=float, default=0.0)
+parser.add_argument("--Tr", type=float, default=0.0)
 parser.add_argument("--num_gamma",type=int,default=6)
 parser.add_argument("--name",type=str,default="ReplicateSuri")
 parser.add_argument("--hXarr",nargs='+',type=float)
@@ -93,10 +97,9 @@ y_bar = 2.
 y_bar_lower = 1.5
 
 
-s_star = 0
-tau_star = 0
-
-Tr_star=0
+s_star = args.s
+tau_star = args.tau
+Tr_star=args.Tr
 
 theta_ell = pd.read_csv('./data/model144.csv', header=None).to_numpy()[:, 0]/1000.
 pi_c_o    = np.ones_like(theta_ell)/len(theta_ell)
@@ -106,6 +109,8 @@ beta_f    = 1.86 / 1000
 zeta      = 0.00
 psi_0     = args.psi_0
 psi_1     = args.psi_1
+psi_2     = args.psi_2
+
 sigma_g   = 0.016
 # Tech jump
 lambda_bar_first = lambda_bar / 2
@@ -294,7 +299,7 @@ v_tech2 = np.zeros((nK, nY_short, nL))
 for i in range(nL):
     v_tech2[:, :, i] = v_post
 
-model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a, xi_g, xi_p,s_star,tau_star,Tr_star)
+model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, psi_2, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a, xi_g, xi_p,s_star,tau_star,Tr_star)
 
 #########################################
 ######### Start of Compute###############
@@ -310,6 +315,9 @@ model_tech1_pre_damage = hjb_pre_tech(
         smart_guess=Guess,
         )
 
-with open(Data_Dir+ File_Name + "model_tech1_pre_damage", "wb") as f:
+
+File_Name_sp = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_psi_2_{}_s_{}_tau_{}_Tr_{}_" .format(xi_a,xi_g,psi_0,psi_1,psi_2,s_star,tau_star,Tr_star)
+
+with open(Data_Dir+ File_Name_sp + "model_tech1_pre_damage", "wb") as f:
     pickle.dump(model_tech1_pre_damage, f)
 
