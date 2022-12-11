@@ -442,7 +442,7 @@ for id_xiag in range(len(xiaarr)):
             plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
                     alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$'.format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
             plt.legend(loc='upper left')
-            # plt.title("Distorted probability of Climate Models")
+            plt.title("Distorted probability of Climate Models")
 
             plt.ylim(0, 1.4)
             plt.xlabel("Climate Sensitivity")
@@ -484,12 +484,42 @@ for id_xiag in range(len(xiaarr)):
             plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
                     alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$'.format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
             plt.legend(loc='upper left')
-            # plt.title("Distorted probability of Climate Models")
+            plt.title("Distorted probability of Climate Models")
 
             plt.ylim(0, 1.4)
             plt.xlabel("Climate Sensitivity")
             plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_25,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
             plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_25,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
+            plt.close()
+
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+
+     
+            res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+
+            # histogram of gamma_3
+            NUM_DAMAGE = res["gt_dmg"].shape[0]
+            gamma_3_list = np.linspace(0., 1./3., NUM_DAMAGE)
+
+            # γ3_distort = np.load("γ3_5.npy")
+
+            γ3_distort = res["gt_dmg"][:, -1] 
+            # plt.figure(figsize=(16,10))
+            plt.hist(gamma_3_list, weights=np.ones(len(gamma_3_list)) / len(gamma_3_list), 
+                    alpha=0.5, color="C3", ec="darkgray",label='baseline')
+            plt.hist(gamma_3_list, weights= γ3_distort / np.sum(γ3_distort), 
+                    alpha=0.5, color="C0", ec="darkgray",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$'.format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
+            plt.ylim(0, 0.3)
+            plt.title("Distorted probability of Damage Models")
+            plt.xlabel("Damage Curvature")
+            plt.legend(loc='upper left')
+
+            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Gamma3,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
+            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Gamma3,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
             plt.close()
 
 
@@ -501,49 +531,4 @@ for id_xiag in range(len(xiaarr)):
 
 
 
-for id_xiag in range(len(xiaarr)): 
-    for id_psi0 in range(len(psi0arr)):
-        for id_psi1 in range(len(psi1arr)):
 
-            res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
-            
-            
-            if xigarr[id_xiag]>10:
-
-                plt.plot(res["years"][res["states"][:, 1]<1.5], (res["Ambiguity_mean_dis"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5])*1000,label='baseline'  )
-            else:
-                plt.plot(res["years"][res["states"][:, 1]<1.5], (res["Ambiguity_mean_dis"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5])*1000,label='$\\xi_a={:.4f}$,$\\xi_g=\\xi_d=\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
-
-            plt.xlabel("Years")
-            plt.title("Mean Difference")
-            # plt.ylim(0,250)
-            plt.legend(loc='upper left')
-
-
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={},BC_v2.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={},BC_v2.png".format(xiaarr,xigarr,psi0arr,psi1arr))
-plt.close()
-
-
-for id_xiag in range(len(xiaarr)): 
-    for id_psi0 in range(len(psi0arr)):
-        for id_psi1 in range(len(psi1arr)):
-
-            res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
-            
-            
-            if xigarr[id_xiag]>10:
-
-                plt.plot(res["years"], (res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000,label='baseline'  )
-            else:
-                plt.plot(res["years"], (res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000,label='$\\xi_a={:.4f}$,$\\xi_g=\\xi_d=\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
-
-            plt.xlabel("Years")
-            plt.title("Mean Difference")
-            # plt.ylim(0,250)
-            plt.legend(loc='upper left')
-
-
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={}_v2.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={}_v2.png".format(xiaarr,xigarr,psi0arr,psi1arr))
-plt.close()

@@ -129,12 +129,12 @@ stateSpace = np.hstack([K_mat.reshape(-1,1,order = 'F'), Y_mat.reshape(-1,1,orde
 
 
 
-mpl.rcParams["lines.linewidth"] = 20
 mpl.rcParams["savefig.bbox"] = "tight"
-mpl.rcParams["figure.figsize"] = (8,5)
+mpl.rcParams["figure.figsize"] = (16,105)
 mpl.rcParams["font.size"] = 15
 mpl.rcParams["legend.frameon"] = False
 mpl.style.use('classic')
+mpl.rcParams["lines.linewidth"] = 5
 
 def simulate_pre(
     grid = (), model_args = (), controls = (), initial=(np.log(85/0.115), 1.1, -3.7), 
@@ -175,7 +175,7 @@ def simulate_pre(
     theta_ell = pd.read_csv("./data/model144.csv", header=None).to_numpy()[:, 0]/1000.
     pi_c_o = np.ones(len(theta_ell)) / len(theta_ell)
     pi_c_o = np.array([temp * np.ones(K_mat.shape) for temp in pi_c_o])
-    theta_ell = np.array([temp * np.ones(K_mat.shape) for temp in theta_ell])
+    # theta_ell = np.array([temp * np.ones(K_mat.shape) for temp in theta_ell])
     args = (delta, alpha, kappa, mu_k, sigma_k, gamma_1, gamma_2, theta_ell, pi_c_o, sigma_y,  theta, vartheta_bar, lambda_bar)
 
 #     v, ME_base, diff = decompose(v0, stateSpace, (K_mat, Y_mat, L_mat), (ii, ee, xx), args=args)
@@ -234,8 +234,9 @@ def simulate_pre(
 #     if pre_damage:
     gt_dmg    = np.zeros([n_damage, pers])
     pi_c_t = np.zeros([n_climate, pers])
-    
-#     ME_base_t = np.zeros([pers])
+    Ambiguity_mean_undis = np.zeros([pers])
+    Ambiguity_mean_dis = np.zeros([pers])
+    #     ME_base_t = np.zeros([pers])
 
     mu_K_hist = np.zeros([pers])
     mu_L_hist = np.zeros([pers])
@@ -259,7 +260,8 @@ def simulate_pre(
             for i in range(n_climate):
                 climate_func = climate_func_list[i]
                 pi_c_t[i, 0] = climate_func(hist[0, :])
-            
+            Ambiguity_mean_undis[tm] = np.mean(theta_ell)
+            Ambiguity_mean_dis[tm] = np.average(theta_ell,weights=pi_c_t[:,tm])
 
         else:
             # other periods
@@ -286,6 +288,8 @@ def simulate_pre(
             hist[tm,0] = hist[tm-1,0] + mu_K_hist[tm] * dt #logK
             hist[tm,1] = hist[tm-1,1] + beta_f * e_hist[tm] * dt
             hist[tm,2] = hist[tm-1,2] + mu_L_hist[tm] * dt # logλ
+            Ambiguity_mean_undis[tm] = np.mean(theta_ell)
+            Ambiguity_mean_dis[tm] = np.average(theta_ell,weights=pi_c_t[:,tm])
 
         if printing==True:
             print("time={}, K={},Y={},L={},mu_K={},mu_Y={},mu_L={},ii={},ee={},xx={}" .format(tm, hist[tm,0],hist[tm,1],hist[tm,2],mu_K_hist[tm],beta_f * e_hist[tm],mu_L_hist[tm],ii.max(),ee.max(),xx.max()))
@@ -335,7 +339,9 @@ def simulate_pre(
         LHS = LHS,
         years=years,
         true_tech_prob = true_tech_prob,
-        true_damage_prob = true_damage_prob
+        true_damage_prob = true_damage_prob,
+        Ambiguity_mean_undis = Ambiguity_mean_undis,
+        Ambiguity_mean_dis = Ambiguity_mean_dis,
     )
     
 #     if pre_damage:
@@ -412,6 +418,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.plot(res["years"], (res["x"]/(alpha*np.exp(res["states"][:,0])))*100,label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0 )
             plt.xlabel('Years')
             plt.ylabel('$\%$ of GDP')
+            plt.title('R&D investment as percentage of  GDP')   
             plt.ylim(0,0.8)
             plt.xlim(0,IntPeriod)
 
@@ -434,7 +441,8 @@ for id_xiag in range(len(xiaarr)):
             else:
                 plt.plot(res["years"], res["i"],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0 )
             plt.xlabel('Years')
-            plt.ylim(60,220)
+            plt.title("Capital investment")
+            plt.ylim(60,180)
             plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
 
@@ -456,6 +464,7 @@ for id_xiag in range(len(xiaarr)):
             # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["e"][res2["states"][:, 1]<1.5],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
             # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["e"][res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
             plt.xlabel('Years')
+            plt.title("Carbon Emissions")
             plt.ylim(6,22)
             plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
@@ -479,6 +488,7 @@ for id_xiag in range(len(xiaarr)):
             # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["states"][:, 1][res2["states"][:, 1]<1.5],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
             # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["states"][:, 1][res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
             plt.xlabel('Years')
+            plt.title("Temperature anomaly")
             plt.ylim(1,2.8)
             plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
@@ -503,7 +513,8 @@ for id_xiag in range(len(xiaarr)):
             # plt.plot(res2["years"][res2["states"][:, 1]<1.5], np.exp(res2["states"][:, 2])[res2["states"][:, 1]<1.5],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
             # plt.plot(res3["years"][res3["states"][:, 1]<1.5], np.exp(res3["states"][:, 2])[res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
             plt.xlabel('Years')
-            plt.ylim(0,0.23)
+            plt.title("Technology jump intensity")
+            plt.ylim(0,0.1)
             plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
 
@@ -528,6 +539,7 @@ for id_xiag in range(len(xiaarr)):
             # plt.plot(res2["years"], res2["distorted_tech_prob"],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
             # plt.plot(res3["years"], res3["distorted_tech_prob"],label='baseline',linewidth=7.0)
             plt.xlabel('Years')
+            plt.title("Distorted probability of a technology jump")
             plt.ylim(0,1)
             plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
@@ -550,6 +562,7 @@ for id_xiag in range(len(xiaarr)):
             # plt.plot(res2["years"], res2["distorted_damage_prob"],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
             # plt.plot(res3["years"], res3["distorted_damage_prob"],label='baseline',linewidth=7.0)
             plt.xlabel('Years')
+            plt.title("Distorted probability of damage changes")
             plt.ylim(0,1)
             plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
@@ -571,6 +584,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.plot(res["years"], res["true_tech_prob"],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0 )
 
             plt.xlabel("Years")
+            plt.title("True probability of damage changes")
             plt.ylim(0,1)
             plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
@@ -593,6 +607,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.plot(res["years"], res["true_damage_prob"],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0 )
 
             plt.xlabel("Years")
+            plt.title("True probability of damage changes")
             plt.ylim(0,1)
             plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
@@ -609,19 +624,44 @@ for id_xiag in range(len(xiaarr)):
 
             if xiaarr[id_xiag]>10:
 
-                plt.plot(res["years"], res["scc"],label='baseline' ,linewidth=5.0)
+                plt.plot(res["years"], np.log(res["scc"]),label='baseline' ,linewidth=5.0)
             else:
-                plt.plot(res["years"], res["scc"],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0 )
+                plt.plot(res["years"], np.log(res["scc"]),label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0 )
 
             plt.xlabel("Years")
+            plt.title("Social Cost of Carbon")
             plt.ylim(0,250)
             plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/SCC,xia={},xig={},psi0={},psi1={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/SCC,xia={},xig={},psi0={},psi1={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.close()
 
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+
+            res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+            
+            
+            if xigarr[id_xiag]>10:
+
+                plt.plot(res["years"], (res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000,label='baseline'  )
+            else:
+                plt.plot(res["years"], (res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000,label='$\\xi_a={:.4f}$,$\\xi_g=\\xi_d=\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
+
+            plt.xlabel("Years")
+            plt.title("Mean Difference")
+            # plt.ylim(0,250)
+            plt.legend(loc='upper left')
+
+
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.close()
 
 
 for id_xiag in range(len(xiaarr)): 
@@ -636,6 +676,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["x"]/(alpha*np.exp(res["states"][:,0])))*100)[res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0 )
             plt.xlabel('Years')
             plt.ylabel('$\%$ of GDP')
+            plt.title('R&D investment as percentage of  GDP')   
             plt.ylim(0,0.65)
             plt.legend(loc='upper left')        
 
@@ -656,6 +697,7 @@ for id_xiag in range(len(xiaarr)):
             plt.xlabel('Years')
             plt.ylim(60,220)
             plt.legend(loc='upper left')
+            plt.title("Capital investment")
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/CapI,xia={},xig={},psi0={},psi1={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/CapI,xia={},xig={},psi0={},psi1={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr))
@@ -677,7 +719,7 @@ for id_xiag in range(len(xiaarr)):
             plt.xlabel('Years')
             plt.ylim(4,14)
             plt.legend(loc='upper left')
-
+            plt.title("Carbon Emissions")
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/E,xia={},xig={},psi0={},psi1={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/E,xia={},xig={},psi0={},psi1={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.close()
@@ -697,7 +739,7 @@ for id_xiag in range(len(xiaarr)):
             plt.xlabel('Years')
             plt.ylim(1,2.8)
             plt.legend(loc='upper left')
-
+            plt.title("Temperature anomaly")
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TA,xia={},xig={},psi0={},psi1={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TA,xia={},xig={},psi0={},psi1={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.close()
@@ -718,7 +760,7 @@ for id_xiag in range(len(xiaarr)):
             plt.xlabel('Years')
             plt.ylim(0,0.23)
             plt.legend(loc='upper left')
-
+            plt.title("Technology jump intensity")
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Ig,xia={},xig={},psi0={},psi1={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Ig,xia={},xig={},psi0={},psi1={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr))
@@ -740,7 +782,7 @@ for id_xiag in range(len(xiaarr)):
             plt.xlabel('Years')
             plt.ylim(0,1)
             plt.legend(loc='upper left')
-
+            plt.title("Distorted probability of a technology jump")
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIgd,xia={},xig={},psi0={},psi1={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIgd,xia={},xig={},psi0={},psi1={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.close()
@@ -761,7 +803,7 @@ for id_xiag in range(len(xiaarr)):
             plt.xlabel('Years')
             plt.ylim(0,1)
             plt.legend(loc='upper left')
-
+            plt.title("Distorted probability of damage changes")
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIdd,xia={},xig={},psi0={},psi1={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIdd,xia={},xig={},psi0={},psi1={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.close()
@@ -783,7 +825,7 @@ for id_xiag in range(len(xiaarr)):
             plt.xlabel("Years")
             plt.ylim(0,1)
             plt.legend(loc='upper left')
-
+            plt.title("True probability of a technology jump")
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPIg,xia={},xig={},psi0={},psi1={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPIg,xia={},xig={},psi0={},psi1={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.close()
@@ -803,31 +845,10 @@ for id_xiag in range(len(xiaarr)):
             plt.xlabel("Years")
             plt.ylim(0,1)
             plt.legend(loc='upper left')
-
+            plt.title("True probability of damage changes")
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPId,xia={},xig={},psi0={},psi1={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPId,xia={},xig={},psi0={},psi1={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.close()
-
-
-
-for id_xiag in range(len(xiaarr)): 
-    for id_psi0 in range(len(psi0arr)):
-        for id_psi1 in range(len(psi1arr)):
-
-            res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
-            if xiaarr[id_xiag]>10:
-
-                plt.plot(res["years"][res["states"][:, 1]<1.5], res["scc"][res["states"][:, 1]<1.5],label='baseline' ,linewidth=5.0 )
-            else:
-                plt.plot(res["years"][res["states"][:, 1]<1.5], res["scc"][res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0 )
-            plt.xlabel("Years")
-            plt.ylim(0,250)
-            plt.legend(loc='upper left')
-
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/SCC,xia={},xig={},psi0={},psi1={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/SCC,xia={},xig={},psi0={},psi1={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr))
-plt.close()
-
 
 
 
@@ -842,7 +863,7 @@ for id_xiag in range(len(xiaarr)):
             else:
                 plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc"][res["states"][:, 1]<1.5]),label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0 )
             plt.xlabel("Years")
-            # plt.ylim(0,2)
+            plt.ylim(0,250)
             plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
@@ -852,73 +873,117 @@ plt.close()
 
 
 
-for id_xiag in range(len(xiaarr)): 
-    for id_psi0 in range(len(psi0arr)):
-        for id_psi1 in range(len(psi1arr)):
+# for id_xiag in range(len(xiaarr)): 
+#     for id_psi0 in range(len(psi0arr)):
+#         for id_psi1 in range(len(psi1arr)):
+
+#             res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+#             if xiaarr[id_xiag]>10:
+
+#                 plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc"][res["states"][:, 1]<1.5]),label='baseline' ,linewidth=5.0 )
+#             else:
+#                 plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc"][res["states"][:, 1]<1.5]),label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0 )
+#             plt.xlabel("Years")
+#             # plt.ylim(0,2)
+#             plt.legend(loc='upper left')
+
+# plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+# plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+# plt.close()
+
+
+
+
+# for id_xiag in range(len(xiaarr)): 
+#     for id_psi0 in range(len(psi0arr)):
+#         for id_psi1 in range(len(psi1arr)):
 
      
-            res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+#             res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
 
-            # histogram of gamma_3
-            NUM_DAMAGE = res["gt_dmg"].shape[0]
-            gamma_3_list = np.linspace(0., 1./3., NUM_DAMAGE)
+#             # histogram of gamma_3
+#             NUM_DAMAGE = res["gt_dmg"].shape[0]
+#             gamma_3_list = np.linspace(0., 1./3., NUM_DAMAGE)
 
-            # γ3_distort = np.load("γ3_5.npy")
+#             # γ3_distort = np.load("γ3_5.npy")
 
-            γ3_distort = res["gt_dmg"][:, -1] 
-            plt.figure(figsize=(16,10))
-            plt.hist(gamma_3_list, weights=np.ones(len(gamma_3_list)) / len(gamma_3_list), 
-                    alpha=0.5, color="C3", ec="darkgray",label='baseline')
-            plt.hist(gamma_3_list, weights= γ3_distort / np.sum(γ3_distort), 
-                    alpha=0.5, color="C0", ec="darkgray",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$'.format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
-            plt.ylim(0, 0.3)
-            # plt.title("Distorted probability of Damage Models")
-            plt.xlabel("$\\gamma_3$")
-            plt.legend(loc='upper left')
+#             γ3_distort = res["gt_dmg"][:, -1] 
+#             plt.figure(figsize=(16,10))
+#             plt.hist(gamma_3_list, weights=np.ones(len(gamma_3_list)) / len(gamma_3_list), 
+#                     alpha=0.5, color="C3", ec="darkgray",label='baseline')
+#             plt.hist(gamma_3_list, weights= γ3_distort / np.sum(γ3_distort), 
+#                     alpha=0.5, color="C0", ec="darkgray",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$'.format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
+#             plt.ylim(0, 0.3)
+#             # plt.title("Distorted probability of Damage Models")
+#             plt.xlabel("$\\gamma_3$")
+#             plt.legend(loc='upper left')
 
-            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Gamma3,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
-            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Gamma3,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
-            plt.close()
-
-
+#             plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Gamma3,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
+#             plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Gamma3,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
+#             plt.close()
 
 
-for id_xiag in range(len(xiaarr)): 
-    for id_psi0 in range(len(psi0arr)):
-        for id_psi1 in range(len(psi1arr)):
+
+
+# for id_xiag in range(len(xiaarr)): 
+#     for id_psi0 in range(len(psi0arr)):
+#         for id_psi1 in range(len(psi1arr)):
 
      
-            res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+#             res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
 
 
-            # theta_ell_new = res["theta_ell_new"][:,-1]
-            # histogram of beta_f
-            theta_ell = pd.read_csv("./data/model144.csv", header=None).to_numpy()[:, 0]
-            # print("theta_ell")
-            # print(theta_ell)
-            # print("theta_ell_new")
-            # print(theta_ell_new)
-            pi_c_o = np.ones(len(theta_ell)) / len(theta_ell)
-            # pi_c = np.load("πc_5.npy")
-            pi_c = res["pic_t"][:, -1]
+#             # theta_ell_new = res["theta_ell_new"][:,-1]
+#             # histogram of beta_f
+#             theta_ell = pd.read_csv("./data/model144.csv", header=None).to_numpy()[:, 0]
+#             # print("theta_ell")
+#             # print(theta_ell)
+#             # print("theta_ell_new")
+#             # print(theta_ell_new)
+#             pi_c_o = np.ones(len(theta_ell)) / len(theta_ell)
+#             # pi_c = np.load("πc_5.npy")
+#             pi_c = res["pic_t"][:, -1]
 
 
-            plt.figure(figsize=(16,10))
+#             plt.figure(figsize=(16,10))
 
-            print("mean of uncondition = {}" .format(np.average(theta_ell,weights = pi_c_o)))
-            print("mean of condition = {}" .format(np.average(theta_ell,weights = pi_c)))
+#             print("mean of uncondition = {}" .format(np.average(theta_ell,weights = pi_c_o)))
+#             print("mean of condition = {}" .format(np.average(theta_ell,weights = pi_c)))
                 
-            plt.hist(theta_ell, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
-                    alpha=0.5, ec="darkgrey", color="C3",label='baseline')
-            plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
-                    alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$'.format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
+#             plt.hist(theta_ell, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
+#                     alpha=0.5, ec="darkgrey", color="C3",label='baseline')
+#             plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
+#                     alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$'.format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
+#             plt.legend(loc='upper left')
+#             # plt.title("Distorted probability of Climate Models")
+
+#             plt.ylim(0, 1.4)
+#             plt.xlabel("Climate Sensitivity")
+#             plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
+#             plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
+#             plt.close()
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+
+            res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+            
+            
+            if xigarr[id_xiag]>10:
+
+                plt.plot(res["years"][res["states"][:, 1]<1.5], (res["Ambiguity_mean_dis"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5])*1000,label='baseline'  )
+            else:
+                plt.plot(res["years"][res["states"][:, 1]<1.5], (res["Ambiguity_mean_dis"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5])*1000,label='$\\xi_a={:.4f}$,$\\xi_g=\\xi_d=\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
+
+            plt.xlabel("Years")
+            plt.title("Mean Difference")
+            # plt.ylim(0,250)
             plt.legend(loc='upper left')
-            # plt.title("Distorted probability of Climate Models")
 
-            plt.ylim(0, 1.4)
-            plt.xlabel("Climate Sensitivity")
-            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
-            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
-            plt.close()
 
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.close()
 
