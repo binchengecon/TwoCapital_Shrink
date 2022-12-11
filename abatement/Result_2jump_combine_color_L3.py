@@ -411,86 +411,86 @@ def model_solution_extraction(xi_a,xi_g,psi_0,psi_1):
 
 
 
-for id_xiag in range(len(xiaarr)): 
-    for id_psi0 in range(len(psi0arr)):
-        for id_psi1 in range(len(psi1arr)):
+# for id_xiag in range(len(xiaarr)): 
+#     for id_psi0 in range(len(psi0arr)):
+#         for id_psi1 in range(len(psi1arr)):
 
      
-            res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+#             res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
 
 
-            # theta_ell_new = res["theta_ell_new"][:,-1]
-            # histogram of beta_f
-            theta_ell = pd.read_csv("./data/model144.csv", header=None).to_numpy()[:, 0]
-            # print("theta_ell")
-            # print(theta_ell)
-            # print("theta_ell_new")
-            # print(theta_ell_new)
-            pi_c_o = np.ones(len(theta_ell)) / len(theta_ell)
-            # pi_c = np.load("πc_5.npy")
-            time = 1/timespan
-            pi_c = res["pic_t"][:, int(time)]
+#             # theta_ell_new = res["theta_ell_new"][:,-1]
+#             # histogram of beta_f
+#             theta_ell = pd.read_csv("./data/model144.csv", header=None).to_numpy()[:, 0]
+#             # print("theta_ell")
+#             # print(theta_ell)
+#             # print("theta_ell_new")
+#             # print(theta_ell_new)
+#             pi_c_o = np.ones(len(theta_ell)) / len(theta_ell)
+#             # pi_c = np.load("πc_5.npy")
+#             time = 1/timespan
+#             pi_c = res["pic_t"][:, int(time)]
 
 
-            # plt.figure(figsize=(16,10))
+#             # plt.figure(figsize=(16,10))
 
-            print("mean of uncondition = {}" .format(np.average(theta_ell,weights = pi_c_o)))
-            print("mean of condition = {}" .format(np.average(theta_ell,weights = pi_c)))
+#             print("mean of uncondition = {}" .format(np.average(theta_ell,weights = pi_c_o)))
+#             print("mean of condition = {}" .format(np.average(theta_ell,weights = pi_c)))
                 
-            plt.hist(theta_ell, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
-                    alpha=0.5, ec="darkgrey", color="C3",label='baseline')
-            plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
-                    alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$'.format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
-            plt.legend(loc='upper left')
-            plt.title("Distorted probability of Climate Models")
+#             plt.hist(theta_ell, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
+#                     alpha=0.5, ec="darkgrey", color="C3",label='baseline')
+#             plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
+#                     alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$'.format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
+#             plt.legend(loc='upper left')
+#             plt.title("Distorted probability of Climate Models")
 
-            plt.ylim(0, 1.4)
-            plt.xlabel("Climate Sensitivity")
-            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_0,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_v2_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
-            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_0,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_v2_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
-            plt.close()
-
-
+#             plt.ylim(0, 1.4)
+#             plt.xlabel("Climate Sensitivity")
+#             plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_0,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_v2_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
+#             plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_0,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_v2_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
+#             plt.close()
 
 
-for id_xiag in range(len(xiaarr)): 
-    for id_psi0 in range(len(psi0arr)):
-        for id_psi1 in range(len(psi1arr)):
+
+
+# for id_xiag in range(len(xiaarr)): 
+#     for id_psi0 in range(len(psi0arr)):
+#         for id_psi1 in range(len(psi1arr)):
 
      
-            res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+#             res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
 
 
-            # theta_ell_new = res["theta_ell_new"][:,-1]
-            # histogram of beta_f
-            theta_ell = pd.read_csv("./data/model144.csv", header=None).to_numpy()[:, 0]
-            # print("theta_ell")
-            # print(theta_ell)
-            # print("theta_ell_new")
-            # print(theta_ell_new)
-            pi_c_o = np.ones(len(theta_ell)) / len(theta_ell)
-            # pi_c = np.load("πc_5.npy")
-            # time = 1/timespan
-            pi_c = res["pic_t"][:, -1]
+#             # theta_ell_new = res["theta_ell_new"][:,-1]
+#             # histogram of beta_f
+#             theta_ell = pd.read_csv("./data/model144.csv", header=None).to_numpy()[:, 0]
+#             # print("theta_ell")
+#             # print(theta_ell)
+#             # print("theta_ell_new")
+#             # print(theta_ell_new)
+#             pi_c_o = np.ones(len(theta_ell)) / len(theta_ell)
+#             # pi_c = np.load("πc_5.npy")
+#             # time = 1/timespan
+#             pi_c = res["pic_t"][:, -1]
 
 
-            # plt.figure(figsize=(16,10))
+#             # plt.figure(figsize=(16,10))
 
-            print("mean of uncondition = {}" .format(np.average(theta_ell,weights = pi_c_o)))
-            print("mean of condition = {}" .format(np.average(theta_ell,weights = pi_c)))
+#             print("mean of uncondition = {}" .format(np.average(theta_ell,weights = pi_c_o)))
+#             print("mean of condition = {}" .format(np.average(theta_ell,weights = pi_c)))
                 
-            plt.hist(theta_ell, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
-                    alpha=0.5, ec="darkgrey", color="C3",label='baseline')
-            plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
-                    alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$'.format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
-            plt.legend(loc='upper left')
-            plt.title("Distorted probability of Climate Models")
+#             plt.hist(theta_ell, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
+#                     alpha=0.5, ec="darkgrey", color="C3",label='baseline')
+#             plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
+#                     alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$'.format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
+#             plt.legend(loc='upper left')
+#             plt.title("Distorted probability of Climate Models")
 
-            plt.ylim(0, 1.4)
-            plt.xlabel("Climate Sensitivity")
-            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_25,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_v2_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
-            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_25,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_v2_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
-            plt.close()
+#             plt.ylim(0, 1.4)
+#             plt.xlabel("Climate Sensitivity")
+#             plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_25,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_v2_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
+#             plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_25,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_v2_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
+#             plt.close()
 
 
 

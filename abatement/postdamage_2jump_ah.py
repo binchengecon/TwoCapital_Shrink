@@ -71,7 +71,7 @@ xi_a = args.xi_a  # Smooth ambiguity
 xi_b = 1000. # Brownian misspecification
 xi_g = args.xi_g  # Technology jump
 xi_p = args.xi_g # Hold place for arguments, no real effects 
-
+xi_m = args.xi_g
 
 # Model parameters
 delta   = 0.010
@@ -224,7 +224,7 @@ Guess = None
 
 res = hjb_pre_tech(
         state_grid=(K, Y, L), 
-        model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_g, xi_p),
+        model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_g, xi_p, xi_m),
         V_post_damage=None,
         tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], 
         smart_guess=Guess, 

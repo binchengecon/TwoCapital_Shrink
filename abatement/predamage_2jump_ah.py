@@ -22,8 +22,8 @@ from scipy.sparse import csr_matrix
 from datetime import datetime
 # from solver import solver_3d
 from PostSolver import hjb_post_damage_post_tech, hjb_pre_damage_post_tech
-from src.solver import pde_one_interation
-from src.solver import hjb_pre_tech
+from src.solver_ah import pde_one_interation
+from src.solver_ah import hjb_pre_tech
 import argparse
 
 reporterror = True
@@ -65,6 +65,7 @@ xi_a = args.xi_a # Smooth ambiguity
 xi_p = args.xi_p  # Damage poisson
 xi_b = 1000. # Brownian misspecification
 xi_g = args.xi_p  # Technology jump
+xi_m = args.xi_p
 
 # DataDir = "./res_data/6damage/xi_a_" + str(xi_a) + "_xi_g_" + str(xi_g) +  "/"
 # if not os.path.exists(DataDir):
@@ -291,7 +292,7 @@ v_tech2 = np.zeros((nK, nY_short, nL))
 for i in range(nL):
     v_tech2[:, :, i] = v_post
 
-model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a, xi_g, xi_p)
+model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a, xi_g, xi_p, xi_m)
 
 #########################################
 ######### Start of Compute###############

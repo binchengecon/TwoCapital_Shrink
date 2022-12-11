@@ -78,7 +78,7 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
 
     hX1, hX2, hX3 = steps
     K_mat, Y_mat, L_mat = states
-    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_g = args
+    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_g, xi_m = args
 
     i_star, e_star, x_star = controls
     # First order derivative
@@ -178,7 +178,9 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     # entropy = np.sum(pi_c * (np.log(pi_c) - np.log(pi_c_o)), axis=0)
 
     gg_mean = - G * sigma_y * ee / xi_m
-
+    # gg_mean[gg_mean<=1e-16] = 1e-16
+    # gg_mean[gg_mean<=1e-16]=1e-16
+    print("gg_mean_min,max=({},{})" .format(gg_mean.min(),gg_mean.max()))
     # Technology
     gg = np.exp(1 / xi_g * (v0 - V_post_tech))
     gg[gg <=1e-16] = 1e-16
@@ -216,7 +218,7 @@ def hjb_pre_tech(
     current_time = now.strftime("%d-%H:%M")
     K, Y, L = state_grid
 
-    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_g, xi_p = model_args
+    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_g, xi_p, xi_m = model_args
 
 
     X1     = K
@@ -273,7 +275,8 @@ def hjb_pre_tech(
     epoch    = 0
 
     if v0 is None:
-        v0 = K_mat + L_mat - np.average(pi_c_o, axis=0) * Y_mat
+        # v0 = K_mat + L_mat - np.average(pi_c_o, axis=0) * Y_mat
+        v0 = K_mat + L_mat 
 
     i_star = np.zeros(K_mat.shape)
     e_star = np.zeros(K_mat.shape)
@@ -288,7 +291,7 @@ def hjb_pre_tech(
     dVec = np.array([hX1, hX2, hX3])
     increVec = np.array([1, nX1, nX1 * nX2],dtype=np.int32)
 
-    FOC_args = (delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_g )
+    FOC_args = (delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_g, xi_m )
 
     petsc_mat = PETSc.Mat().create()
     petsc_mat.setType('aij')
