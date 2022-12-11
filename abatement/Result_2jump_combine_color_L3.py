@@ -446,8 +446,8 @@ for id_xiag in range(len(xiaarr)):
 
             plt.ylim(0, 1.4)
             plt.xlabel("Climate Sensitivity")
-            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_0,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
-            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_0,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
+            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_0,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_v2_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
+            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_0,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_v2_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
             plt.close()
 
 
@@ -488,8 +488,8 @@ for id_xiag in range(len(xiaarr)):
 
             plt.ylim(0, 1.4)
             plt.xlabel("Climate Sensitivity")
-            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_25,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
-            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_25,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
+            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_25,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_v2_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
+            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_25,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_v2_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
             plt.close()
 
 
@@ -518,8 +518,8 @@ for id_xiag in range(len(xiaarr)):
             plt.xlabel("Damage Curvature")
             plt.legend(loc='upper left')
 
-            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Gamma3,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
-            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Gamma3,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
+            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Gamma3,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_v2_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
+            plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Gamma3,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},BC_v2_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
             plt.close()
 
 
