@@ -369,6 +369,7 @@ def model_solution_extraction(xi_a,xi_g,psi_0,psi_1,psi_2):
         Data_Dir = Output_Dir+"abatement/data_2tech/"+args.dataname+"/"
 
 
+        # File_Dir = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_psi_2_{}_" .format(xi_a,xi_g,psi_0,psi_1,psi_2)
         File_Dir = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_psi_2_{}" .format(xi_a,xi_g,psi_0,psi_1,psi_2)
         model_dir_post = Data_Dir + File_Dir+"model_tech1_pre_damage"
 
@@ -443,9 +444,9 @@ for id_xiag in range(len(xiaarr)):
                 print("mean of condition = {}" .format(np.average(theta_ell,weights = pi_c)))
                     
                 plt.hist(theta_ell, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
-                        alpha=0.5, ec="darkgrey", color="C3",label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]))
+                        alpha=0.5, ec="darkgrey", color="C3",label='baseline'.format(psi2arr[id_psi2]))
                 plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
-                        alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]))
+                        alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]))
                 plt.legend(loc='upper left')
                 plt.title("Distorted probability of Climate Models")
 
@@ -486,9 +487,9 @@ for id_xiag in range(len(xiaarr)):
                 print("mean of condition = {}" .format(np.average(theta_ell,weights = pi_c)))
                     
                 plt.hist(theta_ell, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
-                        alpha=0.5, ec="darkgrey", color="C3",label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]))
+                        alpha=0.5, ec="darkgrey", color="C3",label='baseline'.format(psi2arr[id_psi2]))
                 plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
-                        alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]))
+                        alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]))
                 plt.legend(loc='upper left')
                 plt.title("Distorted probability of Climate Models")
 
@@ -516,9 +517,9 @@ for id_xiag in range(len(xiaarr)):
             γ3_distort = res["gt_dmg"][:, -1] 
             # plt.figure(figsize=(16,10))
             plt.hist(gamma_3_list, weights=np.ones(len(gamma_3_list)) / len(gamma_3_list), 
-                    alpha=0.5, color="C3", ec="darkgray",label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]))
+                    alpha=0.5, color="C3", ec="darkgray",label='baseline'.format(psi2arr[id_psi2]))
             plt.hist(gamma_3_list, weights= γ3_distort / np.sum(γ3_distort), 
-                    alpha=0.5, color="C0", ec="darkgray",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]))
+                    alpha=0.5, color="C0", ec="darkgray",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]))
             plt.ylim(0, 0.3)
             plt.title("Distorted probability of Damage Models")
             plt.xlabel("Damage Curvature")

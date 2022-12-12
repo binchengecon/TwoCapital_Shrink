@@ -158,7 +158,7 @@ X3_max = X3.max()
 Output_Dir = "/scratch/bincheng/"
 Data_Dir = Output_Dir+"abatement/data_2tech/"+args.name+"/"
 
-File_Name = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_psi_2_{}" .format(xi_a,xi_g,psi_0,psi_1,psi_2)
+File_Name = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_psi_2_{}_" .format(xi_a,xi_g,psi_0,psi_1,psi_2)
 
 #if not os.path.exists(DataDir):
 #    os.mkdir(DataDir)

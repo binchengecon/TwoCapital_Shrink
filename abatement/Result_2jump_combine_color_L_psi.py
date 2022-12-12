@@ -381,6 +381,7 @@ def model_solution_extraction(xi_a,xi_g,psi_0,psi_1,psi_2):
         Data_Dir = Output_Dir+"abatement/data_2tech/"+args.dataname+"/"
 
 
+        # File_Dir = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_psi_2_{}_" .format(xi_a,xi_g,psi_0,psi_1,psi_2)
         File_Dir = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_psi_2_{}" .format(xi_a,xi_g,psi_0,psi_1,psi_2)
         model_dir_post = Data_Dir + File_Dir+"model_tech1_pre_damage"
 
@@ -432,9 +433,9 @@ for id_xiag in range(len(xiaarr)):
                     res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
 
                     if xiaarr[id_xiag]>10:
-                        plt.plot(res["years"], (res["x"]/(alpha*np.exp(res["states"][:,0])))*100,label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                        plt.plot(res["years"], (res["x"]/(alpha*np.exp(res["states"][:,0])))*100,label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                     else:
-                        plt.plot(res["years"], (res["x"]/(alpha*np.exp(res["states"][:,0])))*100,label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                        plt.plot(res["years"], (res["x"]/(alpha*np.exp(res["states"][:,0])))*100,label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                     plt.xlabel('Years')
                     plt.ylabel('$\%$ of GDP')
                     plt.title('R&D investment as percentage of  GDP')   
@@ -457,9 +458,9 @@ for id_xiag in range(len(xiaarr)):
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"], res["i"],label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"], res["i"],label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                 else:
-                    plt.plot(res["years"], res["i"],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"], res["i"],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                 plt.xlabel('Years')
                 plt.title("Capital investment")
                 # plt.ylim(60,120)
@@ -479,9 +480,9 @@ for id_xiag in range(len(xiaarr)):
                 res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
 
                 if xiaarr[id_xiag]>10:
-                    plt.plot(res["years"], res["e"],label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"], res["e"],label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                 else:
-                    plt.plot(res["years"], res["e"],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"], res["e"],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                 # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["e"][res2["states"][:, 1]<1.5],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
                 # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["e"][res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
                 plt.xlabel('Years')
@@ -504,9 +505,9 @@ for id_xiag in range(len(xiaarr)):
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"], res["states"][:, 1],label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"], res["states"][:, 1],label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                 else:
-                    plt.plot(res["years"], res["states"][:, 1],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"], res["states"][:, 1],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                 # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["states"][:, 1][res2["states"][:, 1]<1.5],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
                 # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["states"][:, 1][res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
                 plt.xlabel('Years')
@@ -530,9 +531,9 @@ for id_xiag in range(len(xiaarr)):
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"], np.exp(res["states"][:, 2]),label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"], np.exp(res["states"][:, 2]),label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                 else:
-                    plt.plot(res["years"], np.exp(res["states"][:, 2]),label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"], np.exp(res["states"][:, 2]),label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                 # plt.plot(res2["years"][res2["states"][:, 1]<1.5], np.exp(res2["states"][:, 2])[res2["states"][:, 1]<1.5],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
                 # plt.plot(res3["years"][res3["states"][:, 1]<1.5], np.exp(res3["states"][:, 2])[res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
                 plt.xlabel('Years')
@@ -557,9 +558,9 @@ for id_xiag in range(len(xiaarr)):
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"], res["distorted_tech_prob"],label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"], res["distorted_tech_prob"],label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                 else:
-                    plt.plot(res["years"], res["distorted_tech_prob"],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"], res["distorted_tech_prob"],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                 # plt.plot(res2["years"], res2["distorted_tech_prob"],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
                 # plt.plot(res3["years"], res3["distorted_tech_prob"],label='baseline',linewidth=7.0)
                 plt.xlabel('Years')
@@ -581,9 +582,9 @@ for id_xiag in range(len(xiaarr)):
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"], res["distorted_damage_prob"],label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"], res["distorted_damage_prob"],label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                 else:
-                    plt.plot(res["years"], res["distorted_damage_prob"],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"], res["distorted_damage_prob"],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                 # plt.plot(res2["years"], res2["distorted_damage_prob"],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
                 # plt.plot(res3["years"], res3["distorted_damage_prob"],label='baseline',linewidth=7.0)
                 plt.xlabel('Years')
@@ -605,9 +606,9 @@ for id_xiag in range(len(xiaarr)):
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"], res["true_tech_prob"],label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"], res["true_tech_prob"],label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                 else:
-                    plt.plot(res["years"], res["true_tech_prob"],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"], res["true_tech_prob"],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
 
                 plt.xlabel("Years")
                 plt.title("True probability of damage changes")
@@ -629,9 +630,9 @@ for id_xiag in range(len(xiaarr)):
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"], res["true_damage_prob"],label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"], res["true_damage_prob"],label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                 else:
-                    plt.plot(res["years"], res["true_damage_prob"],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"], res["true_damage_prob"],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
 
                 plt.xlabel("Years")
                 plt.title("True probability of damage changes")
@@ -652,9 +653,9 @@ for id_xiag in range(len(xiaarr)):
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"], np.log(res["scc"]),label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"], np.log(res["scc"]),label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                 else:
-                    plt.plot(res["years"], np.log(res["scc"]),label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"], np.log(res["scc"]),label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
 
                 plt.xlabel("Years")
                 plt.title("Social Cost of Carbon")
@@ -678,9 +679,9 @@ for id_xiag in range(len(xiaarr)):
                 
                 if xigarr[id_xiag]>10:
 
-                    plt.plot(res["years"], (res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000,label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]))
+                    plt.plot(res["years"], (res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000,label='baseline'.format(psi2arr[id_psi2]))
                 else:
-                    plt.plot(res["years"], (res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000,label='$\\xi_a={:.4f}$,$\\xi_g=\\xi_d=\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
+                    plt.plot(res["years"], (res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000,label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
 
                 plt.xlabel("Years")
                 plt.title("Mean Difference")
@@ -702,9 +703,9 @@ for id_xiag in range(len(xiaarr)):
                 
                 if xigarr[id_xiag]>10:
 
-                    plt.plot(res["years"], res["gt_mean_mul"],label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]))
+                    plt.plot(res["years"], res["gt_mean_mul"],label='baseline'.format(psi2arr[id_psi2]))
                 else:
-                    plt.plot(res["years"], res["gt_mean_mul"],label='$\\xi_a={:.4f}$,$\\xi_g=\\xi_d=\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
+                    plt.plot(res["years"], res["gt_mean_mul"],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
 
                 plt.xlabel("Years")
                 plt.title("$1000\sigma_yh$")
@@ -726,9 +727,9 @@ for id_xiag in range(len(xiaarr)):
                 res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["x"]/(alpha*np.exp(res["states"][:,0])))*100)[res["states"][:, 1]<1.5],label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["x"]/(alpha*np.exp(res["states"][:,0])))*100)[res["states"][:, 1]<1.5],label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["x"]/(alpha*np.exp(res["states"][:,0])))*100)[res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["x"]/(alpha*np.exp(res["states"][:,0])))*100)[res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                 plt.xlabel('Years')
                 plt.ylabel('$\%$ of GDP')
                 plt.title('R&D investment as percentage of  GDP')   
@@ -747,9 +748,9 @@ for id_xiag in range(len(xiaarr)):
                 res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["i"][res["states"][:, 1]<1.5],label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["i"][res["states"][:, 1]<1.5],label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["i"][res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["i"][res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                 plt.xlabel('Years')
                 # plt.ylim(60,120)
                 plt.legend(loc='upper left')
@@ -768,9 +769,9 @@ for id_xiag in range(len(xiaarr)):
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["e"][res["states"][:, 1]<1.5],label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["e"][res["states"][:, 1]<1.5],label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["e"][res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["e"][res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                 # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["e"][res2["states"][:, 1]<1.5],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
                 # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["e"][res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
                 plt.xlabel('Years')
@@ -789,9 +790,9 @@ for id_xiag in range(len(xiaarr)):
                 res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["states"][:, 1][res["states"][:, 1]<1.5],label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["states"][:, 1][res["states"][:, 1]<1.5],label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["states"][:, 1][res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["states"][:, 1][res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                 # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["states"][:, 1][res2["states"][:, 1]<1.5],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
                 # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["states"][:, 1][res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
                 plt.xlabel('Years')
@@ -811,9 +812,9 @@ for id_xiag in range(len(xiaarr)):
                 res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.exp(res["states"][:, 2])[res["states"][:, 1]<1.5],label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.exp(res["states"][:, 2])[res["states"][:, 1]<1.5],label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.exp(res["states"][:, 2])[res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.exp(res["states"][:, 2])[res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                 # plt.plot(res2["years"][res2["states"][:, 1]<1.5], np.exp(res2["states"][:, 2])[res2["states"][:, 1]<1.5],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
                 # plt.plot(res3["years"][res3["states"][:, 1]<1.5], np.exp(res3["states"][:, 2])[res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
                 plt.xlabel('Years')
@@ -834,9 +835,9 @@ for id_xiag in range(len(xiaarr)):
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["distorted_tech_prob"][res["states"][:, 1]<1.5],label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["distorted_tech_prob"][res["states"][:, 1]<1.5],label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["distorted_tech_prob"][res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["distorted_tech_prob"][res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                 # plt.plot(res2["years"], res2["distorted_tech_prob"],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
                 # plt.plot(res3["years"], res3["distorted_tech_prob"],label='baseline',linewidth=7.0)
                 plt.xlabel('Years')
@@ -856,9 +857,9 @@ for id_xiag in range(len(xiaarr)):
                 res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["distorted_damage_prob"][res["states"][:, 1]<1.5],label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["distorted_damage_prob"][res["states"][:, 1]<1.5],label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["distorted_damage_prob"][res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["distorted_damage_prob"][res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                 # plt.plot(res2["years"], res2["distorted_damage_prob"],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
                 # plt.plot(res3["years"], res3["distorted_damage_prob"],label='baseline',linewidth=7.0)
                 plt.xlabel('Years')
@@ -879,10 +880,10 @@ for id_xiag in range(len(xiaarr)):
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["true_tech_prob"][res["states"][:, 1]<1.5],label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["true_tech_prob"][res["states"][:, 1]<1.5],label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                 else:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["true_tech_prob"][res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["true_tech_prob"][res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
 
                 plt.xlabel("Years")
                 # plt.ylim(0,1)
@@ -900,10 +901,10 @@ for id_xiag in range(len(xiaarr)):
                 res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["true_damage_prob"][res["states"][:, 1]<1.5],label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["true_damage_prob"][res["states"][:, 1]<1.5],label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                 else:
     
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["true_damage_prob"][res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["true_damage_prob"][res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
 
                 plt.xlabel("Years")
                 # plt.ylim(0,1)
@@ -923,9 +924,9 @@ for id_xiag in range(len(xiaarr)):
                 res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc"][res["states"][:, 1]<1.5]),label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc"][res["states"][:, 1]<1.5]),label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc"][res["states"][:, 1]<1.5]),label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc"][res["states"][:, 1]<1.5]),label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                 plt.xlabel("Years")
                 # plt.ylim(3.8,5.4)
                 plt.legend(loc='upper left')
@@ -945,9 +946,9 @@ plt.close()
 #             res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
 #             if xiaarr[id_xiag]>10:
 
-#                 plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc"][res["states"][:, 1]<1.5]),label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+#                 plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc"][res["states"][:, 1]<1.5]),label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
 #             else:
-#                 plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc"][res["states"][:, 1]<1.5]),label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$,$\\psi_2={:.1f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+#                 plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc"][res["states"][:, 1]<1.5]),label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
 #             plt.xlabel("Years")
 #             # # plt.ylim(0,2)
 #             plt.legend(loc='upper left')
@@ -976,7 +977,7 @@ plt.close()
 #             γ3_distort = res["gt_dmg"][:, -1] 
 #             plt.figure(figsize=(16,10))
 #             plt.hist(gamma_3_list, weights=np.ones(len(gamma_3_list)) / len(gamma_3_list), 
-#                     alpha=0.5, color="C3", ec="darkgray",label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]))
+#                     alpha=0.5, color="C3", ec="darkgray",label='baseline'.format(psi2arr[id_psi2]))
 #             plt.hist(gamma_3_list, weights= γ3_distort / np.sum(γ3_distort), 
 #                     alpha=0.5, color="C0", ec="darkgray",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$'.format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])
 #             # plt.ylim(0, 0.3)
@@ -1018,7 +1019,7 @@ plt.close()
 #             print("mean of condition = {}" .format(np.average(theta_ell,weights = pi_c)))
                 
 #             plt.hist(theta_ell, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
-#                     alpha=0.5, ec="darkgrey", color="C3",label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]))
+#                     alpha=0.5, ec="darkgrey", color="C3",label='baseline'.format(psi2arr[id_psi2]))
 #             plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
 #                     alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$'.format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])
 #             plt.legend(loc='upper left')
@@ -1041,9 +1042,9 @@ for id_xiag in range(len(xiaarr)):
                 
                 if xigarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], (res["Ambiguity_mean_dis"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5])*1000,label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]))
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (res["Ambiguity_mean_dis"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5])*1000,label='baseline'.format(psi2arr[id_psi2]))
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], (res["Ambiguity_mean_dis"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5])*1000,label='$\\xi_a={:.4f}$,$\\xi_g=\\xi_d=\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (res["Ambiguity_mean_dis"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5])*1000,label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
 
                 plt.xlabel("Years")
                 plt.title("Mean Difference")
@@ -1065,9 +1066,9 @@ for id_xiag in range(len(xiaarr)):
                 
                 if xigarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["gt_mean_mul"][res["states"][:, 1]<1.5],label='baseline,$\\psi_2={:.1f}$'.format(psi2arr[id_psi2]))
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["gt_mean_mul"][res["states"][:, 1]<1.5],label='baseline'.format(psi2arr[id_psi2]))
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["gt_mean_mul"][res["states"][:, 1]<1.5],label='$\\xi_a={:.4f}$,$\\xi_g=\\xi_d=\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["gt_mean_mul"][res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
 
                 plt.xlabel("Years")
                 plt.title("$1000\sigma_yh$")
