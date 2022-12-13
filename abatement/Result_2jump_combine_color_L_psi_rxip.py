@@ -705,7 +705,7 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.plot(res["years"], (np.zeros((res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"]).shape))*1000,label='baseline'.format(psi2arr[id_psi2]))
                 else:
-                    plt.plot(res["years"], (np.zeros((res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"]).shape))*1000,label='$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
+                    plt.plot(res["years"], (np.zeros((res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"]).shape))*1000,label='$\\xi_m={:.3f}$' .format(xigarr[id_xiag],xigarr[id_xiag]))
 
                 plt.xlabel("Years")
                 plt.title("Mean Difference")
@@ -730,7 +730,7 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.plot(res["years"], res["gt_mean_mul"],label='baseline'.format(psi2arr[id_psi2]))
                 else:
-                    plt.plot(res["years"], res["gt_mean_mul"],label='$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
+                    plt.plot(res["years"], res["gt_mean_mul"],label='$\\xi_m={:.3f}$' .format(xigarr[id_xiag],xigarr[id_xiag]))
 
                 plt.xlabel("Years")
                 plt.title("$1000\sigma_yh$")
@@ -1069,7 +1069,7 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.plot(res["years"][res["states"][:, 1]<1.5], (res["Ambiguity_mean_dis"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5])*1000,label='baseline'.format(psi2arr[id_psi2]))
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], (res["Ambiguity_mean_dis"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5])*1000,label='$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (res["Ambiguity_mean_dis"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5])*1000,label='$\\xi_m={:.3f}$' .format(xigarr[id_xiag],xigarr[id_xiag]))
 
                 plt.xlabel("Years")
                 plt.title("Mean Difference")
@@ -1093,7 +1093,7 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.plot(res["years"][res["states"][:, 1]<1.5], (np.zeros((res["Ambiguity_mean_dis"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5]).shape))*1000,label='baseline'.format(psi2arr[id_psi2]))
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], (np.zeros((res["Ambiguity_mean_dis"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5]).shape))*1000,label='$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (np.zeros((res["Ambiguity_mean_dis"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5]).shape))*1000,label='$\\xi_m={:.3f}$' .format(xigarr[id_xiag],xigarr[id_xiag]))
 
                 plt.xlabel("Years")
                 plt.title("Mean Difference")
@@ -1118,7 +1118,7 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.plot(res["years"][res["states"][:, 1]<1.5], res["gt_mean_mul"][res["states"][:, 1]<1.5],label='baseline'.format(psi2arr[id_psi2]))
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["gt_mean_mul"][res["states"][:, 1]<1.5],label='$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["gt_mean_mul"][res["states"][:, 1]<1.5],label='$\\xi_m={:.3f}$' .format(xigarr[id_xiag],xigarr[id_xiag]))
 
                 plt.xlabel("Years")
                 plt.title("$1000\sigma_yh$")
