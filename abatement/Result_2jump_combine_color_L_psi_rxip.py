@@ -444,8 +444,8 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.legend(loc='upper left')        
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RD,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RD,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RD,xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RD,xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 
@@ -467,8 +467,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/CapI,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/CapI,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/CapI,xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/CapI,xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 
@@ -491,8 +491,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/E,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/E,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/E,xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/E,xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 
@@ -516,8 +516,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TA,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TA,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TA,xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TA,xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 
@@ -543,8 +543,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left')
 
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Ig,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Ig,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Ig,xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Ig,xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 
@@ -569,8 +569,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIgd,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIgd,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIgd,xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIgd,xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -593,8 +593,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIdd,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIdd,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIdd,xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIdd,xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -616,8 +616,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPIg,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPIg,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPIg,xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPIg,xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 
@@ -640,8 +640,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPId,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPId,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPId,xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPId,xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -663,8 +663,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 
@@ -689,8 +689,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left')
 
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -713,8 +713,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left')
 
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff2,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff2,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff2,xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff2,xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 
@@ -738,8 +738,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left')
 
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/h,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/h,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/h,xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/h,xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 
@@ -761,8 +761,8 @@ for id_xiag in range(len(xiaarr)):
                 # plt.ylim(0,0.6)
                 plt.legend(loc='upper left')        
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RD,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RD,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RD,xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RD,xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -781,8 +781,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left')
                 plt.title("Capital investment")
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/CapI,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/CapI,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/CapI,xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/CapI,xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -803,8 +803,8 @@ for id_xiag in range(len(xiaarr)):
                 # plt.ylim(6,12)
                 plt.legend(loc='upper left')
                 plt.title("Carbon Emissions")
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/E,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/E,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/E,xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/E,xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -824,8 +824,8 @@ for id_xiag in range(len(xiaarr)):
                 # plt.ylim(1,1.7)
                 plt.legend(loc='upper left')
                 plt.title("Temperature anomaly")
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TA,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TA,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TA,xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TA,xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 
@@ -847,8 +847,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left')
                 plt.title("Technology jump intensity")
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Ig,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Ig,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Ig,xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/Ig,xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -869,8 +869,8 @@ for id_xiag in range(len(xiaarr)):
                 # plt.ylim(0,1)
                 plt.legend(loc='upper left')
                 plt.title("Distorted probability of a technology jump")
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIgd,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIgd,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIgd,xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIgd,xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 
@@ -891,8 +891,8 @@ for id_xiag in range(len(xiaarr)):
                 # plt.ylim(0,1)
                 plt.legend(loc='upper left')
                 plt.title("Distorted probability of damage changes")
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIdd,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIdd,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIdd,xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/PIdd,xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 
@@ -914,8 +914,8 @@ for id_xiag in range(len(xiaarr)):
                 # plt.ylim(0,1)
                 plt.legend(loc='upper left')
                 plt.title("True probability of a technology jump")
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPIg,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPIg,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPIg,xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPIg,xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -935,8 +935,8 @@ for id_xiag in range(len(xiaarr)):
                 # plt.ylim(0,1)
                 plt.legend(loc='upper left')
                 plt.title("True probability of damage changes")
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPId,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPId,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPId,xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TPId,xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 
@@ -956,8 +956,8 @@ for id_xiag in range(len(xiaarr)):
                 # plt.ylim(3.8,5.4)
                 plt.legend(loc='upper left')
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 
@@ -978,8 +978,8 @@ plt.close()
 #             # # plt.ylim(0,2)
 #             plt.legend(loc='upper left')
 
-# plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-# plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+# plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+# plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 # plt.close()
 
 
@@ -1077,8 +1077,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left')
 
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -1101,8 +1101,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left')
 
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff2,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff2,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff2,xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff2,xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 
@@ -1126,7 +1126,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left')
 
 
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/h,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/h,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/h,xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/h,xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
