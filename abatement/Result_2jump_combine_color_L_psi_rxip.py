@@ -658,7 +658,7 @@ for id_xiag in range(len(xiaarr)):
                     plt.plot(res["years"], np.log(res["scc"]),label='$\\xi_m={:.3f}$' .format(xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
 
                 plt.xlabel("Years")
-                plt.title("Social Cost of Carbon")
+                plt.title("Log of Social Cost of Carbon")
                 # plt.ylim(3.8,5.4)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
@@ -954,6 +954,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc"][res["states"][:, 1]<1.5]),label='$\\xi_m={:.3f}$' .format(xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                 plt.xlabel("Years")
                 # plt.ylim(3.8,5.4)
+                plt.title("Log of Social Cost of Carbon")
+
                 plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
