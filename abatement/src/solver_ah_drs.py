@@ -179,6 +179,8 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
 
     gg_mean = - G * sigma_y * ee / xi_m
 
+    gg_mean[gg_mean<=1e-16] = 1e-16
+    
     # gg_mean[gg_mean<=1e-16]=1e-16
     print("gg_mean_min,max=({},{})" .format(gg_mean.min(),gg_mean.max()))
     # Technology
