@@ -152,7 +152,7 @@ def simulate_pre(
     hK, hY = K[1] - K[0], Y[1] - Y[0]
     (K_mat, Y_mat, L_mat) = np.meshgrid(K, Y, L, indexing = 'ij')
 
-    delta, mu_k, kappa, sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar, = model_args
+    delta, mu_k, kappa, sigma_k, beta_f, zeta, psi_0, psi_1, psi_2, sigma_g, theta, lambda_bar, vartheta_bar, = model_args
     ii, ee, xx, g_tech, g_damage, pi_c = controls
     n_climate = len(pi_c)
 
@@ -387,7 +387,7 @@ def model_solution_extraction(xi_a,xi_g,psi_0,psi_1,psi_2):
             with open(model_dir_post, "rb") as f:
                 tech1 = pickle.load(f)
             
-            model_args = (delta, mu_k, kappa,sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar)
+            model_args = (delta, mu_k, kappa,sigma_k, beta_f, zeta, psi_0, psi_1, psi_2, sigma_g, theta, lambda_bar, vartheta_bar)
             i = tech1["i_star"]
             e = tech1["e_star"]
             x = tech1["x_star"]
@@ -495,8 +495,8 @@ for id_xiag in range(len(xiaarr)):
 
                 plt.ylim(0, 1.4)
                 plt.xlabel("Climate Sensitivity")
-                plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_50,xig={:.3f},psi0={:.3f},psi1={:.3f},psi2={:.1f},BC_v2_L.pdf".format(xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2]))
-                plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_50,xig={:.3f},psi0={:.3f},psi1={:.3f},psi2={:.1f},BC_v2_L.png".format(xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2]))
+                plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_25,xig={:.3f},psi0={:.3f},psi1={:.3f},psi2={:.1f},BC_v2_L.pdf".format(xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2]))
+                plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ClimateSensitivity_25,xig={:.3f},psi0={:.3f},psi1={:.3f},psi2={:.1f},BC_v2_L.png".format(xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2]))
                 plt.close()
 
 
