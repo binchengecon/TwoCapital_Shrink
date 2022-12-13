@@ -224,7 +224,7 @@ def simulate_pre(
         return mu_k + i_x - 0.5 * kappa * i_x ** 2  - 0.5 * sigma_k ** 2
     
     def mu_L(Xt, state):
-        return -zeta + psi_0 * (Xt * (np.exp(state[0] - state[2]) ) )**psi_1 - 0.5 * sigma_g**2
+        return -zeta + psi_0 * (Xt * (np.exp(state[0] - state[2]) ) )**psi_1* np.exp(state[2])**(psi_1+psi_2-1) - 0.5 * sigma_g**2
     
     
     hist      = np.zeros([pers, 3])

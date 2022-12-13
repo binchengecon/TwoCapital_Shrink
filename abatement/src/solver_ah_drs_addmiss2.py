@@ -195,7 +195,7 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     A   = - delta * np.ones(K_mat.shape) - np.exp(L_mat) * gg
     B_1 = mu_k + ii - 0.5 * kappa * ii**2 - 0.5 * sigma_k**2
     B_2 = (theta_ell+sigma_y * gg_mean) * ee
-    B_3 = - zeta + psi_0 * (xx * np.exp(K_mat - L_mat))**psi_1 * np.exp(L_mat)**(psi_1+psi_2-1) - 0.5 * sigma_g**2
+    B_3 = - zeta + psi_0 * (xx * np.exp(K_mat - L_mat))**psi_1 * np.exp(L_mat)**(psi_1+psi_2-1)- 0.5 * sigma_g**2
     C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
     C_2 = 0.5 * sigma_y**2 * ee**2
     C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
@@ -315,9 +315,11 @@ def hjb_pre_tech(
         A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, gg_mean = _FOC_update(v0, steps= (hX1, hX2, hX3), states = (K_mat, Y_mat, L_mat), args=FOC_args, controls=(i_star, e_star, x_star), fraction=fraction)
 
         if model == "Pre damage":
-            D -= xi_p * Intensity * (np.sum(pi_d_o * np.exp(- v_i / xi_p), axis=0) - np.exp(- v0 / xi_p)) / np.exp(- v0 / xi_p)
+            # D -= xi_p * Intensity * (np.sum(pi_d_o * np.exp(- v_i / xi_p), axis=0) - np.exp(- v0 / xi_p)) / np.exp(- v0 / xi_p)
+            g_m = np.exp(- (v_i-v0)/xi_p)
 
-
+            D += xi_p * Intensity * np.sum( pi_d_o*(1-g_m+g_m*np.log(g_m)),axis=0) +Intensity*np.sum(pi_d_o*g_m*v_i,axis=0)
+            A -=  Intensity*np.sum(pi_d_o*g_m,axis=0)
         out_comp = pde_one_interation(
                 ksp,
                 petsc_mat,X1_mat_1d, X2_mat_1d, X3_mat_1d, 
