@@ -4,17 +4,12 @@
 # Find Grid: TBD
 
 # epsilonarray=(0.005 0.008 0.012 0.1)
-# epsilonarray=(0.1) #Computation of coarse grid and psi10.5
-epsilonarray=(0.1) #Computation of coarse grid and psi10.8
-
-# epsilonarray=(0.1 0.008) # Computation of fine grid and psi10.5 test 0.1 and 0.008 work or not
-# epsilonarray=(0.005 0.008) # Computation of fine grid and psi10.8 test 0.005 and 0.008 work or not
-# epsilonarray=(0.005) # Computation of fine grid and psi10.8 test 0.005 and 0.008 work or not
+epsilonarray=(0.005) #Computation of coarse grid and psi10.5
 
 actiontime=1
-python_name="postdamage_2jump_entro.py"
+python_name="postdamage_2jump_repless.py"
 
-NUM_DAMAGE=5
+NUM_DAMAGE=10
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
@@ -30,15 +25,16 @@ hXarrays=(hXarr1)
 Xminarr=(4.00 0.0 -5.5 0.0)
 Xmaxarr=(9.00 4.0 0.0 3.0)
 
-xi_a=(1000. 0.0002 0.0002)
-xi_p=(1000. 0.05 0.025)
+xi_a=(1000. 0.0002 0.0002 0.0002 0.0002)
+xi_p=(1000. 0.1 0.075 0.05 0.025)
 # xi_a=(1000.)
 # xi_p=(1000.)
 
+# psi0arr=(0.005 0.008 0.010 0.012)
 psi0arr=(0.005)
 # psi1arr=(0.5 0.6 0.7 0.8)
-# psi1arr=(0.5)
 psi1arr=(0.5)
+# psi1arr=(0.8)
 
 LENGTH_psi=$((${#psi0arr[@]} - 1))
 LENGTH_xi=$((${#xi_a[@]} - 1))
@@ -54,7 +50,7 @@ for epsilon in ${epsilonarray[@]}; do
 		count=0
 		declare -n hXarr="$hXarri"
 
-		action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_entro"
+		action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_Psi01ComparisonSlide"
 
 		epsilonarr=(0.1 ${epsilon})
 		fractionarr=(0.1 ${epsilon})
@@ -78,7 +74,7 @@ for epsilon in ${epsilonarray[@]}; do
 #! /bin/bash
 
 ######## login
-#SBATCH --job-name=${hXarr[0]}_$i
+#SBATCH --job-name=${xi_p[$j]}_$i
 #SBATCH --output=./job-outs/${action_name}/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_post_$i.out
 #SBATCH --error=./job-outs/${action_name}/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_post_$i.err
 
@@ -86,7 +82,7 @@ for epsilon in ${epsilonarray[@]}; do
 #SBATCH --partition=standard
 #SBATCH --cpus-per-task=3
 #SBATCH --mem=16G
-#SBATCH --time=0-06:00:00
+#SBATCH --time=7-00:00:00
 
 ####### load modules
 module load python/booth/3.8/3.8.5  gcc/9.2.0
