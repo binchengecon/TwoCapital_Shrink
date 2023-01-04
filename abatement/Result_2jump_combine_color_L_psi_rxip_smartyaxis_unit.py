@@ -626,7 +626,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel("Years")
                 plt.title("True probability of damage changes")
                 if auto==0:   
-                    plt.ylim(0.02,0.09)
+                    plt.ylim(0.0,1.0)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
