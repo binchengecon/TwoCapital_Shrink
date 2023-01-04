@@ -329,9 +329,13 @@ def simulate_pre(
 #     scc_0 = ME_base_t / MC * 1000 * np.exp(hist[:, 0])
     
     distorted_tech_intensity = np.exp(hist[:, 2]) * gt_tech
+
+    # distorted_tech_intensity = np.exp(hist[:, 2]) * gt_tech/448
+
     distorted_tech_prob = 1 - np.exp(- np.cumsum(np.insert(distorted_tech_intensity * dt, 0, 0) ))[:-1]
 
     true_tech_intensity = np.exp(hist[:, 2]) 
+    # true_tech_intensity = np.exp(hist[:, 2]) /448
     true_tech_prob = 1 - np.exp(- np.cumsum(np.insert(true_tech_intensity * dt, 0, 0) ))[:-1]
         
 #     if pre_damage:
@@ -624,7 +628,7 @@ for id_xiag in range(len(xiaarr)):
                     plt.plot(res["years"], res["true_tech_prob"],label='$\\xi_m={:.3f}$' .format(xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
 
                 plt.xlabel("Years")
-                plt.title("True probability of damage changes")
+                plt.title("True probability of a technology jump")
                 if auto==0:   
                     plt.ylim(0.0,1.0)
                 plt.xlim(0,IntPeriod)
