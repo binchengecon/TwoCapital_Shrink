@@ -144,7 +144,8 @@ mpl.rcParams["lines.linewidth"] = 5
 
 def simulate_pre(
     # grid = (), model_args = (), controls = (), initial=(np.log(85/0.115), 1.1, -3.7), 
-    grid = (), model_args = (), controls = (), initial=(np.log(85/0.115), 1.1, 2.4), 
+    # grid = (), model_args = (), controls = (), initial=(np.log(85/0.115), 1.1, 2.4), 
+    grid = (), model_args = (), controls = (), initial=(np.log(85/0.35), 1.1, 2.4), 
     T0=0, T=40, dt=1/12,
     printing=True):
 
@@ -548,7 +549,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel('Years')
                 plt.title("Technology jump intensity $J_g$")
                 if auto==0:   
-                    plt.ylim(0.02,0.09)
+                    plt.ylim(10.0,25.0)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
@@ -866,7 +867,7 @@ for id_xiag in range(len(xiaarr)):
                 # plt.plot(res3["years"][res3["states"][:, 1]<1.5], np.exp(res3["states"][:, 2])[res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
                 plt.xlabel('Years')
                 if auto==0:   
-                    plt.ylim(0.02,0.05)
+                    plt.ylim(10.0,25.0)
                 plt.legend(loc='upper left')
                 plt.title("Technology jump intensity $J_g$")
 
