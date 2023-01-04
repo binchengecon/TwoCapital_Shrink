@@ -56,8 +56,8 @@ psi2arr=(0.5 0.4 0.3 0.2 0.1 0.0)
 # python_name_unit="Result_2jump_combine_color_L_psi_rxip.py"
 # python_name_unit="Result_2jump_combine_color_L_psi_rxip_fixedyaxis.py"
 # python_name_unit="Result_2jump_combine_color_L_psi_rxip_smartyaxis.py"
-python_name_unit="Result_2jump_combine_color_L_psi_rxip_smartyaxis_unit.py"
-# python_name_unit="Result_2jump_combine_color_L_psi_2_rxip.py"
+# python_name_unit="Result_2jump_combine_color_L_psi_rxip_smartyaxis_unit.py"
+python_name_unit="Result_2jump_combine_color_L_psi_2_rxip.py"
 # python_name_unit="Result_2jump_combine_color_L3.py"
 # python_name_unit="Result_2jump_combine_before15.py"
 server_name="mercury"
@@ -118,7 +118,8 @@ module load python/booth/3.8/3.8.5  gcc/9.2.0
 echo "\$SLURM_JOB_NAME"
 echo "Program starts \$(date)"
 
-python3 /home/bcheng4/TwoCapital_Shrink/abatement/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi0 ${PSI_0} --psi1 ${PSI_1} --psi2 ${PSI_2} --xiaarr ${xi_a[@]} --xigarr ${xi_p[@]}   --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]} --auto $auto
+# python3 /home/bcheng4/TwoCapital_Shrink/abatement/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi0 ${PSI_0} --psi1 ${PSI_1} --psi2 ${PSI_2} --xiaarr ${xi_a[@]} --xigarr ${xi_p[@]}   --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]} --auto $auto
+python3 /home/bcheng4/TwoCapital_Shrink/abatement/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi0 ${PSI_0} --psi1 ${PSI_1} --psi2 ${PSI_2} --xiaarr ${xi_a[@]} --xigarr ${xi_p[@]}   --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]}
 
 echo "Program ends \$(date)"
 
@@ -131,5 +132,3 @@ EOF
         done
     done
 done
-
-# python3 /home/bcheng4/TwoCapital_Shrink/abatement/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi0 ${PSI_0} --psi1 ${PSI_1} --psi2 ${PSI_2} --xiaarr ${xi_a[@]} --xigarr ${xi_p[@]}   --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]}
