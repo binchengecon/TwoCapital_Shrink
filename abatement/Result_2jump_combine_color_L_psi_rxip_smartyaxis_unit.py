@@ -44,7 +44,7 @@ args = parser.parse_args()
 
 
 # Update = args.Update
-IntPeriod = 26
+IntPeriod = 25
 timespan = 1/12
 
 # psi0arr = np.array([0.006,0.009])
@@ -144,8 +144,8 @@ mpl.rcParams["lines.linewidth"] = 5
 
 def simulate_pre(
     # grid = (), model_args = (), controls = (), initial=(np.log(85/0.115), 1.1, -3.7), 
-    # grid = (), model_args = (), controls = (), initial=(np.log(85/0.115), 1.1, 2.4), 
-    grid = (), model_args = (), controls = (), initial=(np.log(85/0.35), 1.1, 2.4), 
+    grid = (), model_args = (), controls = (), initial=(np.log(85/0.115), 1.1, 2.4), 
+    # grid = (), model_args = (), controls = (), initial=(np.log(85/0.35), 1.1, 2.4), 
     T0=0, T=40, dt=1/12,
     printing=True):
 
