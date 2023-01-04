@@ -7,7 +7,7 @@ epsilonarraypost=(0.005) # Computation of fine grid and psi10.8, post
 epsilonarraypre=(0.005) #
 # epsilonarraypre=(0.1) #
 
-python_name="predamage_2jump_ah_drs.py"
+python_name="predamage_2jump_ah_drs_unit.py"
 # python_name="predamage_2jump_ah_drs_addmiss2.py"
 
 NUM_DAMAGE=5
@@ -24,8 +24,11 @@ hXarrays=(hXarr1)
 # hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 
-Xminarr=(4.00 0.0 -5.5 0.0)
-Xmaxarr=(9.00 4.0 0.0 3.0)
+# Xminarr=(4.00 0.0 -5.5 0.0)
+# Xmaxarr=(9.00 4.0 0.0 3.0)
+
+Xminarr=(4.00 0.0 1.0 0.0)
+Xmaxarr=(9.00 4.0 6.0 3.0)
 
 # xi_a=(0.0002 0.0002)
 # xi_p=(0.1 0.075)
@@ -49,7 +52,8 @@ psi1arr=(0.5)
 # psi2arr=(0.5 0.4 0.3 0.2)
 # psi2arr=(0.5 0.4)
 # psi2arr=(0.2)
-psi2arr=(0.5 0.4 0.3 0.2 0.1 0.0)
+# psi2arr=(0.5 0.4 0.3 0.2 0.1 0.0)
+psi2arr=(0.5 0.4 0.3)
 
 # sarr=(0.01 0.02 0.03)
 # tauarr=(0.01 0.02 0.03)
@@ -74,7 +78,8 @@ for epsilon in ${epsilonarraypre[@]}; do
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_addmiss2"
-			action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_solve0.2"
+			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_solve0.2"
+			action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_unit"
 
 			epsilonarr=(0.05 ${epsilon})
 			fractionarr=(0.1 ${epsilon})

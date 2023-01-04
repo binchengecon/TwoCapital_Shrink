@@ -193,16 +193,23 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     consumption = alpha - ii - jj - xx
     consumption[consumption <= 1e-16] = 1e-16
     # Step (2), solve minimization problem in HJB and calculate drift distortion
+
     A   = - delta * np.ones(K_mat.shape) - np.exp(L_mat) * gg
+
+    # A   = - delta * np.ones(K_mat.shape) - 0.002232 * np.exp(L_mat) * gg
+
     B_1 = mu_k + ii - 0.5 * kappa * ii**2 - 0.5 * sigma_k**2
     B_2 = (theta_ell+sigma_y * gg_mean) * ee
     B_3 = - zeta + psi_0 * (xx * np.exp(K_mat - L_mat))**psi_1 * np.exp(L_mat)**(psi_1+psi_2-1) - 0.5 * sigma_g**2
     C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
     C_2 = 0.5 * sigma_y**2 * ee**2
     C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
-    D = delta * np.log(consumption) + delta * K_mat  - dG * (theta_ell + sigma_y * gg_mean) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_g * np.exp(L_mat) * (1 - gg + gg * np.log(gg)) + np.exp(L_mat) * gg * V_post_tech
 
-    B_2 += sigma_y*gg_mean*ee
+    D = delta * np.log(consumption) + delta * K_mat  - dG * (theta_ell + sigma_y * gg_mean) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_g * np.exp(L_mat) * (1 - gg + gg * np.log(gg)) + np.exp(L_mat) * gg * V_post_tech
+    
+    # D = delta * np.log(consumption) + delta * K_mat  - dG * (theta_ell + sigma_y * gg_mean) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + 0.002232 * xi_g * np.exp(L_mat) * (1 - gg + gg * np.log(gg)) + 0.002232 * np.exp(L_mat) * gg * V_post_tech
+
+    # B_2 += sigma_y*gg_mean*ee
     D += xi_m/2*gg_mean**2
     D -= dG*sigma_y*gg_mean*ee
 

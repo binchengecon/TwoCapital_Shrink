@@ -139,7 +139,8 @@ mpl.style.use('classic')
 mpl.rcParams["lines.linewidth"] = 5
 
 def simulate_pre(
-    grid = (), model_args = (), controls = (), initial=(np.log(85/0.115), 1.1, -3.7), 
+    # grid = (), model_args = (), controls = (), initial=(np.log(85/0.115), 1.1, -3.7), 
+    grid = (), model_args = (), controls = (), initial=(np.log(85/0.115), 1.1, 2.4), 
     T0=0, T=40, dt=1/12,
     printing=False):
 

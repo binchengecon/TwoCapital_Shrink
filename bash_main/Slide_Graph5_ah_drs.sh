@@ -24,8 +24,11 @@ hXarrays=(hXarr1)
 # hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 
-Xminarr=(4.00 0.0 -5.5 0.0)
-Xmaxarr=(9.00 4.0 0.0 3.0)
+# Xminarr=(4.00 0.0 -5.5 0.0)
+# Xmaxarr=(9.00 4.0 0.0 3.0)
+
+Xminarr=(4.00 0.0 1.0 0.0)
+Xmaxarr=(9.00 4.0 6.0 3.0)
 
 # xi_a=(0.0002 0.0002)
 # xi_p=(0.1 0.075)
@@ -45,12 +48,15 @@ psi1arr=(0.5)
 # psi2arr=(0.5 0.4 0.3 0.2)
 # psi2arr=(0.3 0.4 0.5)
 # psi2arr=(0.2)
-psi2arr=(0.5 0.4 0.3 0.2 0.1 0.0)
+# psi2arr=(0.5 0.4 0.3 0.2 0.1 0.0)
+psi2arr=(0.5 0.4 0.3)
 # python_name_unit="Result_2jump_combine.py"
 # python_name_unit="Result_2jump_combine_color_L25.py"
 # python_name_unit="Result_2jump_combine_color_L_psi.py"
 # python_name_unit="Result_2jump_combine_color_L_psi_rxip.py"
-python_name_unit="Result_2jump_combine_color_L_psi_rxip_fixedyaxis.py"
+# python_name_unit="Result_2jump_combine_color_L_psi_rxip_fixedyaxis.py"
+# python_name_unit="Result_2jump_combine_color_L_psi_rxip_smartyaxis.py"
+python_name_unit="Result_2jump_combine_color_L_psi_rxip_smartyaxis_unit.py"
 # python_name_unit="Result_2jump_combine_color_L_psi_2_rxip.py"
 # python_name_unit="Result_2jump_combine_color_L3.py"
 # python_name_unit="Result_2jump_combine_before15.py"
@@ -65,6 +71,8 @@ Xmaxarr_SG=(9.00 4.0 0.0 3.0)
 interp_action_name="2jump_step_0.2_0.2_0.2_LR_0.01"
 fstr_SG="NearestNDInterpolator"
 
+auto=0
+
 for epsilonpost in ${epsilonarraypost[@]}; do
     for hXarri in "${hXarrays[@]}"; do
         count=0
@@ -72,7 +80,8 @@ for epsilonpost in ${epsilonarraypost[@]}; do
 
         # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2"
         # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_addmiss2"
-        action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_solve0.2"
+        # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_solve0.2"
+        action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_unit"
 
         for PSI_0 in ${psi0arr[@]}; do
             for PSI_1 in ${psi1arr[@]}; do
@@ -109,7 +118,7 @@ module load python/booth/3.8/3.8.5  gcc/9.2.0
 echo "\$SLURM_JOB_NAME"
 echo "Program starts \$(date)"
 
-python3 /home/bcheng4/TwoCapital_Shrink/abatement/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi0 ${PSI_0} --psi1 ${PSI_1} --psi2 ${PSI_2} --xiaarr ${xi_a[@]} --xigarr ${xi_p[@]}   --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]} 
+python3 /home/bcheng4/TwoCapital_Shrink/abatement/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi0 ${PSI_0} --psi1 ${PSI_1} --psi2 ${PSI_2} --xiaarr ${xi_a[@]} --xigarr ${xi_p[@]}   --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]} --auto $auto
 
 echo "Program ends \$(date)"
 

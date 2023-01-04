@@ -8,7 +8,7 @@
 epsilonarray=(0.005) #Computation of coarse grid and psi10.5
 
 actiontime=1
-python_name="postdamage_2jump_ah_drs.py"
+python_name="postdamage_2jump_ah_drs_unit.py"
 # python_name="postdamage_2jump_ah_drs_addmiss2.py"
 # python_name="postdamage_2jump_repless.py"
 
@@ -26,8 +26,11 @@ hXarrays=(hXarr1)
 # hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 
-Xminarr=(4.00 0.0 -5.5 0.0)
-Xmaxarr=(9.00 4.0 0.0 3.0)
+# Xminarr=(4.00 0.0 -5.5 0.0)
+# Xmaxarr=(9.00 4.0 0.0 3.0)
+
+Xminarr=(4.00 0.0 1.0 0.0)
+Xmaxarr=(9.00 4.0 6.0 3.0)
 
 # xi_a=(10000 10000)
 # xi_p=(0.050 0.025)
@@ -50,6 +53,7 @@ psi1arr=(0.5)
 # psi2arr=(0.5 0.4)
 # psi2arr=(0.3 0.25 0.2)
 # psi2arr=(0.5 0.4 0.3 0.2 0.1 0.0)
+psi2arr=(0.5 0.4 0.3)
 # psi2arr=(0.1 0.0)
 
 LENGTH_psi=$((${#psi0arr[@]} - 1))
@@ -67,7 +71,7 @@ for epsilon in ${epsilonarray[@]}; do
 		declare -n hXarr="$hXarri"
 
 		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2"
-		action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_ah_drs_less2_solve0.2"
+		action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_ah_drs_unit"
 		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_ah_drs_less2_addmiss2"
 
 		epsilonarr=(0.1 ${epsilon})
