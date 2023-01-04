@@ -44,7 +44,7 @@ args = parser.parse_args()
 
 
 # Update = args.Update
-IntPeriod = 25
+IntPeriod = 26
 timespan = 1/12
 
 # psi0arr = np.array([0.006,0.009])
@@ -328,14 +328,14 @@ def simulate_pre(
     scc_hist = LHS * 1000
 #     scc_0 = ME_base_t / MC * 1000 * np.exp(hist[:, 0])
     
-    distorted_tech_intensity = np.exp(hist[:, 2]) * gt_tech
+    # distorted_tech_intensity = np.exp(hist[:, 2]) * gt_tech
 
-    # distorted_tech_intensity = np.exp(hist[:, 2]) * gt_tech/448
+    distorted_tech_intensity = np.exp(hist[:, 2]) * gt_tech/448
 
     distorted_tech_prob = 1 - np.exp(- np.cumsum(np.insert(distorted_tech_intensity * dt, 0, 0) ))[:-1]
 
-    true_tech_intensity = np.exp(hist[:, 2]) 
-    # true_tech_intensity = np.exp(hist[:, 2]) /448
+    # true_tech_intensity = np.exp(hist[:, 2]) 
+    true_tech_intensity = np.exp(hist[:, 2]) /448
     true_tech_prob = 1 - np.exp(- np.cumsum(np.insert(true_tech_intensity * dt, 0, 0) ))[:-1]
         
 #     if pre_damage:
