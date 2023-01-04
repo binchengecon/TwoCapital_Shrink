@@ -553,7 +553,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel('Years')
                 plt.title("Technology jump intensity $J_g$")
                 if auto==0:   
-                    plt.ylim(10.0,25.0)
+                    plt.ylim(10.0,35.0)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
@@ -871,7 +871,7 @@ for id_xiag in range(len(xiaarr)):
                 # plt.plot(res3["years"][res3["states"][:, 1]<1.5], np.exp(res3["states"][:, 2])[res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
                 plt.xlabel('Years')
                 if auto==0:   
-                    plt.ylim(10.0,25.0)
+                    plt.ylim(10.0,35.0)
                 plt.legend(loc='upper left')
                 plt.title("Technology jump intensity $J_g$")
 
