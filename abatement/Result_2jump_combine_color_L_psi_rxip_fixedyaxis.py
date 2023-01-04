@@ -612,8 +612,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.plot(res["years"], res["true_tech_prob"],label='$\\xi_m={:.3f}$' .format(xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
 
                 plt.xlabel("Years")
-                plt.title("True probability of damage changes")
-                plt.ylim(0.02,0.09)
+                plt.title("True probability of a technology jump")
+                plt.ylim(0.0,1.0)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
