@@ -41,12 +41,14 @@ xi_p=(1000. 0.050 0.025)
 # xi_p=(1000.)
 
 # psi0arr=(0.005 0.008 0.010 0.012)
-psi0arr=(0.005)
+# psi0arr=(0.005)
+psi0arr=(0.105830)
+
 # psi1arr=(0.5 0.6 0.7 0.8)
 psi1arr=(0.5)
 # psi1arr=(0.8)
-psi2arr=(0.5 0.4 0.3 0.2 0.1 0.0)
-# psi2arr=(0.3 0.4 0.5)
+# psi2arr=(0.5 0.4 0.3 0.2 0.1 0.0)
+psi2arr=(0.3 0.4 0.5)
 # psi2arr=(0.2)
 # psi2arr=(0.2 0.1 0.0)
 # psi2arr=(0.5 0.4 0.3)
@@ -56,8 +58,8 @@ psi2arr=(0.5 0.4 0.3 0.2 0.1 0.0)
 # python_name_unit="Result_2jump_combine_color_L_psi_rxip.py"
 # python_name_unit="Result_2jump_combine_color_L_psi_rxip_fixedyaxis.py"
 # python_name_unit="Result_2jump_combine_color_L_psi_rxip_smartyaxis.py"
-# python_name_unit="Result_2jump_combine_color_L_psi_rxip_smartyaxis_unit.py"
-python_name_unit="Result_2jump_combine_color_L_psi_2_rxip.py"
+python_name_unit="Result_2jump_combine_color_L_psi_rxip_smartyaxis_unit.py"
+# python_name_unit="Result_2jump_combine_color_L_psi_2_rxip.py"
 # python_name_unit="Result_2jump_combine_color_L3.py"
 # python_name_unit="Result_2jump_combine_before15.py"
 server_name="mercury"
@@ -81,7 +83,7 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2"
         # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_addmiss2"
         # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_solve0.2"
-        action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_unit"
+        action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_unit_newpsi0"
 
         for PSI_0 in ${psi0arr[@]}; do
             for PSI_1 in ${psi1arr[@]}; do
@@ -118,8 +120,8 @@ module load python/booth/3.8/3.8.5  gcc/9.2.0
 echo "\$SLURM_JOB_NAME"
 echo "Program starts \$(date)"
 
-# python3 /home/bcheng4/TwoCapital_Shrink/abatement/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi0 ${PSI_0} --psi1 ${PSI_1} --psi2 ${PSI_2} --xiaarr ${xi_a[@]} --xigarr ${xi_p[@]}   --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]} --auto $auto
-python3 /home/bcheng4/TwoCapital_Shrink/abatement/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi0 ${PSI_0} --psi1 ${PSI_1} --psi2 ${PSI_2} --xiaarr ${xi_a[@]} --xigarr ${xi_p[@]}   --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]}
+python3 /home/bcheng4/TwoCapital_Shrink/abatement/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi0 ${PSI_0} --psi1 ${PSI_1} --psi2 ${PSI_2} --xiaarr ${xi_a[@]} --xigarr ${xi_p[@]}   --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]} --auto $auto
+# python3 /home/bcheng4/TwoCapital_Shrink/abatement/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi0 ${PSI_0} --psi1 ${PSI_1} --psi2 ${PSI_2} --xiaarr ${xi_a[@]} --xigarr ${xi_p[@]}   --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]}
 
 echo "Program ends \$(date)"
 

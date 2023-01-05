@@ -45,16 +45,18 @@ xi_p=(1000. 0.050 0.025)
 # xi_p=(0.025)
 
 # psi0arr=(0.005 0.008 0.010 0.012)
-psi0arr=(0.005)
+# psi0arr=(0.005)
+psi0arr=(0.105830)
+
 # psi1arr=(0.5 0.6 0.7 0.8)
-psi1arr=(0.8)
+psi1arr=(0.5)
 # psi1arr=(0.8)
 # psi2arr=(0.5 0.4 0.3 0.2)
 # psi2arr=(0.5 0.4)
 # psi2arr=(0.2)
 # psi2arr=(0.5 0.4 0.3 0.2 0.1 0.0)
-# psi2arr=(0.5 0.4 0.3)
-psi2arr=(0.2 0.1 0.0)
+psi2arr=(0.5 0.4 0.3)
+# psi2arr=(0.2 0.1 0.0)
 
 # sarr=(0.01 0.02 0.03)
 # tauarr=(0.01 0.02 0.03)
@@ -80,7 +82,7 @@ for epsilon in ${epsilonarraypre[@]}; do
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_addmiss2"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_solve0.2"
-			action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_unit"
+			action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_unit_newpsi0"
 
 			epsilonarr=(0.05 ${epsilon})
 			fractionarr=(0.1 ${epsilon})

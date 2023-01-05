@@ -134,7 +134,8 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
         e_new[e_new <= 1e-16] = 1e-16
         i_new = - (mc / dK - 1) / kappa
         i_new[i_new <= 1e-16] = 1e-16
-        x_new = (mc / (dL * psi_0 * psi_1) * np.exp(- psi_1 * K_mat) *np.exp( (1-psi_2) * (L_mat - np.log(448) ) ) )**(1 / (psi_1 - 1))
+        # x_new = (mc / (dL * psi_0 * psi_1) * np.exp(- psi_1 * K_mat) *np.exp( (1-psi_2) * (L_mat - np.log(448) ) ) )**(1 / (psi_1 - 1))
+        x_new = (mc / (dL * psi_0 * psi_1) * np.exp(- psi_1 * K_mat) *np.exp( (1-psi_2) * (L_mat  ) ) )**(1 / (psi_1 - 1))
 
     ii = i_new * fraction + i_star * (1 - fraction)
     ee = e_new * fraction + e_star * (1 - fraction)
@@ -174,7 +175,8 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
 
     B_1 = mu_k + ii - 0.5 * kappa * ii**2 - 0.5 * sigma_k**2
     B_2 = (theta_ell+sigma_y * gg_mean) * ee
-    B_3 = - zeta + psi_0 * xx** psi_1 * np.exp( psi_1 * K_mat ) * np.exp( ( psi_2-1) * (L_mat - np.log(448)) ) - 0.5 * sigma_g**2
+    # B_3 = - zeta + psi_0 * xx** psi_1 * np.exp( psi_1 * K_mat ) * np.exp( ( psi_2-1) * (L_mat - np.log(448)) ) - 0.5 * sigma_g**2
+    B_3 = - zeta + psi_0 * xx** psi_1 * np.exp( psi_1 * K_mat ) * np.exp( ( psi_2-1) * (L_mat ) ) - 0.5 * sigma_g**2
     C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
     C_2 = 0.5 * sigma_y**2 * ee**2
     C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)

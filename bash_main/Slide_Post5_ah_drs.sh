@@ -46,15 +46,16 @@ xi_p=(1000. 0.050 0.025)
 # xi_p=(1000.)
 
 # psi0arr=(0.005 0.008 0.010 0.012)
-psi0arr=(0.005)
+# psi0arr=(0.005)
+psi0arr=(0.105830)
 # psi1arr=(0.5 0.6 0.7 0.8)
-psi1arr=(0.8)
+psi1arr=(0.5)
 # psi1arr=(0.8)
 # psi2arr=(0.5 0.4)
 # psi2arr=(0.3 0.25 0.2)
 # psi2arr=(0.5 0.4 0.3 0.2 0.1 0.0)
-# psi2arr=(0.5 0.4 0.3)
-psi2arr=(0.2 0.1 0.0)
+psi2arr=(0.5 0.4 0.3)
+# psi2arr=(0.2 0.1 0.0)
 
 LENGTH_psi=$((${#psi0arr[@]} - 1))
 LENGTH_xi=$((${#xi_a[@]} - 1))
@@ -71,7 +72,7 @@ for epsilon in ${epsilonarray[@]}; do
 		declare -n hXarr="$hXarri"
 
 		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2"
-		action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_ah_drs_unit"
+		action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_ah_drs_unit_newpsi0"
 		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_ah_drs_less2_addmiss2"
 
 		epsilonarr=(0.1 ${epsilon})
@@ -104,7 +105,7 @@ for epsilon in ${epsilonarray[@]}; do
 #SBATCH --account=pi-lhansen
 #SBATCH --partition=standard
 #SBATCH --cpus-per-task=3
-#SBATCH --mem=16G
+#SBATCH --mem=10G
 #SBATCH --time=0-10:00:00
 
 ####### load modules
