@@ -501,7 +501,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel('Years')
                 plt.title("Carbon Emissions")
                 if auto==0:   
-                    plt.ylim(7.5,12.5)
+                    plt.ylim(6.5,11.5)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
@@ -554,7 +554,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel('Years')
                 plt.title("Technology jump intensity $J_g$")
                 if auto==0:   
-                    plt.ylim(10.0,40.0)
+                    plt.ylim(10.0,18.0)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
@@ -680,7 +680,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel("Years")
                 plt.title("Log of Social Cost of Carbon")
                 if auto==0:   
-                    plt.ylim(3.4,5.2)
+                    plt.ylim(3.0,5.5)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
@@ -758,7 +758,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel("Years")
                 plt.title("$1000\sigma_yh$")
                 if auto==0:   
-                    plt.ylim(0,0.06)
+                    plt.ylim(0,0.08)
                 plt.legend(loc='upper left')
 
 
@@ -827,7 +827,7 @@ for id_xiag in range(len(xiaarr)):
                 # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["e"][res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
                 plt.xlabel('Years')
                 if auto==0:   
-                    plt.ylim(7.5,12.5)
+                    plt.ylim(6.5,11.5)
                 plt.legend(loc='upper left')
                 plt.title("Carbon Emissions")
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/E,xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xigarr,psi0arr,psi1arr,psi2arr))
@@ -872,7 +872,7 @@ for id_xiag in range(len(xiaarr)):
                 # plt.plot(res3["years"][res3["states"][:, 1]<1.5], np.exp(res3["states"][:, 2])[res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
                 plt.xlabel('Years')
                 if auto==0:   
-                    plt.ylim(10.0,40.0)
+                    plt.ylim(10.0,18.0)
                 plt.legend(loc='upper left')
                 plt.title("Technology jump intensity $J_g$")
 
@@ -987,7 +987,7 @@ for id_xiag in range(len(xiaarr)):
                     plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc"][res["states"][:, 1]<1.5]),label='$\\xi_m={:.3f}$' .format(xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                 plt.xlabel("Years")
                 if auto==0:   
-                    plt.ylim(3.4,5.2)
+                    plt.ylim(3.0,5.5)
                 plt.title("Log of Social Cost of Carbon")
 
                 plt.legend(loc='upper left')
@@ -1161,7 +1161,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel("Years")
                 plt.title("$1000\sigma_yh$")
                 if auto==0:   
-                    plt.ylim(0,0.06)
+                    plt.ylim(0,0.08)
                 plt.legend(loc='upper left')
 
 
