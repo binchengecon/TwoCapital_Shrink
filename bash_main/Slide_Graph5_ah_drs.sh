@@ -47,8 +47,8 @@ psi0arr=(0.105830)
 # psi1arr=(0.5 0.6 0.7 0.8)
 psi1arr=(0.5)
 # psi1arr=(0.8)
-# psi2arr=(0.5 0.4 0.3 0.2 0.1 0.0)
-psi2arr=(0.3 0.4 0.5)
+psi2arr=(0.5 0.4 0.3 0.2 0.1 0.0)
+# psi2arr=(0.3 0.4 0.5)
 # psi2arr=(0.2)
 # psi2arr=(0.2 0.1 0.0)
 # psi2arr=(0.5 0.4 0.3)
@@ -73,7 +73,7 @@ Xmaxarr_SG=(9.00 4.0 0.0 3.0)
 interp_action_name="2jump_step_0.2_0.2_0.2_LR_0.01"
 fstr_SG="NearestNDInterpolator"
 
-auto=0
+auto=1
 
 for epsilonpost in ${epsilonarraypost[@]}; do
     for hXarri in "${hXarrays[@]}"; do
