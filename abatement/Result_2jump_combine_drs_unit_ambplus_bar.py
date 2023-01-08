@@ -495,10 +495,10 @@ for id_xiag in range(len(xiaarr)):
                 plt.hist(psi_2, weights=pi_c, density=True, 
                         alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]))
                 plt.legend(loc='upper left')
-                plt.title("Distorted probability of Climate Models")
+                plt.title("Distorted probability of R&D Parameters")
 
                 plt.ylim(0, 14)
-                plt.xlabel("Climate Sensitivity")
+                plt.xlabel("R&D Parameter Sensitivity")
                 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/DRSSensitivity_0,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},psi2={:.1f},BC_v2_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2]))
                 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/DRSSensitivity_0,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},psi2={:.1f},BC_v2_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2]))
                 plt.close()
@@ -579,10 +579,10 @@ for id_xiag in range(len(xiaarr)):
                 plt.hist(psi_2, weights=pi_c, density=True, 
                         alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]))
                 plt.legend(loc='upper left')
-                plt.title("Distorted probability of Climate Models")
+                plt.title("Distorted probability of R&D Parameters")
 
                 plt.ylim(0, 14)
-                plt.xlabel("Climate Sensitivity")
+                plt.xlabel("R&D Parameter")
                 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/DRSSensitivity_25,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},psi2={:.1f},BC_v2_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2]))
                 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/DRSSensitivity_25,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},psi2={:.1f},BC_v2_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2]))
                 plt.close()
