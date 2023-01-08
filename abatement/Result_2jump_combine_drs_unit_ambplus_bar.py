@@ -497,7 +497,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left')
                 plt.title("Distorted probability of Climate Models")
 
-                # plt.ylim(0, 1.4)
+                plt.ylim(0, 14)
                 plt.xlabel("Climate Sensitivity")
                 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/DRSSensitivity_0,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},psi2={:.1f},BC_v2_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2]))
                 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/DRSSensitivity_0,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},psi2={:.1f},BC_v2_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2]))
@@ -581,7 +581,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left')
                 plt.title("Distorted probability of Climate Models")
 
-                # plt.ylim(0, 1.4)
+                plt.ylim(0, 14)
                 plt.xlabel("Climate Sensitivity")
                 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/DRSSensitivity_25,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},psi2={:.1f},BC_v2_L.pdf".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2]))
                 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/DRSSensitivity_25,xia={:.4f},xig={:.3f},psi0={:.3f},psi1={:.3f},psi2={:.1f},BC_v2_L.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2]))
