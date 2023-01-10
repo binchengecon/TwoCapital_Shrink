@@ -3,9 +3,9 @@
 # Coarse Grid: PSI1 = 0.5 0.8 done
 # Solve non-convergence: Try hXarr1 and hXarr2, fix epsilon=fraction and change epsilon to see if convergence improved.
 
-# epsilonarray=(0.005) #Computation of coarse grid and psi10.5
-# epsilonarray=(0.1) #Computation of coarse grid and psi10.5
 epsilonarray=(0.005) #Computation of coarse grid and psi10.5
+# epsilonarray=(0.1) #Computation of coarse grid and psi10.5
+# epsilonarray=(0.005 0.1) #Computation of coarse grid and psi10.5
 
 actiontime=1
 python_name="postdamage_2jump_ah_drs_unit.py"
@@ -53,9 +53,9 @@ psi1arr=(0.5)
 # psi1arr=(0.8)
 # psi2arr=(0.5 0.4)
 # psi2arr=(0.3 0.25 0.2)
-# psi2arr=(0.5 0.4 0.3 0.2 0.1 0.0)
+psi2arr=(0.5 0.4 0.3 0.2 0.1 0.0)
 # psi2arr=(0.5 0.4 0.3)
-psi2arr=(0.2 0.1 0.0)
+# psi2arr=(0.2 0.1 0.0)
 
 LENGTH_psi=$((${#psi0arr[@]} - 1))
 LENGTH_xi=$((${#xi_a[@]} - 1))
@@ -72,7 +72,7 @@ for epsilon in ${epsilonarray[@]}; do
 		declare -n hXarr="$hXarri"
 
 		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2"
-		action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_ah_drs_unit_newpsi0"
+		action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_ah_drs_unit_final"
 		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_ah_drs_less2_addmiss2"
 
 		epsilonarr=(0.1 ${epsilon})

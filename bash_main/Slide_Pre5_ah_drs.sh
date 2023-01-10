@@ -10,7 +10,7 @@ epsilonarraypre=(0.005) #
 python_name="predamage_2jump_ah_drs_unit.py"
 # python_name="predamage_2jump_ah_drs_addmiss2.py"
 
-NUM_DAMAGE=5
+NUM_DAMAGE=10
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
@@ -20,8 +20,8 @@ declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr3=([0]=0.05 [1]=0.05 [2]=0.05)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-hXarrays=(hXarr1)
-# hXarrays=(hXarr2)
+# hXarrays=(hXarr1)
+hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 
 # Xminarr=(4.00 0.0 -5.5 0.0)
@@ -54,9 +54,9 @@ psi1arr=(0.5)
 # psi2arr=(0.5 0.4 0.3 0.2)
 # psi2arr=(0.5 0.4)
 # psi2arr=(0.2)
-# psi2arr=(0.5 0.4 0.3 0.2 0.1 0.0)
+psi2arr=(0.5 0.4 0.3 0.2 0.1 0.0)
 # psi2arr=(0.5 0.4 0.3)
-psi2arr=(0.2 0.1 0.0)
+# psi2arr=(0.2 0.1 0.0)
 
 # sarr=(0.01 0.02 0.03)
 # tauarr=(0.01 0.02 0.03)
@@ -82,7 +82,7 @@ for epsilon in ${epsilonarraypre[@]}; do
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_addmiss2"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_solve0.2"
-			action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_unit_newpsi0"
+			action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_unit_final"
 
 			epsilonarr=(0.05 ${epsilon})
 			fractionarr=(0.1 ${epsilon})
