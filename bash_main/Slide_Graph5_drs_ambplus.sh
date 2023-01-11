@@ -55,8 +55,11 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_a=(0.0004 0.0008 0.0012 0.0015)
 # xi_p=(0.050 0.050 0.050 0.050)
 
-xi_a=(0.0008 0.0012 0.0015)
-xi_p=(0.050 0.050 0.050)
+# xi_a=(0.0008 0.0012 0.0015)
+# xi_p=(0.050 0.050 0.050)
+
+xi_a=(1000. 0.0015 0.0008)
+xi_p=(1000. 0.050 0.025)
 
 # xi_a=(0.0004 0.0006 0.0008)
 # xi_p=(0.025 0.025 0.025)
@@ -113,7 +116,8 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2"
         # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_addmiss2"
         # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_solve0.2"
-        action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_calibxia"
+        # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_calibxia"
+        action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_longer"
 
         for PSI_0 in ${psi0arr[@]}; do
             for PSI_1 in ${psi1arr[@]}; do

@@ -328,6 +328,7 @@ def simulate_pre(
 
     
     scc_hist = LHS * 1000
+    # scc_hist = LHS / MC * 1000
 #     scc_0 = ME_base_t / MC * 1000 * np.exp(hist[:, 0])
     
     # distorted_tech_intensity = np.exp(hist[:, 2]) * gt_tech
@@ -682,7 +683,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel("Years")
                 plt.title("Log of Social Cost of Carbon")
                 if auto==0:   
-                    plt.ylim(3.0,5.5)
+                    plt.ylim(3.0,7.5)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
@@ -713,7 +714,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.ylim(0,0.3)   
                 # plt.legend(loc='upper left')
 
-plt.plot(res["years"], gt_mean1,label='$\\xi_m={:.3f}$'.format(xigarr[id_xiag]))
+if auto==1:
+    plt.plot(res["years"], gt_mean1,label='$\\xi_m={:.3f}$'.format(xigarr[id_xiag]))
 
 plt.legend(loc='upper left')
 
@@ -993,7 +995,7 @@ for id_xiag in range(len(xiaarr)):
                     plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc"][res["states"][:, 1]<1.5]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                 plt.xlabel("Years")
                 if auto==0:   
-                    plt.ylim(3.0,5.5)
+                    plt.ylim(3.0,7.5)
                 plt.title("Log of Social Cost of Carbon")
 
                 plt.legend(loc='upper left')
@@ -1025,7 +1027,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.ylim(0,0.3)
                 # plt.legend(loc='upper left')
 
-plt.plot(res["years"][res["states"][:, 1]<1.5], gt_mean1[res["states"][:, 1]<1.5],label='$\\xi_m={:.3f}$'.format(xigarr[id_xiag]))
+if auto==1:
+    plt.plot(res["years"][res["states"][:, 1]<1.5], gt_mean1[res["states"][:, 1]<1.5],label='$\\xi_m={:.3f}$'.format(xigarr[id_xiag]))
 plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
@@ -1130,3 +1133,86 @@ plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff-h,xia={},xig={},ps
 plt.close()
 
 print("LS at xi_a={} is minimum when xi_g={}, final" .format(xiaarr[num],xigarr[0]))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def decompose(v0, stateSpace, states=(), controls=(), args=()):
+#     i_star, e_star, x_star = controls
+#     K_mat, Y_mat, L_mat = states
+#     delta, alpha, kappa, mu_k, sigma_k, gamma_1, gamma_2, theta_ell, pi_c_o, sigma_y,  theta, vartheta_bar, lambda_bar = args
+    
+#     j_star = 1 - e_star / (alpha * lambda_bar * np.exp(K_mat))
+#     j_star[j_star <= 1e-16] = 1e-16
+    
+#     mc = delta / (alpha - i_star - alpha * vartheta_bar * j_star**theta - x_star)
+#     dG  = gamma_1 + gamma_2 * Y_mat
+#     ddG = gamma_2
+    
+#     tol = 1e-7
+#     episode = 0
+#     epsilon = 0.1
+#     max_iter = 3000
+#     error = 1.
+    
+# #     while error > tol and episode < max_iter:
+    
+        
+# #         dvdy = finiteDiff_3D(v0, 1, 1, hY)
+# #         ddvdyy = finiteDiff_3D(v0, 1, 2, hY)
+    
+#     A = np.zeros(K_mat.shape)
+#     B_1 = np.zeros(K_mat.shape)
+#     B_2 = np.sum(theta_ell * pi_c_o, axis=0) 
+#     B_3 = np.zeros(K_mat.shape)
+
+#     C_1 = np.zeros(K_mat.shape)
+#     C_2 = e_star * sigma_y**2
+#     C_3 = np.zeros(K_mat.shape)
+
+#     D = mc * theta * vartheta_bar / (lambda_bar * np.exp(K_mat)) * j_star**(theta-1) - dG * np.sum(theta_ell * pi_c_o, axis=0) - ddG * sigma_y**2 * e_star
+
+#     out = PDESolver(stateSpace, A, B_1, B_2, B_3, C_1, C_2, C_3, D, v0, epsilon, solverType="Feyman Kac")
+#     v  = out[2].reshape(v0.shape, order="F")
+        
+# #         rhs_error = A * v0 + B_2 * dvdy + C_2 * ddvdyy + D
+# #         error = np.max(np.abs(v-v0) / epsilon)
+        
+# #         v0 = v
+# #         episode += 1
+        
+        
+    
+# #     print(episode, error)
+#     dvdy = finiteDiff_3D(v, 1, 1, hY)
+#     ddvdyy = finiteDiff_3D(v, 1, 2, hY)
+#     RHS = - dvdy * np.sum(pi_c_o * theta_ell, axis=0) - ddvdyy * sigma_y**2 * e_star + dG * np.sum(theta_ell * pi_c_o, axis=0) + ddG * sigma_y**2 * e_star
+#     LHS = mc * theta * vartheta_bar /(lambda_bar * np.exp(K_mat)) * j_star**(theta-1)
+#     diff = np.max(abs(RHS - LHS))
+    
+#     ME_base = RHS
+#     return v, ME_base, diff
+# v0 = tech1["v0"]
+# i_star = tech1["i_star"]
+# e_star = tech1["e_star"]
+# x_star = tech1["x_star"]
+
+# theta_ell = pd.read_csv("../data/model144.csv", header=None).to_numpy()[:, 0]/1000.
+# pi_c_o = np.ones(len(theta_ell)) / len(theta_ell)
+# pi_c_o = np.array([temp * np.ones(K_mat.shape) for temp in pi_c_o])
+# theta_ell = np.array([temp * np.ones(K_mat.shape) for temp in theta_ell])
+# args = (delta, alpha, kappa, mu_k, sigma_k, gamma_1, gamma_2, theta_ell, pi_c_o, sigma_y,  theta, vartheta_bar, lambda_bar)
+
+# v, ME_base, diff = decompose(v0, stateSpace, (K_mat, Y_mat, L_mat), (i_star, e_star, x_star), args=args)
