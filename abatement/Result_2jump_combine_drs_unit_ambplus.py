@@ -710,8 +710,10 @@ for id_xiag in range(len(xiaarr)):
                 plt.title("Mean Difference")
                 if auto==0:   
                     plt.ylim(0,0.3)   
-                plt.legend(loc='upper left')
+                # plt.legend(loc='upper left')
 
+plt.plot(res["years"], gt_mean1,label='$\\xi_m={:.3f}$'.format(xigarr[id_xiag]))
+plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
@@ -1007,7 +1009,8 @@ for id_xiag in range(len(xiaarr)):
 
                 res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
                 
-                
+                gt_mean1 = pd.read_csv("./data/gg_mean1,xig={},psi0={},psi1={},psi2={}.csv".format(xigarr[0],psi0arr[0],psi1arr[0],psi2arr[0]), header=None).to_numpy()[:, 0]
+
                 if xigarr[id_xiag]>10:
 
                     plt.plot(res["years"][res["states"][:, 1]<1.5], (res["Ambiguity_mean_dis"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5])*1000,label='baseline'.format(psi2arr[id_psi2]))
@@ -1018,8 +1021,10 @@ for id_xiag in range(len(xiaarr)):
                 plt.title("Mean Difference")
                 if auto==0:   
                     plt.ylim(0,0.3)
-                plt.legend(loc='upper left')
+                # plt.legend(loc='upper left')
 
+plt.plot(res["years"][res["states"][:, 1]<1.5], gt_mean1[res["states"][:, 1]<1.5],label='$\\xi_m={:.3f}$'.format(xigarr[id_xiag]))
+plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
@@ -1110,14 +1115,14 @@ for id_xiag in range(len(xiaarr)):
                 if auto==0:   
                     plt.ylim(0,0.3)   
                 plt.legend(loc='upper left')
-                
+
                 LS = np.sum(((res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000-gt_mean1)**2)
                 if temp > LS:
                     temp = LS
                     num = id_xiag
                     print("LS at xi_a={} is minimum when xi_g={}, LS = {}" .format(xiaarr[num],xigarr[0],LS))
                 
-                
+
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff-h,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff-h,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()

@@ -752,7 +752,7 @@ plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff2,xig={},psi0={},ps
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff2,xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
-plt.plot(res["years"], np.zeros((res["gt_mean1_mul"]).shape),label='baseline'.format(psi2arr[id_psi2]))
+# plt.plot(res["years"], np.zeros((res["gt_mean1_mul"]).shape),label='baseline'.format(psi2arr[id_psi2]))
 
 for id_xiag in range(len(xigarr)): 
     for id_psi0 in range(len(psi0arr)):
@@ -1062,7 +1062,7 @@ plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff2,xig={},psi0={},ps
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff2,xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
-plt.plot(res["years"][res["states"][:, 1]<1.5], np.zeros((res["gt_mean1_mul"][res["states"][:, 1]<1.5]).shape),label='baseline'.format(psi2arr[id_psi2]))
+# plt.plot(res["years"][res["states"][:, 1]<1.5], np.zeros((res["gt_mean1_mul"][res["states"][:, 1]<1.5]).shape),label='baseline'.format(psi2arr[id_psi2]))
 
 for id_xiag in range(len(xigarr)): 
     for id_psi0 in range(len(psi0arr)):
