@@ -683,7 +683,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel("Years")
                 plt.title("Log of Social Cost of Carbon")
                 if auto==0:   
-                    plt.ylim(3.0,7.5)
+                    plt.ylim(3.0,6.5)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
@@ -995,7 +995,7 @@ for id_xiag in range(len(xiaarr)):
                     plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc"][res["states"][:, 1]<1.5]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                 plt.xlabel("Years")
                 if auto==0:   
-                    plt.ylim(3.0,7.5)
+                    plt.ylim(3.0,6.5)
                 plt.title("Log of Social Cost of Carbon")
 
                 plt.legend(loc='upper left')
