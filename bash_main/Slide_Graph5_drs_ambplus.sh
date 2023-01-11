@@ -92,8 +92,8 @@ psi2arr=(0.25)
 # python_name_unit="Result_2jump_combine_color_L_psi_2_rxip.py"
 # python_name_unit="Result_2jump_combine_color_L3.py"
 # python_name_unit="Result_2jump_combine_before15.py"
-python_name_unit="Result_2jump_combine_drs_unit_ambplus.py"
-# python_name_unit="Result_2jump_combine_drs_unit_ambplus_bar.py"
+# python_name_unit="Result_2jump_combine_drs_unit_ambplus.py"
+python_name_unit="Result_2jump_combine_drs_unit_ambplus_bar.py"
 
 server_name="mercury"
 
