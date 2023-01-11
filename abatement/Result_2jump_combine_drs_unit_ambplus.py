@@ -699,7 +699,8 @@ for id_xiag in range(len(xiaarr)):
 
                 res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
                 
-                
+                gt_mean1 = pd.read_csv("./data/gg_mean1,xig={},psi0={},psi1={},psi2={}.csv".format(xigarr[0],psi0arr[0],psi1arr[0],psi2arr[0]), header=None).to_numpy()[:, 0]
+
                 if xigarr[id_xiag]>10:
 
                     plt.plot(res["years"], (res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000,label='baseline'.format(psi2arr[id_psi2]))
@@ -713,6 +714,7 @@ for id_xiag in range(len(xiaarr)):
                 # plt.legend(loc='upper left')
 
 plt.plot(res["years"], gt_mean1,label='$\\xi_m={:.3f}$'.format(xigarr[id_xiag]))
+
 plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
