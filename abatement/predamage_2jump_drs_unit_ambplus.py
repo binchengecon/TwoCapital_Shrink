@@ -304,7 +304,7 @@ Guess = None
 model_tech1_pre_damage = hjb_pre_tech(
         state_grid=(K, Y_short, L), 
         model_args=model_args, V_post_damage=v_i, 
-        tol=1e-8, epsilon=epsilonarr[1], fraction=fractionarr[1], max_iter=maxiterarr[1],
+        tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], max_iter=maxiterarr[1],
         v0=np.mean(v_i, axis=0),
         smart_guess=Guess,
         )

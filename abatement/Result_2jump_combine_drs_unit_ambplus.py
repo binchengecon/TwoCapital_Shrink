@@ -144,7 +144,7 @@ mpl.rcParams["lines.linewidth"] = 5
 
 def simulate_pre(
     # grid = (), model_args = (), controls = (), initial=(np.log(85/0.115), 1.1, -3.7), 
-    grid = (), model_args = (), controls = (), initial=(np.log(85/0.115), 1.1, 2.4), 
+    grid = (), model_args = (), controls = (),  initial=(np.log(85/0.115), 1.1, 2.4), 
     # grid = (), model_args = (), controls = (), initial=(np.log(85/0.35), 1.1, 2.4), 
     T0=0, T=40, dt=1/12,
     printing=True):
@@ -155,12 +155,14 @@ def simulate_pre(
         print("K_min={},K_max={},Y_min={},Y_max={},L_min={},L_max={}" .format(K.min(),K.max(),Y.min(),Y.max(),L.min(),L.max()))
 
     K_min, K_max, Y_min, Y_max, L_min, L_max = min(K), max(K), min(Y), max(Y), min(L), max(L)
-    hK, hY = K[1] - K[0], Y[1] - Y[0]
+    hK, hY, hL = K[1] - K[0], Y[1] - Y[0], L[1]-L[0]
     (K_mat, Y_mat, L_mat) = np.meshgrid(K, Y, L, indexing = 'ij')
 
-    delta, mu_k, kappa, sigma_k, beta_f, zeta, psi_0, psi_1, psi_2, sigma_g, theta, lambda_bar, vartheta_bar, = model_args
+    delta, mu_k, kappa, sigma_k, beta_f, zeta, psi_0, psi_1, psi_2, sigma_g, theta, lambda_bar, vartheta_bar = model_args
     # ii, ee, xx, g_tech, g_damage, gg_mean, pi_c = controls
-    ii, ee, xx, g_tech, g_damage, pi_c = controls
+    ii, ee, xx, g_tech, g_damage, pi_c, v = controls
+    # v = vf
+
     n_climate = len(pi_c)
 
     method = 'linear'
@@ -189,6 +191,8 @@ def simulate_pre(
 
 #     v, ME_base, diff = decompose(v0, stateSpace, (K_mat, Y_mat, L_mat), (ii, ee, xx), args=args)
 
+    dL = finiteDiff_3D(v, 2,1,hL )
+
     gridpoints = (K, Y, L)
 
     i_func = RegularGridInterpolator(gridpoints, ii)
@@ -196,7 +200,7 @@ def simulate_pre(
     x_func = RegularGridInterpolator(gridpoints, xx)
     tech_func = RegularGridInterpolator(gridpoints, g_tech)
     # mean_func = RegularGridInterpolator(gridpoints, gg_mean)
-
+    dL_func   = RegularGridInterpolator(gridpoints, dL)
 #     ME_base_func = RegularGridInterpolator(gridpoints, ME_base)
     
 #     if pre_damage:
@@ -222,7 +226,8 @@ def simulate_pre(
     def get_x(x):
         return x_func(x)
 
-
+    def get_dL(x):
+        return dL_func(x)
 #     K_0 = np.log(85 / 0.115)
 #     Y_0 = 1.1
 #     L_0 = -3.7
@@ -244,6 +249,7 @@ def simulate_pre(
     scc_hist  = np.zeros([pers])
     gt_tech   = np.zeros([pers])
     gt_mean   = np.zeros([pers])
+    dL_hist    = np.zeros([pers])
 
 #     if pre_damage:
     gt_dmg    = np.zeros([n_damage, pers])
@@ -269,6 +275,7 @@ def simulate_pre(
             mu_L_hist[0] = mu_L(x_hist[0], hist[0,:])
             gt_tech[0] = tech_func(hist[0, :])
             # gt_mean[0] = mean_func(hist[0, :])
+            dL_hist[tm] = dL_func(hist[0,:])
 
 #             if pre_damage:
             for i in range(n_damage):
@@ -290,6 +297,7 @@ def simulate_pre(
             x_hist[tm] = get_x(hist[tm-1,:])
             gt_tech[tm] = tech_func(hist[tm-1,:])
             # gt_mean[tm] = mean_func(hist[tm-1,:])
+            dL_hist[tm] = dL_func(hist[tm-1,:])
 
 #             if pre_damage:
             for i in range(n_damage):
@@ -328,6 +336,12 @@ def simulate_pre(
 
     
     scc_hist = LHS * 1000
+
+
+    MU_RD = dL_hist * psi_0* psi_1 * x_hist**(psi_1-1) * np.exp(psi_1*hist[:,0]-(1-psi_2)*hist[:,2])
+
+    scrd_hist = MU_RD/MC*1000
+
     # scc_hist = LHS / MC * 1000
 #     scc_0 = ME_base_t / MC * 1000 * np.exp(hist[:, 0])
     
@@ -357,6 +371,7 @@ def simulate_pre(
         # x = x_hist * np.exp(hist[:, 0]),
         x = x_hist * np.exp(hist[:, 0]),
         scc = scc_hist,
+        scrd = scrd_hist,
 #         scc0 = scc_0,
         gt_tech = gt_tech,
         gt_dmg = gt_dmg,
@@ -413,6 +428,8 @@ def model_solution_extraction(xi_a,xi_g,psi_0,psi_1,psi_2):
                 tech1 = pickle.load(f)
             
             model_args = (delta, mu_k, kappa,sigma_k, beta_f, zeta, psi_0, psi_1, psi_2, sigma_g, theta, lambda_bar, vartheta_bar)
+            
+            v = tech1["v0"]
             i = tech1["i_star"]
             e = tech1["e_star"]
             x = tech1["x_star"]
@@ -424,7 +441,7 @@ def model_solution_extraction(xi_a,xi_g,psi_0,psi_1,psi_2):
             # g_damage = np.ones((1, nK, nY, nL))
             res = simulate_pre(grid = (K, Y_short, L), model_args = model_args, 
                                         # controls = (i,e,x, g_tech, g_damage,gg_mean, pi_c), 
-                                        controls = (i,e,x, g_tech, g_damage, pi_c), 
+                                        controls = (i,e,x, g_tech, g_damage, pi_c, v),  
                                         T0=0, T=IntPeriod, dt=timespan,printing=True)
 
             with open(model_simul_dir_post, "wb") as f:
@@ -689,6 +706,33 @@ for id_xiag in range(len(xiaarr)):
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.close()
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_psi2 in range(len(psi2arr)):
+
+                res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
+
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"], np.log(res["scrd"]),label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                else:
+                    plt.plot(res["years"], np.log(res["scrd"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+
+                plt.xlabel("Years")
+                plt.ticklabel_format(useOffset=False)
+
+                plt.title("Log of Social Cost of R&D")
+                if auto==0:   
+                    plt.ylim(6.75,6.8)
+                plt.xlim(0,IntPeriod)
+                plt.legend(loc='upper right')
+
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCRD,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCRD,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 
@@ -994,14 +1038,41 @@ for id_xiag in range(len(xiaarr)):
                 else:
                     plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc"][res["states"][:, 1]<1.5]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
                 plt.xlabel("Years")
+                
                 if auto==0:   
                     plt.ylim(3.0,6.5)
                 plt.title("Log of Social Cost of Carbon")
 
                 plt.legend(loc='upper left')
 
+
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.close()
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_psi2 in range(len(psi2arr)):
+
+                res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd"][res["states"][:, 1]<1.5]),label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                else:
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd"][res["states"][:, 1]<1.5]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+                plt.xlabel("Years")
+                plt.ticklabel_format(useOffset=False)
+
+                if auto==0:   
+                    plt.ylim(6.75,6.8)
+                plt.title("Log of Social Cost of R&D")
+
+                plt.legend(loc='upper right')
+
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCRD,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCRD,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 
