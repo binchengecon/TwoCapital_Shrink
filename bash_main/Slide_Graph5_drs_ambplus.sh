@@ -20,18 +20,18 @@ declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr3=([0]=0.05 [1]=0.05 [2]=0.05)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-# hXarrays=(hXarr1)
+hXarrays=(hXarr1)
 # hXarrays=(hXarr2)
-hXarrays=(hXarr3)
+# hXarrays=(hXarr3)
 
 # Xminarr=(4.00 0.0 -5.5 0.0)
 # Xmaxarr=(9.00 4.0 0.0 3.0)
 
-# Xminarr=(4.00 0.0 1.0 0.0)
-# Xmaxarr=(9.00 4.0 6.0 3.0)
+Xminarr=(4.00 0.0 1.0 0.0)
+Xmaxarr=(9.00 4.0 6.0 3.0)
 
-Xminarr=(6.50 1.0 2.0 1.0)
-Xmaxarr=(7.50 2.0 3.0 1.8)
+# Xminarr=(6.50 1.0 2.0 1.0)
+# Xmaxarr=(7.50 2.0 3.0 1.8)
 
 # xi_a=(0.0002 0.0002)
 # xi_p=(0.1 0.075)
@@ -107,7 +107,7 @@ psi2arr=(0.25)
 # python_name_unit="Result_2jump_combine_color_L_psi_2_rxip.py"
 # python_name_unit="Result_2jump_combine_color_L3.py"
 # python_name_unit="Result_2jump_combine_before15.py"
-python_name_unit="Result_2jump_combine_drs_unit_ambplus.py"
+python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss.py"
 # python_name_unit="Result_2jump_combine_drs_unit_ambplus_bar.py"
 
 server_name="mercury"
@@ -121,7 +121,7 @@ Xmaxarr_SG=(9.00 4.0 0.0 3.0)
 interp_action_name="2jump_step_0.2_0.2_0.2_LR_0.01"
 fstr_SG="NearestNDInterpolator"
 
-auto=1
+auto=0
 
 for epsilonpost in ${epsilonarraypost[@]}; do
     for hXarri in "${hXarrays[@]}"; do
@@ -132,7 +132,7 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_addmiss2"
         # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_solve0.2"
         # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_calibxia"
-        action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_smooth"
+        action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss"
 
         for PSI_0 in ${psi0arr[@]}; do
             for PSI_1 in ${psi1arr[@]}; do

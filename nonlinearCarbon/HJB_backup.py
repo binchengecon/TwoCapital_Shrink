@@ -513,7 +513,7 @@ def model(pulse, year, cearth=0.3916, baseline="rcp60co2eqv3.csv"):
     # tauc = 6603.
 
     # v0 = pickle.load(open("data_35.0_6603", "rb"))["v0"]
-    v0 = - eta * T_mat - eta * F_mat
+    v0 = - eta * T_mat -eta * C_mat- eta * F_mat
     # v0 =  delta * eta * np.log(delta /4 * (9000/2.13 - F_mat)) + (eta - 1) * gamma_2 * T_mat / cearth * (B * np.log(C_mat/ C0) + kappa * (T_mat + To - Tkappa))
 
     dG = gamma_1 + gamma_2 * T_mat
