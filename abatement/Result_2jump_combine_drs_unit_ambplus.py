@@ -758,7 +758,7 @@ for id_xiag in range(len(xiaarr)):
                     plt.ylim(0,0.3)   
                 # plt.legend(loc='upper left')
 
-if auto==1:
+if auto==0:
     plt.plot(res["years"], gt_mean1,label='$\\xi_m={:.3f}$'.format(xigarr[id_xiag]))
 
 plt.legend(loc='upper left')
@@ -1098,7 +1098,7 @@ for id_xiag in range(len(xiaarr)):
                     plt.ylim(0,0.3)
                 # plt.legend(loc='upper left')
 
-if auto==1:
+if auto==0:
     plt.plot(res["years"][res["states"][:, 1]<1.5], gt_mean1[res["states"][:, 1]<1.5],label='$\\xi_m={:.3f}$'.format(xigarr[id_xiag]))
 plt.legend(loc='upper left')
 
