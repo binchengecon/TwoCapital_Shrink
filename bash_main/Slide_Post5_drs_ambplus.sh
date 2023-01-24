@@ -8,7 +8,8 @@
 epsilonarray=(0.1) #Computation of coarse grid and psi10.5
 
 actiontime=1
-python_name="postdamage_2jump_drs_unit_ambplus_addmiss.py"
+# python_name="postdamage_2jump_drs_unit_ambplus_addmiss.py"
+python_name="postdamage_2jump_drs_unit_ambplus.py"
 # python_name="postdamage_2jump_ah_drs_addmiss2.py"
 # python_name="postdamage_2jump_repless.py"
 
@@ -54,10 +55,10 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_a=(0.0015 0.0013 0.0011 0.0009 0.0008 0.0007 0.0005 0.0003 0.0002)
 # xi_p=(0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050)
 
-# xi_a=(0.0008 0.0007 0.0006 0.0005 0.0004 0.0003 0.0002 0.0001 0.00005)
-# xi_p=(0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025)
+xi_a=(0.0008 0.0007 0.0006 0.0005 0.0004 0.0003 0.0002 0.0001 0.00005)
+xi_p=(0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025)
 
-# xi_a=(0.0008)
+# xi_a=(0.0005)
 # xi_p=(0.050)
 
 # xi_a=(0.00002 0.00004 0.00006 0.00008 0.00010 0.00002 0.00004 0.00006 0.00008 0.00010)
@@ -99,8 +100,8 @@ for epsilon in ${epsilonarray[@]}; do
 		declare -n hXarr="$hXarri"
 
 		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2"
-		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_drs_unit_ambplus_calibxia"
-		action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_drs_unit_ambplus_addmiss2"
+		action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_drs_unit_ambplus_calibxia"
+		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_drs_unit_ambplus_addmiss2"
 		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_ah_drs_less2_addmiss2"
 
 		epsilonarr=(0.1 ${epsilon})

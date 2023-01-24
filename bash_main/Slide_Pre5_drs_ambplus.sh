@@ -8,7 +8,8 @@ epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 epsilonarraypre=(0.005) #
 # epsilonarraypre=(0.1) #
 
-python_name="predamage_2jump_drs_unit_ambplus_addmiss.py"
+# python_name="predamage_2jump_drs_unit_ambplus_addmiss.py"
+python_name="predamage_2jump_drs_unit_ambplus.py"
 # python_name="predamage_2jump_ah_drs_addmiss2.py"
 
 NUM_DAMAGE=5
@@ -65,6 +66,9 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 xi_a=(0.0008 0.0007 0.0006 0.0005 0.0004 0.0003 0.0002 0.0001 0.00005)
 xi_p=(0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025)
 
+# xi_a=(0.0005)
+# xi_p=(0.050)
+
 # psi0arr=(0.005 0.008 0.010 0.012)
 # psi0arr=(0.005)
 psi0arr=(0.105830)
@@ -103,8 +107,8 @@ for epsilon in ${epsilonarraypre[@]}; do
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_addmiss2"
-			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_solve0.2"
-			action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2"
+			action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_calibxia"
+			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2"
 
 			epsilonarr=(0.05 ${epsilon})
 			fractionarr=(0.1 ${epsilon})
