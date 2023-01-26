@@ -471,7 +471,7 @@ for id_xiag in range(len(xiaarr)):
                     plt.ylabel('$\%$ of GDP')
                     plt.title('R&D investment as percentage of  GDP')
                     if auto==0:   
-                        plt.ylim(0,0.8)
+                        plt.ylim(0,0.6)
                     plt.xlim(0,IntPeriod)
 
                     plt.legend(loc='upper left')        
@@ -836,7 +836,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.ylabel('$\%$ of GDP')
                 plt.title('R&D investment as percentage of  GDP')   
                 if auto==0:   
-                    plt.ylim(0,0.8)
+                    plt.ylim(0,0.6)
                 plt.legend(loc='upper left')        
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RD,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
