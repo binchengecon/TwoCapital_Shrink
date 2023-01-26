@@ -41,6 +41,10 @@ parser.add_argument("--fraction",type=float)
 parser.add_argument("--maxiter",type=int)
 parser.add_argument("--delta",type=float)
 
+parser.add_argument("--cearth",type=float)
+parser.add_argument("--tauc",type=float)
+
+
 args = parser.parse_args()
 
 name = args.name
@@ -53,50 +57,11 @@ epsilon = args.epsilon
 fraction = args.fraction
 maxiter = args.maxiter
 
+cearth = args.cearth
+tauc = args.tauc
+
 k = 0
-# # Anthropogenic emissions (zero or one)
-# Can = pd.read_csv("rcp30co2eqv3.csv")
-# #times2co2eq
-# #rcp85co2eq.csv
-# Ca = Can[(Can["YEARS"] > 1799) & (Can["YEARS"] < 2801)]
-# Ca1 = Can[(Can["YEARS"] > 1799) & (Can["YEARS"] < 2801)]
 
-# Ca = Ca["CO2EQ"]
-# Ca = Ca - 281.69873
-# Ca = Ca.to_numpy()
-
-# Ce = np.arange(1001) * 1.0
-# #np.min(Ca)
-
-# for i in range(len(Ce)):
-#     if i == 0:
-#         Ce[i] = 0
-#     else:
-#         Ce[i] = Ca[i] - Ca[i-1] 
-        
-# t_val = np.linspace(0, 1000, 1001)
-# def Yam(t):
-#     t_points = t_val
-#     em_points = Ce
-    
-#     tck = interpolate.splrep(t_points, em_points)
-#     return interpolate.splev(t,tck)
-        
-# Cebis = np.arange(1001) * 1.0
-# #np.min(Ca)
-# for i in range(len(Cebis)):
-#     if i == 0:
-#         Cebis[i] = 0
-#     else:
-#         Cebis[i] = max( Ca[i] - Ca[i-1], 0) 
-        
-# Cc = np.arange(1001) * 1.0
-# #np.min(Ca)
-# for i in range(len(Cc)):
-#     if i == 0:
-#         Cc[i] = 0
-#     else:
-#         Cc[i] = sum(Cebis[0:i])
 
 # Pre-industrial: 282.87K
 
@@ -119,9 +84,7 @@ sigma_P = 0.000
 bB = 0.08
 sigma_B = 0.0
 cod = 0. # 2.5563471547779937 #3.035
-cearth = 0.107
-# cearth = 10.
-tauc = 20
+
 coc0 = 0. #350
 ## Ocean albedo parameters
 Talphaocean_low = 219
@@ -152,6 +115,7 @@ Tbiopt1_high = Topt1 + 5
 Tbiolow_low = Tlow
 Tbiolow_high = Tlow + 5
 
+To = 282.87  # Mean with no anthropogenic carbon emissions, in Fᵒ
 
 ## Volcanism
 Volcan = 0.028
@@ -173,6 +137,11 @@ def fracseaice(T):
 # fracseaice = 0.15
 # fracseaice = 0.1
 
+T = np.arange(-30,30,0.1)
+
+# plot for fracseaice
+
+plt.plot(s)
 
 C0v = 1000
 VC_min = 0
@@ -291,19 +260,6 @@ def oceanatmcorrflux(C):
 T_preindustrial = 286.85
 C_preindustrial = 280
 
-def dydt(t, y):
-    T = y[0]
-    C = y[1]
-
-    dT = 1. / cearth * ( - kappa * T + B * np.log(C + C0) - B * np.log(C0))
-#     dT -= Ro(T, C)
-    Ws = np.random.normal(size=(2,1))
-#     dC = Volcan
-    dC = Yam(t) - (Volcan / C_preindustrial * C + (1 - fracseaice) * cod / tauc * C) + coc0 / tauc * (1 - fracseaice) * (np.exp(-bP * (T + T_preindustrial - T0) - np.exp(-bP * (T_preindustrial - T0)))) + coc0 / tauc * (1 - fracseaice) * (np.exp(bB * (T + T_preindustrial - T0) - np.exp(bB * (T_preindustrial - T0))))   # biological pump flux * fraction sea ice
-#     dC += oceanbioflux(T) * (1 - fracseaice(T))      # biological pump flux * fraction sea ice
-#     dC += oceanatmcorrflux(C) * (1 - fracseaice)    # correction parameter
-
-    return dT, dC
 
 # Economic paramaters
 gamma_1 = 1.7675 / 10000.
@@ -350,7 +306,6 @@ C_mat_1d = C_mat.ravel(order='F')
 F_mat_1d = F_mat.ravel(order='F')
 
 
-To = 282.87  # Mean with no anthropogenic carbon emissions, in Fᵒ
 
 v0 = ( - eta* T_mat - eta * delta * C_mat - eta * F_mat)*1
 
@@ -361,10 +316,6 @@ dG  = gamma_1 + gamma_2 * T_mat
 count    = 0
 error    = 1.
 tol      = 1e-7
-# max_iter = 6000
-# fraction = 0.1
-cearth = 0.107
-# cearth = 10.
 
 lowerLims = np.array([T_grid.min(), C_grid.min(), F_grid.min()], dtype=np.float64)
 upperLims = np.array([T_grid.max(), C_grid.max(), F_grid.max()], dtype=np.float64)
@@ -409,7 +360,7 @@ while error > tol and count < maxiter:
     
     Ca[Ca <= 1e-16] = 1e-16
     
-    Ca = 1. * np.ones(T_mat.shape)
+    # Ca = 1. * np.ones(T_mat.shape)
     
     A  = - delta * np.ones(T_mat.shape)
     B1 = Ri(T_mat + To) - Ro(T_mat + To, C_mat)
