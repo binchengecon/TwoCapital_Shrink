@@ -494,7 +494,7 @@ for id_xiag in range(len(xiaarr)):
                 # plt.hist(psi_2, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
                 plt.hist(psi_2, weights=pi_c, density=True, 
                         alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]))
-                plt.legend(loc='upper right')
+                plt.legend(loc='upper left')
                 plt.title("Distorted probability of R&D Parameters")
 
                 plt.ylim(0, 24)
@@ -578,7 +578,7 @@ for id_xiag in range(len(xiaarr)):
                 # plt.hist(psi_2, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
                 plt.hist(psi_2, weights=pi_c, density=True, 
                         alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]))
-                plt.legend(loc='upper right')
+                plt.legend(loc='upper left')
                 plt.title("Distorted probability of R&D Parameters")
 
                 plt.ylim(0, 24)
