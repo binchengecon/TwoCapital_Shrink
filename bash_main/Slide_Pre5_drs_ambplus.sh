@@ -10,10 +10,10 @@ epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 epsilonarraypre=(0.05) #
 # epsilonarraypre=(0.01) #
 
-python_name="predamage_2jump_drs_unit_ambplus_addmiss.py"
+# python_name="predamage_2jump_drs_unit_ambplus_addmiss.py"
 # python_name="predamage_2jump_drs_unit_ambplus_addmiss_faster.py"
 
-# python_name="predamage_2jump_drs_unit_ambplus_addmiss2.py"
+python_name="predamage_2jump_drs_unit_ambplus_addmiss2.py"
 
 # python_name="predamage_2jump_drs_unit_ambplus.py"
 # python_name="predamage_2jump_drs_unit_ambplus2.py"
@@ -60,14 +60,14 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_a=(1000. 0.0004 0.0002 0.0001 0.00005 0.0004 0.0002 0.0001 0.00005)
 # xi_p=(1000. 0.050 0.050 0.050 0.050 0.025 0.025 0.025 0.025)
 
-xi_a=(1000. 0.0004 0.0002 0.0001 0.00005)
-xi_p=(1000. 0.050 0.050 0.050 0.050)
+# xi_a=(1000. 0.0004 0.0002 0.0001 0.00005)
+# xi_p=(1000. 0.050 0.050 0.050 0.050)
 
 # xi_a=(0.0004 0.0002 0.0001 0.00005)
 # xi_p=(0.025 0.025 0.025 0.025)
 
-# xi_a=(0.0004)
-# xi_p=(0.050)
+xi_a=(0.0004)
+xi_p=(0.050)
 
 # xi_a=(0.0004 0.0002 0.0001 0.00005)
 # xi_p=(0.025 0.025 0.025 0.025)
@@ -111,9 +111,9 @@ for epsilon in ${epsilonarraypre[@]}; do
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_addmiss2"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_calibxia"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2"
-			action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss_rerun"
+			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss_rerun"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss_rerun_backup"
-			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2_cpsi2"
+			action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2_cpsi2"
 
 			epsilonarr=(0.05 ${epsilon})
 			fractionarr=(0.1 ${epsilon})
