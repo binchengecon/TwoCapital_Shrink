@@ -36,14 +36,14 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_a=(1000. 0.0001 0.0001)
 # xi_p=(1000. 0.050 0.025)
 
-# xi_a=(1000. 0.0002 0.0002)
-# xi_p=(1000. 0.050 0.025)
+xi_a=(1000. 0.0002 0.0002)
+xi_p=(1000. 0.050 0.025)
 
 # xi_a=(0.0004 0.0002 0.0001 0.00005)
 # xi_p=(0.050 0.050 0.050 0.050)
 
-xi_a=(0.0004 0.0002 0.0001 0.00005)
-xi_p=(0.025 0.025 0.025 0.025)
+# xi_a=(0.0004 0.0002 0.0001 0.00005)
+# xi_p=(0.025 0.025 0.025 0.025)
 
 # psi0arr=(0.005 0.008 0.010 0.012)
 # psi0arr=(0.005)
@@ -69,8 +69,8 @@ psi2arr=(0.5)
 #
 # python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss.py"
 # python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss_bar.py"
-python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss2.py"
-# python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss2_bar.py"
+# python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss2.py"
+python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss2_bar.py"
 
 server_name="mercury"
 
