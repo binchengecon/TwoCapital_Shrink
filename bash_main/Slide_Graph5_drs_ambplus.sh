@@ -53,8 +53,8 @@ psi0arr=(0.105830)
 psi1arr=(0.5)
 # psi1arr=(0.8)
 
-# psi2arr=(0.25)
-psi2arr=(0.5)
+psi2arr=(0.25)
+# psi2arr=(0.5)
 #
 # python_name_unit="Result_2jump_combine.py"
 # python_name_unit="Result_2jump_combine_color_L25.py"
@@ -68,9 +68,9 @@ psi2arr=(0.5)
 # python_name_unit="Result_2jump_combine_before15.py"
 #
 # python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss.py"
-# python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss_bar.py"
+python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss_bar.py"
 # python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss2.py"
-python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss2_bar.py"
+# python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss2_bar.py"
 
 server_name="mercury"
 
@@ -90,9 +90,9 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         count=0
         declare -n hXarr="$hXarri"
 
-        action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2_cpsi2"
+        # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2_cpsi2"
         # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2"
-        # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss_rerun"
+        action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss_rerun"
 
         for PSI_0 in ${psi0arr[@]}; do
             for PSI_1 in ${psi1arr[@]}; do
