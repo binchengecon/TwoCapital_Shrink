@@ -136,7 +136,7 @@ stateSpace = np.hstack([K_mat.reshape(-1,1,order = 'F'), Y_mat.reshape(-1,1,orde
 
 
 mpl.rcParams["savefig.bbox"] = "tight"
-mpl.rcParams["figure.figsize"] = (16,105)
+mpl.rcParams["figure.figsize"] = (16,10)
 mpl.rcParams["font.size"] = 15
 mpl.rcParams["legend.frameon"] = False
 mpl.style.use('classic')
@@ -471,7 +471,7 @@ for id_xiag in range(len(xiaarr)):
                     plt.ylabel('$\%$ of GDP')
                     plt.title('R&D investment as percentage of  GDP')
                     if auto==0:   
-                        plt.ylim(0,0.6)
+                        plt.ylim(0,1.0)
                     plt.xlim(0,IntPeriod)
 
                     plt.legend(loc='upper left')        
@@ -836,7 +836,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.ylabel('$\%$ of GDP')
                 plt.title('R&D investment as percentage of  GDP')   
                 if auto==0:   
-                    plt.ylim(0,0.6)
+                    plt.ylim(0,1.0)
                 plt.legend(loc='upper left')        
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RD,xia={},xig={},psi0={},psi1={},psi2={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))

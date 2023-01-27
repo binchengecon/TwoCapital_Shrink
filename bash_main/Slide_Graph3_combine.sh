@@ -5,8 +5,8 @@
 # epsilonarraypre=(0.005) # Computation of coarse grid and psi10.5, pre
 
 actiontime=2
-epsilonarraypost=(0.1)  # Computation of coarse grid and psi10.8, post
-epsilonarraypre=(0.005) # Computation of coarse grid and psi10.8, pre
+epsilonarraypost=(0.1) # Computation of coarse grid and psi10.8, post
+epsilonarraypre=(0.01) # Computation of coarse grid and psi10.8, pre
 
 # actiontime=3
 # epsilonarraypost=(0.008) # Computation of fine grid and psi10.5, post
@@ -63,7 +63,10 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         count=0
         declare -n hXarr="$hXarri"
 
-        action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_entropy"
+        # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_entropy"
+
+        # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_legacy"
+        action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_legacy_entro"
 
         for PSI_0 in ${psi0arr[@]}; do
             for PSI_1 in ${psi1arr[@]}; do

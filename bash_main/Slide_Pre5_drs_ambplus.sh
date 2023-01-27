@@ -5,10 +5,14 @@ actiontime=1
 epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 # epsilonarraypre=(0.1 0.05 0.03 0.02 0.01) # Computation of fine grid and psi10.5, pre
 # epsilonarraypre=(0.0075 0.0065 0.005 0.004 0.003 0.002 0.001) # Computation of fine grid and psi10.8, pre
-epsilonarraypre=(0.005) #
+# epsilonarraypre=(0.005) #
 # epsilonarraypre=(0.1) #
+epsilonarraypre=(0.05) #
+# epsilonarraypre=(0.01) #
 
 python_name="predamage_2jump_drs_unit_ambplus_addmiss.py"
+# python_name="predamage_2jump_drs_unit_ambplus_addmiss_faster.py"
+
 # python_name="predamage_2jump_drs_unit_ambplus_addmiss2.py"
 
 # python_name="predamage_2jump_drs_unit_ambplus.py"
@@ -44,11 +48,29 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_a=(0.0008 0.0007 0.0006 0.0005 0.0004 0.0003 0.0002 0.0001 0.00005)
 # xi_p=(0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025)
 
+# xi_a=(0.0008 0.0007 0.0006 0.0005 0.0004 0.0003 0.0002 0.0001 0.00005 1000. 0.0015 0.0013 0.0011 0.0009 0.0008 0.0007 0.0005 0.0003 0.0002 0.0001 0.00005)
+# xi_p=(0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 1000. 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050)
 
-xi_a=(0.0008 0.0007 0.0006 0.0005 0.0004 0.0003 0.0002 0.0001 0.00005 1000. 0.0015 0.0013 0.0011 0.0009 0.0008 0.0007 0.0005 0.0003 0.0002 0.0001 0.00005)
-xi_p=(0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 1000. 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050)
+# xi_a=(1000. 0.0005 0.0003 0.0002 0.0001 0.00005 0.0004 0.0003 0.0002 0.0001 0.00005 0.025 0.025 0.025 0.025 0.025)
+# xi_p=(1000. 0.050 0.050 0.050 0.050 0.050)
 
+# xi_a=(1000. 0.0005 0.0002 0.0001 0.00005 0.0004 0.0002 0.0001 0.00005)
+# xi_p=(1000. 0.050 0.050 0.050 0.050 0.025 0.025 0.025 0.025)
 
+# xi_a=(1000. 0.0004 0.0002 0.0001 0.00005 0.0004 0.0002 0.0001 0.00005)
+# xi_p=(1000. 0.050 0.050 0.050 0.050 0.025 0.025 0.025 0.025)
+
+xi_a=(1000. 0.0004 0.0002 0.0001 0.00005)
+xi_p=(1000. 0.050 0.050 0.050 0.050)
+
+# xi_a=(0.0004 0.0002 0.0001 0.00005)
+# xi_p=(0.025 0.025 0.025 0.025)
+
+# xi_a=(0.0004)
+# xi_p=(0.050)
+
+# xi_a=(0.0004 0.0002 0.0001 0.00005)
+# xi_p=(0.025 0.025 0.025 0.025)
 # psi0arr=(0.005 0.008 0.010 0.012)
 # psi0arr=(0.005)
 psi0arr=(0.105830)
@@ -88,7 +110,9 @@ for epsilon in ${epsilonarraypre[@]}; do
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_ah_drs_less2_addmiss2"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_calibxia"
-			action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2"
+			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2"
+			action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss_rerun"
+			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss_rerun_backup"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2_cpsi2"
 
 			epsilonarr=(0.05 ${epsilon})
@@ -117,7 +141,7 @@ for epsilon in ${epsilonarraypre[@]}; do
 
 #SBATCH --account=pi-lhansen
 #SBATCH --partition=standard
-#SBATCH --cpus-per-task=5
+#SBATCH --cpus-per-task=10
 #SBATCH --mem=16G
 #SBATCH --time=7-00:00:00
 

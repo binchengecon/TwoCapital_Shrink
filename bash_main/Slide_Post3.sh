@@ -3,14 +3,15 @@
 # Coarse Grid: PSI1 = 0.5 0.8 done
 # Solve non-convergence: Try hXarr1 and hXarr2, fix epsilon=fraction and change epsilon to see if convergence improved.
 
-epsilonarray=(0.005) #Computation of coarse grid and psi10.5
-# epsilonarray=(0.1) #Computation of coarse grid and psi10.5
+# epsilonarray=(0.005) #Computation of coarse grid and psi10.5
+epsilonarray=(0.1) #Computation of coarse grid and psi10.5
 
 actiontime=1
-python_name="postdamage_2jump.py"
+# python_name="postdamage_2jump.py"
+python_name="postdamage_2jump_entro.py"
 # python_name="postdamage_2jump_repless.py"
 
-NUM_DAMAGE=10
+NUM_DAMAGE=5
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
@@ -27,14 +28,17 @@ hXarrays=(hXarr1)
 Xminarr=(4.00 0.0 -5.5 0.0)
 Xmaxarr=(9.00 4.0 0.0 3.0)
 
-xi_a=(0.0002 0.0002)
-xi_p=(0.1 0.075)
+# xi_a=(0.0002 0.0002)
+# xi_p=(0.1 0.075)
 # xi_a=(0.0002 0.0002 0.0002 0.0002)
 # xi_p=(0.1 0.075 0.05 0.025)
 # xi_a=(1000. 0.0002 0.0002)
 # xi_p=(1000. 0.05 0.025)
 # xi_a=(1000.)
 # xi_p=(1000.)
+
+xi_a=(0.0008 0.0007 0.0006 0.0005 0.0004 0.0003 0.0002 0.0001 0.00005 1000. 0.0015 0.0013 0.0011 0.0009 0.0008 0.0007 0.0005 0.0003 0.0002 0.0001 0.00005)
+xi_p=(0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 1000. 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050)
 
 # psi0arr=(0.005 0.008 0.010 0.012)
 psi0arr=(0.005)
@@ -57,7 +61,8 @@ for epsilon in ${epsilonarray[@]}; do
 		declare -n hXarr="$hXarri"
 
 		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_xiagComparisonSlide"
-		action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_xiagComparisonSlide"
+		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_legacy"
+		action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_legacy_entro"
 
 		epsilonarr=(0.1 ${epsilon})
 		fractionarr=(0.1 ${epsilon})

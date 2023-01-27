@@ -443,7 +443,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.plot(res["years"], res["i"],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0 )
             plt.xlabel('Years')
             plt.title("Capital investment")
-            plt.ylim(60,120)
+            plt.ylim(60,110)
             plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
 
@@ -466,7 +466,7 @@ for id_xiag in range(len(xiaarr)):
             # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["e"][res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
             plt.xlabel('Years')
             plt.title("Carbon Emissions")
-            plt.ylim(6,12)
+            plt.ylim(6.5,11.5)
             plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
 
@@ -490,7 +490,7 @@ for id_xiag in range(len(xiaarr)):
             # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["states"][:, 1][res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
             plt.xlabel('Years')
             plt.title("Temperature anomaly")
-            plt.ylim(1,1.7)
+            plt.ylim(1.1,1.6)
             plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
 
@@ -631,7 +631,7 @@ for id_xiag in range(len(xiaarr)):
 
             plt.xlabel("Years")
             plt.title("Social Cost of Carbon")
-            plt.ylim(3.8,5.4)
+            plt.ylim(3.0,6.5)
             plt.xlim(0,IntPeriod)
             plt.legend(loc='upper left')
 
@@ -656,7 +656,7 @@ for id_xiag in range(len(xiaarr)):
 
             plt.xlabel("Years")
             plt.title("Mean Difference")
-            plt.ylim(0,0.3)
+            plt.ylim(0,0.8)
             plt.legend(loc='upper left')
 
 
@@ -696,7 +696,7 @@ for id_xiag in range(len(xiaarr)):
             else:
                 plt.plot(res["years"][res["states"][:, 1]<1.5], res["i"][res["states"][:, 1]<1.5],label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0 )
             plt.xlabel('Years')
-            plt.ylim(60,120)
+            plt.ylim(60,110)
             plt.legend(loc='upper left')
             plt.title("Capital investment")
 
@@ -718,7 +718,7 @@ for id_xiag in range(len(xiaarr)):
             # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["e"][res2["states"][:, 1]<1.5],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
             # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["e"][res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
             plt.xlabel('Years')
-            plt.ylim(6,12)
+            plt.ylim(6.5,11.5)
             plt.legend(loc='upper left')
             plt.title("Carbon Emissions")
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/E,xia={},xig={},psi0={},psi1={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
@@ -738,7 +738,7 @@ for id_xiag in range(len(xiaarr)):
             # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["states"][:, 1][res2["states"][:, 1]<1.5],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
             # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["states"][:, 1][res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
             plt.xlabel('Years')
-            plt.ylim(1,1.7)
+            plt.ylim(1.1,1.6)
             plt.legend(loc='upper left')
             plt.title("Temperature anomaly")
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/TA,xia={},xig={},psi0={},psi1={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
@@ -864,7 +864,7 @@ for id_xiag in range(len(xiaarr)):
             else:
                 plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc"][res["states"][:, 1]<1.5]),label='$\\xi_p={:.4f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0 )
             plt.xlabel("Years")
-            plt.ylim(3.8,5.4)
+            plt.ylim(3.0,6.5)
             plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={},BC_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
@@ -980,7 +980,7 @@ for id_xiag in range(len(xiaarr)):
 
             plt.xlabel("Years")
             plt.title("Mean Difference")
-            plt.ylim(0,0.3)
+            plt.ylim(0,0.8)
             plt.legend(loc='upper left')
 
 

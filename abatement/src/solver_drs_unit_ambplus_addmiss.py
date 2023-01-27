@@ -173,7 +173,7 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     # update smooth ambiguity
     log_pi_c_ratio = - G * ee * theta_ell / xi_a
 
-    log_pi_c_ratio -= -dL * psi_0 * x_new**psi_1 * np.exp( psi_1 * K_mat - (1-psi_2) * L_mat) / xi_a
+    log_pi_c_ratio += -dL * psi_0 * x_new**psi_1 * np.exp( psi_1 * K_mat - (1-psi_2) * L_mat) / xi_a
 
     pi_c_ratio = log_pi_c_ratio - np.max(log_pi_c_ratio)
     pi_c = np.exp(pi_c_ratio) * pi_c_o
