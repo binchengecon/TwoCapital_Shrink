@@ -1,15 +1,16 @@
 #! /bin/bash
 
 actiontime=1
-epsilonarraypost=(0.1)  # Computation of coarse grid and psi10.5, post
+# epsilonarraypost=(0.1)  # Computation of coarse grid and psi10.5, post
+epsilonarraypost=(0.05) # Computation of coarse grid and psi10.5, post
 epsilonarraypre=(0.005) # Computation of coarse grid and psi10.5, pre
 
 declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr3=([0]=0.05 [1]=0.05 [2]=0.05)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-hXarrays=(hXarr1)
-# hXarrays=(hXarr2)
+# hXarrays=(hXarr1)
+hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 
 # Xminarr=(4.00 0.0 -5.5 0.0)
@@ -39,11 +40,14 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_a=(1000. 0.0002 0.0002)
 # xi_p=(1000. 0.050 0.025)
 
-xi_a=(0.0004 0.0002 0.0001 0.00005)
-xi_p=(0.050 0.050 0.050 0.050)
+# xi_a=(0.0004 0.0002 0.0001 0.00005)
+# xi_p=(0.050 0.050 0.050 0.050)
 
 # xi_a=(0.0004 0.0002 0.0001 0.00005)
 # xi_p=(0.025 0.025 0.025 0.025)
+
+xi_a=(0.0004 0.0002 0.0001)
+xi_p=(0.025 0.025 0.025)
 
 # psi0arr=(0.005 0.008 0.010 0.012)
 # psi0arr=(0.005)
@@ -53,7 +57,8 @@ psi0arr=(0.105830)
 psi1arr=(0.5)
 # psi1arr=(0.8)
 
-psi2arr=(0.25)
+# psi2arr=(0.25)
+psi2arr=(0.0)
 # psi2arr=(0.5)
 #
 # python_name_unit="Result_2jump_combine.py"

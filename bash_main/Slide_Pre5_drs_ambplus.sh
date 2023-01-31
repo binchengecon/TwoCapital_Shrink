@@ -1,19 +1,19 @@
 #! /bin/bash
 
 actiontime=1
-# epsilonarraypost=(0.005) # Computation of fine grid and psi10.8, post
-epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
+epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
+# epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 # epsilonarraypre=(0.1 0.05 0.03 0.02 0.01) # Computation of fine grid and psi10.5, pre
 # epsilonarraypre=(0.0075 0.0065 0.005 0.004 0.003 0.002 0.001) # Computation of fine grid and psi10.8, pre
 # epsilonarraypre=(0.005) #
 # epsilonarraypre=(0.1) #
-epsilonarraypre=(0.05) #
-# epsilonarraypre=(0.01) #
+# epsilonarraypre=(0.005) #
+epsilonarraypre=(0.01) #
 
 # python_name="predamage_2jump_drs_unit_ambplus_addmiss.py"
-# python_name="predamage_2jump_drs_unit_ambplus_addmiss_faster.py"
+python_name="predamage_2jump_drs_unit_ambplus_addmiss_faster_newemission.py"
 
-python_name="predamage_2jump_drs_unit_ambplus_addmiss2.py"
+# python_name="predamage_2jump_drs_unit_ambplus_addmiss2.py"
 
 # python_name="predamage_2jump_drs_unit_ambplus.py"
 # python_name="predamage_2jump_drs_unit_ambplus2.py"
@@ -29,8 +29,8 @@ declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr3=([0]=0.05 [1]=0.05 [2]=0.05)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-hXarrays=(hXarr1)
-# hXarrays=(hXarr2)
+# hXarrays=(hXarr1)
+hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 
 # Xminarr=(4.00 0.0 -5.5 0.0)
@@ -38,6 +38,9 @@ hXarrays=(hXarr1)
 
 Xminarr=(4.00 0.0 1.0 0.0)
 Xmaxarr=(9.00 4.0 6.0 3.0)
+
+# Xminarr=(5.50 0.50 1.0 0.50)
+# Xmaxarr=(8.50 2.50 4.0 2.40)
 
 # Xminarr=(6.50 1.0 2.0 1.0)
 # Xmaxarr=(7.50 2.0 3.0 1.8)
@@ -51,8 +54,8 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_a=(0.0008 0.0007 0.0006 0.0005 0.0004 0.0003 0.0002 0.0001 0.00005 1000. 0.0015 0.0013 0.0011 0.0009 0.0008 0.0007 0.0005 0.0003 0.0002 0.0001 0.00005)
 # xi_p=(0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 1000. 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050)
 
-# xi_a=(1000. 0.0005 0.0003 0.0002 0.0001 0.00005 0.0004 0.0003 0.0002 0.0001 0.00005 0.025 0.025 0.025 0.025 0.025)
-# xi_p=(1000. 0.050 0.050 0.050 0.050 0.050)
+# xi_a=(1000. 0.0005 0.0003 0.0002 0.0001 0.00005 0.0004 0.0003 0.0002 0.0001 0.00005)
+# xi_p=(1000. 0.050 0.050 0.050 0.050 0.050 0.025 0.025 0.025 0.025 0.025)
 
 # xi_a=(1000. 0.0005 0.0002 0.0001 0.00005 0.0004 0.0002 0.0001 0.00005)
 # xi_p=(1000. 0.050 0.050 0.050 0.050 0.025 0.025 0.025 0.025)
@@ -63,11 +66,14 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_a=(1000. 0.0004 0.0002 0.0001 0.00005)
 # xi_p=(1000. 0.050 0.050 0.050 0.050)
 
-# xi_a=(0.0004 0.0002 0.0001 0.00005)
-# xi_p=(0.025 0.025 0.025 0.025)
+xi_a=(0.0004 0.0002 0.0001 0.00005)
+xi_p=(0.025 0.025 0.025 0.025)
 
-xi_a=(0.0004)
-xi_p=(0.050)
+# xi_a=(0.0004 0.0002 0.0001)
+# xi_p=(0.025 0.025 0.025)
+
+# xi_a=(0.00015 0.00015)
+# xi_p=(0.050 0.025)
 
 # xi_a=(0.0004 0.0002 0.0001 0.00005)
 # xi_p=(0.025 0.025 0.025 0.025)
@@ -112,8 +118,10 @@ for epsilon in ${epsilonarraypre[@]}; do
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_calibxia"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss_rerun"
+			action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_faster_newemission2"
+			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss_rerun_smallerinterval"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss_rerun_backup"
-			action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2_cpsi2"
+			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2_cpsi2"
 
 			epsilonarr=(0.05 ${epsilon})
 			fractionarr=(0.1 ${epsilon})
@@ -135,7 +143,8 @@ for epsilon in ${epsilonarraypre[@]}; do
 #! /bin/bash
 
 ######## login
-#SBATCH --job-name=${xi_p[$j]}_${epsilon}
+## SBATCH --job-name=${xi_p[$j]}_${epsilon}
+#SBATCH --job-name=${j}_${epsilon}
 #SBATCH --output=./job-outs/${action_name}/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_pre_${epsilon}.out
 #SBATCH --error=./job-outs/${action_name}/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_pre_${epsilon}.err
 
@@ -144,7 +153,9 @@ for epsilon in ${epsilonarraypre[@]}; do
 #SBATCH --cpus-per-task=10
 #SBATCH --mem=16G
 #SBATCH --time=7-00:00:00
+#SBATCH --exclude=mcn53
 
+module purge
 ####### load modules
 module load python/booth/3.8/3.8.5  gcc/9.2.0
 
@@ -154,7 +165,7 @@ echo "Program starts \$(date)"
 start_time=\$(date +%s)
 # perform a task
 
-python3 /home/bcheng4/TwoCapital_Shrink/abatement/$python_name --num_gamma $NUM_DAMAGE --xi_a ${xi_a[$j]} --xi_p ${xi_p[$j]}  --epsilonarr ${epsilonarr[@]}  --fractionarr ${fractionarr[@]}   --maxiterarr ${maxiterarr[@]}  --psi_0 $PSI_0 --psi_1 $PSI_1    --name ${action_name} --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]}
+srun python3 /home/bcheng4/TwoCapital_Shrink/abatement/$python_name --num_gamma $NUM_DAMAGE --xi_a ${xi_a[$j]} --xi_p ${xi_p[$j]}  --epsilonarr ${epsilonarr[@]}  --fractionarr ${fractionarr[@]}   --maxiterarr ${maxiterarr[@]}  --psi_0 $PSI_0 --psi_1 $PSI_1    --name ${action_name} --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]}
 
 echo "Program ends \$(date)"
 end_time=\$(date +%s)
