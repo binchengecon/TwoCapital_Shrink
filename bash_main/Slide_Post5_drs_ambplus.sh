@@ -4,9 +4,9 @@
 # Solve non-convergence: Try hXarr1 and hXarr2, fix epsilon=fraction and change epsilon to see if convergence improved.
 
 # epsilonarray=(0.005) #Computation of coarse grid and psi10.5
-epsilonarray=(0.1) #Computation of coarse grid and psi10.5
+# epsilonarray=(0.1) #Computation of coarse grid and psi10.5
 # epsilonarray=(0.005) #Computation of coarse grid and psi10.5
-# epsilonarray=(0.01) #Computation of coarse grid and psi10.5
+epsilonarray=(0.01) #Computation of coarse grid and psi10.5
 
 actiontime=1
 # python_name="postdamage_2jump_drs_unit_ambplus_addmiss.py"
@@ -26,15 +26,21 @@ declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr3=([0]=0.05 [1]=0.05 [2]=0.05)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-hXarrays=(hXarr1)
+# hXarrays=(hXarr1)
 # hXarrays=(hXarr2)
-# hXarrays=(hXarr3)
+hXarrays=(hXarr3)
 
 # Xminarr=(4.00 0.0 -5.5 0.0)
 # Xmaxarr=(9.00 4.0 0.0 3.0)
 
-Xminarr=(4.00 0.0 1.0 0.0)
-Xmaxarr=(9.00 4.0 6.0 3.0)
+# Xminarr=(4.00 0.0 1.0 0.0)
+# Xmaxarr=(9.00 4.0 6.0 3.0)
+
+# Xminarr=(6.50 1.0 2.0 1.0)
+# Xmaxarr=(7.50 2.0 3.0 1.8)
+
+Xminarr=(6.00 0.5 1.5 0.5)
+Xmaxarr=(8.00 2.5 3.5 2.3)
 
 # Xminarr=(5.50 0.50 1.0 0.50)
 # Xmaxarr=(8.50 2.50 4.0 2.40)
@@ -98,7 +104,8 @@ for epsilon in ${epsilonarray[@]}; do
 		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_drs_unit_ambplus_addmiss2_cpsi2"
 		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_drs_unit_ambplus_addmiss_rerun"
 		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_drs_unit_ambplus_addmiss_rerun_smallerinterval"
-		action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_faster_newemission2"
+		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_faster_newemission2"
+		action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_dontstick_p1"
 
 		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_ah_drs_less2_addmiss2"
 

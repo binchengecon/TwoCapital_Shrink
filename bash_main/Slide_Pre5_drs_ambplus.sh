@@ -1,14 +1,14 @@
 #! /bin/bash
 
 actiontime=1
-epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
+epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 # epsilonarraypre=(0.1 0.05 0.03 0.02 0.01) # Computation of fine grid and psi10.5, pre
 # epsilonarraypre=(0.0075 0.0065 0.005 0.004 0.003 0.002 0.001) # Computation of fine grid and psi10.8, pre
 # epsilonarraypre=(0.005) #
 # epsilonarraypre=(0.1) #
 # epsilonarraypre=(0.005) #
-epsilonarraypre=(0.01) #
+epsilonarraypre=(0.05) #
 
 # python_name="predamage_2jump_drs_unit_ambplus_addmiss.py"
 python_name="predamage_2jump_drs_unit_ambplus_addmiss_faster_newemission.py"
@@ -19,7 +19,7 @@ python_name="predamage_2jump_drs_unit_ambplus_addmiss_faster_newemission.py"
 # python_name="predamage_2jump_drs_unit_ambplus2.py"
 # python_name="predamage_2jump_ah_drs_addmiss2.py"
 
-NUM_DAMAGE=5
+NUM_DAMAGE=3
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
@@ -28,6 +28,7 @@ maxiterarr=(80000 200000)
 declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr3=([0]=0.05 [1]=0.05 [2]=0.05)
+
 # hXarrays=(hXarr1 hXarr2 hXarr3)
 # hXarrays=(hXarr1)
 hXarrays=(hXarr2)
@@ -36,14 +37,17 @@ hXarrays=(hXarr2)
 # Xminarr=(4.00 0.0 -5.5 0.0)
 # Xmaxarr=(9.00 4.0 0.0 3.0)
 
-Xminarr=(4.00 0.0 1.0 0.0)
-Xmaxarr=(9.00 4.0 6.0 3.0)
+# Xminarr=(4.00 0.0 1.0 0.0)
+# Xmaxarr=(9.00 4.0 6.0 3.0)
 
 # Xminarr=(5.50 0.50 1.0 0.50)
 # Xmaxarr=(8.50 2.50 4.0 2.40)
 
 # Xminarr=(6.50 1.0 2.0 1.0)
 # Xmaxarr=(7.50 2.0 3.0 1.8)
+
+Xminarr=(6.00 0.5 1.5 0.5)
+Xmaxarr=(8.00 2.5 3.5 2.3)
 
 # xi_a=(1000. 0.0015 0.0013 0.0011 0.0009 0.0008 0.0007 0.0005 0.0003 0.0002 0.0001 0.00005)
 # xi_p=(1000. 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050)
@@ -118,10 +122,12 @@ for epsilon in ${epsilonarraypre[@]}; do
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_calibxia"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss_rerun"
-			action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_faster_newemission2"
+			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_faster_newemission2"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss_rerun_smallerinterval"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss_rerun_backup"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2_cpsi2"
+			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_dontstick"
+			action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_dontstick_p1"
 
 			epsilonarr=(0.05 ${epsilon})
 			fractionarr=(0.1 ${epsilon})

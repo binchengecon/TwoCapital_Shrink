@@ -1,8 +1,8 @@
 #! /bin/bash
 
 actiontime=1
-# epsilonarraypost=(0.1)  # Computation of coarse grid and psi10.5, post
-epsilonarraypost=(0.05) # Computation of coarse grid and psi10.5, post
+epsilonarraypost=(0.1) # Computation of coarse grid and psi10.5, post
+# epsilonarraypost=(0.05) # Computation of coarse grid and psi10.5, post
 epsilonarraypre=(0.005) # Computation of coarse grid and psi10.5, pre
 
 declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
@@ -16,11 +16,14 @@ hXarrays=(hXarr2)
 # Xminarr=(4.00 0.0 -5.5 0.0)
 # Xmaxarr=(9.00 4.0 0.0 3.0)
 
-Xminarr=(4.00 0.0 1.0 0.0)
-Xmaxarr=(9.00 4.0 6.0 3.0)
+# Xminarr=(4.00 0.0 1.0 0.0)
+# Xmaxarr=(9.00 4.0 6.0 3.0)
 
 # Xminarr=(6.50 1.0 2.0 1.0)
 # Xmaxarr=(7.50 2.0 3.0 1.8)
+
+Xminarr=(6.00 0.5 1.5 0.5)
+Xmaxarr=(8.00 2.5 3.5 2.3)
 
 # xi_a=(0.0008 0.0007 0.0006 0.0005 0.0004 0.0003 0.0002 0.0001 0.00005 1000. 0.0015 0.0013 0.0011 0.0009 0.0008 0.0007 0.0005 0.0003 0.0002 0.0001 0.00005)
 # xi_p=(0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 1000. 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050)
@@ -46,8 +49,8 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_a=(0.0004 0.0002 0.0001 0.00005)
 # xi_p=(0.025 0.025 0.025 0.025)
 
-xi_a=(0.0004 0.0002 0.0001)
-xi_p=(0.025 0.025 0.025)
+xi_a=(0.0004 0.0002)
+xi_p=(0.025 0.025)
 
 # psi0arr=(0.005 0.008 0.010 0.012)
 # psi0arr=(0.005)
@@ -57,8 +60,8 @@ psi0arr=(0.105830)
 psi1arr=(0.5)
 # psi1arr=(0.8)
 
-# psi2arr=(0.25)
-psi2arr=(0.0)
+psi2arr=(0.25)
+# psi2arr=(0.0)
 # psi2arr=(0.5)
 #
 # python_name_unit="Result_2jump_combine.py"
@@ -72,6 +75,7 @@ psi2arr=(0.0)
 # python_name_unit="Result_2jump_combine_color_L3.py"
 # python_name_unit="Result_2jump_combine_before15.py"
 #
+# python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss.py"
 python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss.py"
 # python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss_bar.py"
 # python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss2.py"
@@ -88,7 +92,7 @@ Xmaxarr_SG=(9.00 4.0 0.0 3.0)
 interp_action_name="2jump_step_0.2_0.2_0.2_LR_0.01"
 fstr_SG="NearestNDInterpolator"
 
-auto=0
+auto=1
 
 for epsilonpost in ${epsilonarraypost[@]}; do
     for hXarri in "${hXarrays[@]}"; do
@@ -97,7 +101,8 @@ for epsilonpost in ${epsilonarraypost[@]}; do
 
         # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2_cpsi2"
         # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2"
-        action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss_rerun"
+        # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss_rerun"
+        action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_dontstick_p1"
 
         for PSI_0 in ${psi0arr[@]}; do
             for PSI_1 in ${psi1arr[@]}; do
