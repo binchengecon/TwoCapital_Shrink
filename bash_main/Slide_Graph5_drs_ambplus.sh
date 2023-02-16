@@ -9,21 +9,21 @@ declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr3=([0]=0.05 [1]=0.05 [2]=0.05)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-# hXarrays=(hXarr1)
-hXarrays=(hXarr2)
+hXarrays=(hXarr1)
+# hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 
 # Xminarr=(4.00 0.0 -5.5 0.0)
 # Xmaxarr=(9.00 4.0 0.0 3.0)
 
-# Xminarr=(4.00 0.0 1.0 0.0)
-# Xmaxarr=(9.00 4.0 6.0 3.0)
+Xminarr=(4.00 0.0 1.0 0.0)
+Xmaxarr=(9.00 4.0 6.0 3.0)
 
 # Xminarr=(6.50 1.0 2.0 1.0)
 # Xmaxarr=(7.50 2.0 3.0 1.8)
 
-Xminarr=(6.00 0.5 1.5 0.5)
-Xmaxarr=(8.00 2.5 3.5 2.3)
+# Xminarr=(6.00 0.5 1.5 0.5)
+# Xmaxarr=(8.00 2.5 3.5 2.3)
 
 # xi_a=(0.0008 0.0007 0.0006 0.0005 0.0004 0.0003 0.0002 0.0001 0.00005 1000. 0.0015 0.0013 0.0011 0.0009 0.0008 0.0007 0.0005 0.0003 0.0002 0.0001 0.00005)
 # xi_p=(0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 1000. 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050 0.050)
@@ -46,11 +46,11 @@ Xmaxarr=(8.00 2.5 3.5 2.3)
 # xi_a=(0.0004 0.0002 0.0001 0.00005)
 # xi_p=(0.050 0.050 0.050 0.050)
 
-# xi_a=(0.0004 0.0002 0.0001 0.00005)
-# xi_p=(0.025 0.025 0.025 0.025)
+xi_a=(0.0004 0.0002 0.0001 0.00005)
+xi_p=(0.025 0.025 0.025 0.025)
 
-xi_a=(0.0004 0.0002)
-xi_p=(0.025 0.025)
+# xi_a=(0.0004 0.0002)
+# xi_p=(0.025 0.025)
 
 # psi0arr=(0.005 0.008 0.010 0.012)
 # psi0arr=(0.005)
@@ -101,8 +101,8 @@ for epsilonpost in ${epsilonarraypost[@]}; do
 
         # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2_cpsi2"
         # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2"
-        # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss_rerun"
-        action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_dontstick_p1"
+        action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss_rerun"
+        # action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_dontstick_p1"
 
         for PSI_0 in ${psi0arr[@]}; do
             for PSI_1 in ${psi1arr[@]}; do
@@ -133,7 +133,7 @@ for epsilonpost in ${epsilonarraypost[@]}; do
 #SBATCH --time=0-02:00:00
 
 ####### load modules
-module load python/booth/3.8/3.8.5  gcc/9.2.0
+module load python/booth/3.8  gcc/9.2.0
 
 
 echo "\$SLURM_JOB_NAME"

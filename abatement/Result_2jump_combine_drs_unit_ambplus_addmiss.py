@@ -234,6 +234,9 @@ def simulate_pre(
     
     K_0, Y_0, L_0 = initial
 
+    print("K0={},Y0={},L0={}".format(K_0,Y_0,L_0))
+    print(np.log(85/0.115))
+    
     def mu_K(i_x):
         return mu_k + i_x - 0.5 * kappa * i_x ** 2  - 0.5 * sigma_k ** 2
     
@@ -412,8 +415,10 @@ def model_solution_extraction(xi_a,xi_g,psi_0,psi_1,psi_2):
         File_Dir = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_" .format(xi_a,xi_g,psi_0,psi_1)
         # File_Dir = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_psi_2_{}" .format(xi_a,xi_g,psi_0,psi_1,psi_2)
         model_dir_post = Data_Dir + File_Dir+"model_tech1_pre_damage"
+        
+        File_Dir2 = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_psi_2_{}_" .format(xi_a,xi_g,psi_0,psi_1,psi_2)
 
-        model_simul_dir_post = Data_Dir + File_Dir+"model_tech1_pre_damage_simul_{}" .format(IntPeriod)
+        model_simul_dir_post = Data_Dir + File_Dir2+"model_tech1_pre_damage_simul_{}" .format(IntPeriod)
 
 
         if os.path.exists(model_simul_dir_post):

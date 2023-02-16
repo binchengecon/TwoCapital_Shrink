@@ -6,7 +6,7 @@ import sys
 sys.path.append("../src/")
 import numpy as np
 import pandas as pd
-from numba import njit
+# from numba import njit
 from supportfunctions import finiteDiff
 import SolveLinSys
 

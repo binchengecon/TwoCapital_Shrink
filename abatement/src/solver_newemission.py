@@ -70,9 +70,8 @@ def pde_one_interation(ksp, petsc_mat, X1_mat_1d, X2_mat_1d, X3_mat_1d, lowerLim
     out_comp = np.array(ksp.getSolution()).reshape(A.shape,order = "F")
     end_ksp = time.time()
     num_iter = ksp.getIterationNumber()
-    print("petsc total: {:.3f}s".format(end_ksp - bpoint1))
-    print("PETSc preconditioned residual norm is {:g}; iterations: {}".format(ksp.getResidualNorm(), ksp.getIterationNumber()))
-    return out_comp
+    # print("PETSc preconditioned residual norm is {:g}; iterations: {}".format(ksp.getResidualNorm(), ksp.getIterationNumber()))
+    return out_comp,end_ksp,bpoint1
 
 def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
 
@@ -154,10 +153,10 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
         root1 = (- b - np.sqrt(temp)) / (2 * a)
         root2 = (- b + np.sqrt(temp)) / (2 * a)
         if root1.all() > 0 :
-            print("use root1")
+            # print("use root1")
             e_new = root1
         else:
-            print("use root2")
+            # print("use root2")
             e_new = root2
 
         e_new[e_new <= 1e-16] = 1e-16
@@ -170,9 +169,7 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     ii = i_new * fraction + i_star * (1 - fraction)
     ee = e_new * fraction + e_star * (1 - fraction)
     xx = x_new * fraction + x_star * (1 - fraction)
-    print("min i: {},\t max i: {}\t".format(ii.min(), ii.max()))
-    print("min e: {},\t max e: {}\t".format(ee.min(), ee.max()))
-    print("min x: {},\t max x: {}\t".format(xx.min(), xx.max()))
+
     # update smooth ambiguity
     log_pi_c_ratio = - G * ee * theta_ell / xi_a
 
@@ -303,9 +300,7 @@ def hjb_pre_tech(
 
     # Enter the optimization
     while FC_Err > tol and epoch < max_iter:
-        print("-----------------------------------")
-        print("---------Epoch {}---------------".format(epoch))
-        print("-----------------------------------")
+
         start_ep = time.time()
         A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c = _FOC_update(v0, steps= (hX1, hX2, hX3), states = (K_mat, Y_mat, L_mat), args=FOC_args, controls=(i_star, e_star, x_star), fraction=fraction)
 
@@ -316,7 +311,7 @@ def hjb_pre_tech(
             A -=  Intensity*np.sum(pi_d_o*g_m,axis=0)
 
 
-        out_comp = pde_one_interation(
+        out_comp,end_ksp, bpoint1 = pde_one_interation(
                 ksp,
                 petsc_mat,X1_mat_1d, X2_mat_1d, X3_mat_1d, 
                 lowerLims, upperLims, dVec, increVec,
@@ -326,9 +321,30 @@ def hjb_pre_tech(
         PDE_rhs = A * v0 + B_1 * dX1 + B_2 * dX2 + B_3 * dX3 + C_1 * ddX1 + C_2 * ddX2 + C_3 * ddX3 + D
         PDE_Err = np.max(abs(PDE_rhs))
         FC_Err = np.max(abs((out_comp - v0)/ epsilon))
-        print("Epoch {:d} (PETSc): PDE Error: {:.10f}; False Transient Error: {:.10f}" .format(epoch, PDE_Err, FC_Err))
-        print("Epoch time: {:.4f}".format(time.time() - start_ep))
-
+        
+        if FC_Err < 10*tol:
+            
+            print("-----------------------------------")
+            print("---------Epoch {}---------------".format(epoch))
+            print("-----------------------------------")
+            print("min i: {},\t max i: {}\t".format(ii.min(), ii.max()))
+            print("min e: {},\t max e: {}\t".format(ee.min(), ee.max()))
+            print("min x: {},\t max x: {}\t".format(xx.min(), xx.max()))
+            print("petsc total: {:.3f}s".format(end_ksp - bpoint1))
+            print("Epoch {:d} (PETSc): PDE Error: {:.10f}; False Transient Error: {:.10f}" .format(epoch, PDE_Err, FC_Err))
+            print("Epoch time: {:.4f}".format(time.time() - start_ep))
+        elif epoch%100==0:
+            
+            print("-----------------------------------")
+            print("---------Epoch {}---------------".format(epoch))
+            print("-----------------------------------")
+            print("min i: {},\t max i: {}\t".format(ii.min(), ii.max()))
+            print("min e: {},\t max e: {}\t".format(ee.min(), ee.max()))
+            print("min x: {},\t max x: {}\t".format(xx.min(), xx.max()))
+            print("petsc total: {:.3f}s".format(end_ksp - bpoint1))
+            print("Epoch {:d} (PETSc): PDE Error: {:.10f}; False Transient Error: {:.10f}" .format(epoch, PDE_Err, FC_Err))
+            print("Epoch time: {:.4f}".format(time.time() - start_ep))
+            
         v0     = out_comp
         i_star = ii
         e_star = ee

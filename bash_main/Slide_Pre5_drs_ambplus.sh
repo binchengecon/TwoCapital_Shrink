@@ -1,14 +1,14 @@
 #! /bin/bash
 
 actiontime=1
-epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
+epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 # epsilonarraypre=(0.1 0.05 0.03 0.02 0.01) # Computation of fine grid and psi10.5, pre
 # epsilonarraypre=(0.0075 0.0065 0.005 0.004 0.003 0.002 0.001) # Computation of fine grid and psi10.8, pre
 # epsilonarraypre=(0.005) #
 # epsilonarraypre=(0.1) #
 # epsilonarraypre=(0.005) #
-epsilonarraypre=(0.05) #
+epsilonarraypre=(0.01) #
 
 # python_name="predamage_2jump_drs_unit_ambplus_addmiss.py"
 python_name="predamage_2jump_drs_unit_ambplus_addmiss_faster_newemission.py"
@@ -30,8 +30,8 @@ declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr3=([0]=0.05 [1]=0.05 [2]=0.05)
 
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-# hXarrays=(hXarr1)
-hXarrays=(hXarr2)
+hXarrays=(hXarr1)
+# hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 
 # Xminarr=(4.00 0.0 -5.5 0.0)
@@ -73,8 +73,8 @@ Xmaxarr=(8.00 2.5 3.5 2.3)
 xi_a=(0.0004 0.0002 0.0001 0.00005)
 xi_p=(0.025 0.025 0.025 0.025)
 
-# xi_a=(0.0004 0.0002 0.0001)
-# xi_p=(0.025 0.025 0.025)
+# xi_a=(0.0001 0.00005)
+# xi_p=(0.025 0.025)
 
 # xi_a=(0.00015 0.00015)
 # xi_p=(0.050 0.025)

@@ -6,7 +6,7 @@
 # epsilonarray=(0.005) #Computation of coarse grid and psi10.5
 # epsilonarray=(0.1) #Computation of coarse grid and psi10.5
 # epsilonarray=(0.005) #Computation of coarse grid and psi10.5
-epsilonarray=(0.01) #Computation of coarse grid and psi10.5
+epsilonarray=(0.05) #Computation of coarse grid and psi10.5
 
 actiontime=1
 # python_name="postdamage_2jump_drs_unit_ambplus_addmiss.py"
@@ -26,21 +26,22 @@ declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr3=([0]=0.05 [1]=0.05 [2]=0.05)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-# hXarrays=(hXarr1)
+hXarrays=(hXarr1)
 # hXarrays=(hXarr2)
-hXarrays=(hXarr3)
+# hXarrays=(hXarr3)
 
 # Xminarr=(4.00 0.0 -5.5 0.0)
 # Xmaxarr=(9.00 4.0 0.0 3.0)
 
-# Xminarr=(4.00 0.0 1.0 0.0)
-# Xmaxarr=(9.00 4.0 6.0 3.0)
+Xminarr=(4.00 0.0 1.0 0.0)
+Xmaxarr=(9.00 4.0 6.0 3.0)
+
+
+Xminarr=(5.00 0.0 1.0 0.0)
+Xmaxarr=(8.00 4.0 6.0 3.0)
 
 # Xminarr=(6.50 1.0 2.0 1.0)
 # Xmaxarr=(7.50 2.0 3.0 1.8)
-
-Xminarr=(6.00 0.5 1.5 0.5)
-Xmaxarr=(8.00 2.5 3.5 2.3)
 
 # Xminarr=(5.50 0.50 1.0 0.50)
 # Xmaxarr=(8.50 2.50 4.0 2.40)
@@ -106,7 +107,6 @@ for epsilon in ${epsilonarray[@]}; do
 		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_drs_unit_ambplus_addmiss_rerun_smallerinterval"
 		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_faster_newemission2"
 		action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_dontstick_p1"
-
 		# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilon}_ah_drs_less2_addmiss2"
 
 		epsilonarr=(0.1 ${epsilon})
@@ -161,10 +161,11 @@ end_time=\$(date +%s)
 elapsed=\$((end_time - start_time))
 
 eval "echo Elapsed time: \$(date -ud "@\$elapsed" +'\$((%s/3600/24)) days %H hr %M min %S sec')"
+echo ${hXarr[@]}
 
 EOF
 						count=$(($count + 1))
-						sbatch ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_ID_${i}.sh
+						# sbatch ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_ID_${i}.sh
 					done
 				done
 			done
