@@ -3813,7 +3813,8 @@ for id_xiag in range(len(xiaarr)):
 
                 plt.title("ME Ratio: Single Case")
                 
-                
+                plt.ylim(-40,20)
+
                 if auto==0:   
                     plt.ylim(6.75,6.95)
                 plt.xlim(0,IntPeriod)
@@ -3844,7 +3845,8 @@ for id_xiag in range(len(xiaarr)):
 
                 plt.title("ME Ratio: Multiple Case")
                 
-                
+                plt.ylim(-40,20)
+
                 if auto==0:   
                     plt.ylim(6.75,6.95)
                 plt.xlim(0,IntPeriod)
