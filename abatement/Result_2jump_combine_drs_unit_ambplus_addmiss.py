@@ -406,56 +406,56 @@ def Damage_Intensity(Yt, y_bar_lower=1.5):
 
 
 def model_solution_extraction(xi_a,xi_g,psi_0,psi_1,psi_2):
+
+    # Data_Dir = "./abatement/data_2tech/"+args.dataname+"/"
+    Output_Dir = "/scratch/bincheng/"
+    Data_Dir = Output_Dir+"abatement/data_2tech/"+args.dataname+"/"
+
+
+    File_Dir = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_" .format(xi_a,xi_g,psi_0,psi_1)
+    # File_Dir = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_psi_2_{}" .format(xi_a,xi_g,psi_0,psi_1,psi_2)
+    model_dir_post = Data_Dir + File_Dir+"model_tech1_pre_damage"
     
-        # Data_Dir = "./abatement/data_2tech/"+args.dataname+"/"
-        Output_Dir = "/scratch/bincheng/"
-        Data_Dir = Output_Dir+"abatement/data_2tech/"+args.dataname+"/"
+    File_Dir2 = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_psi_2_{}_" .format(xi_a,xi_g,psi_0,psi_1,psi_2)
+
+    model_simul_dir_post = Data_Dir + File_Dir2+"model_tech1_pre_damage_simul_{}" .format(IntPeriod)
 
 
-        File_Dir = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_" .format(xi_a,xi_g,psi_0,psi_1)
-        # File_Dir = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_psi_2_{}" .format(xi_a,xi_g,psi_0,psi_1,psi_2)
-        model_dir_post = Data_Dir + File_Dir+"model_tech1_pre_damage"
+    if os.path.exists(model_simul_dir_post):
+        print("which passed 1")
+        res = pickle.load(open(model_simul_dir_post, "rb"))
+
+
+    else:
+        print("which passed 2")
+
+        with open(model_dir_post, "rb") as f:
+            tech1 = pickle.load(f)
         
-        File_Dir2 = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_psi_2_{}_" .format(xi_a,xi_g,psi_0,psi_1,psi_2)
-
-        model_simul_dir_post = Data_Dir + File_Dir2+"model_tech1_pre_damage_simul_{}" .format(IntPeriod)
-
-
-        if os.path.exists(model_simul_dir_post):
-            print("which passed 1")
-            res = pickle.load(open(model_simul_dir_post, "rb"))
-
-
-        else:
-            print("which passed 2")
-
-            with open(model_dir_post, "rb") as f:
-                tech1 = pickle.load(f)
-            
-            model_args = (delta, mu_k, kappa,sigma_k, beta_f, zeta, psi_0, psi_1, psi_2, sigma_g, theta, lambda_bar, vartheta_bar)
-            
-            v = tech1["v0"]
-            i = tech1["i_star"]
-            e = tech1["e_star"]
-            x = tech1["x_star"]
-            pi_c = tech1["pi_c"]
-            g_tech = tech1["g_tech"]
-            g_damage =  tech1["g_damage"]
-            # gg_mean = tech1["gg_mean"]
-            
-            # g_damage = np.ones((1, nK, nY, nL))
-            res = simulate_pre(grid = (K, Y_short, L), model_args = model_args, 
-                                        # controls = (i,e,x, g_tech, g_damage,gg_mean, pi_c), 
-                                        controls = (i,e,x, g_tech, g_damage, pi_c, v),  
-                                        T0=0, T=IntPeriod, dt=timespan,printing=True)
-
-            with open(model_simul_dir_post, "wb") as f:
-                pickle.dump(res,f)
-
-            res = pickle.load(open(model_simul_dir_post, "rb"))
-
+        model_args = (delta, mu_k, kappa,sigma_k, beta_f, zeta, psi_0, psi_1, psi_2, sigma_g, theta, lambda_bar, vartheta_bar)
         
-        return res
+        v = tech1["v0"]
+        i = tech1["i_star"]
+        e = tech1["e_star"]
+        x = tech1["x_star"]
+        pi_c = tech1["pi_c"]
+        g_tech = tech1["g_tech"]
+        g_damage =  tech1["g_damage"]
+        # gg_mean = tech1["gg_mean"]
+        
+        # g_damage = np.ones((1, nK, nY, nL))
+        res = simulate_pre(grid = (K, Y_short, L), model_args = model_args, 
+                                    # controls = (i,e,x, g_tech, g_damage,gg_mean, pi_c), 
+                                    controls = (i,e,x, g_tech, g_damage, pi_c, v),  
+                                    T0=0, T=IntPeriod, dt=timespan,printing=True)
+
+        with open(model_simul_dir_post, "wb") as f:
+            pickle.dump(res,f)
+
+        res = pickle.load(open(model_simul_dir_post, "rb"))
+
+    
+    return res
 
 
 if os.path.exists("./abatement/pdf_2tech/"+args.dataname+"/")==False:

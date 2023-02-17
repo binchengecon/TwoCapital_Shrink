@@ -5,6 +5,7 @@ epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.005) # Computation of fine grid and psi10.8, post
 
+NUM_DAMAGE=4
 
 declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
@@ -17,11 +18,11 @@ hXarrays=(hXarr1)
 # Xminarr=(4.00 0.0 -5.5 0.0)
 # Xmaxarr=(9.00 4.0 0.0 3.0)
 
-Xminarr=(4.00 0.0 1.0 0.0)
-Xmaxarr=(9.00 4.0 6.0 3.0)
+# Xminarr=(4.00 0.0 1.0 0.0)
+# Xmaxarr=(9.00 4.0 6.0 3.0)
 
-# Xminarr=(4.00 0.0 0.0 0.0)
-# Xmaxarr=(9.00 4.0 7.0 3.0)
+Xminarr=(4.00 0.0 0.0 0.0)
+Xmaxarr=(9.00 4.0 7.0 3.0)
 
 
 xi_a=(0.0004 0.0002 0.0001 0.00005)
@@ -39,6 +40,7 @@ psi1arr=(0.5)
 # psi1arr=(0.8)
 
 psi2arr=(0.0 0.1 0.2 0.3 0.4 0.5)
+# psi2arr=(0.2)
 
 
 # python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss.py"
@@ -101,11 +103,18 @@ module load python/booth/3.8  gcc/9.2.0
 
 echo "\$SLURM_JOB_NAME"
 echo "Program starts \$(date)"
+start_time=\$(date +%s)
 
-python3 /home/bcheng4/TwoCapital_Shrink/abatement/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi0 ${PSI_0} --psi1 ${PSI_1} --psi2 ${PSI_2} --xiaarr ${xi_a[@]} --xigarr ${xi_p[@]}   --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]} --auto $auto --IntPeriod ${year}
+python3 /home/bcheng4/TwoCapital_Shrink/abatement/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi0 ${PSI_0} --psi1 ${PSI_1} --psi2 ${PSI_2} --xiaarr ${xi_a[@]} --xigarr ${xi_p[@]}   --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]} --auto $auto --IntPeriod ${year} --num_gamma ${NUM_DAMAGE}
 # python3 /home/bcheng4/TwoCapital_Shrink/abatement/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi0 ${PSI_0} --psi1 ${PSI_1} --psi2 ${PSI_2} --xiaarr ${xi_a[@]} --xigarr ${xi_p[@]}   --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]} 
 
 echo "Program ends \$(date)"
+end_time=\$(date +%s)
+
+# elapsed time with second resolution
+elapsed=\$((end_time - start_time))
+
+eval "echo Elapsed time: \$(date -ud "@\$elapsed" +'\$((%s/3600/24)) days %H hr %M min %S sec')"
 
 EOF
 
