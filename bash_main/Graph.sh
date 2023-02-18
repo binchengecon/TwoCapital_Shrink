@@ -18,11 +18,11 @@ hXarrays=(hXarr1)
 # Xminarr=(4.00 0.0 -5.5 0.0)
 # Xmaxarr=(9.00 4.0 0.0 3.0)
 
-Xminarr=(4.00 0.0 1.0 0.0)
-Xmaxarr=(9.00 4.0 6.0 3.0)
+# Xminarr=(4.00 0.0 1.0 0.0)
+# Xmaxarr=(9.00 4.0 6.0 3.0)
 
-# Xminarr=(4.00 0.0 0.0 0.0)
-# Xmaxarr=(9.00 4.0 7.0 3.0)
+Xminarr=(4.00 0.0 0.0 0.0)
+Xmaxarr=(9.00 4.0 7.0 3.0)
 
 
 xi_a=(0.0004 0.0002 0.0001 0.00005)
@@ -45,7 +45,8 @@ psi2arr=(0.0 0.1 0.2 0.3 0.4 0.5)
 
 # python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss.py"
 # python_name_unit="Result_2jump_UD.py"
-python_name_unit="Result_2jump_UD2.py"
+# python_name_unit="Result_2jump_UD2.py"
+python_name_unit="Result_2jump_UD3.py"
 # python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss_bar.py"
 
 server_name="mercury"
@@ -60,7 +61,7 @@ interp_action_name="2jump_step_0.2_0.2_0.2_LR_0.01"
 fstr_SG="NearestNDInterpolator"
 
 auto=1
-year=26
+year=25
 
 for epsilonpost in ${epsilonarraypost[@]}; do
     for hXarri in "${hXarrays[@]}"; do
@@ -96,7 +97,7 @@ for epsilonpost in ${epsilonarraypost[@]}; do
 #SBATCH --partition=standard
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G
-#SBATCH --time=0-04:00:00
+#SBATCH --time=7-00:00:00
 
 ####### load modules
 module load python/booth/3.8  gcc/9.2.0
