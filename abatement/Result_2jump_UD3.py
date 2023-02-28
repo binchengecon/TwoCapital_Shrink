@@ -1657,7 +1657,9 @@ def simulate_pre_UD(
     pi_d_o_wakeup = np.array([temp * np.ones(K_mat.shape) for temp in pi_d_o ])
     pi_c_o_wakeup = np.array([temp * np.ones((nK, nY, nL)) for temp in pi_c_o])
 
-
+    # theta_list = pd.read_csv('data/model144.csv', header=None).to_numpy()[:, 0]/1000.
+    # theta_reshape = theta_list.reshape(n_temp, n_carb)
+    
     # Uncertainty decomposition
     n_temp = 16
     n_carb = 9

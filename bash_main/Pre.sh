@@ -1,8 +1,8 @@
 #! /bin/bash
 
 actiontime=1
-# epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
-epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
+epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
+# epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.005) # Computation of fine grid and psi10.8, post
 
 
@@ -16,7 +16,7 @@ python_name="predamage_2jump_drs_unit_ambplus_addmiss_faster_newemission.py"
 
 
 # NUM_DAMAGE=4
-NUM_DAMAGE=3
+NUM_DAMAGE=4
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
@@ -26,10 +26,10 @@ declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr4=([0]=0.2 [1]=0.05 [2]=0.2)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-# hXarrays=(hXarr1)
+hXarrays=(hXarr1)
 # hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
-hXarrays=(hXarr4)
+# hXarrays=(hXarr4)
 
 # Xminarr=(4.00 0.0 -5.5 0.0)
 # Xmaxarr=(9.00 4.0 0.0 3.0)
@@ -76,8 +76,8 @@ for epsilon in ${epsilonarraypre[@]}; do
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss_rerun_backup"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_drs_unit_ambplus_addmiss2_cpsi2"
 			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_dontstick"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]}_LR_${epsilonpost}"
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}"
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]}_LR_${epsilonpost}_theta_ell_2"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}"
 
 			epsilonarr=(0.05 ${epsilon})
 			fractionarr=(0.1 ${epsilon})

@@ -18,11 +18,11 @@ hXarrays=(hXarr1)
 # Xminarr=(4.00 0.0 -5.5 0.0)
 # Xmaxarr=(9.00 4.0 0.0 3.0)
 
-# Xminarr=(4.00 0.0 1.0 0.0)
-# Xmaxarr=(9.00 4.0 6.0 3.0)
+Xminarr=(4.00 0.0 1.0 0.0)
+Xmaxarr=(9.00 4.0 6.0 3.0)
 
-Xminarr=(4.00 0.0 0.0 0.0)
-Xmaxarr=(9.00 4.0 7.0 3.0)
+# Xminarr=(4.00 0.0 0.0 0.0)
+# Xmaxarr=(9.00 4.0 7.0 3.0)
 
 
 xi_a=(0.0004 0.0002 0.0001 0.00005)
@@ -39,14 +39,18 @@ psi0arr=(0.105830)
 psi1arr=(0.5)
 # psi1arr=(0.8)
 
-psi2arr=(0.0 0.1 0.2 0.3 0.4 0.5)
-# psi2arr=(0.2)
+# psi2arr=(0.0 0.1 0.2 0.3 0.4 0.5)
+psi2arr=(0.3)
 
 
 # python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss.py"
 # python_name_unit="Result_2jump_UD.py"
 # python_name_unit="Result_2jump_UD2.py"
-python_name_unit="Result_2jump_UD3.py"
+# python_name_unit="Result_2jump_UD_run.py"
+python_name_unit="Result_2jump_UD_run_newstruc.py"
+scheme=1
+# python_name_unit="Result_2jump_UD_run_newstruc2.py"
+# scheme=2
 # python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss_bar.py"
 
 server_name="mercury"
@@ -61,7 +65,7 @@ interp_action_name="2jump_step_0.2_0.2_0.2_LR_0.01"
 fstr_SG="NearestNDInterpolator"
 
 auto=1
-year=25
+year=26
 
 for epsilonpost in ${epsilonarraypost[@]}; do
     for hXarri in "${hXarrays[@]}"; do
@@ -69,7 +73,8 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         declare -n hXarr="$hXarri"
 
 
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]}_LR_${epsilonpost}"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]}_LR_${epsilonpost}"
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}"
 
         for PSI_0 in ${psi0arr[@]}; do
             for PSI_1 in ${psi1arr[@]}; do
@@ -90,15 +95,15 @@ for epsilonpost in ${epsilonarraypost[@]}; do
 
 
 ######## login 
-#SBATCH --job-name=graph@
-#SBATCH --output=./job-outs/${action_name}/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_PSI2_${PSI_2}/graph_${server_name}.out
-#SBATCH --error=./job-outs/${action_name}/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_PSI2_${PSI_2}/graph_${server_name}.err
+#SBATCH --job-name=${xi_a[$j]}
+#SBATCH --output=./job-outs/${action_name}/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_PSI2_${PSI_2}/graph_scheme${scheme}_${server_name}.out
+#SBATCH --error=./job-outs/${action_name}/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_PSI2_${PSI_2}/graph_scheme${scheme}_${server_name}.err
 
 #SBATCH --account=pi-lhansen
 #SBATCH --partition=standard
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G
-#SBATCH --time=0-04:00:00
+#SBATCH --time=0-06:00:00
 
 ####### load modules
 module load python/booth/3.8  gcc/9.2.0

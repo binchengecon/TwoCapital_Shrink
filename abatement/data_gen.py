@@ -42,12 +42,17 @@ theta_ell_data =np.ones_like(psi_2_m) *  theta_ell_m
 
 print(theta_ell_data.shape, psi_2_data.shape)
 
+# psi_2_data = psi_2_data.transpose()
+# theta_ell_data = theta_ell_data.transpose()
 
-theta_ell_new = theta_ell_data.ravel(order='C').transpose()
-psi_2_new = psi_2_data.ravel(order='C').transpose()
+# print(theta_ell_data.shape, psi_2_data.shape)
+
+theta_ell_new = theta_ell_data.ravel(order='F').transpose()
+psi_2_new = psi_2_data.ravel(order='F').transpose()
 
 theta_ell_new_df = pd.DataFrame(theta_ell_new)
 psi_2_new_df = pd.DataFrame(psi_2_new)
 
+# print(theta_ell_new_df[:144],theta_ell_new_df[144:288],theta_ell_new_df[288:432])
 theta_ell_new_df.to_csv('./data/model144_p.csv', sep='\t',header=None,index=None)
 psi_2_new_df.to_csv('./data/psi2value_p.csv', sep='\t',header=None,index=None)

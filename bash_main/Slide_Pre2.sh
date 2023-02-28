@@ -1,14 +1,15 @@
 #! /bin/bash
 
 actiontime=1
-epsilonarraypost=(0.008) # Computation of fine grid and psi10.8, post
+epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 # epsilonarraypre=(0.1 0.05 0.03 0.02 0.01) # Computation of fine grid and psi10.5, pre
 # epsilonarraypre=(0.0075 0.0065 0.005 0.004 0.003 0.002 0.001) # Computation of fine grid and psi10.8, pre
-epsilonarraypre=(0.005) # Computation of fine grid and psi10.8, pre
+epsilonarraypre=(0.05) # Computation of fine grid and psi10.8, pre
 
-python_name="predamage_2jump_repless2.py"
+# python_name="predamage_2jump_repless2.py"
+python_name="predamage_2jump.py"
 
-NUM_DAMAGE=10
+NUM_DAMAGE=5
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
@@ -26,10 +27,13 @@ Xmaxarr=(9.00 4.0 0.0 3.0)
 
 # xi_a=(1000. 0.0002 0.0002 0.0002 0.0002)
 # xi_p=(1000. 0.1 0.075 0.05 0.025)
-xi_a=(0.0002 0.0002 0.0002 0.0002)
-xi_p=(0.1 0.075 0.05 0.025)
+# xi_a=(0.0002 0.0002 0.0002 0.0002)
+# xi_p=(0.1 0.075 0.05 0.025)
 # xi_a=(1000.)
 # xi_p=(1000.)
+xi_a=(0.0004 0.0002 0.0001 0.00005)
+xi_p=(0.025 0.025 0.025 0.025)
+
 
 # psi0arr=(0.005 0.008 0.010 0.012)
 psi0arr=(0.005)
@@ -52,7 +56,8 @@ for epsilon in ${epsilonarraypre[@]}; do
 			count=0
 			declare -n hXarr="$hXarri"
 
-			action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_Psi01ComparisonSlide"
+			# action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_Psi01ComparisonSlide"
+			action_name="2jump_step_${hXarr[0]}_${hXarr[1]}_${hXarr[2]}_LR_${epsilonpost}_Original"
 
 			epsilonarr=(0.01 ${epsilon})
 			fractionarr=(0.1 0.005)
@@ -85,7 +90,7 @@ for epsilon in ${epsilonarraypre[@]}; do
 #SBATCH --time=7-00:00:00
 
 ####### load modules
-module load python/booth/3.8/3.8.5  gcc/9.2.0
+module load python/booth/3.8  gcc/9.2.0
 
 echo "\$SLURM_JOB_NAME"
 
@@ -93,7 +98,7 @@ echo "Program starts \$(date)"
 start_time=\$(date +%s)
 # perform a task
 
-python3 /home/bcheng4/TwoCapital_Shrink/abatement/$python_name --num_gamma $NUM_DAMAGE --xi_a ${xi_a[$j]} --xi_g ${xi_p[$j]}  --epsilonarr ${epsilonarr[@]}  --fractionarr ${fractionarr[@]}   --maxiterarr ${maxiterarr[@]}  --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name} --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]}
+python3 /home/bcheng4/TwoCapital_Shrink/abatement/$python_name --num_gamma $NUM_DAMAGE --xi_a ${xi_a[$j]} --xi_p ${xi_p[$j]}  --epsilonarr ${epsilonarr[@]}  --fractionarr ${fractionarr[@]}   --maxiterarr ${maxiterarr[@]}  --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name} --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]}
 
 echo "Program ends \$(date)"
 end_time=\$(date +%s)

@@ -14,33 +14,6 @@ import petsclinearsystem
 import time
 from datetime import datetime
 
-# def PDESolver(stateSpace, A, B_r, B_f, B_k, C_rr, C_ff, C_kk, D, v0, ε = 1, tol = -10, smartguess = False, solverType = 'False Transient'):
-
-#     if solverType == 'False Transient':
-#         A = A.reshape(-1,1,order = 'F')
-#         B = np.hstack([B_r.reshape(-1,1,order = 'F'),B_f.reshape(-1,1,order = 'F'),B_k.reshape(-1,1,order = 'F')])
-#         C = np.hstack([C_rr.reshape(-1,1,order = 'F'), C_ff.reshape(-1,1,order = 'F'), C_kk.reshape(-1,1,order = 'F')])
-#         D = D.reshape(-1,1,order = 'F')
-#         v0 = v0.reshape(-1,1,order = 'F')
-#         out = SolveLinSys.solveFT(stateSpace, A, B, C, D, v0, ε, tol)
-
-#         return out
-
-#     elif solverType == 'Feyman Kac':
-        
-#         if smartguess:
-#             iters = 1
-#         else:
-#             iters = 400000
-            
-#         A = A.reshape(-1, 1, order='F')
-#         B = np.hstack([B_r.reshape(-1, 1, order='F'), B_f.reshape(-1, 1, order='F'), B_k.reshape(-1, 1, order='F')])
-#         C = np.hstack([C_rr.reshape(-1, 1, order='F'), C_ff.reshape(-1, 1, order='F'), C_kk.reshape(-1, 1, order='F')])
-#         D = D.reshape(-1, 1, order='F')
-#         v0 = v0.reshape(-1, 1, order='F')
-#         out = SolveLinSys.solveFK(stateSpace, A, B, C, D, v0, iters)
-
-#         return out
 
 def pde_one_interation(ksp, petsc_mat, X1_mat_1d, X2_mat_1d, X3_mat_1d, lowerLims, upperLims, dVec, increVec, v0, A, B_1, B_2, B_3, C_1, C_2, C_3, D, tol, epsilon):
 
@@ -201,6 +174,7 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     D = delta * np.log(consumption) + delta * K_mat  - dG * np.sum(theta_ell * pi_c, axis=0) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_a * entropy + xi_g * np.exp((L_mat - np.log(448))) * (1 - gg + gg * np.log(gg)) + np.exp( (L_mat - np.log(448)) ) * gg * V_post_tech
 
     return A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c
+
 
 def hjb_pre_tech(
         state_grid=(), model_args=(), V_post_damage=None, 
@@ -376,5 +350,3 @@ def hjb_pre_tech(
                 "FC_Err": FC_Err,
                 }
     return res
-
-# def hjb_pre_damage_pre_tech

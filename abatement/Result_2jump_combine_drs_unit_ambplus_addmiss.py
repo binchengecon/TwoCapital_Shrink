@@ -44,7 +44,7 @@ args = parser.parse_args()
 
 
 # Update = args.Update
-IntPeriod = 25
+IntPeriod = 26
 timespan = 1/12
 
 # psi0arr = np.array([0.006,0.009])
@@ -141,6 +141,15 @@ mpl.rcParams["font.size"] = 15
 mpl.rcParams["legend.frameon"] = False
 mpl.style.use('classic')
 mpl.rcParams["lines.linewidth"] = 5
+
+
+print("After, figure default size is: ", plt.rcParams["savefig.bbox"])
+print("After, figure default size is: ", plt.rcParams["figure.figsize"])
+print("After, figure default dpi is: ", plt.rcParams["figure.dpi"])
+print("After, figure default size is: ", plt.rcParams["font.size"])
+print("After, legend.frameon is: ", plt.rcParams["legend.frameon"])
+print("After, lines.linewidth is: ", plt.rcParams["lines.linewidth"])
+
 
 def simulate_pre(
     # grid = (), model_args = (), controls = (), initial=(np.log(85/0.115), 1.1, -3.7), 
@@ -335,10 +344,12 @@ def simulate_pre(
     jt = 1 - e_hist/ (alpha * lambda_bar * np.exp(hist[:, 0]))
     jt[jt <= 1e-16] = 1e-16
     LHS = theta * vartheta_bar / lambda_bar * jt**(theta -1)
+    LHS2 = theta * vartheta_bar / (lambda_bar * np.exp(hist[:,0])) * jt**(theta -1)
     MC = delta / (alpha  - i_hist - alpha * vartheta_bar * jt**theta - x_hist)
 
     
     scc_hist = LHS * 1000
+    scc_hist2 = LHS2 * 1000
 
 
     MU_RD = dL_hist * psi_0* psi_1 * x_hist**(psi_1-1) * np.exp(psi_1*hist[:,0]-(1-psi_2)*hist[:,2])
@@ -374,6 +385,7 @@ def simulate_pre(
         # x = x_hist * np.exp(hist[:, 0]),
         x = x_hist * np.exp(hist[:, 0]),
         scc = scc_hist,
+        scc2 = scc_hist2,
         scrd = scrd_hist,
 #         scc0 = scc_0,
         gt_tech = gt_tech,
@@ -711,6 +723,30 @@ for id_xiag in range(len(xiaarr)):
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.close()
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_psi2 in range(len(psi2arr)):
+
+                res = model_solution_extraction(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
+
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"], np.log(res["scc2"]),label='baseline'.format(psi2arr[id_psi2]) ,linewidth=5.0)
+                else:
+                    plt.plot(res["years"], np.log(res["scc2"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]) ,linewidth=5.0)
+
+                plt.xlabel("Years")
+                plt.title("Log of Social Cost of Carbon")
+                if auto==0:   
+                    plt.ylim(3.0,6.5)
+                plt.xlim(0,IntPeriod)
+                plt.legend(loc='upper left')
+
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC2,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
+plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/logSCC2,xia={},xig={},psi0={},psi1={},psi2={}_v2_L.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
 
 

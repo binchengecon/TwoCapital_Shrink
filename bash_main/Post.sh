@@ -1,7 +1,7 @@
 #! /bin/bash
 
-# epsilonarray=(0.1) # 0.2
-epsilonarray=(0.05) # 0.1
+epsilonarray=(0.1) # 0.2
+# epsilonarray=(0.05) # 0.1
 # epsilonarray=(0.025) # 0.1
 # epsilonarray=(0.01) # 0.1
 # epsilonarray=(0.005) # 0.05
@@ -9,7 +9,7 @@ epsilonarray=(0.05) # 0.1
 python_name="postdamage_2jump_drs_unit_ambplus_addmiss_faster_newemission.py"
 
 # NUM_DAMAGE=4
-NUM_DAMAGE=3
+NUM_DAMAGE=4
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
@@ -20,21 +20,21 @@ declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr3=([0]=0.05 [1]=0.05 [2]=0.05)
 declare -A hXarr4=([0]=0.2 [1]=0.05 [2]=0.2)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-# hXarrays=(hXarr1)
+hXarrays=(hXarr1)
 # hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
-hXarrays=(hXarr4)
+# hXarrays=(hXarr4)
 
 # Xminarr=(4.00 0.0 -5.5 0.0)
 # Xmaxarr=(9.00 4.0 0.0 3.0)
 
-Xminarr=(4.00 0.0 1.0 0.0)
-Xmaxarr=(9.00 4.0 6.0 3.0)
+# Xminarr=(4.00 0.0 1.0 0.0)
+# Xmaxarr=(9.00 4.0 6.0 3.0)
 
 
 # enlarging logJg: doesn't seem to work
-# Xminarr=(4.00 0.0 0.0 0.0)
-# Xmaxarr=(9.00 4.0 7.0 3.0)
+Xminarr=(4.00 0.0 0.0 0.0)
+Xmaxarr=(9.00 4.0 7.0 3.0)
 
 
 # enlarging logK: not converging
@@ -67,7 +67,8 @@ for epsilon in ${epsilonarray[@]}; do
 		count=0
 		declare -n hXarr="$hXarri"
 
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}"
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]}_LR_${epsilon}_theta_ell_2"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_theta_ell_2"
 
 		epsilonarr=(0.1 ${epsilon})
 		fractionarr=(0.1 ${epsilon})
