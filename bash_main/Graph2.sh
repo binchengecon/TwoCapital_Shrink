@@ -1,8 +1,8 @@
 #! /bin/bash
 
 actiontime=1
-epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
-# epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
+# epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
+epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.005) # Computation of fine grid and psi10.8, post
 
 NUM_DAMAGE=4
@@ -11,8 +11,8 @@ declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr3=([0]=0.05 [1]=0.05 [2]=0.05)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-hXarrays=(hXarr1)
-# hXarrays=(hXarr2)
+# hXarrays=(hXarr1)
+hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 
 # Xminarr=(4.00 0.0 -5.5 0.0)
@@ -73,8 +73,9 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         declare -n hXarr="$hXarri"
 
 
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]}_LR_${epsilonpost}_backup"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]}_LR_${epsilonpost}"
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}"
 
         for PSI_0 in ${psi0arr[@]}; do
             for PSI_1 in ${psi1arr[@]}; do
