@@ -194,7 +194,7 @@ plt.close()
 
 
 dK_max = max(dK_paru.max(),dK_orig.max())
-dK_min = max(dK_paru.min(),dK_orig.min())
+dK_min = min(dK_paru.min(),dK_orig.min())
 
 for index_L in range(len(L)):
     plt.plot(K,dK_paru[:,:,index_L])
@@ -223,7 +223,7 @@ for index_L in range(len(L)):
     plt.close()
 
 ddK_max = max(ddK_paru.max(),ddK_orig.max())
-ddK_min = max(ddK_paru.min(),ddK_orig.min())
+ddK_min = min(ddK_paru.min(),ddK_orig.min())
 
 for index_L in range(len(L)):
     plt.plot(K,ddK_paru[:,:,index_L])
@@ -274,7 +274,7 @@ plt.savefig(pic_subfolder+"dY_orig_K[0].png")
 plt.close()
 
 dY_max = max(dY_paru.max(),dY_orig.max())
-dY_min = max(dY_paru.min(),dY_orig.min())
+dY_min = min(dY_paru.min(),dY_orig.min())
 
 
 for index_L in range(len(L)):
@@ -309,7 +309,7 @@ for index_L in range(len(L)):
     plt.close()
 
 ddY_max = max(ddY_paru.max(),ddY_orig.max())
-ddY_min = max(ddY_paru.min(),ddY_orig.min())
+ddY_min = min(ddY_paru.min(),ddY_orig.min())
 
 
 for index_L in range(len(L)):
