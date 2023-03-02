@@ -28,7 +28,7 @@ sys.stdout.flush()
 
 
 parser = argparse.ArgumentParser(description="xi_r values")
-parser.add_argument("--dataname",type=str, default = "2jump_step_4.00,9.00_0.0,4.0_1.0,6.0_SS_0.2,0.2,0.2_LR_0.1" )
+parser.add_argument("--dataname",type=str, default = "2jump_step_4.00,9.00_0.0,4.0_1.0,6.0_SS_0.2,0.2,0.2_LR_0.1_backup" )
 parser.add_argument("--pdfname",type=str, default= "mercury")
 
 parser.add_argument("--xiaarr",nargs='+', type=float, default=np.array((0.0002)))
@@ -131,14 +131,33 @@ grid_info = (Xminarr, Xmaxarr, hXarr)
 data_info = (dataname)
 varying_argument_extraction = (xiaarr,xigarr,psi0arr,psi1arr,psi2arr, IntPeriod, timespan)
 constant_argument_extraction = (delta, alpha, kappa, mu_k, sigma_k, beta_f, sigma_y, zeta, sigma_g, gamma_1, gamma_2, y_bar, y_bar_lower, theta, lambda_bar, vartheta_bar, lambda_bar_first, vartheta_bar_first, lambda_bar_second, vartheta_bar_second, num_gamma, gamma_3_list)
-res_tpset_paru, res_tpset_nou, res_base_paru, res_base_nou, model_tech1_pre_damage, K, Y, L, Y_short = model_extract(grid_info, data_info, varying_argument_extraction, constant_argument_extraction)
+res_tpset_paru, res_tpset_nou, res_tpset_nou_noFT, res_base_paru, res_base_nou, res_base_nou_noFT, model_tech1_pre_damage, K, Y, L, Y_short = model_extract(grid_info, data_info, varying_argument_extraction, constant_argument_extraction)
+
+
+## Checking Differences of no update noFT and partial update for post damage pre tech: 0
+for i in range(num_gamma):
+    print((res_tpset_paru[i]["v0"]-res_tpset_nou_noFT[i]["v0"]).max(),(res_tpset_paru[i]["v0"]-res_tpset_nou_noFT[i]["v0"]).min())
 
 ## Checking Differences of no update and partial update for post damage pre tech: 0
 for i in range(num_gamma):
     print((res_tpset_paru[i]["v0"]-res_tpset_nou[i]["v0"]).max(),(res_tpset_paru[i]["v0"]-res_tpset_nou[i]["v0"]).min())
 
+
+## Checking Differences of no update noFT and no update for post damage pre tech: 0
+for i in range(num_gamma):
+    print((res_tpset_nou[i]["v0"]-res_tpset_nou_noFT[i]["v0"]).max(),(res_tpset_nou[i]["v0"]-res_tpset_nou_noFT[i]["v0"]).min())
+
+
+## Checking Differences of no update noFT and partial update for pre damage pre tech: 
+print((res_base_paru["v0"]-res_base_nou_noFT["v0"]).min(),(res_base_paru["v0"]-res_base_nou_noFT["v0"]).max())
+
+
 ## Checking Differences of no update and partial update for pre damage pre tech: 
 print((res_base_paru["v0"]-res_base_nou["v0"]).min(),(res_base_paru["v0"]-res_base_nou["v0"]).max())
+
+
+## Checking Differences of no update noFT and no update for pre damage pre tech: 
+print((res_base_nou["v0"]-res_base_nou_noFT["v0"]).min(),(res_base_nou["v0"]-res_base_nou_noFT["v0"]).max())
 
 ## Checking Differences of partial update and original version for pre damage pre tech: 
 
@@ -152,6 +171,11 @@ print((res_base_paru["x_star"]-model_tech1_pre_damage["x_star"]).min(),(res_base
 dK_paru = finiteDiff_3D(res_base_paru["v0"],0,1,K[1]-K[0])
 dY_paru = finiteDiff_3D(res_base_paru["v0"],1,1,Y[1]-Y[0])
 dL_paru = finiteDiff_3D(res_base_paru["v0"],2,1,L[1]-L[0])
+
+dK_nou_noFT = finiteDiff_3D(res_base_nou_noFT["v0"],0,1,K[1]-K[0])
+dY_nou_noFT = finiteDiff_3D(res_base_nou_noFT["v0"],1,1,Y[1]-Y[0])
+dL_nou_noFT = finiteDiff_3D(res_base_nou_noFT["v0"],2,1,L[1]-L[0])
+
 
 dK_orig = finiteDiff_3D(model_tech1_pre_damage["v0"],0,1,K[1]-K[0])
 dY_orig = finiteDiff_3D(model_tech1_pre_damage["v0"],1,1,Y[1]-Y[0])
@@ -179,6 +203,16 @@ os.makedirs(pic_subfolder,exist_ok=True)
 plt.plot(K,dK_paru[:,:,-1])
 plt.savefig(pic_subfolder+"dK_paru.png")
 plt.close()
+
+plt.plot(K,dK_nou_noFT[:,:,-1])
+plt.savefig(pic_subfolder+"dK_nou_noFT.png")
+plt.close()
+
+plt.plot(K,dK_nou_noFT[:,:,10]-dK_paru[:,:,10])
+plt.savefig(pic_subfolder+"dK_nou_noFT_diff_paru_L[10].png")
+plt.close()
+
+
 
 plt.plot(K,dK_paru[:,0,-1])
 plt.savefig(pic_subfolder+"dK_paru_Y[0].png")

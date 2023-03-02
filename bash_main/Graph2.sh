@@ -28,6 +28,10 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 xi_a=(0.0004 0.0002 0.0001 0.00005)
 xi_p=(0.025 0.025 0.025 0.025)
 
+
+# xi_a=(0.0004 0.0002)
+# xi_p=(0.025 0.025)
+
 # xi_a=(0.0004 0.0002)
 # xi_p=(0.025 0.025)
 
@@ -47,7 +51,8 @@ psi2arr=(0.3)
 # python_name_unit="Result_2jump_UD.py"
 # python_name_unit="Result_2jump_UD2.py"
 # python_name_unit="Result_2jump_UD_run.py"
-python_name_unit="Result_2jump_UD_run_newstruc.py"
+# python_name_unit="Result_2jump_UD_run_newstruc.py"
+python_name_unit="Result_2jump_UD_run_newstruc_noFT.py"
 scheme=1
 # python_name_unit="Result_2jump_UD_run_newstruc2.py"
 # scheme=2
@@ -73,9 +78,11 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         declare -n hXarr="$hXarri"
 
 
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]}_LR_${epsilonpost}_backup"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]}_LR_${epsilonpost}_backup"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]}_LR_${epsilonpost}"
+
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}"
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_backup"
 
         for PSI_0 in ${psi0arr[@]}; do
             for PSI_1 in ${psi1arr[@]}; do
@@ -104,7 +111,7 @@ for epsilonpost in ${epsilonarraypost[@]}; do
 #SBATCH --partition=standard
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G
-#SBATCH --time=0-06:00:00
+#SBATCH --time=7-00:00:00
 
 ####### load modules
 module load python/booth/3.8  gcc/9.2.0

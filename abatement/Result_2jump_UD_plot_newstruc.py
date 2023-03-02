@@ -142,7 +142,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,IntPeriod)
 
                 plt.legend(loc='upper left')        
-
+print(res.keys())
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RD,xia={},xig={},psi0={},psi1={},psi2={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/RD,xia={},xig={},psi0={},psi1={},psi2={}.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
@@ -459,7 +459,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.title("Mean Difference")
                 if auto==0:   
                     plt.ylim(0,0.8)   
-                # plt.legend(loc='upper left')
+                plt.legend()
 
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/MeanDiff,xia={},xig={},psi0={},psi1={},psi2={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
@@ -487,7 +487,7 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.title("ME_total")
                     plt.xlim(0,IntPeriod)
-                    # plt.legend(loc='upper right')
+                    plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ME_total,xia={},xig={},psi0={},psi1={},psi2={}.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
@@ -512,7 +512,7 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.title("ME_total2")
                     plt.xlim(0,IntPeriod)
-                    # plt.legend(loc='upper right')
+                    plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ME_total2,xia={},xig={},psi0={},psi1={},psi2={}.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
@@ -537,7 +537,7 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.title("ME_base")
                     plt.xlim(0,IntPeriod)
-                    # plt.legend(loc='upper right')
+                    plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ME_base,xia={},xig={},psi0={},psi1={},psi2={}.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
@@ -563,7 +563,7 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.title("ME_SCC")
                     plt.xlim(0,IntPeriod)
-                    # plt.legend(loc='upper right')
+                    plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ME_SCC,xia={},xig={},psi0={},psi1={},psi2={}.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
@@ -589,7 +589,7 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.title("ME_consumption")
                     plt.xlim(0,IntPeriod)
-                    # plt.legend(loc='upper right')
+                    plt.legend(loc='upper left')
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ME_consumption,xia={},xig={},psi0={},psi1={},psi2={}.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
@@ -615,7 +615,7 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.title("ME_total_base")
                     plt.xlim(0,IntPeriod)
-                    # plt.legend(loc='upper right')
+                    plt.legend()
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ME_total_base,xia={},xig={},psi0={},psi1={},psi2={}.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
@@ -641,7 +641,7 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.title("ME_total2_base")
                     plt.xlim(0,IntPeriod)
-                    # plt.legend(loc='upper right')
+                    plt.legend()
 
 plt.savefig("./abatement/pdf_2tech/"+args.dataname+"/ME_total2_base,xia={},xig={},psi0={},psi1={},psi2={}.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
 plt.close()
