@@ -56,8 +56,12 @@ fstr_SG="NearestNDInterpolator"
 auto=1
 year=26
 
-scheme_array=("macroannual" "newway" "newway" "newway")
-HJBsolution_array=("simple" "iterative_partial" "iterative_fix" "n_iterative_fix")
+# scheme_array=("macroannual" "newway" "newway" "newway" "check")
+# HJBsolution_array=("simple" "iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
+
+scheme_array=("newway")
+HJBsolution_array=("n_iterative_fix")
+thetamean_array=("full" "temp" "carb" "RD" "tempcarb" "carbRD" "RDtemp")
 LENGTH_scheme=$((${#scheme_array[@]} - 1))
 
 
@@ -68,7 +72,8 @@ for epsilonpost in ${epsilonarraypost[@]}; do
 
 
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}"
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_clean"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_clean"
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_Corrected"
 
 		epsilonarr=(0.1 ${epsilonpost})
 		fractionarr=(0.1 ${epsilonpost})
@@ -95,7 +100,7 @@ for epsilonpost in ${epsilonarraypost[@]}; do
 
 
 ######## login 
-#SBATCH --job-name=${xi_a[$j]}
+#SBATCH --job-name=k${k}_j${j}_i${i}
 #SBATCH --output=./job-outs/${action_name}/Graph_Post/scheme_${scheme_array[$k]}_HJB_${HJBsolution_array[$k]}/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/post_${i}.out
 #SBATCH --error=./job-outs/${action_name}/Graph_Post/scheme_${scheme_array[$k]}_HJB_${HJBsolution_array[$k]}/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/post_${i}.err
 

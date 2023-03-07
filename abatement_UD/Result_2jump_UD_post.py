@@ -22,7 +22,7 @@ from scipy.sparse import csr_matrix
 from datetime import datetime
 # from solver import solver_3d
 # from src.PostSolver import hjb_post_damage_post_tech, hjb_pre_damage_post_tech
-import src.PreSolver
+import src.PreSolver_Corrected
 import src.ResultSolver
 import time
 import numpy as np
@@ -235,11 +235,14 @@ if scheme=="macroannual":
     xi_a_post = 100000.
     xi_g_post = 100000.
     xi_p_post = 100000.
-    File_Name_Suffix = "_xiapost_{}_xig_post_{}_xippost_{}".format(xi_a_post, xi_g_post, xi_p_post) + "_full_" + scheme 
-    
+    File_Name_Suffix = "_xiapost_{}_xig_post_{}_xippost_{}".format(xi_a_post, xi_g_post, xi_p_post) + "_full_" + scheme + "_" +HJB_solution
+
+    # with open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i)+File_Name_Suffix, "rb") as f:
+    #     Guess = pickle.load(f)
+
     Guess = None
     
-    res = src.PreSolver.hjb_pre_tech(
+    res = src.PreSolver_Corrected.hjb_pre_tech(
             state_grid=(K, Y, L), 
             model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, psi_2, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a_post, xi_g_post, xi_p_post),
             V_post_damage=None,
@@ -351,11 +354,40 @@ if scheme=="newway":
 
 
 
+        
+if scheme=="check":
+    
 
 
-with open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
-    Guess = pickle.load(f)
+    model_tech1_post_damage = pickle.load(open(Data_Dir + File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
+    ii = model_tech1_post_damage['i_star']
+    ee = model_tech1_post_damage['e_star']
+    xx = model_tech1_post_damage['x_star']
+    v0 = model_tech1_post_damage["v0"]
 
-# Guess = None
+    if HJB_solution=="iterative_partial":
+        
+        xi_a_post = xi_a
+        xi_g_post = xi_g
+        xi_p_post = xi_p
+        
+        n_bar = len(Y)-1
+
+        File_Name_Suffix = "_xiapost_{}_xig_post_{}_xippost_{}".format(xi_a_post, xi_g_post, xi_p_post) + "_full_" + scheme + "_" +HJB_solution
+        
+        Guess = None
+        
+        res = src.ResultSolver.hjb_pre_tech_partialupdate(
+                state_grid=(K, Y, L), 
+                model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, psi_2, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a_post, xi_g_post, xi_p_post),
+                control_fixed=(ii, ee, xx, v0),
+                n_bar = n_bar,
+                V_post_damage=None,
+                tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], 
+                smart_guess=Guess, 
+                max_iter=maxiterarr[1],
+                )
 
 
+        with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) + File_Name_Suffix, "wb") as f:
+            pickle.dump(res, f)

@@ -22,8 +22,14 @@ from scipy.sparse import csr_matrix
 from datetime import datetime
 from solver import solver_3d
 from src.PostSolver import hjb_post_damage_post_tech, hjb_pre_damage_post_tech
-from src.PreSolver import pde_one_interation
-from src.PreSolver import hjb_pre_tech
+# from src.PreSolver import pde_one_interation
+# from src.PreSolver import hjb_pre_tech
+# from src.PreSolver_RF import pde_one_interation
+# from src.PreSolver_RF import hjb_pre_tech
+# from src.PreSolver_Cobweb import pde_one_interation
+# from src.PreSolver_Cobweb import hjb_pre_tech
+from src.PreSolver_Corrected import pde_one_interation
+from src.PreSolver_Corrected import hjb_pre_tech
 import argparse
 
 reporterror = True
@@ -187,12 +193,12 @@ print("-------------------------------------------")
 print("------------Post damage, Tech II----------")
 print("-------------------------------------------")
 
-model_tech2_post_damage = pickle.load(open(Data_Dir + File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
+# model_tech2_post_damage = pickle.load(open(Data_Dir + File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
 
 
-v = model_tech2_post_damage["v"]
+# v = model_tech2_post_damage["v"]
 
-# v = None
+v = None
 
 model_args = (delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi_a, xi_b, gamma_1, gamma_2, gamma_3_i, y_bar, theta, lambda_bar_second, vartheta_bar_second)
 
@@ -210,7 +216,7 @@ for j in range(nL):
 with open(Data_Dir+ File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "wb") as f:
    pickle.dump(model_tech2_post_damage, f)
 
-model_tech2_post_damage = pickle.load(open(Data_Dir + File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
+# model_tech2_post_damage = pickle.load(open(Data_Dir + File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
 
 
 # Post damage, tech II
@@ -226,16 +232,16 @@ print("-------------------------------------------")
 
 V_post_tech2 = V_post_3D
 
-with open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
-    Guess = pickle.load(f)
+# with open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
+#     Guess = pickle.load(f)
 
-# Guess = None
+Guess = None
 
 res = hjb_pre_tech(
         state_grid=(K, Y, L), 
         model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, psi_2, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_g, xi_p),
         V_post_damage=None,
-        tol=1e-6, epsilon=epsilonarr[1], fraction=fractionarr[1], 
+        tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], 
         smart_guess=Guess, 
         max_iter=maxiterarr[1],
         )

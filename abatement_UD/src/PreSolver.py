@@ -133,6 +133,8 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
             e_new = root2
 
         e_new[e_new <= 1e-16] = 1e-16
+        
+        
         i_new = - (mc / dK - 1) / kappa
         i_new[i_new <= 1e-16] = 1e-16
         # x_new = (mc / (dL * psi_0 * psi_1) * np.exp(psi_1 * (L_mat - K_mat)) )**(1 / (psi_1 - 1))
@@ -247,7 +249,8 @@ def hjb_pre_tech(
         v0 = K_mat + L_mat - np.average(pi_c_o, axis=0) * Y_mat
 
     i_star = np.zeros(K_mat.shape)
-    e_star = np.zeros(K_mat.shape)
+    e_star = 0.01*np.ones(K_mat.shape)
+    # e_star = np.zeros(K_mat.shape)
     x_star = np.zeros(K_mat.shape)
     
     if smart_guess:
@@ -307,7 +310,7 @@ def hjb_pre_tech(
             print("petsc total: {:.3f}s".format(end_ksp - bpoint1))
             print("Epoch {:d} (PETSc): PDE Error: {:.10f}; False Transient Error: {:.10f}" .format(epoch, PDE_Err, FC_Err))
             print("Epoch time: {:.4f}".format(time.time() - start_ep))
-        elif epoch%100==0:
+        elif epoch%5==0:
             
             print("-----------------------------------")
             print("---------Epoch {}---------------".format(epoch))
@@ -327,7 +330,17 @@ def hjb_pre_tech(
 
     g_tech = np.exp(1. / xi_g * (v0 - V_post_tech))
     if model == "Pre damage":
+        
         g_damage = np.exp(1 / xi_p * (v0 - v_i))
+        
+    ME = - dX2 * np.sum(pi_c * theta_ell, axis=0) - ddX2 * sigma_y**2 * ee + dG * np.sum(theta_ell * pi_c, axis=0) +  ddG * sigma_y**2 * ee
+    jj = alpha * vartheta_bar * (1 - ee / (alpha * lambda_bar * np.exp(K_mat)))**theta
+    
+    jj[jj <= 1e-16] = 1e-16
+    consumption = alpha - ii - jj - xx
+    ME_total = delta/ consumption  * alpha * vartheta_bar * theta * (1 - ee / ( alpha * lambda_bar * np.exp(K_mat)))**(theta - 1) /( alpha * lambda_bar * np.exp(K_mat) )
+
+    print("log(ME_total/ME) = [{},{}]".format(np.min(np.log(ME_total / ME)), np.max(np.log(ME_total / ME))))
 
     res = {
             "v0"    : v0,

@@ -22,8 +22,14 @@ from scipy.sparse import csr_matrix
 from datetime import datetime
 # from solver import solver_3d
 from src.PostSolver import hjb_post_damage_post_tech, hjb_pre_damage_post_tech
-from src.PreSolver import pde_one_interation
-from src.PreSolver import hjb_pre_tech
+# from src.PreSolver import pde_one_interation
+# from src.PreSolver import hjb_pre_tech
+# from src.PreSolver_RF import pde_one_interation
+# from src.PreSolver_RF import hjb_pre_tech
+# from src.PreSolver_Cobweb import pde_one_interation
+# from src.PreSolver_Cobweb import hjb_pre_tech
+from src.PreSolver_Corrected import pde_one_interation
+from src.PreSolver_Corrected import hjb_pre_tech
 import argparse
 
 reporterror = True
@@ -186,7 +192,7 @@ for i in range(len(gamma_3_list)):
 with open(Data_Dir+ File_Name + "model_tech2_post_damage", "wb") as f:
     pickle.dump(model_tech2_post_damage, f)
 
-model_tech2_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech2_post_damage", "rb"))
+# model_tech2_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech2_post_damage", "rb"))
 print("Compiled.")
 
 # Post damage, tech I
@@ -202,7 +208,7 @@ for i in range(len(gamma_3_list)):
 with open(Data_Dir+ File_Name + "model_tech1_post_damage", "wb") as f:
     pickle.dump(model_tech1_post_damage, f)
 
-model_tech1_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage", "rb"))
+# model_tech1_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage", "rb"))
 print("Compiled.")
 
 # # delete the separate files
@@ -251,16 +257,17 @@ psi_2 = np.array([temp * np.ones(K_mat.shape) for temp in psi_2])
 ####Start of Compute############
 ################################
 
-model_tech2_pre_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech2_pre_damage", "rb"))
+# model_tech2_pre_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech2_pre_damage", "rb"))
 
-v = model_tech2_pre_damage["v"]
+# v = model_tech2_pre_damage["v"]
 
-# v = np.mean(v_i, axis=0)
+v = np.mean(v_i, axis=0)
+
 model_tech2_pre_damage = hjb_pre_damage_post_tech(
         K, Y_short, 
         model_args=(delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi_a, xi_b, xi_p, pi_d_o, v_i, gamma_1, gamma_2, theta, lambda_bar_second, vartheta_bar_second, y_bar_lower),
-        v0=None, 
-        smart_guess =model_tech2_pre_damage,
+        v0=v, 
+        smart_guess =None,
         epsilon=epsilonarr[0], 
         fraction=fractionarr[0],
         tol=1e-8, 
@@ -308,16 +315,16 @@ model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k
 ######### Start of Compute###############
 #########################################
 
-Guess = pickle.load(open(Data_Dir+ File_Name + "model_tech1_pre_damage", "rb"))
-# Guess = None
+# Guess = pickle.load(open(Data_Dir+ File_Name + "model_tech1_pre_damage", "rb"))
+Guess = None
 model_tech1_pre_damage = hjb_pre_tech(
         state_grid=(K, Y_short, L), 
         model_args=model_args, V_post_damage=v_i, 
-        tol=1e-6, epsilon=epsilonarr[1], fraction=fractionarr[1], max_iter=maxiterarr[1],
+        tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], max_iter=maxiterarr[1],
         v0=np.mean(v_i, axis=0),
         smart_guess=Guess,
         )
 
-# with open(Data_Dir+ File_Name + "model_tech1_pre_damage", "wb") as f:
-#     pickle.dump(model_tech1_pre_damage, f)
+with open(Data_Dir+ File_Name + "model_tech1_pre_damage", "wb") as f:
+    pickle.dump(model_tech1_pre_damage, f)
 

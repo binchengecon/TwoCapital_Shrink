@@ -1,16 +1,22 @@
 #! /bin/bash
 
-epsilonarray=(0.1) # 0.2
+# epsilonarray=(0.1) # 0.2
 # epsilonarray=(0.05) # 0.1
+epsilonarray=(0.01) # 0.1
 
-python_name="postdamage_2jump.py"
+# python_name="postdamage_2jump.py" # 4 dmg
+python_name="postdamage_2jump_RF.py" # 3 dmg
+# python_name="postdamage_2jump_Cobweb.py"  # 3 dmg
+
 # python_name="postdamage_2jump_check.py"
 
-NUM_DAMAGE=4
+# NUM_DAMAGE=4
+NUM_DAMAGE=3
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
 maxiterarr=(80000 200000)
+# maxiterarr=(10 10)
 
 declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
@@ -46,8 +52,18 @@ for epsilon in ${epsilonarray[@]}; do
 		count=0
 		declare -n hXarr="$hXarri"
 
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]}_LR_${epsilon}_clean"
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_clean"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_Corrected"
+
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_RF"
+		
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_Cobweb"
+
+		
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_RF_enew_enter_ix"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_Cobweb_TighterE"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_Cobweb_TighterE_correct_pi_c"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_Cobweb_Test"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_clean"
 
 		epsilonarr=(0.1 ${epsilon})
 		fractionarr=(0.1 ${epsilon})
@@ -80,7 +96,7 @@ for epsilon in ${epsilonarray[@]}; do
 #SBATCH --cpus-per-task=5
 #SBATCH --mem=10G
 #SBATCH --time=7-00:00:00
-#SBATCH --exclude=mcn53
+#SBATCH --exclude=mcn53,mcn51
 
 ####### load modules
 module load python/booth/3.8  gcc/9.2.0

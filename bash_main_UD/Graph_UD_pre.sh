@@ -56,10 +56,18 @@ interp_action_name="2jump_step_0.2_0.2_0.2_LR_0.01"
 fstr_SG="NearestNDInterpolator"
 
 auto=1
-year=26
+year=25
 
-scheme_array=("macroannual" "newway" "newway" "newway")
-HJBsolution_array=("simple" "iterative_partial" "iterative_fix" "n_iterative_fix")
+# scheme_array=("macroannual" "newway" "newway" "newway" "check")
+# HJBsolution_array=("simple" "iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
+# scheme_array=("newway" "newway" "newway" "check")
+# HJBsolution_array=("iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
+# scheme_array=("check")
+# HJBsolution_array=("iterative_partial")
+
+scheme_array=("macroannual")
+HJBsolution_array=("simple")
+
 LENGTH_scheme=$((${#scheme_array[@]} - 1))
 
 for epsilon in ${epsilonarraypre[@]}; do
@@ -70,7 +78,7 @@ for epsilonpost in ${epsilonarraypost[@]}; do
 
 
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}"
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_clean"
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_Corrected"
 
 		epsilonarr=(0.1 ${epsilon})
 		fractionarr=(0.1 ${epsilon})
@@ -96,7 +104,7 @@ for epsilonpost in ${epsilonarraypost[@]}; do
 
 
 ######## login 
-#SBATCH --job-name=j${j}_k${k}
+#SBATCH --job-name=k${k}_j${j}
 #SBATCH --output=./job-outs/${action_name}/Graph_Pre/scheme_${scheme_array[$k]}_HJB_${HJBsolution_array[$k]}/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/pre_${epsilon}.out
 #SBATCH --error=./job-outs/${action_name}/Graph_Pre/scheme_${scheme_array[$k]}_HJB_${HJBsolution_array[$k]}/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/pre_${epsilon}.err
 

@@ -130,7 +130,7 @@ Y_max_short = Xmaxarr[3]
 Y_short     = np.arange(Y_min_short, Y_max_short + hY, hY)
 nY_short    = len(Y_short)
 
-n_bar1 = np.abs(Y - y_bar).argmin()
+n_bar1 = len(Y_short)-1
 n_bar2 = np.abs(Y_short - y_bar).argmin()
 
 
@@ -434,35 +434,62 @@ def model_simulation_generate(xi_a,xi_g,psi_0,psi_1,psi_2):
     File_Dir = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_" .format(xi_a,xi_g,psi_0,psi_1)
     
 
-    with open(Data_Dir + File_Dir+"model_tech1_pre_damage", "rb") as f:
-        tech1 = pickle.load(f)
-    
-    
-    v = tech1["v0"]
-    i = tech1["i_star"]
-    e = tech1["e_star"]
-    x = tech1["x_star"]
-    pi_c = tech1["pi_c"]
-    g_tech = tech1["g_tech"]
-    g_damage =  tech1["g_damage"]
 
-
-    xi_a_pre = 100000.
-    xi_g_pre = 100000.
-    xi_p_pre = 100000.
     if scheme == "macroannual":
-        File_Name_Suffix_pre = "_xiapre_{}_xig_pre_{}_xippre_{}".format(xi_a_pre, xi_g_pre, xi_p_pre) + "_full_" + scheme 
-    elif scheme == "newway":
+        xi_a_pre = 100000.
+        xi_g_pre = 100000.
+        xi_p_pre = 100000.
         File_Name_Suffix_pre = "_xiapre_{}_xig_pre_{}_xippre_{}".format(xi_a_pre, xi_g_pre, xi_p_pre) + "_full_" + scheme + "_" +HJB_solution
-        
+        n_bar = n_bar2
+    elif scheme == "newway":
+        xi_a_pre = 100000.
+        xi_g_pre = 100000.
+        xi_p_pre = 100000.
+        File_Name_Suffix_pre = "_xiapre_{}_xig_pre_{}_xippre_{}".format(xi_a_pre, xi_g_pre, xi_p_pre) + "_full_" + scheme + "_" +HJB_solution
+        n_bar = n_bar2
+    elif scheme == "check":
+        xi_a_pre = xi_a
+        xi_g_pre = xi_g
+        xi_p_pre = xi_g
+        File_Name_Suffix_pre = "_xiapre_{}_xig_pre_{}_xippre_{}".format(xi_a_pre, xi_g_pre, xi_p_pre) + "_full_" + scheme + "_" +HJB_solution
+        n_bar = n_bar1
+    
     with open(Data_Dir+ File_Dir + "model_tech1_pre_damage"+File_Name_Suffix_pre, "rb") as f:
         model_tech1_pre_damage_ME_base = pickle.load(f)
 
     ME_base = model_tech1_pre_damage_ME_base["ME"]
 
 
+    v = model_tech1_pre_damage_ME_base["v0"]
+    i = model_tech1_pre_damage_ME_base["i_star"]
+    e = model_tech1_pre_damage_ME_base["e_star"]
+    x = model_tech1_pre_damage_ME_base["x_star"]
+    pi_c = model_tech1_pre_damage_ME_base["pi_c"]
+    g_tech = model_tech1_pre_damage_ME_base["g_tech"]
+    g_damage =  model_tech1_pre_damage_ME_base["g_damage"]
 
 
+
+    with open(Data_Dir + File_Dir+"model_tech1_pre_damage", "rb") as f:
+        tech1 = pickle.load(f)
+    
+    
+    v_orig = tech1["v0"][:,:n_bar+1,:]
+    i_orig = tech1["i_star"][:,:n_bar+1,:]
+    e_orig = tech1["e_star"][:,:n_bar+1,:]
+    x_orig = tech1["x_star"][:,:n_bar+1,:]
+    pi_c_orig = tech1["pi_c"][:,:,:n_bar+1,:]
+    g_tech_orig = tech1["g_tech"][:,:n_bar+1,:]
+    g_damage_orig =  tech1["g_damage"][:,:,:n_bar+1,:]
+
+
+
+    print("--------------Control Check Start--------------")
+    print("Diff_i={}".format(np.max(abs(i-i_orig))))
+    print("Diff_e={}".format(np.max(abs(e-e_orig))))
+    print("Diff_x={}".format(np.max(abs(x-x_orig))))
+    print("--------------Control Check End--------------")
+    
     ME_family = ME_base
 
     
@@ -472,7 +499,7 @@ def model_simulation_generate(xi_a,xi_g,psi_0,psi_1,psi_2):
                        model_args = model_args, 
                        controls = (i,e,x, g_tech, g_damage, pi_c, v),
                        ME = ME_family,
-                       n_bar = n_bar2,  
+                       n_bar = n_bar,  
                        T0=0, 
                        T=IntPeriod, 
                        dt=timespan,printing=True)

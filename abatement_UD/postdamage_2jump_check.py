@@ -20,14 +20,24 @@ from scipy.sparse import spdiags
 from scipy.sparse import coo_matrix
 from scipy.sparse import csr_matrix
 from datetime import datetime
+from solver import solver_3d
 from src.PostSolver import hjb_post_damage_post_tech, hjb_pre_damage_post_tech
-from src.PreSolver import pde_one_interation
-from src.PreSolver import hjb_pre_tech
+# from src.PreSolver import pde_one_interation
+# from src.PreSolver import hjb_pre_tech
+# from src.PreSolver_RF import pde_one_interation
+# from src.PreSolver_RF import hjb_pre_tech
+from src.PreSolver_Cobweb_Test import pde_one_interation
+from src.PreSolver_Cobweb_Test import hjb_pre_tech
 import argparse
 
 reporterror = True
-
-
+# Linear solver choices
+# Chosse among petsc, petsc4py, eigen, both
+# petsc: matrix assembled in C
+# petsc4py: matrix assembled in Python
+# eigen: matrix assembled in C++
+# both: petsc+petsc4py
+#
 now = datetime.now()
 current_time = now.strftime("%d-%H:%M")
 
@@ -181,14 +191,20 @@ print("-------------------------------------------")
 print("------------Post damage, Tech II----------")
 print("-------------------------------------------")
 
+model_tech2_post_damage = pickle.load(open(Data_Dir + File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
+
+
+v = model_tech2_post_damage["v"]
+
+# v = None
+
 model_args = (delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi_a, xi_b, gamma_1, gamma_2, gamma_3_i, y_bar, theta, lambda_bar_second, vartheta_bar_second)
 
 model_tech2_post_damage = hjb_post_damage_post_tech(
-        K, Y, model_args, v0=None,
+        K, Y, model_args, v0=v,
        epsilon=epsilonarr[0], fraction=fractionarr[0] ,tol=1e-8, max_iter=maxiterarr[0], print_iteration=True)
 
 
-# model_tech2_post_damage = pickle.load(open(Data_Dir + File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
 
 v_post = model_tech2_post_damage["v"]
 V_post_3D = np.zeros_like(K_mat)
@@ -198,7 +214,7 @@ for j in range(nL):
 with open(Data_Dir+ File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "wb") as f:
    pickle.dump(model_tech2_post_damage, f)
 
-model_tech2_post_damage = pickle.load(open(Data_Dir + File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
+# model_tech2_post_damage = pickle.load(open(Data_Dir + File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
 
 
 # Post damage, tech II
@@ -214,10 +230,10 @@ print("-------------------------------------------")
 
 V_post_tech2 = V_post_3D
 
-# with open(Data_Dir+ File_Name + + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
-#     Guess = pickle.load(f)
+with open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
+    Guess = pickle.load(f)
 
-Guess = None
+# Guess = None
 
 res = hjb_pre_tech(
         state_grid=(K, Y, L), 
@@ -229,6 +245,6 @@ res = hjb_pre_tech(
         )
 
 
-with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "wb") as f:
-    pickle.dump(res, f)
+# with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "wb") as f:
+#     pickle.dump(res, f)
 
