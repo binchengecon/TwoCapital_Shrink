@@ -105,6 +105,15 @@ vartheta_bar_first = vartheta_bar / 2.
 lambda_bar_second = 1e-3
 vartheta_bar_second = 0.
 
+
+# print(plt.rcParamsDefault)
+# print("Before, figure default size is: ", plt.rcParams["figure.figsize"])
+# print("Before, figure default dpi is: ", plt.rcParams["figure.dpi"])
+# print("Before, figure default size is: ", plt.rcParams["font.size"])
+# print("Before, legend.frameon is: ", plt.rcParams["legend.frameon"])
+# print("Before, lines.linewidth is: ", plt.rcParams["lines.linewidth"])
+
+
 plt.rcParams["savefig.bbox"] = "tight"
 plt.rcParams["figure.figsize"] = (16,10)
 plt.rcParams["figure.dpi"] = 500
@@ -588,27 +597,192 @@ plt.savefig(Plot_Dir+"/ME_total_base,xia={},xig={},psi0={},psi1={},psi2={}.png".
 plt.close()
 
 
-# for id_xiag in range(len(xiaarr)): 
-#     for id_psi0 in range(len(psi0arr)):
-#         for id_psi1 in range(len(psi1arr)):
-#             for id_psi2 in range(len(psi2arr)):
-#                     grid_info = (Xminarr, Xmaxarr, hXarr)
-#                     data_info = (dataname)
-#                     varying_argument_extraction = (xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2], IntPeriod, timespan)
-#                     constant_argument_extraction = (delta, alpha, kappa, mu_k, sigma_k, beta_f, sigma_y, zeta, sigma_g, gamma_1, gamma_2, y_bar, y_bar_lower, theta, lambda_bar, vartheta_bar, lambda_bar_first, vartheta_bar_first, lambda_bar_second, vartheta_bar_second, num_gamma, gamma_3_list)
-#                     res = model_simulation_graph(grid_info, data_info, varying_argument_extraction, constant_argument_extraction)
 
-#                     if xigarr[id_xiag]>10:
 
-#                         plt.plot(res["years"], res["ME_total2_base"],label='baseline'.format(psi2arr[id_psi2]))
-#                     else:
-#                         plt.plot(res["years"], res["ME_total2_base"],label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
-                        
-#                     plt.xlabel("Years")
+plt.rcParams.update(plt.rcParamsDefault)
 
-#                     plt.title("ME_total2_base")
-#                     plt.xlim(0,IntPeriod)
-#                     plt.legend()
 
-# plt.savefig(Plot_Dir+"/ME_total2_base,xia={},xig={},psi0={},psi1={},psi2={}.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
-# plt.close()
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_psi2 in range(len(psi2arr)):
+                
+                res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
+
+                # theta_ell_new = res["theta_ell_new"][:,-1]
+                # histogram of beta_f
+                theta_ell = pd.read_csv("./data/model144_p.csv", header=None).to_numpy()[:, 0]
+                # print("theta_ell")
+                # print(theta_ell)
+                # print("theta_ell_new")
+                # print(theta_ell_new)
+                pi_c_o = np.ones(len(theta_ell)) / len(theta_ell)
+                # pi_c = np.load("πc_5.npy")
+                time = 1/timespan
+                pi_c = res["pic_t"][:, int(time)]
+
+
+                # plt.figure(figsize=(16,10))
+
+                print("mean of uncondition = {}" .format(np.average(theta_ell,weights = pi_c_o)))
+                print("mean of condition = {}" .format(np.average(theta_ell,weights = pi_c)))
+                    
+                plt.hist(theta_ell, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
+                        alpha=0.5, ec="darkgrey", color="C3",label='baseline'.format(psi2arr[id_psi2]))
+                plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
+                        alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]))
+                plt.legend(loc='upper left')
+                plt.title("Distorted probability of Climate Models")
+
+                plt.ylim(0, 1.4)
+                plt.xlabel("Climate Sensitivity")
+                
+                plt.savefig(Plot_Dir+"/ClimateSensitivity_0,xia={:.5f},xig={:.3f},psi0={:.3f},psi1={:.3f},psi2={:.1f}.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2]))
+                plt.close()
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_psi2 in range(len(psi2arr)):
+                
+                res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
+
+                # theta_ell_new = res["theta_ell_new"][:,-1]
+                # histogram of beta_f
+                psi_2 = pd.read_csv("./data/psi2value_p.csv", header=None).to_numpy()[:, 0]
+                # print("theta_ell")
+                # print(theta_ell)
+                # print("theta_ell_new")
+                # print(theta_ell_new)
+                pi_c_o = np.ones(len(psi_2)) / len(psi_2)
+                # pi_c = np.load("πc_5.npy")
+                time = 1/timespan
+                pi_c = res["pic_t"][:, int(time)]
+
+
+                # plt.figure(figsize=(16,10))
+
+                print("mean of uncondition = {}" .format(np.average(psi_2,weights = pi_c_o)))
+                print("mean of condition = {}" .format(np.average(psi_2,weights = pi_c)))
+                    
+                # plt.hist(psi_2, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
+                plt.hist(psi_2, weights=pi_c_o, density=True, 
+                        alpha=0.5, ec="darkgrey", color="C3",label='baseline'.format(psi2arr[id_psi2]))
+                # plt.hist(psi_2, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
+                plt.hist(psi_2, weights=pi_c, density=True, 
+                        alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]))
+                plt.legend(loc='upper left')
+                plt.title("Distorted probability of R&D Parameters")
+
+                plt.ylim(0, 24)
+                plt.xlabel("R&D Parameter Sensitivity")
+                
+                plt.savefig(Plot_Dir+"/DRSSensitivity_0,xia={:.5f},xig={:.3f},psi0={:.3f},psi1={:.3f},psi2={:.1f}.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2]))
+                plt.close()
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_psi2 in range(len(psi2arr)):
+                
+                res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
+
+                # theta_ell_new = res["theta_ell_new"][:,-1]
+                # histogram of beta_f
+                theta_ell = pd.read_csv("./data/model144_p.csv", header=None).to_numpy()[:, 0]
+                # print("theta_ell")
+                # print(theta_ell)
+                # print("theta_ell_new")
+                # print(theta_ell_new)
+                pi_c_o = np.ones(len(theta_ell)) / len(theta_ell)
+                # pi_c = np.load("πc_5.npy")
+                time = 1/timespan
+                pi_c = res["pic_t"][:, -1]
+
+                # plt.figure(figsize=(16,10))
+
+                print("mean of uncondition = {}" .format(np.average(theta_ell,weights = pi_c_o)))
+                print("mean of condition = {}" .format(np.average(theta_ell,weights = pi_c)))
+                    
+                plt.hist(theta_ell, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
+                        alpha=0.5, ec="darkgrey", color="C3",label='baseline'.format(psi2arr[id_psi2]))
+                plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
+                        alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]))
+                plt.legend(loc='upper left')
+                plt.title("Distorted probability of Climate Models")
+
+                plt.ylim(0, 1.4)
+                plt.xlabel("Climate Sensitivity")
+                
+                plt.savefig(Plot_Dir+"/ClimateSensitivity_25,xia={:.5f},xig={:.3f},psi0={:.3f},psi1={:.3f},psi2={:.1f}.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2]))
+                plt.close()
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_psi2 in range(len(psi2arr)):
+                
+                res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
+
+                # theta_ell_new = res["theta_ell_new"][:,-1]
+                # histogram of beta_f
+                psi_2 = pd.read_csv("./data/psi2value_p.csv", header=None).to_numpy()[:, 0]
+                # print("theta_ell")
+                # print(theta_ell)
+                # print("theta_ell_new")
+                # print(theta_ell_new)
+                pi_c_o = np.ones(len(psi_2)) / len(psi_2)
+                # pi_c = np.load("πc_5.npy")
+                time = 1/timespan
+                pi_c = res["pic_t"][:, -1]
+
+                # plt.figure(figsize=(16,10))
+
+                print("mean of uncondition = {}" .format(np.average(psi_2,weights = pi_c_o)))
+                print("mean of condition = {}" .format(np.average(psi_2,weights = pi_c)))
+                    
+                # plt.hist(psi_2, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
+                plt.hist(psi_2, weights=pi_c_o, density=True, 
+                        alpha=0.5, ec="darkgrey", color="C3",label='baseline'.format(psi2arr[id_psi2]))
+                # plt.hist(psi_2, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
+                plt.hist(psi_2, weights=pi_c, density=True, 
+                        alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]))
+                plt.legend(loc='upper left')
+                plt.title("Distorted probability of R&D Parameters")
+
+                plt.ylim(0, 24)
+                plt.xlabel("R&D Parameter Sensitivity")
+                
+                plt.savefig(Plot_Dir+"/DRSSensitivity_25,xia={:.5f},xig={:.3f},psi0={:.3f},psi1={:.3f},psi2={:.1f}.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2]))
+                plt.close()
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_psi2 in range(len(psi2arr)):
+                
+                res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2])
+
+                NUM_DAMAGE = res["gt_dmg"].shape[0]
+                gamma_3_list = np.linspace(0., 1./3., NUM_DAMAGE)
+
+                # γ3_distort = np.load("γ3_5.npy")
+
+                γ3_distort = res["gt_dmg"][:, -1] 
+                # plt.figure(figsize=(16,10))
+                plt.hist(gamma_3_list, weights=np.ones(len(gamma_3_list)) / len(gamma_3_list), 
+                        alpha=0.5, color="C3", ec="darkgray",label='baseline'.format(psi2arr[id_psi2]))
+                plt.hist(gamma_3_list, weights= γ3_distort / np.sum(γ3_distort), 
+                        alpha=0.5, color="C0", ec="darkgray",label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]))
+                plt.ylim(0, 0.3)
+                plt.title("Distorted probability of Damage Models")
+                plt.xlabel("Damage Curvature")
+                plt.legend(loc='upper left')
+
+                    
+                plt.savefig(Plot_Dir+"/Gamma3,xia={:.5f},xig={:.3f},psi0={:.3f},psi1={:.3f},psi2={:.1f}.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2]))
+                plt.close()
+

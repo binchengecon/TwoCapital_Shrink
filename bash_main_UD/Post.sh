@@ -40,7 +40,10 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 
 
 xi_a=(0.01 0.01 0.01 0.01 0.005 0.005 0.005 0.005 0.0025 0.0010 0.0005)
-xi_p=(0.5 0.25 0.1 0.050 0.5 0.25 0.1 0.050 1 1 1 1)
+xi_p=(0.5 0.25 0.1 0.050 0.5 0.25 0.1 0.050 1 1 1)
+
+# xi_a=(0.0005)
+# xi_p=(1)
 
 
 psi0arr=(0.105830)
@@ -70,6 +73,7 @@ for epsilon in ${epsilonarray[@]}; do
 
 		
 		epsilonarr=(0.1 ${epsilon})
+		# epsilonarr=(0.1 0.01)
 		fractionarr=(0.1 ${epsilon})
 
 		for i in $(seq 0 $ID_MAX_DAMAGE); do
