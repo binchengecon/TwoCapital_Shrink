@@ -598,7 +598,6 @@ plt.close()
 
 
 
-plt.rcParams.update(plt.rcParamsDefault)
 
 plt.style.use('default')
 plt.rcParams["savefig.bbox"] = "tight"
