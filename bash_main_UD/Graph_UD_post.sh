@@ -29,8 +29,11 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_a=(0.0004 0.0002 0.0001 0.00005)
 # xi_p=(0.025 0.025 0.025 0.025)
 
-xi_a=(0.01 0.005)
-xi_p=(1 1)
+# xi_a=(0.01 0.005)
+# xi_p=(1 1)
+
+xi_a=(0.01 0.01 0.01 0.01 0.005 0.005 0.005 0.005 0.0025 0.0010 0.0005)
+xi_p=(0.5 0.25 0.1 0.050 0.5 0.25 0.1 0.050 1 1 1)
 
 
 psi0arr=(0.105830)
@@ -59,11 +62,11 @@ fstr_SG="NearestNDInterpolator"
 auto=1
 year=25
 
-# scheme_array=("macroannual" "newway" "newway" "newway" "check")
-# HJBsolution_array=("simple" "iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
+scheme_array=("macroannual" "newway" "newway" "newway" "check")
+HJBsolution_array=("simple" "iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
 
-scheme_array=("newway" "newway" "newway" "check")
-HJBsolution_array=("iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
+# scheme_array=("newway" "newway" "newway" "check")
+# HJBsolution_array=("iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
 
 # scheme_array=("macroannual")
 # HJBsolution_array=("simple")
