@@ -35,8 +35,13 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_a=(0.0004 0.0002 0.0001 0.00005)
 # xi_p=(0.025 0.025 0.025 0.025)
 
-xi_a=(0.01 0.005)
-xi_p=(1 1)
+# xi_a=(0.01 0.005)
+# xi_p=(1 1)
+
+
+xi_a=(0.01 0.01 0.01 0.01 0.005 0.005 0.005 0.005 0.0025 0.0010 0.0005)
+xi_p=(0.5 0.25 0.1 0.050 0.5 0.25 0.1 0.050 1 1 1 1)
+
 
 psi0arr=(0.105830)
 psi1arr=(0.5)
@@ -86,7 +91,7 @@ for epsilon in ${epsilonarray[@]}; do
 #! /bin/bash
 
 ######## login
-#SBATCH --job-name=${xi_p[$j]}_$i
+#SBATCH --job-name=${xi_a[$j]}_${xi_p[$j]}_$i
 #SBATCH --output=./job-outs/${action_name}/Post/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_post_$i.out
 #SBATCH --error=./job-outs/${action_name}/Post/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_post_$i.err
 
