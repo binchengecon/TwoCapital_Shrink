@@ -113,12 +113,11 @@ vartheta_bar_second = 0.
 # print("Before, legend.frameon is: ", plt.rcParams["legend.frameon"])
 # print("Before, lines.linewidth is: ", plt.rcParams["lines.linewidth"])
 
-
-plt.rcParams["savefig.bbox"] = "tight"
-plt.rcParams["figure.figsize"] = (16,10)
-plt.rcParams["figure.dpi"] = 500
-plt.rcParams["font.size"] = 15
 plt.style.use('classic')
+plt.rcParams["savefig.bbox"] = "tight"
+plt.rcParams["figure.figsize"] = (10,8)
+plt.rcParams["figure.dpi"] = 500
+plt.rcParams["font.size"] = 12
 plt.rcParams["legend.frameon"] = True
 plt.rcParams["lines.linewidth"] = 5
 
@@ -602,9 +601,9 @@ plt.close()
 plt.rcParams.update(plt.rcParamsDefault)
 
 plt.style.use('default')
-plt.rcParams["savefig.bbox"] = "standard"
-plt.rcParams["figure.figsize"] = (8,6)
-plt.rcParams["figure.dpi"] = 80
+plt.rcParams["savefig.bbox"] = "tight"
+plt.rcParams["figure.figsize"] = (10,8)
+plt.rcParams["figure.dpi"] = 500
 plt.rcParams["font.size"] = 12
 plt.rcParams["legend.frameon"] = True
 plt.rcParams["lines.linewidth"] = 5
