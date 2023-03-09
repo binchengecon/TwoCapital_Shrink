@@ -225,14 +225,17 @@ def hjb_pre_tech_partialupdate(
     ii = ii[:,:n_bar+1,:]
     ee = ee[:,:n_bar+1,:]
     xx = xx[:,:n_bar+1,:]
-    v0 = v0[:,:n_bar+1,:]
-    
-    V_post_tech = V_post_tech[:,:n_bar+1,:]
-    
-    if V_post_damage is not None:
-        V_post_damage = V_post_damage[:,:,:n_bar+1,:]
+    v0 = v0[:,:n_bar+1,:] #maybe try new v0 guess
 
     
+    
+    V_post_tech = V_post_tech[:,:n_bar+1,:]
+
+    if V_post_damage is not None:
+        V_post_damage = V_post_damage[:,:,:n_bar+1,:]
+        
+
+
     K_min, K_max, Y_min, Y_max, L_min, L_max = K.min(), K.max(), Y.min(), Y.max(), L.min(), L.max()
     hK, hY, hL = K[1] - K[0], Y[1] - Y[0], L[1]-L[0]
     nK, nY, nL = len(K), len(Y), len(L)
@@ -242,6 +245,9 @@ def hjb_pre_tech_partialupdate(
 
     (K_mat, Y_mat, L_mat) = np.meshgrid(K, Y, L, indexing = 'ij')
     
+
+    # v0 = np.zeros(v0.shape)
+    # v0 = K_mat + L_mat - Y_mat
     
     pi_c_o = np.ones(len(theta_ell)) / len(theta_ell)
     pi_c = np.ones(len(theta_ell)) / len(theta_ell)
@@ -274,6 +280,9 @@ def hjb_pre_tech_partialupdate(
         v_i = V_post_damage
         dG  = gamma_1 + gamma_2 * Y_mat
         ddG = gamma_2 
+        
+        # print(V_post_damage.shape)
+        # v0 = np.mean(V_post_damage,axis=0)
     else:
         model = "Post damage"
         dG  = gamma_1 + gamma_2 * Y_mat + gamma_3 * (Y_mat - y_bar) * (Y_mat > y_bar)
@@ -326,10 +335,10 @@ def hjb_pre_tech_partialupdate(
         FC_Err = np.max(abs((out_comp - v0)/ epsilon))
         
         if FC_Err < 2*tol:
-            print("---------Epoch {:d}: False Transient Error: {:.10f}; Time: {:.4f}---------------".format(epoch, FC_Err, time.time() - start_func), flush=True)
+            print("---------Epoch {:d}: PDE Error: {:.10f}; False Transient Error: {:.10f}; Time: {:.4f}---------------".format(epoch, PDE_Err, FC_Err, time.time() - start_func), flush=True)
             # print("---------Control_ii: [{},\t{}]".format(ii.min(), ii.max()), flush=True)
-        elif epoch%100==0:
-            print("---------Epoch {:d}: False Transient Error: {:.10f}; Time: {:.4f}---------------".format(epoch, FC_Err, time.time() - start_func), flush=True)
+        elif epoch%5==0:
+            print("---------Epoch {:d}: PDE Error: {:.10f}; False Transient Error: {:.10f}; Time: {:.4f}---------------".format(epoch, PDE_Err, FC_Err, time.time() - start_func), flush=True)
             # print("---------Control_ii: [{},\t{}]".format(ii.min(), ii.max()), flush=True)
             
         v0     = out_comp
@@ -342,19 +351,23 @@ def hjb_pre_tech_partialupdate(
     x_star = xx
     
     g_tech = np.exp(1. / xi_g * (v0 - V_post_tech))
+    
+    ME = - dY * np.sum(pi_c * theta_ell, axis=0) - ddY * sigma_y**2 * ee + dG * np.sum(theta_ell * pi_c, axis=0) +  ddG * sigma_y**2 * ee
+    jj = alpha * vartheta_bar * (1 - ee / (alpha * lambda_bar * np.exp(K_mat)))**theta
+    
+    jj[jj <= 1e-16] = 1e-16
+    consumption = alpha - ii - jj - xx
+    ME_total = delta/ consumption  * alpha * vartheta_bar * theta * (1 - ee / ( alpha * lambda_bar * np.exp(K_mat)))**(theta - 1) /( alpha * lambda_bar * np.exp(K_mat) )
+
+    print("log(ME_total/ME) = [{},{}]".format(np.min(np.log(ME_total / ME)), np.max(np.log(ME_total / ME))))
+        
     if model == "Pre damage":
         g_damage = np.exp(1 / xi_p * (v0 - v_i))
-        ME = - dY * np.sum(pi_c * theta_ell, axis=0) - ddY * sigma_y**2 * ee + dG * np.sum(theta_ell * pi_c, axis=0) +  ddG * sigma_y**2 * ee
-        jj = alpha * vartheta_bar * (1 - ee / (alpha * lambda_bar * np.exp(K_mat)))**theta
-        
-        jj[jj <= 1e-16] = 1e-16
-        consumption = alpha - ii - jj - xx
-        ME_total = delta/ consumption  * alpha * vartheta_bar * theta * (1 - ee / ( alpha * lambda_bar * np.exp(K_mat)))**(theta - 1) /( alpha * lambda_bar * np.exp(K_mat) )
 
-        print("log(ME_total/ME) = [{},{}]".format(np.min(np.log(ME_total / ME)), np.max(np.log(ME_total / ME))))
         print("---------pi_c=[{:.5f},{:.5f}], g_tech=[{:.5f},{:.5f}], g_damage=[{:.5f},{:.5f}]---------------".format(pi_c.min(), pi_c.max(), g_tech.min(), g_tech.max(), g_damage.min(), g_damage.max()), flush=True)
     else:
         print("---------pi_c=[{:.5f},{:.5f}], g_tech=[{:.5f},{:.5f}]---------------".format(pi_c.min(), pi_c.max(), g_tech.min(), g_tech.max()), flush=True)
+
 
     res = {
             "v0"    : v0,
@@ -362,6 +375,7 @@ def hjb_pre_tech_partialupdate(
             "e_star": e_star,
             "x_star": x_star,
             "pi_c"  : pi_c,
+            "ME"    : ME,
             "g_tech": g_tech,
             "FC_Err": FC_Err,
             }
@@ -411,7 +425,6 @@ def hjb_pre_tech_noupdate(
     if V_post_damage is not None:
         V_post_damage = V_post_damage[:,:,:n_bar+1,:]
 
-    
     K_min, K_max, Y_min, Y_max, L_min, L_max = K.min(), K.max(), Y.min(), Y.max(), L.min(), L.max()
     hK, hY, hL = K[1] - K[0], Y[1] - Y[0], L[1]-L[0]
     nK, nY, nL = len(K), len(Y), len(L)
@@ -453,6 +466,9 @@ def hjb_pre_tech_noupdate(
         v_i = V_post_damage
         dG  = gamma_1 + gamma_2 * Y_mat
         ddG = gamma_2 
+        # print(V_post_damage.shape)
+        # v0 = np.mean(V_post_damage,axis=0)
+
     else:
         model = "Post damage"
         dG  = gamma_1 + gamma_2 * Y_mat + gamma_3 * (Y_mat - y_bar) * (Y_mat > y_bar)
@@ -506,10 +522,10 @@ def hjb_pre_tech_noupdate(
         FC_Err = np.max(abs((out_comp - v0)/ epsilon))
         
         if FC_Err < 2*tol:
-            print("---------Epoch {:d}: False Transient Error: {:.10f}; Time: {:.4f}---------------".format(epoch, FC_Err, time.time() - start_func), flush=True)
+            print("---------Epoch {:d}: PDE Error: {:.10f}; False Transient Error: {:.10f}; Time: {:.4f}---------------".format(epoch, PDE_Err, FC_Err, time.time() - start_func), flush=True)
             # print("---------Control_ii: [{},\t{}]".format(ii.min(), ii.max()), flush=True)
-        elif epoch%100==0:
-            print("---------Epoch {:d}: False Transient Error: {:.10f}; Time: {:.4f}---------------".format(epoch, FC_Err, time.time() - start_func), flush=True)
+        elif epoch%5==0:
+            print("---------Epoch {:d}: PDE Error: {:.10f}; False Transient Error: {:.10f}; Time: {:.4f}---------------".format(epoch, PDE_Err, FC_Err, time.time() - start_func), flush=True)
             # print("---------Control_ii: [{},\t{}]".format(ii.min(), ii.max()), flush=True)
             
         v0     = out_comp
@@ -523,20 +539,24 @@ def hjb_pre_tech_noupdate(
     
     # g_tech = np.exp(1. / xi_g * (v0 - V_post_tech))
     g_tech = np.ones(V_post_tech.shape)
+    
+    ME = - dY * np.sum(pi_c * theta_ell, axis=0) - ddY * sigma_y**2 * ee + dG * np.sum(theta_ell * pi_c, axis=0) +  ddG * sigma_y**2 * ee
+    jj = alpha * vartheta_bar * (1 - ee / (alpha * lambda_bar * np.exp(K_mat)))**theta
+
+    jj[jj <= 1e-16] = 1e-16
+    consumption = alpha - ii - jj - xx
+    ME_total = delta/ consumption  * alpha * vartheta_bar * theta * (1 - ee / ( alpha * lambda_bar * np.exp(K_mat)))**(theta - 1) /( alpha * lambda_bar * np.exp(K_mat) )
+
+    print("log(ME_total/ME) = [{},{}]".format(np.min(np.log(ME_total / ME)), np.max(np.log(ME_total / ME))))
+
     if model == "Pre damage":
         # g_damage = np.exp(1 / xi_p * (v0 - v_i))
         g_damage = np.ones(v_i.shape)
-        ME = - dY * np.sum(pi_c * theta_ell, axis=0) - ddY * sigma_y**2 * ee + dG * np.sum(theta_ell * pi_c, axis=0) +  ddG * sigma_y**2 * ee
-        jj = alpha * vartheta_bar * (1 - ee / (alpha * lambda_bar * np.exp(K_mat)))**theta
-        
-        jj[jj <= 1e-16] = 1e-16
-        consumption = alpha - ii - jj - xx
-        ME_total = delta/ consumption  * alpha * vartheta_bar * theta * (1 - ee / ( alpha * lambda_bar * np.exp(K_mat)))**(theta - 1) /( alpha * lambda_bar * np.exp(K_mat) )
 
-        print("log(ME_total/ME) = [{},{}]".format(np.min(np.log(ME_total / ME)), np.max(np.log(ME_total / ME))))
         print("---------pi_c=[{:.5f},{:.5f}], g_tech=[{:.5f},{:.5f}], g_damage=[{:.5f},{:.5f}]---------------".format(pi_c.min(), pi_c.max(), g_tech.min(), g_tech.max(), g_damage.min(), g_damage.max()), flush=True)
     else:
         print("---------pi_c=[{:.5f},{:.5f}], g_tech=[{:.5f},{:.5f}]---------------".format(pi_c.min(), pi_c.max(), g_tech.min(), g_tech.max()), flush=True)
+
 
     res = {
             "v0"    : v0,
@@ -544,6 +564,7 @@ def hjb_pre_tech_noupdate(
             "e_star": e_star,
             "x_star": x_star,
             "pi_c"  : pi_c,
+            "ME"    : ME,
             "g_tech": g_tech,
             "FC_Err": FC_Err,
             }
@@ -594,7 +615,8 @@ def hjb_pre_tech_noupdate_noFT(
     if V_post_damage is not None:
         V_post_damage = V_post_damage[:,:,:n_bar+1,:]
 
-    
+    # v0 = np.mean(V_post_damage,axis=0)
+
     K_min, K_max, Y_min, Y_max, L_min, L_max = K.min(), K.max(), Y.min(), Y.max(), L.min(), L.max()
     hK, hY, hL = K[1] - K[0], Y[1] - Y[0], L[1]-L[0]
     nK, nY, nL = len(K), len(Y), len(L)
@@ -705,17 +727,26 @@ def hjb_pre_tech_noupdate_noFT(
     
     # g_tech = np.exp(1. / xi_g * (v0 - V_post_tech))
     g_tech = np.ones(V_post_tech.shape)
+    
+    dY_new = finiteDiff_3D(v0,1,1,hY)
+    ddY_new = finiteDiff_3D(v0,1,2,hY)
+    ME = - dY * np.sum(pi_c * theta_ell, axis=0) - ddY * sigma_y**2 * ee + dG * np.sum(theta_ell * pi_c, axis=0) +  ddG * sigma_y**2 * ee
+    ME_new = - dY_new * np.sum(pi_c * theta_ell, axis=0) - ddY_new * sigma_y**2 * ee + dG * np.sum(theta_ell * pi_c, axis=0) +  ddG * sigma_y**2 * ee
+    
+    
+    jj = alpha * vartheta_bar * (1 - ee / (alpha * lambda_bar * np.exp(K_mat)))**theta
+    
+    jj[jj <= 1e-16] = 1e-16
+    consumption = alpha - ii - jj - xx
+    ME_total = delta/ consumption  * alpha * vartheta_bar * theta * (1 - ee / ( alpha * lambda_bar * np.exp(K_mat)))**(theta - 1) /( alpha * lambda_bar * np.exp(K_mat) )
+
+    print("log(ME_total/ME) = [{},{}]".format(np.min(np.log(ME_total / ME)), np.max(np.log(ME_total / ME))))
+    print("log(ME_total/ME_new) = [{},{}]".format(np.min(np.log(ME_total / ME_new)), np.max(np.log(ME_total / ME_new))))
+    
     if model == "Pre damage":
         # g_damage = np.exp(1 / xi_p * (v0 - v_i))
         g_damage = np.ones(v_i.shape)
-        ME = - dY * np.sum(pi_c * theta_ell, axis=0) - ddY * sigma_y**2 * ee + dG * np.sum(theta_ell * pi_c, axis=0) +  ddG * sigma_y**2 * ee
-        jj = alpha * vartheta_bar * (1 - ee / (alpha * lambda_bar * np.exp(K_mat)))**theta
-        
-        jj[jj <= 1e-16] = 1e-16
-        consumption = alpha - ii - jj - xx
-        ME_total = delta/ consumption  * alpha * vartheta_bar * theta * (1 - ee / ( alpha * lambda_bar * np.exp(K_mat)))**(theta - 1) /( alpha * lambda_bar * np.exp(K_mat) )
 
-        print("log(ME_total/ME) = [{},{}]".format(np.min(np.log(ME_total / ME)), np.max(np.log(ME_total / ME))))
         print("---------pi_c=[{:.5f},{:.5f}], g_tech=[{:.5f},{:.5f}], g_damage=[{:.5f},{:.5f}]---------------".format(pi_c.min(), pi_c.max(), g_tech.min(), g_tech.max(), g_damage.min(), g_damage.max()), flush=True)
     else:
         print("---------pi_c=[{:.5f},{:.5f}], g_tech=[{:.5f},{:.5f}]---------------".format(pi_c.min(), pi_c.max(), g_tech.min(), g_tech.max()), flush=True)
@@ -726,6 +757,7 @@ def hjb_pre_tech_noupdate_noFT(
             "e_star": e_star,
             "x_star": x_star,
             "pi_c"  : pi_c,
+            "ME"    : ME_new,
             "g_tech": g_tech,
             "FC_Err": FC_Err,
             }
@@ -738,10 +770,11 @@ def hjb_pre_tech_noupdate_noFT(
                 "pi_c"  : pi_c,
                 "g_tech": g_tech,
                 "g_damage": g_damage,
-                "ME": ME,
+                "ME": ME_new,
                 "FC_Err": FC_Err,
                 }
     return res
+
 
 
 

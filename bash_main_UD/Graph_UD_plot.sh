@@ -18,9 +18,11 @@ hXarrays=(hXarr1)
 Xminarr=(4.00 0.0 1.0 0.0)
 Xmaxarr=(9.00 4.0 6.0 3.0)
 
+# xi_a=(0.0004 0.0002 0.0001 0.00005)
+# xi_p=(0.025 0.025 0.025 0.025)
 
-xi_a=(0.0004 0.0002 0.0001 0.00005)
-xi_p=(0.025 0.025 0.025 0.025)
+xi_a=(0.01 0.005)
+xi_p=(1 1)
 
 
 psi0arr=(0.105830)
@@ -47,7 +49,7 @@ Xmaxarr_SG=(9.00 4.0 0.0 3.0)
 interp_action_name="2jump_step_0.2_0.2_0.2_LR_0.01"
 fstr_SG="NearestNDInterpolator"
 
-auto=1
+auto=0
 year=25
 
 scheme_array=("macroannual" "newway" "newway" "newway" "check")

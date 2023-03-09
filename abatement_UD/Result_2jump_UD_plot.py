@@ -154,7 +154,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.ylabel('$\%$ of GDP')
                 plt.title('R&D investment as percentage of  GDP')
                 if auto==0:   
-                    plt.ylim(0,1.0)
+                    plt.ylim(0,0.5)
                 plt.xlim(0,IntPeriod)
 
                 plt.legend(loc='upper left')        
@@ -204,7 +204,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel('Years')
                 plt.title("Carbon Emissions")
                 if auto==0:   
-                    plt.ylim(6.5,11.5)
+                    plt.ylim(6.0,12.0)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
@@ -230,7 +230,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel('Years')
                 plt.title("Temperature anomaly")
                 if auto==0:   
-                    plt.ylim(1.1,1.6)
+                    plt.ylim(1.1,1.5)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
@@ -255,7 +255,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel('Years')
                 plt.title("Technology jump intensity $J_g$")
                 if auto==0:   
-                    plt.ylim(10.0,18.0)
+                    plt.ylim(10.0,15.0)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
@@ -406,7 +406,7 @@ for id_xiag in range(len(xiaarr)):
 
                 plt.title("Log of Social Cost of R&D")
                 if auto==0:   
-                    plt.ylim(6.75,6.95)
+                    plt.ylim(6.5,8.0)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper right')
 
@@ -456,6 +456,8 @@ for id_xiag in range(len(xiaarr)):
 
                 plt.title("ME_total")
                 plt.xlim(0,IntPeriod)
+                if auto==0:   
+                    plt.ylim(0,0.000110)   
                 plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/ME_total,xia={},xig={},psi0={},psi1={},psi2={}.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
@@ -502,6 +504,8 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.title("ME_base")
                     plt.xlim(0,IntPeriod)
+                    if auto==0:   
+                        plt.ylim(0,0.000050)   
                     plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/ME_base,xia={},xig={},psi0={},psi1={},psi2={}.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))
@@ -576,6 +580,8 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.title("ME_total_base")
                     plt.xlim(0,IntPeriod)
+                    # if auto==0:   
+                    #     plt.ylim(0,150)   
                     plt.legend()
 
 plt.savefig(Plot_Dir+"/ME_total_base,xia={},xig={},psi0={},psi1={},psi2={}.png".format(xiaarr,xigarr,psi0arr,psi1arr,psi2arr))

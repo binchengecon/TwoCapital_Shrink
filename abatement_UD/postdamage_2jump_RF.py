@@ -193,18 +193,18 @@ print("-------------------------------------------")
 print("------------Post damage, Tech II----------")
 print("-------------------------------------------")
 
-model_tech2_post_damage = pickle.load(open(Data_Dir + File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
+# model_tech2_post_damage = pickle.load(open(Data_Dir + File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
 
 
 # v = model_tech2_post_damage["v"]
 
-# v = None
+v = None
 
-# model_args = (delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi_a, xi_b, gamma_1, gamma_2, gamma_3_i, y_bar, theta, lambda_bar_second, vartheta_bar_second)
+model_args = (delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi_a, xi_b, gamma_1, gamma_2, gamma_3_i, y_bar, theta, lambda_bar_second, vartheta_bar_second)
 
-# model_tech2_post_damage = hjb_post_damage_post_tech(
-#         K, Y, model_args, v0=v,
-#        epsilon=epsilonarr[0], fraction=fractionarr[0] ,tol=1e-8, max_iter=maxiterarr[0], print_iteration=True)
+model_tech2_post_damage = hjb_post_damage_post_tech(
+        K, Y, model_args, v0=v,
+       epsilon=epsilonarr[0], fraction=fractionarr[0] ,tol=1e-8, max_iter=maxiterarr[0], print_iteration=True)
 
 
 

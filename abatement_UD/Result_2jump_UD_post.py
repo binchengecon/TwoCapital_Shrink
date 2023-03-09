@@ -279,6 +279,10 @@ if scheme=="newway":
 
         File_Name_Suffix = "_xiapost_{}_xig_post_{}_xippost_{}".format(xi_a_post, xi_g_post, xi_p_post) + "_full_" + scheme + "_" +HJB_solution
         
+
+        # with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) + File_Name_Suffix, "rb") as f:
+        #     Guess = pickle.load(f)
+            
         Guess = None
         
         res = src.ResultSolver.hjb_pre_tech_partialupdate(
@@ -296,6 +300,8 @@ if scheme=="newway":
         with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) + File_Name_Suffix, "wb") as f:
             pickle.dump(res, f)
 
+        with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) + File_Name_Suffix, "rb") as f:
+            res = pickle.load(f)
 
     if HJB_solution=="iterative_fix":
         
@@ -303,7 +309,9 @@ if scheme=="newway":
         xi_g_post = 100000.
         xi_p_post = 100000.
         File_Name_Suffix = "_xiapost_{}_xig_post_{}_xippost_{}".format(xi_a_post, xi_g_post, xi_p_post) + "_full_" + scheme + "_" +HJB_solution
-        
+
+        # with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) + File_Name_Suffix, "rb") as f:
+        #     Guess = pickle.load(f)
         Guess = None
         n_bar = len(Y)-1
 
@@ -321,7 +329,9 @@ if scheme=="newway":
 
         with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) + File_Name_Suffix, "wb") as f:
             pickle.dump(res, f)
-
+            
+        with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) + File_Name_Suffix, "rb") as f:
+            res = pickle.load(f)
 
 
     if HJB_solution=="n_iterative_fix":
@@ -331,6 +341,9 @@ if scheme=="newway":
         xi_p_post = 100000.
         File_Name_Suffix = "_xiapost_{}_xig_post_{}_xippost_{}".format(xi_a_post, xi_g_post, xi_p_post) + "_full_" + scheme + "_" +HJB_solution
         
+        # with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) + File_Name_Suffix, "rb") as f:
+        #     Guess = pickle.load(f)
+            
         Guess = None
         n_bar = len(Y)-1
         res = src.ResultSolver.hjb_pre_tech_noupdate_noFT(
@@ -347,6 +360,8 @@ if scheme=="newway":
 
         with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) + File_Name_Suffix, "wb") as f:
             pickle.dump(res, f)
+        with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) + File_Name_Suffix, "rb") as f:
+            res = pickle.load(f)
 
 
 
@@ -391,3 +406,5 @@ if scheme=="check":
 
         with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) + File_Name_Suffix, "wb") as f:
             pickle.dump(res, f)
+        with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) + File_Name_Suffix, "rb") as f:
+            res = pickle.load(f)

@@ -1,17 +1,17 @@
 #! /bin/bash
 
-# epsilonarray=(0.1) # 0.2
+epsilonarray=(0.1) # 0.2
 # epsilonarray=(0.05) # 0.1
-epsilonarray=(0.01) # 0.1
+# epsilonarray=(0.01) # 0.1
 
-# python_name="postdamage_2jump.py" # 4 dmg
-python_name="postdamage_2jump_RF.py" # 3 dmg
+python_name="postdamage_2jump.py" # 3 dmg
+# python_name="postdamage_2jump_RF.py" # 3 dmg
 # python_name="postdamage_2jump_Cobweb.py"  # 3 dmg
 
 # python_name="postdamage_2jump_check.py"
 
-# NUM_DAMAGE=4
-NUM_DAMAGE=3
+NUM_DAMAGE=4
+# NUM_DAMAGE=3
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
@@ -32,8 +32,11 @@ hXarrays=(hXarr1)
 Xminarr=(4.00 0.0 1.0 0.0)
 Xmaxarr=(9.00 4.0 6.0 3.0)
 
-xi_a=(0.0004 0.0002 0.0001 0.00005)
-xi_p=(0.025 0.025 0.025 0.025)
+# xi_a=(0.0004 0.0002 0.0001 0.00005)
+# xi_p=(0.025 0.025 0.025 0.025)
+
+xi_a=(0.01 0.005)
+xi_p=(1 1)
 
 psi0arr=(0.105830)
 psi1arr=(0.5)
@@ -51,20 +54,16 @@ for epsilon in ${epsilonarray[@]}; do
 	for hXarri in "${hXarrays[@]}"; do
 		count=0
 		declare -n hXarr="$hXarri"
-
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_Corrected"
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_Corrected"
 
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_RF"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_Corrected_3dmg"
+
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_RF"
 		
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_Cobweb"
 
 		
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_RF_enew_enter_ix"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_Cobweb_TighterE"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_Cobweb_TighterE_correct_pi_c"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_Cobweb_Test"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_clean"
-
 		epsilonarr=(0.1 ${epsilon})
 		fractionarr=(0.1 ${epsilon})
 
