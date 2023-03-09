@@ -106,7 +106,7 @@ lambda_bar_second = 1e-3
 vartheta_bar_second = 0.
 
 
-# print(plt.rcParamsDefault)
+print(plt.rcParamsDefault)
 # print("Before, figure default size is: ", plt.rcParams["figure.figsize"])
 # print("Before, figure default dpi is: ", plt.rcParams["figure.dpi"])
 # print("Before, figure default size is: ", plt.rcParams["font.size"])
@@ -600,12 +600,12 @@ plt.close()
 
 
 plt.style.use('default')
-# plt.rcParams["savefig.bbox"] = "tight"
-# plt.rcParams["figure.figsize"] = (10,8)
-# plt.rcParams["figure.dpi"] = 500
-# plt.rcParams["font.size"] = 12
-# plt.rcParams["legend.frameon"] = True
-# plt.rcParams["lines.linewidth"] = 5
+plt.rcParams["savefig.bbox"] = "tight"
+plt.rcParams["figure.figsize"] = (10,8)
+plt.rcParams["figure.dpi"] = 500
+plt.rcParams["font.size"] = 12
+plt.rcParams["legend.frameon"] = True
+plt.rcParams["lines.linewidth"] = 5
 
 
 print("After, figure default size is: ", plt.rcParams["savefig.bbox"])
