@@ -601,6 +601,20 @@ plt.close()
 
 plt.rcParams.update(plt.rcParamsDefault)
 
+plt.rcParams["savefig.bbox"] = "standard"
+plt.rcParams["figure.figsize"] = (8,6)
+plt.rcParams["figure.dpi"] = 80
+plt.rcParams["font.size"] = 12
+plt.rcParams["legend.frameon"] = True
+plt.rcParams["lines.linewidth"] = 5
+
+
+print("After, figure default size is: ", plt.rcParams["savefig.bbox"])
+print("After, figure default size is: ", plt.rcParams["figure.figsize"])
+print("After, figure default dpi is: ", plt.rcParams["figure.dpi"])
+print("After, figure default size is: ", plt.rcParams["font.size"])
+print("After, legend.frameon is: ", plt.rcParams["legend.frameon"])
+print("After, lines.linewidth is: ", plt.rcParams["lines.linewidth"])
 
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
