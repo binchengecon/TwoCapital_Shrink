@@ -601,6 +601,7 @@ plt.close()
 
 plt.rcParams.update(plt.rcParamsDefault)
 
+plt.style.use('default')
 plt.rcParams["savefig.bbox"] = "standard"
 plt.rcParams["figure.figsize"] = (8,6)
 plt.rcParams["figure.dpi"] = 80
@@ -648,7 +649,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left')
                 plt.title("Distorted probability of Climate Models")
 
-                plt.ylim(0, 1.4)
+                plt.ylim(0, 3)
                 plt.xlabel("Climate Sensitivity")
                 
                 plt.savefig(Plot_Dir+"/ClimateSensitivity_0,xia={:.5f},xig={:.3f},psi0={:.3f},psi1={:.3f},psi2={:.1f}.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2]))
@@ -727,7 +728,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left')
                 plt.title("Distorted probability of Climate Models")
 
-                plt.ylim(0, 1.4)
+                plt.ylim(0, 3)
                 plt.xlabel("Climate Sensitivity")
                 
                 plt.savefig(Plot_Dir+"/ClimateSensitivity_25,xia={:.5f},xig={:.3f},psi0={:.3f},psi1={:.3f},psi2={:.1f}.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],psi2arr[id_psi2]))
@@ -791,7 +792,7 @@ for id_xiag in range(len(xiaarr)):
                         alpha=0.5, color="C3", ec="darkgray",label='baseline'.format(psi2arr[id_psi2]))
                 plt.hist(gamma_3_list, weights= γ3_distort / np.sum(γ3_distort), 
                         alpha=0.5, color="C0", ec="darkgray",label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],psi2arr[id_psi2]))
-                plt.ylim(0, 0.3)
+                plt.ylim(0, 1)
                 plt.title("Distorted probability of Damage Models")
                 plt.xlabel("Damage Curvature")
                 plt.legend(loc='upper left')
