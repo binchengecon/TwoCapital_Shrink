@@ -4,6 +4,7 @@ actiontime=1
 epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.01) # Computation of fine grid and psi10.8, post
+# epsilonarraypost=(0.05 0.01) # 0.1
 
 
 
@@ -11,12 +12,14 @@ epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 epsilonarraypre=(0.05) #
 # epsilonarraypre=(0.01) #
 
-python_name="predamage_2jump.py"
+# python_name="predamage_2jump.py"
+python_name="predamage_3jump.py"
+# python_name="predamage_2jump_RevertBack.py"
 # python_name="predamage_2jump_check.py"
 
 
-NUM_DAMAGE=4
-# NUM_DAMAGE=3
+# NUM_DAMAGE=4
+NUM_DAMAGE=10
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
@@ -41,6 +44,10 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_a=(0.01 0.005)
 # xi_p=(1 1)
 
+xi_a=(100000. 0.02 0.02 0.02)
+xi_p=(100000. 7.5 5 2.5)
+
+
 
 # xi_a=(0.01 0.01 0.01 0.01 0.005 0.005 0.005 0.005 0.0025 0.0010 0.0005)
 # xi_p=(0.5 0.25 0.1 0.050 0.5 0.25 0.1 0.050 1 1 1)
@@ -49,8 +56,8 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_p=(1)
 
 
-psi0arr=(0.105830)
-
+# psi0arr=(0.105830)
+psi0arr=(0.000001)
 psi1arr=(0.5)
 
 
@@ -70,16 +77,20 @@ for epsilon in ${epsilonarraypre[@]}; do
 			count=0
 			declare -n hXarr="$hXarri"
 
-			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_newe"
-			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_newe"
-			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_RF"
-			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_Cobweb"
-			action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_Corrected"
+			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_Corrected"
+			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_RevertBack"
+			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_RevertBack_smallpsi0"
+			action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_RevertBack3jump_smallpsi0"
+
 			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_Corrected_3dmg"
 			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_clean"
 
-			epsilonarr=(0.05 ${epsilon})
-			fractionarr=(0.1 ${epsilon})
+			# epsilonarr=(0.05 ${epsilon})
+			# fractionarr=(0.1 ${epsilon})
+
+			epsilonarr=(0.05 ${epsilon} ${epsilon})
+			fractionarr=(0.1 ${epsilon} ${epsilon})
+
 			for PSI_0 in ${psi0arr[@]}; do
 				for PSI_1 in ${psi1arr[@]}; do
 					for j in $(seq 0 $LENGTH_xi); do

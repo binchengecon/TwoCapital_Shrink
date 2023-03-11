@@ -165,7 +165,7 @@ def simulate_pre(
     controls = (),
     ME = (),
     n_bar = (),  
-    initial=(np.log(85/0.115), 1.1, 2.4), 
+    initial=(np.log(85/0.115), 1.1, np.log(448/20)), 
     T0=0, T=40, dt=1/12,
     printing=True):
 

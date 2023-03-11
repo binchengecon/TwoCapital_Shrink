@@ -4,7 +4,8 @@ actiontime=1
 epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
 
-NUM_DAMAGE=4
+# NUM_DAMAGE=4
+NUM_DAMAGE=10
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
@@ -26,20 +27,31 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 
 
 
-xi_a=(0.0004 0.0002 0.0001 0.00005)
-xi_p=(0.025 0.025 0.025 0.025)
+# xi_a=(0.0004 0.0002 0.0001 0.00005)
+# xi_p=(0.025 0.025 0.025 0.025)
+
+# xi_a=(0.01 0.005)
+# xi_p=(1 1)
+
+xi_a=(100000. 0.02 0.02 0.02)
+xi_p=(100000. 7.5 5 2.5)
 
 
-psi0arr=(0.105830)
+# xi_a=(0.01 0.01 0.01 0.01 0.005 0.005 0.005 0.005 0.0025 0.0010 0.0005)
+# xi_p=(0.5 0.25 0.1 0.050 0.5 0.25 0.1 0.050 1 1 1)
 
+
+# psi0arr=(0.105830)
+psi0arr=(0.000001)
 psi1arr=(0.5)
 
 # psi2arr=(0.0 0.1 0.2 0.3 0.4 0.5)
-psi2arr=(0.3)
+psi2arr=(0.5)
 
 
 
-python_name_unit="Result_2jump_UD_post.py"
+python_name_unit="Result_3jump_UD_post.py"
+# python_name_unit="Result_2jump_UD_post_RevertBack.py"
 
 
 server_name="mercury"
@@ -54,16 +66,18 @@ interp_action_name="2jump_step_0.2_0.2_0.2_LR_0.01"
 fstr_SG="NearestNDInterpolator"
 
 auto=1
-year=26
+year=25
 
 # scheme_array=("macroannual" "newway" "newway" "newway" "check")
 # HJBsolution_array=("simple" "iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
 
-scheme_array=("newway")
-HJBsolution_array=("n_iterative_fix")
-thetamean_array=("total" "onlytemp" "onlycarb" "onlyRD" "onlydmg" "onlytech" "omittemp" "omitcarb" "omitRD" "omitdmg" "omittech")
+# scheme_array=("newway" "newway" "newway" "check")
+# HJBsolution_array=("iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
+
+scheme_array=("check")
+HJBsolution_array=("iterative_partial")
+
 LENGTH_scheme=$((${#scheme_array[@]} - 1))
-LENGTH_theta=$((${#thetamean_array[@]} - 1))
 
 
 for epsilonpost in ${epsilonarraypost[@]}; do
@@ -71,11 +85,9 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         count=0
         declare -n hXarr="$hXarri"
 
+        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_RevertBack3jump_smallpsi0"
 
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_clean"
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_Corrected"
-
+		# epsilonarr=(0.1 0.3)
 		epsilonarr=(0.1 ${epsilonpost})
 		fractionarr=(0.1 ${epsilonpost})
 
@@ -86,7 +98,7 @@ for epsilonpost in ${epsilonarraypost[@]}; do
                     for PSI_2 in ${psi2arr[@]}; do
                         for j in $(seq 0 $LENGTH_xi); do
                             for k in $(seq 0 $LENGTH_scheme); do
-                                for l in 
+
                         mkdir -p ./job-outs/${action_name}/Graph_Post/scheme_${scheme_array[$k]}_HJB_${HJBsolution_array[$k]}/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/
 
                         if [ -f ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_scheme_${scheme_array[$k]}_HJB_${HJBsolution_array[$k]}_Graph.sh ]; then

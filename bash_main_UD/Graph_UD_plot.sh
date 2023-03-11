@@ -3,6 +3,7 @@
 actiontime=1
 epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
+# epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
 
 NUM_DAMAGE=4
 
@@ -21,12 +22,13 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_a=(0.0004 0.0002 0.0001 0.00005)
 # xi_p=(0.025 0.025 0.025 0.025)
 
-xi_a=(0.01 0.005)
-xi_p=(1 1)
+# xi_a=(0.01 0.005)
+# xi_p=(1 1)
+xi_a=(100000. 0.02 0.02 0.02)
+xi_p=(100000. 7.5 5 2.5)
 
-
-psi0arr=(0.105830)
-
+# psi0arr=(0.105830)
+psi0arr=(0.000001)
 psi1arr=(0.5)
 
 # psi2arr=(0.0 0.1 0.2 0.3 0.4 0.5)
@@ -34,6 +36,7 @@ psi2arr=(0.3)
 
 
 python_name_unit="Result_2jump_UD_plot.py"
+# python_name_unit="Result_2jump_UD_plot_RevertBack.py"
 
 
 # python_name_unit="Result_2jump_combine_drs_unit_ambplus_addmiss_bar.py"
@@ -49,8 +52,9 @@ Xmaxarr_SG=(9.00 4.0 0.0 3.0)
 interp_action_name="2jump_step_0.2_0.2_0.2_LR_0.01"
 fstr_SG="NearestNDInterpolator"
 
-auto=0
-year=25
+auto=1
+# year=25
+year=40
 
 scheme_array=("macroannual" "newway" "newway" "newway" "check")
 HJBsolution_array=("simple" "iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
@@ -71,7 +75,9 @@ for epsilonpost in ${epsilonarraypost[@]}; do
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]}_LR_${epsilonpost}"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_clean"
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_Corrected"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_Corrected"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_RevertBack"
+        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_RevertBack_smallpsi0"
 
         for PSI_0 in ${psi0arr[@]}; do
             for PSI_1 in ${psi1arr[@]}; do

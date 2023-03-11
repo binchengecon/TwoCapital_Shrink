@@ -312,7 +312,7 @@ def hjb_pre_tech(
             print("petsc total: {:.3f}s".format(end_ksp - bpoint1))
             print("Epoch {:d} (PETSc): PDE Error: {:.10f}; False Transient Error: {:.10f}" .format(epoch, PDE_Err, FC_Err))
             print("Epoch time: {:.4f}".format(time.time() - start_ep))
-        elif epoch%5==0:
+        elif epoch%100==0:
             
             print("-----------------------------------")
             print("---------Epoch {}---------------".format(epoch))

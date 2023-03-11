@@ -263,7 +263,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel('Years')
                 plt.title("Technology jump intensity $J_g$")
                 if auto==0:   
-                    plt.ylim(10.0,15.0)
+                    plt.ylim(10.0,25.0)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
@@ -600,12 +600,11 @@ plt.close()
 
 
 plt.style.use('default')
+plt.rcParams["lines.linewidth"] = 20
 plt.rcParams["savefig.bbox"] = "tight"
-plt.rcParams["figure.figsize"] = (10,8)
-plt.rcParams["figure.dpi"] = 300
-plt.rcParams["font.size"] = 12
+plt.rcParams["figure.figsize"] = (16,10)
+plt.rcParams["font.size"] = 25
 plt.rcParams["legend.frameon"] = True
-plt.rcParams["lines.linewidth"] = 5
 
 
 print("After, figure default size is: ", plt.rcParams["savefig.bbox"])

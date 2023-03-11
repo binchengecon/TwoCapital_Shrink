@@ -21,7 +21,7 @@ from scipy.sparse import coo_matrix
 from scipy.sparse import csr_matrix
 from datetime import datetime
 # from solver import solver_3d
-import src.PreSolver
+import src.PreSolver_Corrected
 import src.ResultSolver
 import time
 import numpy as np
