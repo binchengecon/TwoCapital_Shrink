@@ -32,7 +32,7 @@ psi0arr=(0.000001)
 psi1arr=(0.5)
 
 # psi2arr=(0.0 0.1 0.2 0.3 0.4 0.5)
-psi2arr=(0.3)
+psi2arr=(0.5)
 
 
 python_name_unit="Result_2jump_UD_plot.py"
@@ -52,14 +52,14 @@ Xmaxarr_SG=(9.00 4.0 0.0 3.0)
 interp_action_name="2jump_step_0.2_0.2_0.2_LR_0.01"
 fstr_SG="NearestNDInterpolator"
 
-auto=1
+auto=0
 # year=25
 year=40
 
-scheme_array=("macroannual" "newway" "newway" "newway" "check")
-HJBsolution_array=("simple" "iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
-# scheme_array=("newway" "newway" "newway" "check")
-# HJBsolution_array=("iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
+# scheme_array=("macroannual" "newway" "newway" "newway" "check")
+# HJBsolution_array=("simple" "iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
+scheme_array=("check")
+HJBsolution_array=("iterative_partial")
 LENGTH_scheme=$((${#scheme_array[@]} - 1))
 
 
