@@ -161,8 +161,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel('Years')
                 plt.ylabel('$\%$ of GDP')
                 plt.title('R&D investment as percentage of  GDP')
-                if auto==0:   
-                    plt.ylim(0,0.5)
+                # if auto==0:   
+                plt.ylim(0,0.5)
                 plt.xlim(0,IntPeriod)
 
                 plt.legend(loc='upper left')        
@@ -262,8 +262,8 @@ for id_xiag in range(len(xiaarr)):
                 # plt.plot(res3["years"][res3["states"][:, 1]<1.5], np.exp(res3["states"][:, 2])[res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
                 plt.xlabel('Years')
                 plt.title("Technology jump intensity $J_g$")
-                if auto==0:   
-                    plt.ylim(10.0,25.0)
+                # if auto==0:   
+                plt.ylim(10.0,25.0)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
@@ -290,8 +290,7 @@ for id_xiag in range(len(xiaarr)):
                 # plt.plot(res3["years"], res3["distorted_tech_prob"],label='baseline',linewidth=7.0)
                 plt.xlabel('Years')
                 plt.title("Distorted probability of a technology jump")
-                if auto==0:   
-                    plt.ylim(0,1)
+                plt.ylim(0,1)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
@@ -315,8 +314,7 @@ for id_xiag in range(len(xiaarr)):
                 # plt.plot(res3["years"], res3["distorted_damage_prob"],label='baseline',linewidth=7.0)
                 plt.xlabel('Years')
                 plt.title("Distorted probability of damage changes")
-                if auto==0:   
-                    plt.ylim(0,1)
+                plt.ylim(0,1)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
@@ -339,8 +337,7 @@ for id_xiag in range(len(xiaarr)):
 
                 plt.xlabel("Years")
                 plt.title("True probability of a technology jump")
-                if auto==0:   
-                    plt.ylim(0.0,1.0)
+                plt.ylim(0.0,1.0)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
@@ -363,8 +360,7 @@ for id_xiag in range(len(xiaarr)):
 
                 plt.xlabel("Years")
                 plt.title("True probability of damage changes")
-                if auto==0:   
-                    plt.ylim(0,1)
+                plt.ylim(0,1)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
@@ -437,8 +433,7 @@ for id_xiag in range(len(xiaarr)):
 
                 plt.xlabel("Years")
                 plt.title("Mean Difference")
-                if auto==0:   
-                    plt.ylim(0,0.8)   
+                plt.ylim(0,0.8)   
                 plt.legend()
 
 

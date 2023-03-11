@@ -52,7 +52,7 @@ Xmaxarr_SG=(9.00 4.0 0.0 3.0)
 interp_action_name="2jump_step_0.2_0.2_0.2_LR_0.01"
 fstr_SG="NearestNDInterpolator"
 
-auto=0
+auto=1
 # year=25
 year=40
 
