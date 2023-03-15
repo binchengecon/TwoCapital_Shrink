@@ -4,7 +4,8 @@ actiontime=1
 epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
 
-NUM_DAMAGE=4
+# NUM_DAMAGE=4
+NUM_DAMAGE=10
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
@@ -26,14 +27,14 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 
 
 
-xi_a=(0.0004 0.0002 0.0001 0.00005)
-xi_p=(0.025 0.025 0.025 0.025)
+# xi_a=(0.0004 0.0002 0.0001 0.00005)
+# xi_p=(0.025 0.025 0.025 0.025)
 
 # xi_a=(0.01 0.005)
 # xi_p=(1 1)
 
-# xi_a=(100000. 0.02 0.02 0.02)
-# xi_p=(100000. 7.5 5 2.5)
+xi_a=(100000. 0.02 0.02 0.02)
+xi_p=(100000. 7.5 5 2.5)
 
 
 # xi_a=(0.01 0.01 0.01 0.01 0.005 0.005 0.005 0.005 0.0025 0.0010 0.0005)
@@ -45,11 +46,12 @@ psi0arr=(0.000001)
 psi1arr=(0.5)
 
 # psi2arr=(0.0 0.1 0.2 0.3 0.4 0.5)
-# psi2arr=(0.5)
+psi2arr=(0.5)
 
 
 
-python_name_unit="Result_2jump_UD_post.py"
+# python_name_unit="Result_3jump_UD_post.py"
+python_name_unit="Result_3jump_UD_post_MA.py"
 # python_name_unit="Result_2jump_UD_post_RevertBack.py"
 
 
@@ -67,14 +69,14 @@ fstr_SG="NearestNDInterpolator"
 auto=1
 year=25
 
-scheme_array=("macroannual" "newway" "newway" "newway" "check")
-HJBsolution_array=("simple" "iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
+# scheme_array=("macroannual" "newway" "newway" "newway" "check")
+# HJBsolution_array=("simple" "iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
 
 # scheme_array=("newway" "newway" "newway" "check")
 # HJBsolution_array=("iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
 
-# scheme_array=("macroannual")
-# HJBsolution_array=("simple")
+scheme_array=("check")
+HJBsolution_array=("iterative_partial")
 
 LENGTH_scheme=$((${#scheme_array[@]} - 1))
 
@@ -84,13 +86,8 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         count=0
         declare -n hXarr="$hXarri"
 
-
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_clean"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_Corrected_Test2"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_Corrected"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_RevertBack"
-        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_RevertBack_smallpsi0"
+        # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_RevertBack3jump_smallpsi0"
+        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_RevertBack3jump_smallpsi0_MA"
 
 		# epsilonarr=(0.1 0.3)
 		epsilonarr=(0.1 ${epsilonpost})

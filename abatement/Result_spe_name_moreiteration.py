@@ -190,9 +190,7 @@ def decompose(v0, stateSpace, states=(), controls=(), args=()):
 #         v0 = v
 #         episode += 1
         
-        
     
-#     print(episode, error)
     dvdy = finiteDiff_3D(v, 1, 1, hY)
     ddvdyy = finiteDiff_3D(v, 1, 2, hY)
     RHS = - dvdy * np.sum(pi_c_o * theta_ell, axis=0) - ddvdyy * sigma_y**2 * e_star + dG * np.sum(theta_ell * pi_c_o, axis=0) + ddG * sigma_y**2 * e_star

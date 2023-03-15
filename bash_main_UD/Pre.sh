@@ -9,21 +9,23 @@ epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 
 
 
+# epsilonarraypre=(0.05) #
+# epsilonarraypre=(0.025) #
 epsilonarraypre=(0.05) #
-# epsilonarraypre=(0.01) #
 
-# python_name="predamage_2jump.py"
-python_name="predamage_3jump.py"
-# python_name="predamage_2jump_RevertBack.py"
-# python_name="predamage_2jump_check.py"
+python_name="predamage_2jump_CRS.py"
+# python_name="predamage_2jump_CRS_MulJump.py"
+# python_name="predamage_2jump_DRS.py"
 
 
-# NUM_DAMAGE=4
-NUM_DAMAGE=10
+NUM_DAMAGE=5
+# NUM_DAMAGE=10
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
 maxiterarr=(80000 200000)
+# maxiterarr=(10 10)
+# maxiterarr=(80000 200000 200000)
 
 declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
@@ -38,26 +40,15 @@ hXarrays=(hXarr1)
 Xminarr=(4.00 0.0 1.0 0.0)
 Xmaxarr=(9.00 4.0 6.0 3.0)
 
-# xi_a=(0.0004 0.0002 0.0001 0.00005)
-# xi_p=(0.025 0.025 0.025 0.025)
+# xi_a=(0.0004 0.0002 0.0001 0.00005 0.0004 0.0002 0.0001 0.00005 1000.)
+# xi_p=(0.025 0.025 0.025 0.025 0.050 0.050 0.050 0.050 1000.)
 
-# xi_a=(0.01 0.005)
-# xi_p=(1 1)
-
-xi_a=(100000. 0.02 0.02 0.02)
-xi_p=(100000. 7.5 5 2.5)
+xi_a=(0.0004 0.0002 0.0001 0.00005)
+xi_p=(0.025 0.025 0.025 0.025)
 
 
-
-# xi_a=(0.01 0.01 0.01 0.01 0.005 0.005 0.005 0.005 0.0025 0.0010 0.0005)
-# xi_p=(0.5 0.25 0.1 0.050 0.5 0.25 0.1 0.050 1 1 1)
-
-# xi_a=(0.0005)
-# xi_p=(1)
-
-
-# psi0arr=(0.105830)
-psi0arr=(0.000001)
+psi0arr=(0.105830)
+# psi0arr=(0.000001)
 psi1arr=(0.5)
 
 
@@ -77,19 +68,13 @@ for epsilon in ${epsilonarraypre[@]}; do
 			count=0
 			declare -n hXarr="$hXarri"
 
-			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_Corrected"
-			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_RevertBack"
-			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_RevertBack_smallpsi0"
-			action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_RevertBack3jump_smallpsi0"
+			action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS"
+			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS_MulJump"
+			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_DRS"
 
-			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_Corrected_3dmg"
-			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_clean"
+			epsilonarr=(0.05 ${epsilon})
+			fractionarr=(0.1 ${epsilon})
 
-			# epsilonarr=(0.05 ${epsilon})
-			# fractionarr=(0.1 ${epsilon})
-
-			epsilonarr=(0.05 ${epsilon} ${epsilon})
-			fractionarr=(0.1 ${epsilon} ${epsilon})
 
 			for PSI_0 in ${psi0arr[@]}; do
 				for PSI_1 in ${psi1arr[@]}; do
@@ -109,8 +94,7 @@ for epsilon in ${epsilonarraypre[@]}; do
 #! /bin/bash
 
 ######## login
-## SBATCH --job-name=${xi_p[$j]}_${epsilon}
-#SBATCH --job-name=${j}_${epsilon}
+#SBATCH --job-name=${xi_a[$j]}_${xi_p[$j]}_${epsilon}
 #SBATCH --output=./job-outs/${action_name}/Pre/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_pre_${epsilon}.out
 #SBATCH --error=./job-outs/${action_name}/Pre/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_pre_${epsilon}.err
 

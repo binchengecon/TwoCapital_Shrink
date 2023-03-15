@@ -1,23 +1,21 @@
 #! /bin/bash
 
-epsilonarray=(0.1) # 0.2
-# epsilonarray=(0.05 0.01) # 0.1
-# epsilonarray=(0.01) # 0.1
-
-python_name="postdamage_3jump.py" # 3 dmg
-# python_name="postdamage_2jump.py" # 3 dmg
-# python_name="postdamage_2jump_RevertBack.py" # 3 dmg
+epsilonarray=(0.1) 
 
 
-# python_name="postdamage_2jump_check.py"
 
-# NUM_DAMAGE=4
-NUM_DAMAGE=10
+# python_name="postdamage_2jump_CRS.py" # 3 dmg
+# python_name="postdamage_2jump_CRS_MulJump.py" # 3 dmg
+python_name="postdamage_2jump_CRS_MulJump_D.py" # 3 dmg
+# python_name="postdamage_2jump_DRS.py" # 3 dmg
+
+
+NUM_DAMAGE=5
+# NUM_DAMAGE=10
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
-# maxiterarr=(80000 200000)
-maxiterarr=(80000 200000 200000)
+maxiterarr=(80000 200000)
 # maxiterarr=(10 10)
 
 declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
@@ -34,24 +32,18 @@ hXarrays=(hXarr1)
 Xminarr=(4.00 0.0 1.0 0.0)
 Xmaxarr=(9.00 4.0 6.0 3.0)
 
-# xi_a=(0.0004 0.0002 0.0001 0.00005)
-# xi_p=(0.025 0.025 0.025 0.025)
+# xi_a=(0.0004 0.0002 0.0001 0.00005 0.0004 0.0002 0.0001 0.00005 1000.)
+# xi_p=(0.025 0.025 0.025 0.025 0.050 0.050 0.050 0.050 1000.)
 
-# xi_a=(0.01 0.005)
-# xi_p=(1 1)
+xi_a=(0.0004 0.0002 0.0001 0.00005)
+xi_p=(0.025 0.025 0.025 0.025)
 
-xi_a=(100000. 0.02 0.02 0.02)
-xi_p=(100000. 7.5 5 2.5)
-
-# xi_a=(0.01 0.01 0.01 0.01 0.005 0.005 0.005 0.005 0.0025 0.0010 0.0005)
-# xi_p=(0.5 0.25 0.1 0.050 0.5 0.25 0.1 0.050 1 1 1)
-
-# xi_a=(0.0005)
-# xi_p=(1)
+# xi_a=(0.0004 0.0002)
+# xi_p=(0.025 0.025)
 
 
-# psi0arr=(0.105830)
-psi0arr=(0.000001)
+psi0arr=(0.105830)
+
 psi1arr=(0.5)
 
 LENGTH_psi=$((${#psi0arr[@]} - 1))
@@ -67,26 +59,21 @@ for epsilon in ${epsilonarray[@]}; do
 	for hXarri in "${hXarrays[@]}"; do
 		count=0
 		declare -n hXarr="$hXarri"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_Corrected"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_Corrected"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_RevertBack"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_RevertBack_smallpsi0"
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_RevertBack3jump_smallpsi0"
 
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_Corrected_3dmg"
-
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_RF"
-		
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_Cobweb"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_CRS"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_CRS_MulJump"
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_CRS_MulJump_D"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_DRS"
 
 		
-		# epsilonarr=(0.1 ${epsilon})
-		# fractionarr=(0.1 ${epsilon})
+		epsilonarr=(0.1 ${epsilon})
+		fractionarr=(0.1 ${epsilon})
 
-		epsilonarr=(0.1 ${epsilon} ${epsilon})
-		fractionarr=(0.1 ${epsilon} ${epsilon})
+		# epsilonarr=(0.1 0.01)
+		# fractionarr=(0.1 0.01)
 
 		for i in $(seq 0 $ID_MAX_DAMAGE); do
+		# i=4
 			for PSI_0 in ${psi0arr[@]}; do
 				for PSI_1 in ${psi1arr[@]}; do
 					for j in $(seq 0 $LENGTH_xi); do
@@ -105,14 +92,14 @@ for epsilon in ${epsilonarray[@]}; do
 #! /bin/bash
 
 ######## login
-#SBATCH --job-name=${xi_a[$j]}_${xi_p[$j]}_$i
+#SBATCH --job-name=${xi_a[$j]}_${xi_p[$j]}_$i_${epsilon}
 #SBATCH --output=./job-outs/${action_name}/Post/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_post_$i.out
 #SBATCH --error=./job-outs/${action_name}/Post/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_post_$i.err
 
 #SBATCH --account=pi-lhansen
 #SBATCH --partition=standard
 #SBATCH --cpus-per-task=5
-#SBATCH --mem=10G
+#SBATCH --mem=3G
 #SBATCH --time=7-00:00:00
 #SBATCH --exclude=mcn53,mcn51
 
