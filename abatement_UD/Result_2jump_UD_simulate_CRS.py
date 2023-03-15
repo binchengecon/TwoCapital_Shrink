@@ -17,6 +17,8 @@ from matplotlib.backends.backend_pdf import PdfPages
 from src.Utility import finiteDiff_3D
 import os
 import argparse
+import src.ResultSolver_CRS
+import SolveLinSys
 
 
 parser = argparse.ArgumentParser(description="xi_r values")
@@ -157,6 +159,125 @@ print("After, figure default dpi is: ", plt.rcParams["figure.dpi"])
 print("After, figure default size is: ", plt.rcParams["font.size"])
 print("After, legend.frameon is: ", plt.rcParams["legend.frameon"])
 print("After, lines.linewidth is: ", plt.rcParams["lines.linewidth"])
+
+
+def PDESolver(stateSpace, A, B_r, B_f, B_k, C_rr, C_ff, C_kk, D, v0, ε = 1, tol = -10, smartguess = False, solverType = 'False Transient'):
+
+    if solverType == 'False Transient':
+        A = A.reshape(-1,1,order = 'F')
+        B = np.hstack([B_r.reshape(-1,1,order = 'F'),B_f.reshape(-1,1,order = 'F'),B_k.reshape(-1,1,order = 'F')])
+        C = np.hstack([C_rr.reshape(-1,1,order = 'F'), C_ff.reshape(-1,1,order = 'F'), C_kk.reshape(-1,1,order = 'F')])
+        D = D.reshape(-1,1,order = 'F')
+        v0 = v0.reshape(-1,1,order = 'F')
+        out = SolveLinSys.solveFT(stateSpace, A, B, C, D, v0, ε, tol)
+
+        return out
+
+    elif solverType == 'Feyman Kac':
+        
+        if smartguess:
+            iters = 1
+        else:
+            iters = 4000000
+            
+        A = A.reshape(-1, 1, order='F')
+        B = np.hstack([B_r.reshape(-1, 1, order='F'), B_f.reshape(-1, 1, order='F'), B_k.reshape(-1, 1, order='F')])
+        C = np.hstack([C_rr.reshape(-1, 1, order='F'), C_ff.reshape(-1, 1, order='F'), C_kk.reshape(-1, 1, order='F')])
+        D = D.reshape(-1, 1, order='F')
+        v0 = v0.reshape(-1, 1, order='F')
+        out = SolveLinSys.solveFK(stateSpace, A, B, C, D, v0, iters)
+
+        return out
+
+def decompose(v0, stateSpace, states=(), controls=(), args=()):
+    i_star, e_star, x_star = controls
+    K_mat, Y_mat, L_mat = states
+    delta, alpha, kappa, mu_k, sigma_k, gamma_1, gamma_2, theta_ell, pi_c_o, sigma_y,  theta, vartheta_bar, lambda_bar = args
+    
+    j_star = 1 - e_star / (alpha * lambda_bar * np.exp(K_mat))
+    j_star[j_star <= 1e-16] = 1e-16
+    
+    mc = delta / (alpha - i_star - alpha * vartheta_bar * j_star**theta - x_star)
+    dG  = gamma_1 + gamma_2 * Y_mat
+    ddG = gamma_2
+    
+    tol = 1e-7
+    episode = 0
+    epsilon = 0.1
+    max_iter = 3000
+    error = 1.
+    
+    A = np.zeros(K_mat.shape)
+    B_1 = np.zeros(K_mat.shape)
+    B_2 = np.sum(theta_ell * pi_c_o, axis=0) 
+    B_3 = np.zeros(K_mat.shape)
+
+    C_1 = np.zeros(K_mat.shape)
+    C_2 = e_star * sigma_y**2
+    C_3 = np.zeros(K_mat.shape)
+
+    D = mc * theta * vartheta_bar / (lambda_bar * np.exp(K_mat)) * j_star**(theta-1) - dG * np.sum(theta_ell * pi_c_o, axis=0) - ddG * sigma_y**2 * e_star
+
+    out = PDESolver(stateSpace, A, B_1, B_2, B_3, C_1, C_2, C_3, D, v0, epsilon, solverType="Feyman Kac")
+    v  = out[2].reshape(v0.shape, order="F")
+        
+
+    dvdy = finiteDiff_3D(v, 1, 1, hY)
+    ddvdyy = finiteDiff_3D(v, 1, 2, hY)
+    RHS = - dvdy * np.sum(pi_c_o * theta_ell, axis=0) - ddvdyy * sigma_y**2 * e_star + dG * np.sum(theta_ell * pi_c_o, axis=0) + ddG * sigma_y**2 * e_star
+    LHS = mc * theta * vartheta_bar /(lambda_bar * np.exp(K_mat)) * j_star**(theta-1)
+    diff = np.max(abs(RHS - LHS))
+    
+    ME_base = RHS
+    return v, ME_base, diff
+
+def FKPDEsolver(grid=(),  mdoel_args=(),  controls=()):
+    
+    delta, mu_k, kappa, sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar = model_args
+    ii, ee, xx, g_tech, g_damage, pi_c, v = controls
+    
+    stateSpace = np.hstack([
+        K_mat.reshape(-1,1,order = "F"), 
+        Y_mat.reshape(-1,1,order = "F"),
+        L_mat.reshape(-1,1,order = "F"),
+    ])
+    
+    j_star = 1 - e_star / (alpha * lambda_bar * np.exp(K_mat))
+    j_star[j_star <= 1e-16] = 1e-16
+    
+    mc = delta / (alpha - i_star - alpha * vartheta_bar * j_star**theta - x_star)
+    dG  = gamma_1 + gamma_2 * Y_mat
+    ddG = gamma_2
+    
+    tol = 1e-7
+    episode = 0
+    epsilon = 0.1
+    max_iter = 3000
+    error = 1.
+    
+    A = np.zeros(K_mat.shape)
+    B_1 = np.zeros(K_mat.shape)
+    B_2 = np.sum(theta_ell * pi_c_o, axis=0) 
+    B_3 = np.zeros(K_mat.shape)
+
+    C_1 = np.zeros(K_mat.shape)
+    C_2 = e_star * sigma_y**2
+    C_3 = np.zeros(K_mat.shape)
+
+    D = mc * theta * vartheta_bar / (lambda_bar * np.exp(K_mat)) * j_star**(theta-1) - dG * np.sum(theta_ell * pi_c_o, axis=0) - ddG * sigma_y**2 * e_star
+
+    out = PDESolver(stateSpace, A, B_1, B_2, B_3, C_1, C_2, C_3, D, v0, epsilon, solverType="Feyman Kac")
+    v  = out[2].reshape(v0.shape, order="F")
+        
+
+    dvdy = finiteDiff_3D(v, 1, 1, hY)
+    ddvdyy = finiteDiff_3D(v, 1, 2, hY)
+    RHS = - dvdy * np.sum(pi_c_o * theta_ell, axis=0) - ddvdyy * sigma_y**2 * e_star + dG * np.sum(theta_ell * pi_c_o, axis=0) + ddG * sigma_y**2 * e_star
+    LHS = mc * theta * vartheta_bar /(lambda_bar * np.exp(K_mat)) * j_star**(theta-1)
+    diff = np.max(abs(RHS - LHS))
+    
+    ME_base = RHS
+    return v, ME_base, diff
 
 
 def simulate_pre(
@@ -429,6 +550,9 @@ def Damage_Intensity(Yt, y_bar_lower=1.5):
 
 
 
+
+
+
 def model_simulation_generate(xi_a,xi_g,psi_0,psi_1):
 
     Output_Dir = "/scratch/bincheng/"
@@ -502,9 +626,16 @@ def model_simulation_generate(xi_a,xi_g,psi_0,psi_1):
     print("--------------Control Check End--------------")
     
     ME_family = ME_base
-
     
     model_args = (delta, mu_k, kappa,sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar)
+
+    FKPDE = FKPDEsolver(grid = (K, Y_short, L),
+                        model_args = model_args,
+                        controls = (i,e,x, g_tech, g_damage, pi_c, v)
+                      )
+
+
+
 
     res = simulate_pre(grid = (K, Y_short, L), 
                        model_args = model_args, 

@@ -162,12 +162,12 @@ for id_xiag in range(len(xiaarr)):
                 plt.ylabel('$\%$ of GDP')
                 plt.title('R&D investment as percentage of  GDP')
                 # if auto==0:   
-                plt.ylim(0,0.5)
+                plt.ylim(0,0.4)
                 plt.xlim(0,IntPeriod)
 
                 plt.legend(loc='upper left')        
 print(res.keys())
-plt.savefig(Plot_Dir+"/RD,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+# plt.savefig(Plot_Dir+"/RD,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.savefig(Plot_Dir+"/RD,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.close()
 
@@ -191,7 +191,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/CapI,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+# plt.savefig(Plot_Dir+"/CapI,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.savefig(Plot_Dir+"/CapI,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.close()
 
@@ -262,8 +262,8 @@ for id_xiag in range(len(xiaarr)):
                 # plt.plot(res3["years"][res3["states"][:, 1]<1.5], np.exp(res3["states"][:, 2])[res3["states"][:, 1]<1.5],label='baseline',linewidth=7.0)
                 plt.xlabel('Years')
                 plt.title("Technology jump intensity $J_g$")
-                # if auto==0:   
-                plt.ylim(10.0,25.0)
+                if auto==0:   
+                    plt.ylim(20.0,35.0)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
@@ -412,7 +412,7 @@ for id_xiag in range(len(xiaarr)):
                 if auto==0:   
                     plt.ylim(6.5,8.0)
                 plt.xlim(0,IntPeriod)
-                plt.legend(loc='upper right')
+                plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/logSVRD,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.savefig(Plot_Dir+"/logSVRD,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
