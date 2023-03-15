@@ -408,14 +408,14 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel("Years")
                 plt.ticklabel_format(useOffset=False)
 
-                plt.title("Log of Social Cost of R&D")
+                plt.title("Log of Social Value of R&D")
                 if auto==0:   
                     plt.ylim(6.5,8.0)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper right')
 
-plt.savefig(Plot_Dir+"/logSCRD,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
-plt.savefig(Plot_Dir+"/logSCRD,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig(Plot_Dir+"/logSVRD,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig(Plot_Dir+"/logSVRD,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
