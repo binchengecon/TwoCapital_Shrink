@@ -161,8 +161,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel('Years')
                 plt.ylabel('$\%$ of GDP')
                 plt.title('R&D investment as percentage of  GDP')
-                # if auto==0:   
-                plt.ylim(0,0.4)
+                if auto==0:   
+                    plt.ylim(0,0.4)
                 plt.xlim(0,IntPeriod)
 
                 plt.legend(loc='upper left')        

@@ -286,7 +286,7 @@ def simulate_pre(
     controls = (),
     ME = (),
     n_bar = (),  
-    initial=(np.log(85/0.115), 1.1, np.log(448/20)), 
+    initial=(np.log(85/0.115), 1.1, np.log(448/40)), 
     T0=0, T=40, dt=1/12,
     printing=True):
 
@@ -629,10 +629,10 @@ def model_simulation_generate(xi_a,xi_g,psi_0,psi_1):
     
     model_args = (delta, mu_k, kappa,sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar)
 
-    FKPDE = FKPDEsolver(grid = (K, Y_short, L),
-                        model_args = model_args,
-                        controls = (i,e,x, g_tech, g_damage, pi_c, v)
-                      )
+    # FKPDE = FKPDEsolver(grid = (K, Y_short, L),
+    #                     model_args = model_args,
+    #                     controls = (i,e,x, g_tech, g_damage, pi_c, v)
+    #                   )
 
 
 
