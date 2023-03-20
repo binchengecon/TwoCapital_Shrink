@@ -165,6 +165,7 @@ def simulate_pre(
     model_args = (), 
     controls = (),
     ME = (),
+    FK = (),
     n_bar = (),  
     initial=(np.log(85/0.115), 1.1, np.log(448/40)), 
     T0=0, T=40, dt=1/12,
@@ -181,6 +182,7 @@ def simulate_pre(
     delta, mu_k, kappa, sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar = model_args
     ii, ee, xx, g_tech, g_damage, pi_c, v = controls
     ME_base = ME
+    dvdL_dis, dvdL_undis = FK
     n_bar = n_bar
     K_0, Y_0, L_0 = initial
 
@@ -240,7 +242,11 @@ def simulate_pre(
     e_func = RegularGridInterpolator(gridpoints, ee)
     x_func = RegularGridInterpolator(gridpoints, xx)
     tech_func = RegularGridInterpolator(gridpoints, g_tech)
+    
     dL_func   = RegularGridInterpolator(gridpoints, dL)
+    dvdL_dis_func   = RegularGridInterpolator(gridpoints, dvdL_dis)
+    dvdL_undis_func   = RegularGridInterpolator(gridpoints, dvdL_undis)
+    
     ME_total_func = RegularGridInterpolator(gridpoints, ME_total)
     ME_base_func = RegularGridInterpolator(gridpoints, ME_base)
     
@@ -287,6 +293,8 @@ def simulate_pre(
     scc_hist  = np.zeros([pers])
     gt_tech   = np.zeros([pers])
     dL_hist    = np.zeros([pers])
+    dvdL_dis_hist    = np.zeros([pers])
+    dvdL_undis_hist    = np.zeros([pers])
 
     gt_dmg    = np.zeros([n_damage, pers])
     pi_c_t = np.zeros([n_climate, pers])
@@ -312,7 +320,9 @@ def simulate_pre(
             mu_L_hist[0] = mu_L(x_hist[0], hist[0,:])
             gt_tech[0] = tech_func(hist[0, :])
             dL_hist[tm] = dL_func(hist[0,:])
-
+            dvdL_dis_hist[tm]    = dvdL_dis_func(hist[0,:])
+            dvdL_undis_hist[tm]    = dvdL_undis_func(hist[0,:])
+            
             for i in range(n_damage):
                 damage_func = damage_func_list[i]
                 gt_dmg[i, 0] = damage_func(hist[0, :])
@@ -334,7 +344,9 @@ def simulate_pre(
             x_hist[tm] = get_x(hist[tm-1,:])
             gt_tech[tm] = tech_func(hist[tm-1,:])
             dL_hist[tm] = dL_func(hist[tm-1,:])
-
+            dvdL_dis_hist[tm]    = dvdL_dis_func(hist[tm-1,:])
+            dvdL_undis_hist[tm]    = dvdL_undis_func(hist[tm-1,:])
+            
             for i in range(n_damage):
                 damage_func = damage_func_list[i]
                 gt_dmg[i, tm] = damage_func(hist[tm-1, :])
@@ -358,7 +370,7 @@ def simulate_pre(
             ME_base_hist[tm] = ME_base_func(hist[tm,:])
             
         if printing==True:
-            print("time={}, K={},Y={},L={},mu_K={},mu_Y={},mu_L={},ii={},ee={},xx={},ME_total_base={:.3}" .format(tm, hist[tm,0],hist[tm,1],hist[tm,2],mu_K_hist[tm],beta_f * e_hist[tm],mu_L_hist[tm],i_hist[tm],e_hist[tm],x_hist[tm],np.log(ME_total_hist[tm]/ME_base_hist[tm])*100), flush=True)
+            print("time={}, K={},Y={},L={},ME_total_base={:.3f}, SVRD={}, SVRD_dis={}, SVRD_undis={}" .format(tm, hist[tm,0],hist[tm,1],hist[tm,2],np.log(ME_total_hist[tm]/ME_base_hist[tm])*100, dL_hist[tm], dvdL_dis_hist[tm], dvdL_undis_hist[tm]), flush=True)
         
     
     
@@ -377,6 +389,8 @@ def simulate_pre(
     # scrd_hist = MU_RD/MC*1000
 
     scrd_hist = np.exp(hist[:,2]) * dL_hist / MC
+    scrd_dis_hist = np.exp(hist[:,2]) * dvdL_dis_hist / MC
+    scrd_undis_hist = np.exp(hist[:,2]) * dvdL_undis_hist / MC
 
     distorted_tech_intensity = np.exp(hist[:, 2]) * gt_tech/448
 
@@ -401,6 +415,8 @@ def simulate_pre(
         x = x_hist * np.exp(hist[:, 0]),
         scc = scc_hist,
         scrd = scrd_hist,
+        scrd_dis = scrd_dis_hist,
+        scrd_undis = scrd_undis_hist,
         gt_tech = gt_tech,
         gt_dmg = gt_dmg,
         distorted_damage_prob=distorted_damage_prob,
@@ -513,20 +529,26 @@ def model_simulation_generate(xi_a,xi_g,psi_0,psi_1):
     #                     model_args = model_args,
     #                     controls = (i,e,x, g_tech, g_damage, pi_c, v)
     #                   )
+    with open(Data_Dir + File_Dir+"FK_Distorted_model_tech1_pre_damage", "rb") as f:
+        FK_Dis_tech1 = pickle.load(f)
+    
+    with open(Data_Dir + File_Dir+"FK_Undistorted_model_tech1_pre_damage", "rb") as f:
+        FK_Undis_tech1 = pickle.load(f)
+    
 
-
-
+    FK_family = FK_Dis_tech1['dvdL'], FK_Undis_tech1['dvdL']
 
     res = simulate_pre(grid = (K, Y_short, L), 
                        model_args = model_args, 
                        controls = (i,e,x, g_tech, g_damage, pi_c, v),
                        ME = ME_family,
+                       FK = FK_family,
                        n_bar = n_bar,  
                        T0=0, 
                        T=IntPeriod, 
                        dt=timespan,printing=True)
 
-    with open(Data_Dir + File_Dir+"model_tech1_pre_damage"+"_UD_simul_{}".format(IntPeriod)+ scheme + "_" +HJB_solution, "wb") as f:
+    with open(Data_Dir + File_Dir+"model_tech1_pre_damage"+"_FK_simul_{}".format(IntPeriod)+ scheme + "_" +HJB_solution, "wb") as f:
         pickle.dump(res,f)
 
 

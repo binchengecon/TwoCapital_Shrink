@@ -4,11 +4,8 @@ epsilonarray=(0.1)
 
 
 
-# python_name="postdamage_2jump_CRS.py" # 3 dmg
-# python_name="postdamage_2jump_CRS_MulJump.py" # 3 dmg
-# python_name="postdamage_2jump_CRS_MulJump_D.py" # 3 dmg
-# python_name="postdamage_2jump_DRS.py" # 3 dmg
-
+# python_name="FK_postdamage_2jump_CRS.py" # 3 dmg
+python_name="FK_postdamage_2jump_CRS_PETSC.py" # 3 dmg
 
 NUM_DAMAGE=5
 # NUM_DAMAGE=10
@@ -49,28 +46,20 @@ psi1arr=(0.5)
 LENGTH_psi=$((${#psi0arr[@]} - 1))
 LENGTH_xi=$((${#xi_a[@]} - 1))
 
-hXarr_SG=(0.2 0.2 0.2)
-Xminarr_SG=(4.00 0.0 -5.5 0.0)
-Xmaxarr_SG=(9.00 4.0 0.0 3.0)
-interp_action_name="2jump_step_0.2_0.2_0.2_LR_0.01"
-fstr_SG="NearestNDInterpolator"
+Distorted=1
+
 
 for epsilon in ${epsilonarray[@]}; do
 	for hXarri in "${hXarrays[@]}"; do
 		count=0
 		declare -n hXarr="$hXarri"
 
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_CRS"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_CRS_MulJump"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_CRS_MulJump_D"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_DRS"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_CRS"
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_CRS_PETSCFK"
 
-		
 		epsilonarr=(0.1 ${epsilon})
 		fractionarr=(0.1 ${epsilon})
 
-		# epsilonarr=(0.1 0.01)
-		# fractionarr=(0.1 0.01)
 
 		for i in $(seq 0 $ID_MAX_DAMAGE); do
 		# i=4
@@ -78,7 +67,7 @@ for epsilon in ${epsilonarray[@]}; do
 				for PSI_1 in ${psi1arr[@]}; do
 					for j in $(seq 0 $LENGTH_xi); do
 
-						mkdir -p ./job-outs/${action_name}/Post/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/
+						mkdir -p ./job-outs/${action_name}/FK_Post/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/
 
 						if [ -f ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_ID_${i}.sh ]; then
 							rm ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_ID_${i}.sh
@@ -93,8 +82,8 @@ for epsilon in ${epsilonarray[@]}; do
 
 ######## login
 #SBATCH --job-name=${xi_a[$j]}_${xi_p[$j]}_$i_${epsilon}
-#SBATCH --output=./job-outs/${action_name}/Post/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_post_$i.out
-#SBATCH --error=./job-outs/${action_name}/Post/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_post_$i.err
+#SBATCH --output=./job-outs/${action_name}/FK_Post/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_post_$i.out
+#SBATCH --error=./job-outs/${action_name}/FK_Post/xia_${xi_a[$j]}_xip_${xi_p[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}/mercury_post_$i.err
 
 #SBATCH --account=pi-lhansen
 #SBATCH --partition=standard
