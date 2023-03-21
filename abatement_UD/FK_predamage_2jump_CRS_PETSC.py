@@ -317,6 +317,7 @@ F_II = np.zeros((nK, nY_short, nL))
 
 F_m = []
 for model in FK_model_tech1_post_damage:
+    print(model.keys())
     F_post_damage_i = model["v0"]
     F_post_damage_temp = np.zeros((nK, nY_short, nL))
     for j in range(nY_short):
@@ -359,7 +360,7 @@ model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k
 #########################################
 
 Guess = None
-model_tech1_pre_damage = hjb_pre_tech_petsc(
+model_tech1_pre_damage = fk_pre_tech_petsc(
         state_grid=(K, Y_short, L), 
         model_args=model_args, 
         controls = (i,e,x,pi_c,g_tech,g_damage),
@@ -416,7 +417,7 @@ model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k
 #########################################
 
 Guess = None
-model_tech1_pre_damage = hjb_pre_tech_petsc(
+model_tech1_pre_damage = fk_pre_tech_petsc(
         state_grid=(K, Y_short, L), 
         model_args=model_args, 
         controls = (i,e,x,pi_c,g_tech,g_damage),

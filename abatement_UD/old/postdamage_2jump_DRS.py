@@ -28,8 +28,8 @@ from src.PostSolver import hjb_post_damage_post_tech, hjb_pre_damage_post_tech
 # from src.PreSolver_RF import hjb_pre_tech
 # from src.PreSolver_Cobweb import pde_one_interation
 # from src.PreSolver_Cobweb import hjb_pre_tech
-from src.PreSolver_Corrected import pde_one_interation
-from src.PreSolver_Corrected import hjb_pre_tech
+from src.PreSolver_DRS import pde_one_interation
+from src.PreSolver_DRS import hjb_pre_tech
 import argparse
 
 reporterror = True

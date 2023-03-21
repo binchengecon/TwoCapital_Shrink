@@ -378,13 +378,13 @@ with open(Data_Dir+ File_Name  + "HJB_Distorted_model_tech1_post_damage_gamma_{:
     res = pickle.load(f)
 
 
-VF_diff = res['v0'] - Phi_m
+# VF_diff = res['v0'] - Phi_m
 
-os.makedirs("./abatement_UD/pdf_2tech/"+args.name+"/temp/", exist_ok=True)
+# os.makedirs("./abatement_UD/pdf_2tech/"+args.name+"/temp/", exist_ok=True)
 
-Plot_Dir = "./abatement_UD/pdf_2tech/"+args.name+"/temp/"
+# Plot_Dir = "./abatement_UD/pdf_2tech/"+args.name+"/temp/"
 
  
-plt.plot(K, res['v0'][:,6,13],label='Fixed Y =1.1, logJ_g=2.5')
-plt.plot(K, Phi_m[:,6,13],label='Fixed Y=1.1, logJ_g=2.5')
-plt.savefig(Plot_Dir+File_Name+"2VF"+".png")
+# plt.plot(K, res['v0'][:,6,13],label='Fixed Y =1.1, logJ_g=2.5')
+# plt.plot(K, Phi_m[:,6,13],label='Fixed Y=1.1, logJ_g=2.5')
+# plt.savefig(Plot_Dir+File_Name+"2VF"+".png")

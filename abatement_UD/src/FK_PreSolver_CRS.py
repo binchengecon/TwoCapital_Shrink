@@ -234,7 +234,7 @@ def fk_pre_tech_petsc(
         C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
 
         D = np.exp(L_mat - np.log(448)) * g_tech * (Phi_II - Phi)  + np.exp(L_mat - np.log(448)) * g_tech * F_II + Intensity * np.sum(pi_d_o*g_damage* F_m,axis=0)  
-        # D += xi_g * np.exp(L_mat - np.log(448)) * (1-g_tech +g_tech *np.log(g_tech))
+        D += xi_g * np.exp(L_mat - np.log(448)) * (1-g_tech +g_tech *np.log(g_tech))
 
         # out = PDESolver(stateSpace, A, B_1, B_2, B_3, C_1, C_2, C_3, D, dv0dL, epsilon, solverType="Feyman Kac")
 
@@ -269,7 +269,7 @@ def fk_pre_tech_petsc(
         dvdL = finiteDiff_3D(v, 2, 1, hL)    
         dvdL_orig = finiteDiff_3D(Phi, 2, 1, hL)    
         print("sanity check: {}".format(np.max(abs(dvdL-dvdL_orig))))
-        print("sanity check: {}".format(np.mean(np.log(abs(dvdL-dvdL_orig)))))
+        # print("sanity check: {}".format(np.mean(np.log(abs(dvdL-dvdL_orig)))))
 
         
     else:
@@ -291,7 +291,7 @@ def fk_pre_tech_petsc(
         C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
 
         D = np.exp(L_mat - np.log(448)) * g_tech * (Phi_m_II - Phi_m)+ np.exp(L_mat - np.log(448)) * g_tech * F_m_II
-        # D += xi_g * np.exp(L_mat - np.log(448)) * (1-g_tech +g_tech *np.log(g_tech))
+        D += xi_g * np.exp(L_mat - np.log(448)) * (1-g_tech +g_tech *np.log(g_tech))
         bpoint1 = time.time()
         A_1d   = A.ravel(order = 'F')
         C_1_1d = C_1.ravel(order = 'F')
@@ -323,12 +323,12 @@ def fk_pre_tech_petsc(
         dvdL = finiteDiff_3D(v, 2, 1, hL)    
         dvdL_orig = finiteDiff_3D(Phi_m, 2, 1, hL)    
         print("sanity check: {}".format(np.max(abs(dvdL-dvdL_orig))))
-        print("sanity check: {}".format(np.mean(abs(dvdL-dvdL_orig))))
+        # print("sanity check: {}".format(np.mean(abs(dvdL-dvdL_orig))))
 
         
     if model == "Post damage":
         res = {
-                # "v0"    : Phi_m,
+                "v0"    : v,
                 # "i_star": i,
                 # "e_star": e,
                 # "x_star": x,
@@ -338,7 +338,7 @@ def fk_pre_tech_petsc(
                 }
     if model == "Pre damage":
         res = {
-                # "v0"    : Phi_m,
+                "v0"    : v,
                 # "i_star": i,
                 # "e_star": e,
                 # "x_star": x,
@@ -573,13 +573,7 @@ def hjb_pre_tech_check(
     PDE_Err2 = np.max(abs(PDE_rhs2))
     FC_Err = np.max(abs((out_comp - v0)/ epsilon))
     
-    # if FC_Err < 2*tol:
-    #     print("---------Epoch {:d}: False Transient Error: {:.10f}; Time: {:.4f}---------------".format(epoch, FC_Err, time.time() - start_func), flush=True)
-    #     # print("---------Control_ii: [{},\t{}]".format(ii.min(), ii.max()), flush=True)
-    # elif epoch%100==0:
-    #     print("---------Epoch {:d}: False Transient Error: {:.10f}; Time: {:.4f}---------------".format(epoch, FC_Err, time.time() - start_func), flush=True)
-    #     # print("---------Control_ii: [{},\t{}]".format(ii.min(), ii.max()), flush=True)
-        
+
     v0     = out_comp
     epoch += 1
         
@@ -589,31 +583,6 @@ def hjb_pre_tech_check(
     e_star = ee
     x_star = xx
     
-    # # g_tech = np.exp(1. / xi_g * (v0 - V_post_tech))
-    # g_tech = np.ones(V_post_tech.shape)
-    
-    # dY_new = finiteDiff_3D(v0,1,1,hY)
-    # ddY_new = finiteDiff_3D(v0,1,2,hY)
-    # ME = - dY * np.sum(pi_c * theta_ell, axis=0) - ddY * sigma_y**2 * ee + dG * np.sum(theta_ell * pi_c, axis=0) +  ddG * sigma_y**2 * ee
-    # ME_new = - dY_new * np.sum(pi_c * theta_ell, axis=0) - ddY_new * sigma_y**2 * ee + dG * np.sum(theta_ell * pi_c, axis=0) +  ddG * sigma_y**2 * ee
-    
-    
-    # jj = alpha * vartheta_bar * (1 - ee / (alpha * lambda_bar * np.exp(K_mat)))**theta
-    
-    # jj[jj <= 1e-16] = 1e-16
-    # consumption = alpha - ii - jj - xx
-    # ME_total = delta/ consumption  * alpha * vartheta_bar * theta * (1 - ee / ( alpha * lambda_bar * np.exp(K_mat)))**(theta - 1) /( alpha * lambda_bar * np.exp(K_mat) )
-
-    # print("log(ME_total/ME) = [{},{}]".format(np.min(np.log(ME_total / ME)), np.max(np.log(ME_total / ME))))
-    # print("log(ME_total/ME_new) = [{},{}]".format(np.min(np.log(ME_total / ME_new)), np.max(np.log(ME_total / ME_new))))
-    
-    # if model == "Pre damage":
-    #     # g_damage = np.exp(1 / xi_p * (v0 - v_i))
-    #     g_damage = np.ones(v_i.shape)
-
-    #     print("---------pi_c=[{:.5f},{:.5f}], g_tech=[{:.5f},{:.5f}], g_damage=[{:.5f},{:.5f}]---------------".format(pi_c.min(), pi_c.max(), g_tech.min(), g_tech.max(), g_damage.min(), g_damage.max()), flush=True)
-    # else:
-    #     print("---------pi_c=[{:.5f},{:.5f}], g_tech=[{:.5f},{:.5f}]---------------".format(pi_c.min(), pi_c.max(), g_tech.min(), g_tech.max()), flush=True)
 
     res = {
             "v0"    : v0,

@@ -152,15 +152,15 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
 
     pi_c_ratio = log_pi_c_ratio - np.max(log_pi_c_ratio)
     pi_c = np.exp(pi_c_ratio) * pi_c_o
-    pi_c = (pi_c <= 0) * 1e-16 + (pi_c > 0) * pi_c
+    # pi_c = (pi_c <= 0) * 1e-16 + (pi_c > 0) * pi_c
     pi_c = pi_c / np.sum(pi_c, axis=0)
     entropy = np.sum(pi_c * (np.log(pi_c) - np.log(pi_c_o)), axis=0)
     # Technology
     gg = np.exp(1 / xi_g * (v0 - V_post_tech))
-    gg[gg <=1e-16] = 1e-16
+    # gg[gg <=1e-16] = 1e-16
     # gg[gg >= 1] = 1
     jj =  alpha * vartheta_bar * (1 - ee / (alpha * lambda_bar * np.exp(K_mat)))**theta
-    jj[jj <= 1e-16] = 1e-16
+    # jj[jj <= 1e-16] = 1e-16
     consumption = alpha - ii - jj - xx
     consumption[consumption <= 1e-16] = 1e-16
     # Step (2), solve minimization problem in HJB and calculate drift distortion
@@ -297,6 +297,7 @@ def hjb_pre_tech(
                 v0, A, B_1, B_2, B_3, C_1, C_2, C_3, D, 1e-13, epsilon)
         # if epoch % 1 == 0 and reporterror:
             # Calculating PDE error and False Transient error
+        
         PDE_rhs = A * v0 + B_1 * dX1 + B_2 * dX2 + B_3 * dX3 + C_1 * ddX1 + C_2 * ddX2 + C_3 * ddX3 + D
         PDE_Err = np.max(abs(PDE_rhs))
         FC_Err = np.max(abs((out_comp - v0)/ epsilon))
@@ -309,7 +310,7 @@ def hjb_pre_tech(
             print("min i: {},\t max i: {}\t".format(ii.min(), ii.max()))
             print("min e: {},\t max e: {}\t".format(ee.min(), ee.max()))
             print("min x: {},\t max x: {}\t".format(xx.min(), xx.max()))
-            print("petsc total: {:.3f}s".format(end_ksp - bpoint1))
+            print("petsc total: {:.3f}s, Residual Norm is {:g}".format((end_ksp - bpoint1),ksp.getResidualNorm()))
             print("Epoch {:d} (PETSc): PDE Error: {:.10f}; False Transient Error: {:.10f}" .format(epoch, PDE_Err, FC_Err))
             print("Epoch time: {:.4f}".format(time.time() - start_ep))
         elif epoch%100==0:
@@ -320,7 +321,7 @@ def hjb_pre_tech(
             print("min i: {},\t max i: {}\t".format(ii.min(), ii.max()))
             print("min e: {},\t max e: {}\t".format(ee.min(), ee.max()))
             print("min x: {},\t max x: {}\t".format(xx.min(), xx.max()))
-            print("petsc total: {:.3f}s".format(end_ksp - bpoint1))
+            print("petsc total: {:.3f}s, Residual Norm is {:g}".format((end_ksp - bpoint1),ksp.getResidualNorm()))
             print("Epoch {:d} (PETSc): PDE Error: {:.10f}; False Transient Error: {:.10f}" .format(epoch, PDE_Err, FC_Err))
             print("Epoch time: {:.4f}".format(time.time() - start_ep))
             
