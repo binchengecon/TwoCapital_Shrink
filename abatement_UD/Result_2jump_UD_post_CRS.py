@@ -242,9 +242,9 @@ if scheme=="macroannual":
 
     Guess = None
     
-    res = src.PreSolver_Corrected.hjb_pre_tech(
+    res = src.PreSolver_CRS.hjb_pre_tech(
             state_grid=(K, Y, L), 
-            model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, psi_2, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a_post, xi_g_post, xi_p_post),
+            model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a_post, xi_g_post, xi_p_post),
             V_post_damage=None,
             tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], 
             smart_guess=Guess, 
@@ -256,7 +256,7 @@ if scheme=="macroannual":
         pickle.dump(res, f)
 
 theta_ell = pd.read_csv('./data/model144_p.csv', header=None).to_numpy()[:, 0]/1000.
-psi_2 = pd.read_csv('./data/psi2value_p.csv', header=None).to_numpy()[:, 0]
+# psi_2 = pd.read_csv('./data/psi2value_p.csv', header=None).to_numpy()[:, 0]
     
         
 if scheme=="newway":
@@ -285,9 +285,9 @@ if scheme=="newway":
             
         Guess = None
         
-        res = src.ResultSolver.hjb_pre_tech_partialupdate(
+        res = src.ResultSolver_CRS.hjb_pre_tech_partialupdate(
                 state_grid=(K, Y, L), 
-                model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, psi_2, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a_post, xi_g_post, xi_p_post),
+                model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a_post, xi_g_post, xi_p_post),
                 control_fixed=(ii, ee, xx, v0),
                 n_bar = n_bar,
                 V_post_damage=None,
@@ -315,9 +315,9 @@ if scheme=="newway":
         Guess = None
         n_bar = len(Y)-1
 
-        res = src.ResultSolver.hjb_pre_tech_noupdate(
+        res = src.ResultSolver_CRS.hjb_pre_tech_noupdate(
                 state_grid=(K, Y, L), 
-                model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, psi_2, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a_post, xi_g_post, xi_p_post),
+                model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a_post, xi_g_post, xi_p_post),
                 control_fixed=(ii, ee, xx, v0),
                 n_bar = n_bar,
                 V_post_damage=None,
@@ -346,9 +346,9 @@ if scheme=="newway":
             
         Guess = None
         n_bar = len(Y)-1
-        res = src.ResultSolver.hjb_pre_tech_noupdate_noFT(
+        res = src.ResultSolver_CRS.hjb_pre_tech_noupdate_noFT(
                 state_grid=(K, Y, L), 
-                model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, psi_2, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a_post, xi_g_post, xi_p_post),
+                model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a_post, xi_g_post, xi_p_post),
                 control_fixed=(ii, ee, xx, v0),
                 n_bar = n_bar,
                 V_post_damage=None,
@@ -362,6 +362,35 @@ if scheme=="newway":
             pickle.dump(res, f)
         with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) + File_Name_Suffix, "rb") as f:
             res = pickle.load(f)
+
+
+        # xi_a_post = xi_a
+        # xi_g_post = xi_g
+        # xi_p_post = xi_p
+        # File_Name_Suffix = "_xiapost_{}_xig_post_{}_xippost_{}".format(xi_a_post, xi_g_post, xi_p_post) + "_full_" + scheme + "_" +HJB_solution
+        
+        # # with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) + File_Name_Suffix, "rb") as f:
+        # #     Guess = pickle.load(f)
+            
+        # Guess = None
+        # n_bar = len(Y)-1
+        # res = src.ResultSolver_CRS.hjb_pre_tech_noupdate_noFT(
+        #         state_grid=(K, Y, L), 
+        #         model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a_post, xi_g_post, xi_p_post),
+        #         control_fixed=(ii, ee, xx, v0),
+        #         n_bar = n_bar,
+        #         V_post_damage=None,
+        #         tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], 
+        #         smart_guess=Guess, 
+        #         max_iter=maxiterarr[1],
+        #         )
+
+
+        # with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) + File_Name_Suffix, "wb") as f:
+        #     pickle.dump(res, f)
+        # with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) + File_Name_Suffix, "rb") as f:
+        #     res = pickle.load(f)
+
 
 
 
@@ -392,9 +421,9 @@ if scheme=="check":
         
         Guess = None
         
-        res = src.ResultSolver.hjb_pre_tech_partialupdate(
+        res = src.ResultSolver_CRS.hjb_pre_tech_partialupdate(
                 state_grid=(K, Y, L), 
-                model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, psi_2, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a_post, xi_g_post, xi_p_post),
+                model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a_post, xi_g_post, xi_p_post),
                 control_fixed=(ii, ee, xx, v0),
                 n_bar = n_bar,
                 V_post_damage=None,

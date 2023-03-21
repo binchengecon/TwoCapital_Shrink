@@ -471,6 +471,98 @@ plt.savefig(Plot_Dir+"/logSVRD_undis,xia={},xig={},psi0={},psi1={}.pdf".format(x
 plt.savefig(Plot_Dir+"/logSVRD_undis,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.close()
 
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            
+
+                res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"], np.log(res["scrd_dis_HJB"]),label='baseline',linewidth=5.0)
+                else:
+                    plt.plot(res["years"], np.log(res["scrd_dis_HJB"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0)
+
+                plt.xlabel("Years")
+                plt.ticklabel_format(useOffset=False)
+
+                plt.title("Log of Social Value of R&D")
+                if auto==0:   
+                    plt.ylim(6.5,8.0)
+                plt.ylim(-1.5,0.0)
+                plt.xlim(0,IntPeriod)
+                plt.legend(loc='upper left')
+
+plt.savefig(Plot_Dir+"/logSVRD_dis_HJB,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig(Plot_Dir+"/logSVRD_dis_HJB,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.close()
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            
+
+                res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"], np.log(res["scrd_undis_HJB"]),label='baseline',linewidth=5.0)
+                else:
+                    plt.plot(res["years"], np.log(res["scrd_undis_HJB"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0)
+
+
+
+                plt.xlabel("Years")
+                plt.ticklabel_format(useOffset=False)
+
+                plt.title("Log of Social Value of R&D")
+                if auto==0:   
+                    plt.ylim(6.5,8.0)
+                plt.ylim(-1.5,0.0)
+                plt.xlim(0,IntPeriod)
+                plt.legend(loc='upper left')
+
+plt.savefig(Plot_Dir+"/logSVRD_undis_HJB,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig(Plot_Dir+"/logSVRD_undis_HJB,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.close()
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            
+
+                res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"], np.log(res["scrd_undis_HJB"]),label='baseline',linewidth=5.0,linestyle = 'dashed')
+                else:
+                    plt.plot(res["years"], np.log(res["scrd_undis_HJB"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed')
+                
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"], np.log(res["scrd"]),label='baseline',linewidth=5.0)
+                else:
+                    plt.plot(res["years"], np.log(res["scrd"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0)
+
+                plt.xlabel("Years")
+                plt.ticklabel_format(useOffset=False)
+
+                plt.title("Log of Social Value of R&D: Comparison")
+                if auto==0:   
+                    plt.ylim(6.5,8.0)
+                plt.xlim(0,IntPeriod)
+                plt.legend(loc='upper left')
+
+plt.savefig(Plot_Dir+"/logSVRD_orig_undis_HJB,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig(Plot_Dir+"/logSVRD_orig_undis_HJB,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.close()
+
+
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
         for id_psi1 in range(len(psi1arr)):

@@ -38,7 +38,6 @@ psi1arr=(0.5)
 
 
 python_name_unit="Result_2jump_UD_simulate_CRS_FK.py"
-# python_name_unit="Result_2jump_UD_simulate_CRS_MulJump.py"
 
 
 server_name="mercury"

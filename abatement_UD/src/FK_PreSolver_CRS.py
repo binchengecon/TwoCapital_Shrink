@@ -58,7 +58,7 @@ def fk_pre_tech(
         ):
 
     K, Y, L = state_grid
-    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_g, xi_p = model_args
+    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_g, xi_p = model_args
     
 
     
@@ -103,7 +103,7 @@ def fk_pre_tech(
         C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
 
         D = np.exp(L_mat - np.log(448)) * g_tech * (Phi_II - Phi)  + np.exp(L_mat - np.log(448)) * g_tech * F_II + Intensity * np.sum(pi_d_o*g_damage* F_m,axis=0)  
-        # D += xi_g * np.exp(L_mat - np.log(448)) * (1-g_tech +g_tech *np.log(g_tech))
+        D += xi_g * np.exp(L_mat - np.log(448)) * (1-g_tech +g_tech *np.log(g_tech))
 
         out = PDESolver(stateSpace, A, B_1, B_2, B_3, C_1, C_2, C_3, D, dv0dL, epsilon, solverType="Feyman Kac")
         v  = out[2].reshape(dv0dL.shape, order="F")
@@ -132,7 +132,7 @@ def fk_pre_tech(
         C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
 
         D = np.exp(L_mat - np.log(448)) * g_tech * (Phi_m_II - Phi_m)+ np.exp(L_mat - np.log(448)) * g_tech * F_m_II
-        # D += xi_g * np.exp(L_mat - np.log(448)) * (1-g_tech +g_tech *np.log(g_tech))
+        D += xi_g * np.exp(L_mat - np.log(448)) * (1-g_tech +g_tech *np.log(g_tech))
 
         out = PDESolver(stateSpace, A, B_1, B_2, B_3, C_1, C_2, C_3, D, dv0dL, epsilon, solverType="Feyman Kac")
         v  = out[2].reshape(dv0dL.shape, order="F")
@@ -178,7 +178,7 @@ def fk_pre_tech_petsc(
         ):
 
     K, Y, L = state_grid
-    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_g, xi_p = model_args
+    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_g, xi_p = model_args
     
     K_min, K_max, Y_min, Y_max, L_min, L_max = K.min(), K.max(), Y.min(), Y.max(), L.min(), L.max()
     hK, hY, hL = K[1] - K[0], Y[1] - Y[0], L[1]-L[0]
@@ -400,10 +400,10 @@ def hjb_pre_tech_check(
 
     start_func = time.time()
     K, Y, L = state_grid
-    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, Phi_m_II_3D, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_g, xi_p = model_args
+    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_g, xi_p = model_args
 
     
-    V_post_tech = Phi_m_II_3D
+    V_post_tech = v_tech2
     
     if V_post_damage is not None:
         V_post_damage = V_post_damage
@@ -421,17 +421,11 @@ def hjb_pre_tech_check(
     
     
     pi_c_o = np.ones(len(theta_ell)) / len(theta_ell)
-    pi_c = np.ones(len(theta_ell)) / len(theta_ell)
+    # pi_c = np.ones(len(theta_ell)) / len(theta_ell)
     
     pi_c_o = np.array([temp * np.ones(K_mat.shape) for temp in pi_c_o ])
-    pi_c = np.array([temp * np.ones(K_mat.shape) for temp in pi_c ])
     theta_ell = np.array([temp * np.ones(K_mat.shape) for temp in theta_ell ])
-    # psi_2 = np.array([temp * np.ones(K_mat.shape) for temp in psi_2 ])
-    
-    pi_c_o = pi_c_o
-    pi_c = pi_c
-    theta_ell = theta_ell
-    # psi_2 = psi_2
+
     
     K_mat_1d = K_mat.ravel(order='F')
     Y_mat_1d = Y_mat.ravel(order='F')
@@ -442,7 +436,7 @@ def hjb_pre_tech_check(
     #### Model type
     if isinstance(gamma_3, (np.ndarray, list)):
         model = "Pre damage"
-        ii, ee, xx, g_tech, g_damage, v0 = controls
+        ii, ee, xx, pi_c, g_tech, g_damage, v0 = controls
 
         pi_d_o = np.ones(len(gamma_3)) / len(gamma_3)
         pi_d_o = np.array([temp * np.ones(K_mat.shape) for temp in pi_d_o ])
@@ -459,7 +453,8 @@ def hjb_pre_tech_check(
         jj[jj <= 1e-16] = 1e-16
         consumption = alpha - ii - jj - xx
         consumption[consumption <= 1e-16] = 1e-16
-        
+        entropy = np.sum(pi_c * (np.log(pi_c) - np.log(pi_c_o)), axis=0)
+
         A   = - delta * np.ones(K_mat.shape) - np.exp(  L_mat - np.log(448) ) * g_tech
         B_1 = mu_k + ii - 0.5 * kappa * ii**2 - 0.5 * sigma_k**2
         B_2 = np.sum(theta_ell * pi_c, axis=0) * ee
@@ -476,7 +471,7 @@ def hjb_pre_tech_check(
     else:
         model = "Post damage"
         
-        ii, ee, xx, g_tech, v0 = controls
+        ii, ee, xx, pi_c, g_tech, v0 = controls
 
         dG  = gamma_1 + gamma_2 * Y_mat + gamma_3 * (Y_mat - y_bar) * (Y_mat > y_bar)
         ddG = gamma_2 + gamma_3 * (Y_mat > y_bar)
@@ -507,7 +502,6 @@ def hjb_pre_tech_check(
     dVec = np.array([hK, hY, hL])
     increVec = np.array([1, nK, nK * nY],dtype=np.int32)
 
-    FOC_args = (delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_g )
 
     petsc_mat = PETSc.Mat().create()
     petsc_mat.setType('aij')
@@ -590,9 +584,9 @@ def hjb_pre_tech_check(
             "e_star": e_star,
             "x_star": x_star,
             "pi_c"  : pi_c,
-            # "ME"    : ME_new,
             "g_tech": g_tech,
             "FC_Err": FC_Err,
+            "dvdL": dL,
             }
     if model == "Pre damage":
         res = {
@@ -603,8 +597,8 @@ def hjb_pre_tech_check(
                 "pi_c"  : pi_c,
                 "g_tech": g_tech,
                 "g_damage": g_damage,
-                # "ME": ME_new,
                 "FC_Err": FC_Err,
+                "dvdL": dL,
                 }
     return res
 

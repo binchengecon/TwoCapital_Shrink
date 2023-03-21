@@ -712,6 +712,7 @@ def hjb_pre_tech_noupdate_noFT(
     #     print("---------Epoch {:d}: False Transient Error: {:.10f}; Time: {:.4f}---------------".format(epoch, FC_Err, time.time() - start_func), flush=True)
     #     # print("---------Control_ii: [{},\t{}]".format(ii.min(), ii.max()), flush=True)
         
+    dvdL = finiteDiff_3D(out_comp,2,1,hL)
     v0     = out_comp
     epoch += 1
         
@@ -756,6 +757,7 @@ def hjb_pre_tech_noupdate_noFT(
             "ME"    : ME_new,
             "g_tech": g_tech,
             "FC_Err": FC_Err,
+            "dvdL":dvdL,
             }
     if model == "Pre damage":
         res = {
@@ -768,6 +770,7 @@ def hjb_pre_tech_noupdate_noFT(
                 "g_damage": g_damage,
                 "ME": ME_new,
                 "FC_Err": FC_Err,
+                "dvdL": dvdL,
                 }
     return res
 

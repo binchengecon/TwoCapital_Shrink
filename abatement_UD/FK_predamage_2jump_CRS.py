@@ -352,14 +352,14 @@ theta_ell = np.array([temp * np.ones((nK, nY_short, nL)) for temp in theta_ell])
 
 
 
-model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a, xi_g, xi_p)
+model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a, xi_g, xi_p)
 
 #########################################
 ######### Start of Compute###############
 #########################################
 
 Guess = None
-model_tech1_pre_damage = hjb_pre_tech(
+model_tech1_pre_damage = fk_pre_tech(
         state_grid=(K, Y_short, L), 
         model_args=model_args, 
         controls = (i,e,x,pi_c,g_tech,g_damage),
@@ -390,8 +390,7 @@ i = model_tech1_pre_damage['i_star']
 e = model_tech1_pre_damage['e_star']
 x = model_tech1_pre_damage['x_star']
 # pi_c = model_tech1_pre_damage['pi_c']
-pi_c_o    = np.ones_like(theta_ell)/len(theta_ell)
-pi_c = np.array([temp * np.ones((nK, nY_short, nL)) for temp in pi_c_o])
+pi_c = np.ones(pi_c.shape)
 
 # g_tech = model_tech1_pre_damage['g_tech']
 g_tech = np.ones(Phi.shape)
@@ -409,14 +408,14 @@ theta_ell = np.array([temp * np.ones((nK, nY_short, nL)) for temp in theta_ell])
 
 
 
-model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a, xi_g, xi_p)
+model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a, xi_g, xi_p)
 
 #########################################
 ######### Start of Compute###############
 #########################################
 
 Guess = None
-model_tech1_pre_damage = hjb_pre_tech(
+model_tech1_pre_damage = fk_pre_tech(
         state_grid=(K, Y_short, L), 
         model_args=model_args, 
         controls = (i,e,x,pi_c,g_tech,g_damage),

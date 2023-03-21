@@ -251,9 +251,9 @@ g_tech = model_tech1_post_damage['g_tech']
 # Guess = None
 
 # res = hjb_pre_tech_petsc(
-res = hjb_pre_tech(
+res = fk_pre_tech(
         state_grid=(K, Y, L), 
-        model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_g, xi_p),
+        model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_g, xi_p),
         controls=(i,e,x,pi_c,g_tech),
         VF = (Phi_m_II_3D, Phi_m),
         FFK = (F_m_II),
@@ -300,10 +300,12 @@ Phi_m = model_tech1_post_damage['v0']
 i = model_tech1_post_damage['i_star']
 e = model_tech1_post_damage['e_star']
 x = model_tech1_post_damage['x_star']
-# pi_c = model_tech1_post_damage['pi_c']
+pi_c = model_tech1_post_damage['pi_c']
+pi_c = np.ones(pi_c.shape)
+
 theta_ell = pd.read_csv('./data/model144.csv', header=None).to_numpy()[:, 0]/1000.
 pi_c_o    = np.ones_like(theta_ell)/len(theta_ell)
-pi_c = np.array([temp * np.ones(K_mat.shape) for temp in pi_c_o])
+# pi_c = np.array([temp * np.ones(K_mat.shape) for temp in pi_c_o])
 # g_tech = model_tech1_post_damage['g_tech']
 g_tech = np.ones(Phi_m.shape)
 theta_ell = np.array([temp * np.ones(K_mat.shape) for temp in theta_ell])
@@ -311,9 +313,9 @@ theta_ell = np.array([temp * np.ones(K_mat.shape) for temp in theta_ell])
 # Guess = None
 
 # res = hjb_pre_tech_petsc(
-res = hjb_pre_tech(
+res = fk_pre_tech(
         state_grid=(K, Y, L), 
-        model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_g, xi_p),
+        model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_g, xi_p),
         controls=(i,e,x,pi_c,g_tech),
         VF = (Phi_m_II_3D, Phi_m),
         FFK = (F_m_II),

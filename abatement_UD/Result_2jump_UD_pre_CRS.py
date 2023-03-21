@@ -21,8 +21,8 @@ from scipy.sparse import coo_matrix
 from scipy.sparse import csr_matrix
 from datetime import datetime
 # from solver import solver_3d
-import src.PreSolver_Corrected
-import src.ResultSolver
+import src.PreSolver_CRS
+import src.ResultSolver_CRS
 import time
 import numpy as np
 import argparse
@@ -104,7 +104,6 @@ y_bar_lower = 1.5
 
 
 theta_ell = pd.read_csv('./data/model144_p.csv', header=None).to_numpy()[:, 0]/1000.
-psi_2 = pd.read_csv('./data/psi2value_p.csv', header=None).to_numpy()[:, 0]
 pi_c_o    = np.ones_like(theta_ell)/len(theta_ell)
 sigma_y   = 1.2 * np.mean(theta_ell)
 beta_f    = 1.86 / 1000
@@ -232,7 +231,7 @@ if scheme == "macroannual":
     # pi_d_o = np.array([temp * np.ones((nK, nY_short)) for temp in pi_d_o])
 
     theta_ell = pd.read_csv('./data/model144_p.csv', header=None).to_numpy()[:, 0]/1000.
-    psi_2 = pd.read_csv('./data/psi2value_p.csv', header=None).to_numpy()[:, 0]
+    # psi_2 = pd.read_csv('./data/psi2value_p.csv', header=None).to_numpy()[:, 0]
 
 
     v_i = []
@@ -255,7 +254,7 @@ if scheme == "macroannual":
     File_Name_Suffix_pre = "_xiapre_{}_xig_pre_{}_xippre_{}".format(xi_a_pre, xi_g_pre, xi_p_pre) + "_full_" + scheme + "_" + HJB_solution
     
     
-    model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, psi_2, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a_pre, xi_g_pre, xi_p_pre)
+    model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a_pre, xi_g_pre, xi_p_pre)
 
     #########################################
     ######### Start of Compute###############
@@ -271,7 +270,7 @@ if scheme == "macroannual":
     # Guess = pickle.load(open(Data_Dir+ File_Name + "model_tech1_pre_damage"+File_Name_Suffix_pre, "rb"))
 
     Guess = None
-    model_tech1_pre_damage = src.ResultSolver.hjb_pre_tech_partialupdate(
+    model_tech1_pre_damage = src.ResultSolver_CRS.hjb_pre_tech_partialupdate(
             state_grid=(K, Y_short, L), 
             model_args=model_args, 
             control_fixed=(ii, ee, xx, v0),
@@ -315,7 +314,7 @@ if scheme == "newway":
         # pi_d_o = np.array([temp * np.ones((nK, nY_short)) for temp in pi_d_o])
 
         theta_ell = pd.read_csv('./data/model144_p.csv', header=None).to_numpy()[:, 0]/1000.
-        psi_2 = pd.read_csv('./data/psi2value_p.csv', header=None).to_numpy()[:, 0]
+        # psi_2 = pd.read_csv('./data/psi2value_p.csv', header=None).to_numpy()[:, 0]
 
 
         v_i = []
@@ -338,7 +337,7 @@ if scheme == "newway":
         File_Name_Suffix_pre = "_xiapre_{}_xig_pre_{}_xippre_{}".format(xi_a_pre, xi_g_pre, xi_p_pre) + "_full_" + scheme + "_" +HJB_solution
         
         
-        model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, psi_2, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a_pre, xi_g_pre, xi_p_pre)
+        model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a_pre, xi_g_pre, xi_p_pre)
 
         #########################################
         ######### Start of Compute###############
@@ -353,7 +352,7 @@ if scheme == "newway":
         # Guess = pickle.load(open(Data_Dir+ File_Name + "model_tech1_pre_damage"+File_Name_Suffix_pre, "rb"))
 
         Guess = None
-        model_tech1_pre_damage = src.ResultSolver.hjb_pre_tech_partialupdate(
+        model_tech1_pre_damage = src.ResultSolver_CRS.hjb_pre_tech_partialupdate(
                 state_grid=(K, Y_short, L), 
                 model_args=model_args, 
                 control_fixed=(ii, ee, xx, v0),
@@ -396,7 +395,7 @@ if scheme == "newway":
         # pi_d_o = np.array([temp * np.ones((nK, nY_short)) for temp in pi_d_o])
 
         theta_ell = pd.read_csv('./data/model144_p.csv', header=None).to_numpy()[:, 0]/1000.
-        psi_2 = pd.read_csv('./data/psi2value_p.csv', header=None).to_numpy()[:, 0]
+        # psi_2 = pd.read_csv('./data/psi2value_p.csv', header=None).to_numpy()[:, 0]
 
 
         v_i = []
@@ -419,7 +418,7 @@ if scheme == "newway":
         File_Name_Suffix_pre = "_xiapre_{}_xig_pre_{}_xippre_{}".format(xi_a_pre, xi_g_pre, xi_p_pre) + "_full_" + scheme + "_" +HJB_solution
         
         
-        model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, psi_2, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a_pre, xi_g_pre, xi_p_pre)
+        model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a_pre, xi_g_pre, xi_p_pre)
 
         #########################################
         ######### Start of Compute###############
@@ -434,7 +433,7 @@ if scheme == "newway":
         # Guess = pickle.load(open(Data_Dir+ File_Name + "model_tech1_pre_damage"+File_Name_Suffix_pre, "rb"))
 
         Guess = None
-        model_tech1_pre_damage = src.ResultSolver.hjb_pre_tech_noupdate(
+        model_tech1_pre_damage = src.ResultSolver_CRS.hjb_pre_tech_noupdate(
                 state_grid=(K, Y_short, L), 
                 model_args=model_args, 
                 control_fixed=(ii, ee, xx, v0),
@@ -476,7 +475,7 @@ if scheme == "newway":
         # pi_d_o = np.array([temp * np.ones((nK, nY_short)) for temp in pi_d_o])
 
         theta_ell = pd.read_csv('./data/model144_p.csv', header=None).to_numpy()[:, 0]/1000.
-        psi_2 = pd.read_csv('./data/psi2value_p.csv', header=None).to_numpy()[:, 0]
+        # psi_2 = pd.read_csv('./data/psi2value_p.csv', header=None).to_numpy()[:, 0]
 
 
         v_i = []
@@ -500,7 +499,7 @@ if scheme == "newway":
         File_Name_Suffix_pre = "_xiapre_{}_xig_pre_{}_xippre_{}".format(xi_a_pre, xi_g_pre, xi_p_pre) + "_full_" + scheme + "_" +HJB_solution
         
         
-        model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, psi_2, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a_pre, xi_g_pre, xi_p_pre)
+        model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a_pre, xi_g_pre, xi_p_pre)
 
         #########################################
         ######### Start of Compute###############
@@ -516,7 +515,7 @@ if scheme == "newway":
         # Guess = pickle.load(open(Data_Dir+ File_Name + "model_tech1_pre_damage"+File_Name_Suffix_pre, "rb"))
 
         Guess = None
-        model_tech1_pre_damage = src.ResultSolver.hjb_pre_tech_noupdate_noFT(
+        model_tech1_pre_damage = src.ResultSolver_CRS.hjb_pre_tech_noupdate_noFT(
                 state_grid=(K, Y_short, L), 
                 model_args=model_args, 
                 control_fixed=(ii, ee, xx, v0),
@@ -558,7 +557,7 @@ if scheme == "newway":
         # pi_d_o = np.array([temp * np.ones((nK, nY_short)) for temp in pi_d_o])
 
         theta_ell = pd.read_csv('./data/model144_p.csv', header=None).to_numpy()[:, 0]/1000.
-        psi_2 = pd.read_csv('./data/psi2value_p.csv', header=None).to_numpy()[:, 0]
+        # psi_2 = pd.read_csv('./data/psi2value_p.csv', header=None).to_numpy()[:, 0]
 
 
         v_i = []
@@ -582,7 +581,7 @@ if scheme == "newway":
         File_Name_Suffix_pre = "_xiapre_{}_xig_pre_{}_xippre_{}".format(xi_a_pre, xi_g_pre, xi_p_pre) + "_full_" + scheme + "_" +HJB_solution
         
         
-        model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, psi_2, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a_pre, xi_g_pre, xi_p_pre)
+        model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a_pre, xi_g_pre, xi_p_pre)
 
         #########################################
         ######### Start of Compute###############
@@ -598,7 +597,7 @@ if scheme == "newway":
         # Guess = pickle.load(open(Data_Dir+ File_Name + "model_tech1_pre_damage"+File_Name_Suffix_pre, "rb"))
 
         Guess = None
-        model_tech1_pre_damage = src.ResultSolver.hjb_pre_tech_partialupdate_noFT(
+        model_tech1_pre_damage = src.ResultSolver_CRS.hjb_pre_tech_partialupdate_noFT(
                 state_grid=(K, Y_short, L), 
                 model_args=model_args, 
                 control_fixed=(ii, ee, xx, v0),
@@ -612,6 +611,89 @@ if scheme == "newway":
             pickle.dump(model_tech1_pre_damage, f)
 
         model_tech1_pre_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech1_pre_damage"+File_Name_Suffix_pre, "rb"))
+
+
+        # xi_a_post = 100000.
+        # xi_g_post = 100000.
+        # xi_p_post = 100000.
+        # File_Name_Suffix = "_xiapost_{}_xig_post_{}_xippost_{}".format(xi_a_post, xi_g_post, xi_p_post) + "_full_" + scheme + "_" +HJB_solution
+        
+        
+        # # Post damage, tech I
+        # print("-------------------------------------------")
+        # print("------------Post damage, Tech I-----------")
+        # print("-------------------------------------------")
+        # model_tech1_post_damage = []
+        # for i in range(len(gamma_3_list)):
+        #     gamma_3_i = gamma_3_list[i]
+        #     model_i = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i) + File_Name_Suffix, "rb"))
+        #     model_tech1_post_damage.append(model_i)
+
+        # with open(Data_Dir+ File_Name + "model_tech1_post_damage" + File_Name_Suffix, "wb") as f:
+        #     pickle.dump(model_tech1_post_damage, f)
+
+        # # model_tech1_post_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech1_post_damage", "rb"))
+        # print("Compiled.")
+
+        # # Pre damage, tech I
+        # # pi_d_o = np.ones(len(gamma_3_list)) / len(gamma_3_list)
+        # # pi_d_o = np.array([temp * np.ones((nK, nY_short)) for temp in pi_d_o])
+
+        # theta_ell = pd.read_csv('./data/model144_p.csv', header=None).to_numpy()[:, 0]/1000.
+        # # psi_2 = pd.read_csv('./data/psi2value_p.csv', header=None).to_numpy()[:, 0]
+
+
+        # v_i = []
+        # for model in model_tech1_post_damage:
+        #     v_post_damage_i = model["v0"]
+        #     v_post_damage_temp = np.zeros((nK, nY_short, nL))
+        #     for j in range(nY_short):
+        #         v_post_damage_temp[:, j, :] = v_post_damage_i[:, id_2, :]
+        #     v_i.append(v_post_damage_temp)
+        # v_i = np.array(v_i)
+        
+        # v_post = model_tech2_pre_damage["v"][:, :nY_short]
+        # v_tech2 = np.zeros((nK, nY_short, nL))
+        # for i in range(nL):
+        #     v_tech2[:, :, i] = v_post
+
+        # xi_a_pre = xi_a
+        # xi_g_pre = xi_g
+        # xi_p_pre = xi_p
+        
+        # File_Name_Suffix_pre = "_xiapre_{}_xig_pre_{}_xippre_{}".format(xi_a_pre, xi_g_pre, xi_p_pre) + "_full_" + scheme + "_" +HJB_solution
+        
+        
+        # model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a_pre, xi_g_pre, xi_p_pre)
+
+        # #########################################
+        # ######### Start of Compute###############
+        # #########################################
+
+        
+        # model_tech1_pre_damage = pickle.load(open(Data_Dir + File_Name + "model_tech1_pre_damage", "rb"))
+        # ii = model_tech1_pre_damage['i_star']
+        # ee = model_tech1_pre_damage['e_star']
+        # xx = model_tech1_pre_damage['x_star']
+        # v0 = model_tech1_pre_damage["v0"]
+        
+        # # Guess = pickle.load(open(Data_Dir+ File_Name + "model_tech1_pre_damage"+File_Name_Suffix_pre, "rb"))
+
+        # Guess = None
+        # model_tech1_pre_damage = src.ResultSolver_CRS.hjb_pre_tech_partialupdate_noFT(
+        #         state_grid=(K, Y_short, L), 
+        #         model_args=model_args, 
+        #         control_fixed=(ii, ee, xx, v0),
+        #         n_bar = n_bar2,
+        #         V_post_damage=v_i, 
+        #         tol=1e-6, epsilon=epsilonarr[1], fraction=fractionarr[1], max_iter=maxiterarr[1],
+        #         smart_guess=Guess,
+        #         )
+
+        # with open(Data_Dir+ File_Name + "model_tech1_pre_damage"+File_Name_Suffix_pre, "wb") as f:
+        #     pickle.dump(model_tech1_pre_damage, f)
+
+        # model_tech1_pre_damage = pickle.load(open(Data_Dir+ File_Name + "model_tech1_pre_damage"+File_Name_Suffix_pre, "rb"))
 
 
 if scheme == "check":
@@ -644,7 +726,7 @@ if scheme == "check":
         # pi_d_o = np.array([temp * np.ones((nK, nY_short)) for temp in pi_d_o])
 
         theta_ell = pd.read_csv('./data/model144_p.csv', header=None).to_numpy()[:, 0]/1000.
-        psi_2 = pd.read_csv('./data/psi2value_p.csv', header=None).to_numpy()[:, 0]
+        # psi_2 = pd.read_csv('./data/psi2value_p.csv', header=None).to_numpy()[:, 0]
 
 
         v_i = []
@@ -667,7 +749,7 @@ if scheme == "check":
         File_Name_Suffix_pre = "_xiapre_{}_xig_pre_{}_xippre_{}".format(xi_a_pre, xi_g_pre, xi_p_pre) + "_full_" + scheme + "_" +HJB_solution
         
         
-        model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, psi_2, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a_pre, xi_g_pre, xi_p_pre)
+        model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, sigma_y, zeta, psi_0, psi_1, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a_pre, xi_g_pre, xi_p_pre)
 
         #########################################
         ######### Start of Compute###############
@@ -683,7 +765,7 @@ if scheme == "check":
         # Guess = pickle.load(open(Data_Dir+ File_Name + "model_tech1_pre_damage"+File_Name_Suffix_pre, "rb"))
         
         Guess = None
-        model_tech1_pre_damage = src.ResultSolver.hjb_pre_tech_partialupdate(
+        model_tech1_pre_damage = src.ResultSolver_CRS.hjb_pre_tech_partialupdate(
                 state_grid=(K, Y_short, L), 
                 model_args=model_args, 
                 control_fixed=(ii, ee, xx, v0),
