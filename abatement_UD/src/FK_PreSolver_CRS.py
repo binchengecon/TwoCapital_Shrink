@@ -224,7 +224,7 @@ def fk_pre_tech_petsc(
 
         dv0dL = finiteDiff_3D(Phi, 2, 1, hL)       
 
-        A = -delta * np.ones(K_mat.shape) - psi_0 * psi_1 * (x * np.exp(K_mat-L_mat) )**psi_1 - np.exp(L_mat - np.log(448)) * g_tech - Intensity*np.sum(pi_d_o*g_damage,axis=0)
+        A = -delta * np.ones(K_mat.shape) - psi_0 * psi_1 * (x * np.exp(K_mat-L_mat) )**psi_1 
         B_1 = mu_k + i - 0.5 * kappa * i**2 - 0.5 * sigma_k**2
         B_2 = np.sum(theta_ell * pi_c, axis=0) * e
         B_3 = - zeta + psi_0 * (x * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
@@ -233,6 +233,8 @@ def fk_pre_tech_petsc(
         C_2 = 0.5 * sigma_y**2 * e**2
         C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
 
+        # D = np.zeros(A.shape)
+        A += - np.exp(L_mat - np.log(448)) * g_tech - Intensity*np.sum(pi_d_o*g_damage,axis=0)
         D = np.exp(L_mat - np.log(448)) * g_tech * (Phi_II - Phi)  + np.exp(L_mat - np.log(448)) * g_tech * F_II + Intensity * np.sum(pi_d_o*g_damage* F_m,axis=0)  
         D += xi_g * np.exp(L_mat - np.log(448)) * (1-g_tech +g_tech *np.log(g_tech))
 
@@ -268,7 +270,7 @@ def fk_pre_tech_petsc(
             
         dvdL = finiteDiff_3D(v, 2, 1, hL)    
         dvdL_orig = finiteDiff_3D(Phi, 2, 1, hL)    
-        print("sanity check: {}".format(np.max(abs(dvdL-dvdL_orig))))
+
         # print("sanity check: {}".format(np.mean(np.log(abs(dvdL-dvdL_orig)))))
 
         
@@ -281,7 +283,7 @@ def fk_pre_tech_petsc(
 
         dv0dL = finiteDiff_3D(Phi_m, 2, 1, hL)       
 
-        A = -delta * np.ones(K_mat.shape) - psi_0 * psi_1 * (x * np.exp(K_mat-L_mat) )**psi_1 - np.exp(L_mat - np.log(448)) * g_tech
+        A = -delta * np.ones(K_mat.shape) - psi_0 * psi_1 * (x * np.exp(K_mat-L_mat) )**psi_1 
         B_1 = mu_k + i - 0.5 * kappa * i**2 - 0.5 * sigma_k**2
         B_2 = np.sum(theta_ell * pi_c, axis=0) * e
         B_3 = - zeta + psi_0 * (x * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
@@ -289,9 +291,14 @@ def fk_pre_tech_petsc(
         C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
         C_2 = 0.5 * sigma_y**2 * e**2
         C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
+        
+        # D = np.zeros(A.shape)
 
+        A += - np.exp(L_mat - np.log(448)) * g_tech
         D = np.exp(L_mat - np.log(448)) * g_tech * (Phi_m_II - Phi_m)+ np.exp(L_mat - np.log(448)) * g_tech * F_m_II
         D += xi_g * np.exp(L_mat - np.log(448)) * (1-g_tech +g_tech *np.log(g_tech))
+        
+        
         bpoint1 = time.time()
         A_1d   = A.ravel(order = 'F')
         C_1_1d = C_1.ravel(order = 'F')
@@ -322,10 +329,24 @@ def fk_pre_tech_petsc(
             
         dvdL = finiteDiff_3D(v, 2, 1, hL)    
         dvdL_orig = finiteDiff_3D(Phi_m, 2, 1, hL)    
-        print("sanity check: {}".format(np.max(abs(dvdL-dvdL_orig))))
-        # print("sanity check: {}".format(np.mean(abs(dvdL-dvdL_orig))))
-
         
+    print("PETSc preconditioned residual norm is {:g}; iterations: {}".format(ksp.getResidualNorm(), ksp.getIterationNumber()))
+
+    print("sanity check: {}".format(np.max(abs(dvdL-dvdL_orig))))
+    num0 = np.sum((np.ones_like(dvdL-dvdL_orig)))
+    num1 = np.sum((abs(dvdL-dvdL_orig)>0.005))
+    num2 = np.sum((abs(dvdL-dvdL_orig)>0.010))
+    num3 = np.sum((abs(dvdL-dvdL_orig)>0.015))
+    print("sanity check 0.005: {}".format((num1/num0)*100))
+    print("sanity check 0.010: {}".format((num2/num0)*100))
+    print("sanity check 0.015: {}".format((num3/num0)*100))
+
+    pos0 = np.sum((dvdL>0))
+    pos1 = np.sum((dvdL==0))
+    print("sanity check positive: {}".format((pos0/num0)*100))
+    print("sanity check zero: {}".format((pos1/num0)*100))
+
+    
     if model == "Post damage":
         res = {
                 "v0"    : v,

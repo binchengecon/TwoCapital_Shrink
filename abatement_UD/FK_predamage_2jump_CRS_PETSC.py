@@ -261,46 +261,6 @@ Y_min_short = Xminarr[3]
 Y_max_short = Xmaxarr[3]
 Y_short     = np.arange(Y_min_short, Y_max_short + hY, hY)
 nY_short    = len(Y_short)
-# Pre damage, tech III
-# # Compile v_i
-# v_i = []
-# for i in range(len(gamma_3_list)):
-#     gamma_3_i = gamma_3_list[i]
-#     v_post_damage_i = np.zeros((nK, nY_short))
-#     for j in range(nY_short):
-#         v_post_damage_i[:, j] = model_tech2_post_damage[i]["v"][:, id_2]
-
-#     v_i.append(v_post_damage_i)
-
-# v_i = np.array(v_i)
-# pi_d_o = np.ones(len(gamma_3_list)) / len(gamma_3_list)
-# pi_d_o = np.array([temp * np.ones((nK, nY_short)) for temp in pi_d_o])
-
-# theta_ell = pd.read_csv('./data/model144.csv', header=None).to_numpy()[:, 0]/1000.
-# pi_c_o = np.ones(len(theta_ell)) / len(theta_ell)
-# pi_c_o = np.array([temp * np.ones((nK, nY_short)) for temp in pi_c_o])
-# theta_ell = np.array([temp * np.ones((nK, nY_short)) for temp in theta_ell])
-
-# ################################
-# ####Start of Compute############
-# ################################
-
-
-
-# v = np.mean(v_i, axis=0)
-
-# model_tech2_pre_damage = hjb_pre_damage_post_tech(
-#         K, Y_short, 
-#         model_args=(delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi_a, xi_b, xi_p, pi_d_o, v_i, gamma_1, gamma_2, theta, lambda_bar_second, vartheta_bar_second, y_bar_lower),
-#         v0=v, 
-#         smart_guess =None,
-#         epsilon=epsilonarr[0], 
-#         fraction=fractionarr[0],
-#         tol=1e-8, 
-#         max_iter=maxiterarr[0], 
-#         print_iteration=True
-#         )
-
 
 
 # Prepare Phi_II
@@ -353,8 +313,6 @@ theta_ell = np.array([temp * np.ones((nK, nY_short, nL)) for temp in theta_ell])
 
 
 
-
-
 model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a, xi_g, xi_p)
 
 #########################################
@@ -362,6 +320,7 @@ model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k
 #########################################
 
 Guess = None
+# model_tech1_pre_damage = fk_pre_tech(
 model_tech1_pre_damage = fk_pre_tech_petsc(
         state_grid=(K, Y_short, L), 
         model_args=model_args, 
@@ -419,6 +378,7 @@ model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k
 #########################################
 
 Guess = None
+# model_tech1_pre_damage = fk_pre_tech(
 model_tech1_pre_damage = fk_pre_tech_petsc(
         state_grid=(K, Y_short, L), 
         model_args=model_args, 
@@ -611,7 +571,7 @@ e = model_tech1_pre_damage["e_star"]
 x = model_tech1_pre_damage["x_star"]
 
 pi_c = model_tech1_pre_damage["pi_c"]
-pi_c = np.ones(pi_c.shape)
+pi_c = np.ones(pi_c.shape)/len(theta_ell)
 g_tech = model_tech1_pre_damage["g_tech"]
 g_tech = np.ones(g_tech.shape)
 

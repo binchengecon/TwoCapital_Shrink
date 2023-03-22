@@ -2,6 +2,9 @@
 pre_damage.py
 =================
 Solver for pre damage HJBs, tech III, tech I
+
+srun python3 /home/bcheng4/TwoCapital_Shrink/abatement_UD/FK_predamage_2jump_CRS_PETSC.py --num_gamma 5 --xi_a 0.0002 --xi_p 0.050  --epsilonarr 0.05 0.05  --fractionarr 0.1 0.05   --maxiterarr 80000 200000  --psi_0 0.105830 --psi_1 0.5    --name 2jump_step_4.00,9.00_0.0,4.0_1.0,6.0_SS_0.2,0.2,0.2_LR_0.1_CRS_PETSCFK --hXarr 0.2 0.2 0.2 --Xminarr 4.00 0.0 1.0 0.0 --Xmaxarr 9.00 4.0 6.0 3.0
+
 """
 # Optimization of post jump HJB
 #Required packages

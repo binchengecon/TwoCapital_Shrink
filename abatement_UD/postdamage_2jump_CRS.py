@@ -2,6 +2,10 @@
 post_damage.py
 ======================
 Solver for solving post damage HJBs, with different values of gamma_3 
+
+python3 -u /home/bcheng4/TwoCapital_Shrink/abatement_UD/FK_postdamage_2jump_CRS_PETSC.py --num_gamma 5 --xi_a 0.0002 --xi_g 0.025  --epsilonarr 0.1 0.1  --fractionarr 0.1 0.1   --maxiterarr 80000 200000  --id 0 --psi_0 0.105830 --psi_1 0.5 --name 2jump_step_4.00,9.00_0.0,4.0_1.0,6.0_SS_0.2,0.2,0.2_LR_0.1_CRS_PETSCFK --hXarr 0.2 0.2 0.2 --Xminarr 4.00 0.0 1.0 0.0 --Xmaxarr 9.00 4.0 6.0 3.0
+
+
 """
 # Optimization of post jump HJB
 #Required packages
@@ -48,15 +52,9 @@ parser.add_argument("--name",type=str,default="ReplicateSuri")
 parser.add_argument("--hXarr",nargs='+',type=float)
 parser.add_argument("--Xminarr",nargs='+',type=float)
 parser.add_argument("--Xmaxarr",nargs='+',type=float)
-parser.add_argument("--epsilonarr",nargs='+',type=float)
-parser.add_argument("--fractionarr",nargs='+',type=float)
-parser.add_argument("--maxiterarr",nargs='+',type=int)
-
-parser.add_argument("--hXarr_SG",nargs='+',type=float, default=(0.2, 0.2, 0.2))
-parser.add_argument("--Xminarr_SG",nargs='+',type=float, default=(4.0, 0.0, -5.5, 0.0))
-parser.add_argument("--Xmaxarr_SG",nargs='+',type=float, default=(9.0, 4.0, 0.0, 3.0))
-parser.add_argument("--fstr_SG",type=str,default="LinearNDInterpolator")
-parser.add_argument("--interp_action_name",type=str,default="2jump_step02verify_new")
+parser.add_argument("--epsilonarr",nargs='+',type=float,default=(0.1))
+parser.add_argument("--fractionarr",nargs='+',type=float, default=(0.1, 0.1))
+parser.add_argument("--maxiterarr",nargs='+',type=int, default=(80000, 200000))
 
 args = parser.parse_args()
 
