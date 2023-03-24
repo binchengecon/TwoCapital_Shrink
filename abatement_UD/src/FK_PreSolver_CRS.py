@@ -235,6 +235,7 @@ def fk_pre_tech_petsc(
 
         # D = np.zeros(A.shape)
         A += - np.exp(L_mat - np.log(448)) * g_tech - Intensity*np.sum(pi_d_o*g_damage,axis=0)
+        # D = np.exp(L_mat - np.log(448)) * g_tech * (Phi_II - Phi)  + np.exp(L_mat - np.log(448)) * g_tech * F_II + Intensity * np.sum(pi_d_o*g_damage* F_m,axis=0)  
         D = np.exp(L_mat - np.log(448)) * g_tech * (Phi_II - Phi)  + np.exp(L_mat - np.log(448)) * g_tech * F_II + Intensity * np.sum(pi_d_o*g_damage* F_m,axis=0)  
         D += xi_g * np.exp(L_mat - np.log(448)) * (1-g_tech +g_tech *np.log(g_tech))
 
@@ -268,7 +269,7 @@ def fk_pre_tech_petsc(
 
         v  = out_comp
             
-        dvdL = finiteDiff_3D(v, 2, 1, hL)    
+        dvdL = v    
         dvdL_orig = finiteDiff_3D(Phi, 2, 1, hL)    
 
         # print("sanity check: {}".format(np.mean(np.log(abs(dvdL-dvdL_orig)))))
@@ -298,7 +299,10 @@ def fk_pre_tech_petsc(
         D = np.exp(L_mat - np.log(448)) * g_tech * (Phi_m_II - Phi_m)+ np.exp(L_mat - np.log(448)) * g_tech * F_m_II
         D += xi_g * np.exp(L_mat - np.log(448)) * (1-g_tech +g_tech *np.log(g_tech))
         
-        
+        # A += - np.exp(L_mat - np.log(448)) * g_tech
+        # D =  np.exp(L_mat - np.log(448)) * g_tech * F_m_II
+        # D += xi_g * np.exp(L_mat - np.log(448)) * (1-np.exp(-(Phi_m_II-Phi_m)/xi_g))
+
         bpoint1 = time.time()
         A_1d   = A.ravel(order = 'F')
         C_1_1d = C_1.ravel(order = 'F')
@@ -327,11 +331,14 @@ def fk_pre_tech_petsc(
 
         v  = out_comp
             
-        dvdL = finiteDiff_3D(v, 2, 1, hL)    
+        dvdL = v   
         dvdL_orig = finiteDiff_3D(Phi_m, 2, 1, hL)    
         
     print("PETSc preconditioned residual norm is {:g}; iterations: {}".format(ksp.getResidualNorm(), ksp.getIterationNumber()))
 
+    print("D={},{}", D.min(), D.max())
+
+    print("absolute A={},{}", abs(A).min(), abs(A).max())
     print("sanity check: {}".format(np.max(abs(dvdL-dvdL_orig))))
     num0 = np.sum((np.ones_like(dvdL-dvdL_orig)))
     num1 = np.sum((abs(dvdL-dvdL_orig)>0.005))
@@ -340,6 +347,10 @@ def fk_pre_tech_petsc(
     print("sanity check 0.005: {}".format((num1/num0)*100))
     print("sanity check 0.010: {}".format((num2/num0)*100))
     print("sanity check 0.015: {}".format((num3/num0)*100))
+    
+    num4 = np.sum((abs(dvdL_orig)>0))
+
+    print("sanity check orig dvdL>0: {}".format((num4/num0)*100))
 
     pos0 = np.sum((dvdL>0))
     pos1 = np.sum((dvdL==0))
@@ -373,6 +384,322 @@ def fk_pre_tech_petsc(
 
 
 
+def new_fk_pre_tech_petsc(
+        state_grid=(), 
+        model_args=(), 
+        controls=(),
+        VF=(),
+        FFK=(),
+        V_post_damage=None, 
+        tol=1e-8, epsilon=0.1, fraction=0.5, max_iter=10000,
+        v0=None,
+        smart_guess=None,
+        ):
+
+    K, Y, L = state_grid
+    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_g, xi_p = model_args
+    
+    K_min, K_max, Y_min, Y_max, L_min, L_max = K.min(), K.max(), Y.min(), Y.max(), L.min(), L.max()
+    hK, hY, hL = K[1] - K[0], Y[1] - Y[0], L[1]-L[0]
+    nK, nY, nL = len(K), len(Y), len(L)
+    
+    ######## post jump, 3 states
+    (K_mat, Y_mat, L_mat) = np.meshgrid(K, Y, L, indexing = 'ij')
+    K_mat_1d = K_mat.ravel(order='F')
+    Y_mat_1d = Y_mat.ravel(order='F')
+    L_mat_1d = L_mat.ravel(order='F')
+    lowerLims = np.array([K_min, Y_min, L_min], dtype=np.float64)
+    upperLims = np.array([K_max, Y_max, L_max], dtype=np.float64)
+    dVec = np.array([hK, hY, hL])
+    increVec = np.array([1, nK, nK * nY],dtype=np.int32)
+    
+    petsc_mat = PETSc.Mat().create()
+    petsc_mat.setType('aij')
+    petsc_mat.setSizes([nK * nY * nL, nK * nY * nL])
+    petsc_mat.setPreallocationNNZ(13)
+    petsc_mat.setUp()
+    ksp = PETSc.KSP()
+    ksp.create(PETSc.COMM_WORLD)
+    ksp.setType('bcgs')
+    ksp.getPC().setType('ilu')
+    ksp.setFromOptions()
+
+    epsilon = 0.01
+    
+    #### Model type
+    if isinstance(gamma_3, (np.ndarray, list)):
+        model = "Pre damage"
+        pi_d_o = np.ones(len(gamma_3)) / len(gamma_3)
+        pi_d_o = np.array([temp * np.ones(K_mat.shape) for temp in pi_d_o ])
+        # v_i = V_post_damage
+        y_bar_lower = 1.5
+        r_1 = 1.5
+        r_2 = 2.5
+        Intensity = r_1 * (np.exp(r_2 / 2 * (Y_mat - y_bar_lower)**2) -1) * (Y_mat > y_bar_lower)
+        i,e,x,pi_c,g_tech,g_damage = controls
+        
+        Phi_II, Phi = VF
+        F_II, F_m = FFK
+
+
+        dv0dL = finiteDiff_3D(Phi, 2, 1, hL)       
+        F0 = np.zeros(Phi.shape)
+        
+        FK_iteration_error = 1
+        count = 0
+        
+        RHS_A = np.ones(K_mat.shape)
+        RHS_B_1 = mu_k + i - 0.5 * kappa * i**2 - 0.5 * sigma_k**2
+        RHS_B_1 = epsilon*RHS_B_1
+        RHS_B_2 = np.sum(theta_ell * pi_c, axis=0) * e
+        RHS_B_2 = epsilon*RHS_B_2
+        RHS_B_3 = - zeta + psi_0 * (x * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
+        RHS_B_3 = epsilon*RHS_B_3
+
+        RHS_C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
+        RHS_C_1 = epsilon*RHS_C_1
+        RHS_C_2 = 0.5 * sigma_y**2 * e**2
+        RHS_C_2 = epsilon*RHS_C_2
+        RHS_C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
+        RHS_C_3 = epsilon*RHS_C_3
+
+        # D = np.exp(L_mat - np.log(448)) * g_tech * (Phi_II - Phi)  + np.exp(L_mat - np.log(448)) * g_tech * F_II + Intensity * np.sum(pi_d_o*g_damage* F_m,axis=0)  
+        RHS_D = np.exp(L_mat - np.log(448)) * g_tech * (Phi_II - Phi)  
+        RHS_D += xi_g * np.exp(L_mat - np.log(448)) * (1-g_tech +g_tech *np.log(g_tech))
+        RHS_D += np.exp(L_mat - np.log(448)) * g_tech * F_II 
+        RHS_D += Intensity * np.sum(pi_d_o*g_damage* F_m,axis=0)  
+        RHS_D = epsilon*RHS_D
+        
+        A_sub  = delta * np.ones(K_mat.shape) 
+        A_sub +=  psi_0 * psi_1 * (x * np.exp(K_mat-L_mat) )**psi_1
+        A_sub +=  - Intensity*np.sum(pi_d_o*g_damage,axis=0)
+        A_sub +=  - np.exp(L_mat - np.log(448)) * g_tech
+            
+        while FK_iteration_error > 1e-5 and count< 10000:
+            
+
+            dK = finiteDiff_3D(F0,0,1,hK)
+            dY = finiteDiff_3D(F0,1,1,hY)
+            dL = finiteDiff_3D(F0,2,1,hL)
+            
+            ddK = finiteDiff_3D(F0,0,2,hK)
+            ddY = finiteDiff_3D(F0,1,2,hY)
+            ddL = finiteDiff_3D(F0,2,2,hL)
+            
+            RHS_total = RHS_A * F0 + RHS_B_1 * dK + RHS_B_2 * dY + RHS_B_3 * dL + RHS_C_1 * ddK + RHS_C_2 * ddY + RHS_C_3 * ddL + RHS_D
+
+
+            A = -np.ones(K_mat.shape)-epsilon*A_sub
+            
+            B_1 = np.zeros(K_mat.shape)
+            B_2 = np.zeros(K_mat.shape)
+            B_3 = np.zeros(K_mat.shape)
+
+            C_1 = np.zeros(K_mat.shape)
+            C_2 = np.zeros(K_mat.shape)
+            C_3 = np.zeros(K_mat.shape)
+            
+            D = RHS_total
+            
+            bpoint1 = time.time()
+            A_1d   = A.ravel(order = 'F')
+            C_1_1d = C_1.ravel(order = 'F')
+            C_2_1d = C_2.ravel(order = 'F')
+            C_3_1d = C_3.ravel(order = 'F')
+            B_1_1d = B_1.ravel(order = 'F')
+            B_2_1d = B_2.ravel(order = 'F')
+            B_3_1d = B_3.ravel(order = 'F')
+            D_1d   = D.ravel(order = 'F')
+            petsclinearsystem_new.formLinearSystem_noFT(K_mat_1d, Y_mat_1d, L_mat_1d, A_1d, B_1_1d, B_2_1d, B_3_1d, C_1_1d, C_2_1d, C_3_1d, epsilon, lowerLims, upperLims, dVec, increVec, petsc_mat)
+            b = D_1d 
+            petsc_rhs = PETSc.Vec().createWithArray(b)
+            x = petsc_mat.createVecRight()
+
+
+            # create linear solver
+            start_ksp = time.time()
+            ksp.setOperators(petsc_mat)
+            ksp.setTolerances(rtol=tol)
+            ksp.solve(petsc_rhs, x)
+            petsc_rhs.destroy()
+            x.destroy()
+            out_comp = np.array(ksp.getSolution()).reshape(A.shape,order = "F")
+            end_ksp = time.time()
+            num_iter = ksp.getIterationNumber()
+            
+            FC_Err = np.max(abs((out_comp - F0)))
+            
+            print("FC_Err=",FC_Err)
+            
+            F0  = out_comp
+            
+        dvdL = F0
+        dvdL_orig = finiteDiff_3D(Phi, 2, 1, hL)    
+
+        # print("sanity check: {}".format(np.mean(np.log(abs(dvdL-dvdL_orig)))))
+
+        
+    else:
+        model = "Post damage"
+        i,e,x,pi_c,g_tech = controls
+        
+        Phi_m_II, Phi_m = VF
+        F_m_II = FFK
+
+        dv0dL = finiteDiff_3D(Phi_m, 2, 1, hL)       
+
+
+        F0 = np.zeros(Phi_m.shape)
+        
+        FK_iteration_error = 1
+        count = 0
+
+        # print("where break1")
+        RHS_A = np.ones(K_mat.shape)
+        RHS_B_1 = mu_k + i - 0.5 * kappa * i**2 - 0.5 * sigma_k**2
+        RHS_B_1 = epsilon*RHS_B_1
+        # print("where break5")
+
+        RHS_B_2 = np.sum(theta_ell * pi_c, axis=0) * e
+        RHS_B_2 = epsilon*RHS_B_2
+        RHS_B_3 = - zeta + psi_0 * (x * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
+        RHS_B_3 = epsilon*RHS_B_3
+        
+        # print("where break4")
+
+        RHS_C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
+        RHS_C_1 = epsilon*RHS_C_1
+        RHS_C_2 = 0.5 * sigma_y**2 * e**2
+        RHS_C_2 = epsilon*RHS_C_2
+        RHS_C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
+        RHS_C_3 = epsilon*RHS_C_3
+
+        # D = np.exp(L_mat - np.log(448)) * g_tech * (Phi_II - Phi)  + np.exp(L_mat - np.log(448)) * g_tech * F_II + Intensity * np.sum(pi_d_o*g_damage* F_m,axis=0)  
+        RHS_D = np.exp(L_mat - np.log(448)) * g_tech * (Phi_m_II - Phi_m)  
+        RHS_D += xi_g * np.exp(L_mat - np.log(448)) * (1-g_tech +g_tech *np.log(g_tech))
+        RHS_D += np.exp(L_mat - np.log(448)) * g_tech * F_m_II 
+        RHS_D = epsilon*RHS_D
+
+        A_sub  = delta * np.ones(K_mat.shape) 
+        A_sub +=  psi_0 * psi_1 * (x * np.exp(K_mat-L_mat) )**psi_1
+        A_sub +=  np.exp(L_mat - np.log(448)) * g_tech
+        
+        while FK_iteration_error > 1e-5 and count< 10000:
+            
+
+            # print("where break2")
+
+            dK = finiteDiff_3D(F0,0,1,hK)
+            dY = finiteDiff_3D(F0,1,1,hY)
+            dL = finiteDiff_3D(F0,2,1,hL)
+            
+            ddK = finiteDiff_3D(F0,0,2,hK)
+            ddY = finiteDiff_3D(F0,1,2,hY)
+            ddL = finiteDiff_3D(F0,2,2,hL)
+            
+            RHS_total = RHS_A * F0 + RHS_B_1 * dK + RHS_B_2 * dY + RHS_B_3 * dL + RHS_C_1 * ddK + RHS_C_2 * ddY + RHS_C_3 * ddL + RHS_D
+            
+            # print("where break3")
+
+            A = -np.ones(K_mat.shape)-epsilon*A_sub
+            
+            
+            B_1 = np.zeros(K_mat.shape)
+            B_2 = np.zeros(K_mat.shape)
+            B_3 = np.zeros(K_mat.shape)
+
+            C_1 = np.zeros(K_mat.shape)
+            C_2 = np.zeros(K_mat.shape)
+            C_3 = np.zeros(K_mat.shape)
+            
+            D = RHS_total
+            
+            # print(A.shape,B_1.shape,D.shape)
+
+            bpoint1 = time.time()
+            A_1d   = A.ravel(order = 'F')
+            C_1_1d = C_1.ravel(order = 'F')
+            C_2_1d = C_2.ravel(order = 'F')
+            C_3_1d = C_3.ravel(order = 'F')
+            B_1_1d = B_1.ravel(order = 'F')
+            B_2_1d = B_2.ravel(order = 'F')
+            B_3_1d = B_3.ravel(order = 'F')
+            D_1d   = D.ravel(order = 'F')
+            petsclinearsystem_new.formLinearSystem_noFT(K_mat_1d, Y_mat_1d, L_mat_1d, A_1d, B_1_1d, B_2_1d, B_3_1d, C_1_1d, C_2_1d, C_3_1d, epsilon, lowerLims, upperLims, dVec, increVec, petsc_mat)
+            b = D_1d 
+            petsc_rhs = PETSc.Vec().createWithArray(b)
+            x = petsc_mat.createVecRight()
+
+
+            # create linear solver
+            start_ksp = time.time()
+            ksp.setOperators(petsc_mat)
+            ksp.setTolerances(rtol=tol)
+            ksp.solve(petsc_rhs, x)
+            petsc_rhs.destroy()
+            x.destroy()
+            out_comp = np.array(ksp.getSolution()).reshape(A.shape,order = "F")
+            end_ksp = time.time()
+            num_iter = ksp.getIterationNumber()
+            
+            FC_Err = np.max(abs((out_comp - F0)))
+            count = count+1
+            FK_iteration_error = FC_Err
+            
+            print("count=",count,"FC_Err=",FC_Err)
+            
+            F0  = out_comp
+            # print(F0.shape)
+            
+        dvdL = F0
+        dvdL_orig = finiteDiff_3D(Phi_m, 2, 1, hL)    
+        
+    print("PETSc preconditioned residual norm is {:g}; iterations: {}".format(ksp.getResidualNorm(), ksp.getIterationNumber()))
+
+    print("D={},{}", D.min(), D.max())
+
+    print("absolute A={},{}", abs(A).min(), abs(A).max())
+    print("sanity check: {}".format(np.max(abs(dvdL-dvdL_orig))))
+    num0 = np.sum((np.ones_like(dvdL-dvdL_orig)))
+    num1 = np.sum((abs(dvdL-dvdL_orig)>0.005))
+    num2 = np.sum((abs(dvdL-dvdL_orig)>0.010))
+    num3 = np.sum((abs(dvdL-dvdL_orig)>0.015))
+    print("sanity check 0.005: {}".format((num1/num0)*100))
+    print("sanity check 0.010: {}".format((num2/num0)*100))
+    print("sanity check 0.015: {}".format((num3/num0)*100))
+    
+    num4 = np.sum((abs(dvdL_orig)>0))
+
+    print("sanity check orig dvdL>0: {}".format((num4/num0)*100))
+
+    pos0 = np.sum((dvdL>0))
+    pos1 = np.sum((dvdL==0))
+    print("sanity check positive: {}".format((pos0/num0)*100))
+    print("sanity check zero: {}".format((pos1/num0)*100))
+
+    
+    if model == "Post damage":
+        res = {
+                "v0"    : Phi_m,
+                # "i_star": i,
+                # "e_star": e,
+                # "x_star": x,
+                # "pi_c"  : pi_c,
+                # "g_tech": g_tech,
+                "dvdL": F0,
+                }
+    if model == "Pre damage":
+        res = {
+                "v0"    : Phi,
+                # "i_star": i,
+                # "e_star": e,
+                # "x_star": x,
+                # "pi_c"  : pi_c,
+                # "g_tech": g_tech,
+                # "g_damage": g_damage,
+                "dvdL": F0,
+                }
+    return res
 
 def pde_one_interation_noFT(ksp, petsc_mat, X1_mat_1d, X2_mat_1d, X3_mat_1d, lowerLims, upperLims, dVec, increVec, v0, A, B_1, B_2, B_3, C_1, C_2, C_3, D, tol, epsilon):
 

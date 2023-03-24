@@ -3,7 +3,7 @@ post_damage.py
 ======================
 Solver for solving post damage HJBs, with different values of gamma_3 
 
-python3 -u /home/bcheng4/TwoCapital_Shrink/abatement_UD/FK_postdamage_2jump_CRS_PETSC.py --num_gamma 5 --xi_a 0.0002 --xi_g 0.025  --epsilonarr 0.1 0.1  --fractionarr 0.1 0.1   --maxiterarr 80000 200000  --id 0 --psi_0 0.105830 --psi_1 0.5 --name 2jump_step_4.00,9.00_0.0,4.0_1.0,6.0_SS_0.2,0.2,0.2_LR_0.1_CRS_PETSCFK --hXarr 0.2 0.2 0.2 --Xminarr 4.00 0.0 1.0 0.0 --Xmaxarr 9.00 4.0 6.0 3.0
+python3 -u /home/bcheng4/TwoCapital_Shrink/abatement_UD/postdamage_2jump_CRS.py --num_gamma 5 --xi_a 0.0002 --xi_g 0.025  --epsilonarr 0.1 0.1  --fractionarr 0.1 0.1   --maxiterarr 80000 200000  --id 0 --psi_0 0.105830 --psi_1 0.5 --name 2jump_step_4.00,9.00_0.0,4.0_1.0,6.0_SS_0.2,0.2,0.2_LR_0.1_CRS_PETSCFK --hXarr 0.2 0.2 0.2 --Xminarr 4.00 0.0 1.0 0.0 --Xmaxarr 9.00 4.0 6.0 3.0
 
 
 """
@@ -24,7 +24,7 @@ from scipy.sparse import spdiags
 from scipy.sparse import coo_matrix
 from scipy.sparse import csr_matrix
 from datetime import datetime
-from solver import solver_3d
+# from solver import solver_3d
 from src.PostSolver import hjb_post_damage_post_tech, hjb_pre_damage_post_tech
 from src.PreSolver_CRS import pde_one_interation
 from src.PreSolver_CRS import hjb_pre_tech
@@ -40,6 +40,7 @@ reporterror = True
 #
 now = datetime.now()
 current_time = now.strftime("%d-%H:%M")
+
 
 parser = argparse.ArgumentParser(description="xi_r values")
 parser.add_argument("--xi_a", type=float, default=1000.)
@@ -57,6 +58,7 @@ parser.add_argument("--fractionarr",nargs='+',type=float, default=(0.1, 0.1))
 parser.add_argument("--maxiterarr",nargs='+',type=int, default=(80000, 200000))
 
 args = parser.parse_args()
+# args, unknown = parser.parse_known_args()
 
 epsilonarr = args.epsilonarr
 fractionarr = args.fractionarr
@@ -151,7 +153,8 @@ hX3    = X3[1] - X3[0]
 X3_min = X3.min()
 X3_max = X3.max()
 
-Output_Dir = "/scratch/bincheng/"
+# Output_Dir = "/scratch/bincheng/"
+Output_Dir = "./TwoCapital_Shrink/"
 Data_Dir = Output_Dir+"abatement/data_2tech/"+args.name+"/"
 
 File_Name = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_" .format(xi_a,xi_g,psi_0,psi_1)

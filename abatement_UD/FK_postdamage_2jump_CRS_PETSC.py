@@ -22,7 +22,7 @@ from scipy.sparse import csr_matrix
 from datetime import datetime
 from solver import solver_3d
 from src.FK_PreSolver_CRS import fk_pre_tech
-from src.FK_PreSolver_CRS import fk_pre_tech_petsc, hjb_pre_tech_check
+from src.FK_PreSolver_CRS import fk_pre_tech_petsc, hjb_pre_tech_check, new_fk_pre_tech_petsc
 from src.ResultSolver_CRS import *
 import argparse
 import pickle
@@ -60,7 +60,8 @@ parser.add_argument("--Xmaxarr_SG",nargs='+',type=float, default=(9.0, 4.0, 0.0,
 parser.add_argument("--fstr_SG",type=str,default="LinearNDInterpolator")
 parser.add_argument("--interp_action_name",type=str,default="2jump_step02verify_new")
 
-args = parser.parse_args()
+# args = parser.parse_args()
+args, unknown = parser.parse_known_args()
 
 epsilonarr = args.epsilonarr
 fractionarr = args.fractionarr
@@ -209,6 +210,52 @@ pi_c_o    = np.ones_like(theta_ell)/len(theta_ell)
 pi_c_o = np.array([temp * np.ones(K_mat.shape) for temp in pi_c_o])
 theta_ell = np.array([temp * np.ones(K_mat.shape) for temp in theta_ell])
 
+print("-------------------------------------------")
+print("------------New FK Distorted: Post damage, Tech I: -----------")
+print("-------------------------------------------")
+
+with open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
+    model_tech1_post_damage = pickle.load(f)
+
+with open(Data_Dir+ File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
+    model_tech2_post_damage = pickle.load(f)
+
+
+Phi_m = model_tech1_post_damage['v0']
+
+
+print("Phi_m_II-Phi_m={},{}".format((Phi_m_II_3D-Phi_m).min(),(Phi_m_II_3D-Phi_m).max()))
+
+# Control Extraction
+ 
+i = model_tech1_post_damage['i_star']
+e = model_tech1_post_damage['e_star']
+x = model_tech1_post_damage['x_star']
+pi_c = model_tech1_post_damage['pi_c']
+g_tech = model_tech1_post_damage['g_tech']
+
+
+# res = fk_pre_tech(
+res = new_fk_pre_tech_petsc(
+        state_grid=(K, Y, L), 
+        model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_g, xi_p),
+        controls=(i,e,x,pi_c,g_tech),
+        VF = (Phi_m_II_3D, Phi_m),
+        FFK = (F_m_II),
+        V_post_damage=None,
+        tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], 
+        max_iter=maxiterarr[1],
+        )
+
+
+with open(Data_Dir+ File_Name  + "FK_NewDistorted_model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "wb") as f:
+    pickle.dump(res, f)
+
+with open(Data_Dir+ File_Name  + "FK_NewDistorted_model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
+    res = pickle.load(f)
+
+
+
 
 print("-------------------------------------------")
 print("------------FK Distorted: Post damage, Tech I: -----------")
@@ -220,6 +267,9 @@ with open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(ga
     model_tech1_post_damage = pickle.load(f)
 
 Phi_m = model_tech1_post_damage['v0']
+
+
+print("Phi_m_II-Phi_m={},{}".format((Phi_m_II_3D-Phi_m).min(),(Phi_m_II_3D-Phi_m).max()))
 
 # Control Extraction
  
@@ -313,6 +363,12 @@ with open(Data_Dir+ File_Name  + "FK_Undistorted_model_tech1_post_damage_gamma_{
 
 with open(Data_Dir+ File_Name  + "FK_Undistorted_model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
     res = pickle.load(f)
+
+
+print("slice")
+plt.plot(res['dvdL'][:,:,0])
+os.makedirs("/home/bcheng4/TwoCapital_Shrink/abatement_UD/pdf_2tech/temp/",exist_ok=True)
+plt.savefig("/home/bcheng4/TwoCapital_Shrink/abatement_UD/pdf_2tech/temp/"+File_Name+"slice_"+str(id)+".png")
 
 
 
