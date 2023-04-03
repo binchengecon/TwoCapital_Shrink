@@ -1,9 +1,9 @@
 #! /bin/bash
 
 actiontime=1
-# epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
+epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
-epsilonarraypost=(0.01) # Computation of fine grid and psi10.8, post
+# epsilonarraypost=(0.01) # Computation of fine grid and psi10.8, post
 
 NUM_DAMAGE=3
 # NUM_DAMAGE=20
@@ -17,12 +17,12 @@ declare -A hXarr5=([0]=0.1 [1]=0.05 [2]=0.1)
 declare -A hXarr6=([0]=0.1 [1]=0.025 [2]=0.1)
 declare -A hXarr7=([0]=0.1 [1]=0.01 [2]=0.1)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-# hXarrays=(hXarr1)
+hXarrays=(hXarr1)
 # hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 # hXarrays=(hXarr4)
 # hXarrays=(hXarr5)
-hXarrays=(hXarr6)
+# hXarrays=(hXarr6)
 # hXarrays=(hXarr7)
 
 
