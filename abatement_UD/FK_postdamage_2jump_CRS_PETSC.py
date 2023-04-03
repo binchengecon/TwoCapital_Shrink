@@ -22,7 +22,7 @@ from scipy.sparse import csr_matrix
 from datetime import datetime
 from solver import solver_3d
 from src.FK_PreSolver_CRS import fk_pre_tech
-from src.FK_PreSolver_CRS import fk_pre_tech_petsc, hjb_pre_tech_check, new_fk_pre_tech_petsc
+from src.FK_PreSolver_CRS import fk_pre_tech_petsc, hjb_pre_tech_check, fk_y_pre_tech_petsc, fk_yshort_pre_tech_petsc, fk_y_pre_tech
 from src.ResultSolver_CRS import *
 import argparse
 import pickle
@@ -195,6 +195,8 @@ with open(Data_Dir+ File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(ga
 # Value function Extraction
 
 Phi_m_II_2D = model_tech2_post_damage['v']
+Phi_m_II_2D_dvdy = finiteDiff_3D(Phi_m_II_2D,1,1,hY)
+print("dvdY=",Phi_m_II_2D_dvdy.min(),Phi_m_II_2D_dvdy.max())
 
 # v_post = model_tech2_post_damage["v"]
 Phi_m_II_3D = np.zeros_like(K_mat)
@@ -210,16 +212,18 @@ pi_c_o    = np.ones_like(theta_ell)/len(theta_ell)
 pi_c_o = np.array([temp * np.ones(K_mat.shape) for temp in pi_c_o])
 theta_ell = np.array([temp * np.ones(K_mat.shape) for temp in theta_ell])
 
+
+# n_bar1 = len(Y_short)-1
+# n_bar2 = np.abs(Y_short - y_bar).argmin()
+
 print("-------------------------------------------")
-print("------------New FK Distorted: Post damage, Tech I: -----------")
+print("------------Y FK Distorted: Post damage, Tech I: -----------")
 print("-------------------------------------------")
+
+
 
 with open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
     model_tech1_post_damage = pickle.load(f)
-
-with open(Data_Dir+ File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
-    model_tech2_post_damage = pickle.load(f)
-
 
 Phi_m = model_tech1_post_damage['v0']
 
@@ -235,25 +239,76 @@ pi_c = model_tech1_post_damage['pi_c']
 g_tech = model_tech1_post_damage['g_tech']
 
 
-# res = fk_pre_tech(
-res = new_fk_pre_tech_petsc(
+# for i_temp in range(len(Y)):
+#     print(i_temp,Y[i_temp],e[:,i_temp,:].min()) # Y[i_temp] goes to 2.2 before minimum emission become 0
+    
+# res = fk_yshort_pre_tech(
+# res = fk_yshort_pre_tech_petsc(
+# res = fk_y_pre_tech_petsc(
+res = fk_y_pre_tech(
         state_grid=(K, Y, L), 
         model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_g, xi_p),
         controls=(i,e,x,pi_c,g_tech),
         VF = (Phi_m_II_3D, Phi_m),
         FFK = (F_m_II),
+        # n_bar = 50,
         V_post_damage=None,
         tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], 
         max_iter=maxiterarr[1],
         )
 
 
-with open(Data_Dir+ File_Name  + "FK_NewDistorted_model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "wb") as f:
+with open(Data_Dir+ File_Name  + "FK_Y_Distorted_model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "wb") as f:
     pickle.dump(res, f)
 
-with open(Data_Dir+ File_Name  + "FK_NewDistorted_model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
+with open(Data_Dir+ File_Name  + "FK_Y_Distorted_model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
     res = pickle.load(f)
 
+
+print("-------------------------------------------")
+print("------------Y FK Undistorted: Post damage, Tech I: -----------")
+print("-------------------------------------------")
+
+
+
+with open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
+    model_tech1_post_damage = pickle.load(f)
+
+Phi_m = model_tech1_post_damage['v0']
+
+
+print("Phi_m_II-Phi_m={},{}".format((Phi_m_II_3D-Phi_m).min(),(Phi_m_II_3D-Phi_m).max()))
+
+# Control Extraction
+ 
+i = model_tech1_post_damage['i_star']
+e = model_tech1_post_damage['e_star']
+x = model_tech1_post_damage['x_star']
+pi_c = model_tech1_post_damage['pi_c']
+pi_c = np.ones(pi_c.shape)/len(theta_ell)
+g_tech = model_tech1_post_damage['g_tech']
+# g_tech = np.ones(g_tech.shape)
+
+# res = fk_yshort_pre_tech_petsc(
+# res = fk_y_pre_tech_petsc(
+res = fk_y_pre_tech(
+        state_grid=(K, Y, L), 
+        model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_g, xi_p),
+        controls=(i,e,x,pi_c,g_tech),
+        VF = (Phi_m_II_3D, Phi_m),
+        FFK = (F_m_II),
+        # n_bar = 50,
+        V_post_damage=None,
+        tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], 
+        max_iter=maxiterarr[1],
+        )
+
+
+with open(Data_Dir+ File_Name  + "FK_Y_Undistorted_model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "wb") as f:
+    pickle.dump(res, f)
+
+with open(Data_Dir+ File_Name  + "FK_Y_Undistorted_model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
+    res = pickle.load(f)
 
 
 
@@ -280,8 +335,8 @@ pi_c = model_tech1_post_damage['pi_c']
 g_tech = model_tech1_post_damage['g_tech']
 
 
-# res = fk_pre_tech(
-res = fk_pre_tech_petsc(
+res = fk_pre_tech(
+# res = fk_pre_tech_petsc(
         state_grid=(K, Y, L), 
         model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_g, xi_p),
         controls=(i,e,x,pi_c,g_tech),
@@ -363,12 +418,6 @@ with open(Data_Dir+ File_Name  + "FK_Undistorted_model_tech1_post_damage_gamma_{
 
 with open(Data_Dir+ File_Name  + "FK_Undistorted_model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
     res = pickle.load(f)
-
-
-print("slice")
-plt.plot(res['dvdL'][:,:,0])
-os.makedirs("/home/bcheng4/TwoCapital_Shrink/abatement_UD/pdf_2tech/temp/",exist_ok=True)
-plt.savefig("/home/bcheng4/TwoCapital_Shrink/abatement_UD/pdf_2tech/temp/"+File_Name+"slice_"+str(id)+".png")
 
 
 

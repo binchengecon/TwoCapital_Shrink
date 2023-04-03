@@ -153,8 +153,8 @@ hX3    = X3[1] - X3[0]
 X3_min = X3.min()
 X3_max = X3.max()
 
-# Output_Dir = "/scratch/bincheng/"
-Output_Dir = "./TwoCapital_Shrink/"
+Output_Dir = "/scratch/bincheng/"
+# Output_Dir = "./TwoCapital_Shrink/"
 Data_Dir = Output_Dir+"abatement/data_2tech/"+args.name+"/"
 
 File_Name = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_" .format(xi_a,xi_g,psi_0,psi_1)
@@ -210,8 +210,10 @@ for j in range(nL):
 with open(Data_Dir+ File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "wb") as f:
    pickle.dump(model_tech2_post_damage, f)
 
-# model_tech2_post_damage = pickle.load(open(Data_Dir + File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
+model_tech2_post_damage = pickle.load(open(Data_Dir + File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb"))
 
+print(Data_Dir + File_Name + "model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i))
+print(model_tech2_post_damage.keys())
 
 # Post damage, tech II
 pi_c = np.array([temp * np.ones(K_mat.shape) for temp in pi_c_o])
@@ -243,3 +245,5 @@ res = hjb_pre_tech(
 with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "wb") as f:
     pickle.dump(res, f)
 
+with open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
+    Guess = pickle.load(f)

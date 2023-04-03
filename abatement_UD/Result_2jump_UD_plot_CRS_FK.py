@@ -401,6 +401,154 @@ for id_xiag in range(len(xiaarr)):
 
                 if xiaarr[id_xiag]>10:
 
+                    plt.plot(res["years"], np.log(res["scc_dis"]),label='baseline',linewidth=5.0)
+                else:
+                    plt.plot(res["years"], np.log(res["scc_dis"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0)
+
+                plt.xlabel("Years")
+                plt.title("Log of Social Cost of Carbon, dis")
+                if auto==0:   
+                    plt.ylim(3.0,6.5)
+                plt.xlim(0,IntPeriod)
+                plt.legend(loc='upper left')
+
+plt.savefig(Plot_Dir+"/logSCC_dis,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig(Plot_Dir+"/logSCC_dis,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.close()
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            
+
+                res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"], np.log(res["scc_undis"]),label='baseline',linewidth=5.0)
+                else:
+                    plt.plot(res["years"], np.log(res["scc_undis"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0)
+
+                plt.xlabel("Years")
+                plt.title("Log of Social Cost of Carbon, Undis")
+                if auto==0:   
+                    plt.ylim(3.0,6.5)
+                plt.xlim(0,IntPeriod)
+                plt.legend(loc='upper left')
+
+plt.savefig(Plot_Dir+"/logSCC_undis,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig(Plot_Dir+"/logSCC_undis,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.close()
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            
+
+                res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"], np.log(res["scc_undis"]),label='baseline',linewidth=5.0,linestyle = 'dashed')
+                else:
+                    plt.plot(res["years"], np.log(res["scc_undis"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed')
+                
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"], np.log(res["scc"]),label='baseline',linewidth=5.0)
+                else:
+                    plt.plot(res["years"], np.log(res["scc"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0)
+
+                plt.xlabel("Years")
+                plt.ticklabel_format(useOffset=False)
+
+                plt.title("Log of Social Cost of Crabon: Comparison")
+                if auto==0:   
+                    plt.ylim(6.5,8.0)
+                plt.xlim(0,IntPeriod)
+                plt.legend(loc='upper left')
+
+plt.savefig(Plot_Dir+"/logSCC_orig_undis,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig(Plot_Dir+"/logSCC_orig_undis,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.close()
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            
+
+                res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"], np.log(res["scc_undis"]),label='baseline',linewidth=5.0,linestyle = 'dashed')
+                else:
+                    plt.plot(res["years"], np.log(res["scc_undis"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed')
+                
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"], np.log(res["scc_dis"]),label='baseline',linewidth=5.0)
+                else:
+                    plt.plot(res["years"], np.log(res["scc_dis"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0)
+
+                plt.xlabel("Years")
+                plt.ticklabel_format(useOffset=False)
+
+                plt.title("Log of Social Cost of Crabon: Comparison")
+                if auto==0:   
+                    plt.ylim(6.5,8.0)
+                plt.xlim(0,IntPeriod)
+                plt.legend(loc='upper left')
+
+plt.savefig(Plot_Dir+"/logSCC_dis_undis,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig(Plot_Dir+"/logSCC_dis_undis,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.close()
+
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            
+
+                res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"], np.log(res["scc_dis"]),label='baseline',linewidth=5.0,linestyle = 'dashed')
+                else:
+                    plt.plot(res["years"], np.log(res["scc_dis"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed')
+                
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"], np.log(res["scc"]),label='baseline',linewidth=5.0)
+                else:
+                    plt.plot(res["years"], np.log(res["scc"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0)
+
+                plt.xlabel("Years")
+                plt.ticklabel_format(useOffset=False)
+
+                plt.title("Log of Social Cost of Crabon: Comparison")
+                if auto==0:   
+                    plt.ylim(6.5,8.0)
+                plt.xlim(0,IntPeriod)
+                plt.legend(loc='upper left')
+
+plt.savefig(Plot_Dir+"/logSCC_orig_dis,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig(Plot_Dir+"/logSCC_orig_dis,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.close()
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            
+
+                res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+
+                if xiaarr[id_xiag]>10:
+
                     plt.plot(res["years"], np.log(res["scrd"]),label='baseline',linewidth=5.0)
                 else:
                     plt.plot(res["years"], np.log(res["scrd"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0)

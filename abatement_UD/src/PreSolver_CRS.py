@@ -343,8 +343,11 @@ def hjb_pre_tech(
     consumption = alpha - ii - jj - xx
     ME_total = delta/ consumption  * alpha * vartheta_bar * theta * (1 - ee / ( alpha * lambda_bar * np.exp(K_mat)))**(theta - 1) /( alpha * lambda_bar * np.exp(K_mat) )
 
+    dvdY = finiteDiff_3D(v0,1,1,hX2)
+    
     print("log(ME_total/ME) = [{},{}]".format(np.min(np.log(ME_total / ME)), np.max(np.log(ME_total / ME))))
-
+    print("dvdY=[{},{}]".format(dvdY.min(),dvdY.max()))
+    
     res = {
             "v0"    : v0,
             "i_star": i_star,
