@@ -521,18 +521,18 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.plot(res["years"], np.log(res["scc_dis"]),label='FK:baseline,$\\gamma_3={:.4f}$'.format(gamma_3_list[id_gamma3]),linewidth=5.0,linestyle = 'dashed',color=color_one)
                 else:
-                    plt.plot(res["years"], np.log(res["scc_dis"]),label='FK:$\\xi_p={:.5f}$,$\\xi_m={:.3f},\\gamma_3={:.4f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],gamma_3_list[id_gamma3]) ,linewidth=5.0,linestyle = 'dashed',color=color_one)
+                    plt.plot(res["years"], np.log(res["scc_dis"]),label='FK:$\\gamma_3={:.4f}$' .format(gamma_3_list[id_gamma3]) ,linewidth=5.0,linestyle = 'dashed',color=color_one)
                 
                 if xiaarr[id_xiag]>10:
 
                     plt.plot(res["years"], np.log(res["scc"]),label='baseline,$\\gamma_3={:.4f}$'.format(gamma_3_list[id_gamma3]),linewidth=5.0,color=color_one)
                 else:
-                    plt.plot(res["years"], np.log(res["scc"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f},\\gamma_3={:.4f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],gamma_3_list[id_gamma3]) ,linewidth=5.0,color=color_one)
+                    plt.plot(res["years"], np.log(res["scc"]),label='$\\gamma_3={:.4f}$' .format(gamma_3_list[id_gamma3]) ,linewidth=5.0,color=color_one)
 
                 plt.xlabel("Years")
                 plt.ticklabel_format(useOffset=False)
 
-                plt.title("Log of Social Cost of Crabon: Comparison")
+                plt.title("Log of Social Cost of Crabon: $\\xi_p={:.5f}$,$\\xi_m={:.3f}$".format(xiaarr[id_xiag],xigarr[id_xiag]))
                 if auto==0:   
                     plt.ylim(6.5,8.0)
                 plt.xlim(0,IntPeriod)
