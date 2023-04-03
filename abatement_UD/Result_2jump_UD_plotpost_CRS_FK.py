@@ -105,6 +105,21 @@ vartheta_bar_first = vartheta_bar / 2.
 lambda_bar_second = 1e-3
 vartheta_bar_second = 0.
 
+K_min = Xminarr[0]
+K_max = Xmaxarr[0]
+hK    = hXarr[0]
+K     = np.arange(K_min, K_max + hK, hK)
+nK    = len(K)
+Y_min = Xminarr[1]
+Y_max = Xmaxarr[1]
+hY    = hXarr[1] # make sure it is float instead of int
+Y     = np.arange(Y_min, Y_max + hY, hY)
+nY    = len(Y)
+L_min = Xminarr[2]
+L_max = Xmaxarr[2]
+hL    = hXarr[2]
+L     = np.arange(L_min, L_max+hL,  hL)
+nL    = len(L)
 
 # print(plt.rcParamsDefault)
 # print("Before, figure default size is: ", plt.rcParams["figure.figsize"])
@@ -532,7 +547,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel("Years")
                 plt.ticklabel_format(useOffset=False)
 
-                plt.title("Log of Social Cost of Crabon: $\\xi_p={:.5f}$,$\\xi_m={:.3f}$".format(xiaarr[id_xiag],xigarr[id_xiag]))
+                plt.title("Log of Social Cost of Carbon: $\\xi_p={:.5f}$,$\\xi_m={:.3f}$, grid points=[{:d},{:d},{:d}]".format(xiaarr[id_xiag],xigarr[id_xiag],nK,nY,nL))
                 if auto==0:   
                     plt.ylim(6.5,8.0)
                 plt.xlim(0,IntPeriod)
