@@ -244,8 +244,8 @@ g_tech = model_tech1_post_damage['g_tech']
     
 # res = fk_yshort_pre_tech(
 # res = fk_yshort_pre_tech_petsc(
-# res = fk_y_pre_tech_petsc(
-res = fk_y_pre_tech(
+res = fk_y_pre_tech_petsc(
+# res = fk_y_pre_tech(
         state_grid=(K, Y, L), 
         model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_g, xi_p),
         controls=(i,e,x,pi_c,g_tech),
@@ -290,8 +290,8 @@ g_tech = model_tech1_post_damage['g_tech']
 # g_tech = np.ones(g_tech.shape)
 
 # res = fk_yshort_pre_tech_petsc(
-# res = fk_y_pre_tech_petsc(
-res = fk_y_pre_tech(
+res = fk_y_pre_tech_petsc(
+# res = fk_y_pre_tech(
         state_grid=(K, Y, L), 
         model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_g, xi_p),
         controls=(i,e,x,pi_c,g_tech),

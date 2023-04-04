@@ -10,8 +10,8 @@ epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 
 
 # epsilonarraypre=(0.05) #
-# epsilonarraypre=(0.025) #
-epsilonarraypre=(0.05) #
+epsilonarraypre=(0.025) #
+# epsilonarraypre=(0.05) #
 
 # python_name="FK_predamage_2jump_CRS.py"
 python_name="FK_predamage_2jump_CRS_PETSC.py"
@@ -48,8 +48,10 @@ hXarrays=(hXarr1)
 # Xminarr=(4.00 0.0 1.0 0.0)
 # Xmaxarr=(9.00 4.0 6.0 3.0)
 
-Xminarr=(5.00 0.5 1.0 0.5)
-Xmaxarr=(8.50 4.0 4.5 3.0)
+
+Xminarr=(4.00 0.0 1.0 0.0)
+Xmaxarr=(9.00 2.0 6.0 3.0)
+
 
 # xi_a=(0.0004 0.0002 0.0001 0.00005 0.0004 0.0002 0.0001 0.00005 1000.)
 # xi_p=(0.025 0.025 0.025 0.025 0.050 0.050 0.050 0.050 1000.)

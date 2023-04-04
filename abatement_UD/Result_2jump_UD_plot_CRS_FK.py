@@ -440,24 +440,27 @@ plt.savefig(Plot_Dir+"/logSCC_undis,xia={},xig={},psi0={},psi1={}.pdf".format(xi
 plt.savefig(Plot_Dir+"/logSCC_undis,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.close()
 
+colors = ['blue','green','red']
+
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
         for id_psi1 in range(len(psi1arr)):
             
+                color_one = colors[id_xiag % len(xiaarr)]
 
                 res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"], np.log(res["scc_undis"]),label='baseline',linewidth=5.0,linestyle = 'dashed')
+                    plt.plot(res["years"], np.log(res["scc_undis"]),label='FK: baseline',linewidth=5.0,linestyle = 'dashed',color=color_one)
                 else:
-                    plt.plot(res["years"], np.log(res["scc_undis"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed')
+                    plt.plot(res["years"], np.log(res["scc_undis"]),label='FK: $\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed',color=color_one)
                 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"], np.log(res["scc"]),label='baseline',linewidth=5.0)
+                    plt.plot(res["years"], np.log(res["scc"]),label='baseline',linewidth=5.0,color=color_one)
                 else:
-                    plt.plot(res["years"], np.log(res["scc"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0)
+                    plt.plot(res["years"], np.log(res["scc"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,color=color_one)
 
                 plt.xlabel("Years")
                 plt.ticklabel_format(useOffset=False)
@@ -472,25 +475,27 @@ plt.savefig(Plot_Dir+"/logSCC_orig_undis,xia={},xig={},psi0={},psi1={}.pdf".form
 plt.savefig(Plot_Dir+"/logSCC_orig_undis,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.close()
 
+colors = ['blue','green','red']
 
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
         for id_psi1 in range(len(psi1arr)):
             
-
+                color_one = colors[id_xiag % len(xiaarr)]
+                
                 res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"], np.log(res["scc_undis"]),label='baseline',linewidth=5.0,linestyle = 'dashed')
+                    plt.plot(res["years"], np.log(res["scc_undis"]),label='FK: baseline',linewidth=5.0,linestyle = 'dashed',color=color_one)
                 else:
-                    plt.plot(res["years"], np.log(res["scc_undis"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed')
+                    plt.plot(res["years"], np.log(res["scc_undis"]),label='FK: $\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed',color=color_one)
                 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"], np.log(res["scc_dis"]),label='baseline',linewidth=5.0)
+                    plt.plot(res["years"], np.log(res["scc_dis"]),label='baseline',linewidth=5.0,color=color_one)
                 else:
-                    plt.plot(res["years"], np.log(res["scc_dis"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0)
+                    plt.plot(res["years"], np.log(res["scc_dis"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,color=color_one)
 
                 plt.xlabel("Years")
                 plt.ticklabel_format(useOffset=False)
@@ -506,25 +511,27 @@ plt.savefig(Plot_Dir+"/logSCC_dis_undis,xia={},xig={},psi0={},psi1={}.png".forma
 plt.close()
 
 
+colors = ['blue','green','red']
 
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
         for id_psi1 in range(len(psi1arr)):
             
-
+                color_one = colors[id_xiag % len(xiaarr)]
+                
                 res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"], np.log(res["scc_dis"]),label='baseline',linewidth=5.0,linestyle = 'dashed')
+                    plt.plot(res["years"], np.log(res["scc_dis"]),label='FK: baseline',linewidth=5.0,linestyle = 'dashed',color=color_one)
                 else:
-                    plt.plot(res["years"], np.log(res["scc_dis"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed')
+                    plt.plot(res["years"], np.log(res["scc_dis"]),label='FK: $\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed',color=color_one)
                 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"], np.log(res["scc"]),label='baseline',linewidth=5.0)
+                    plt.plot(res["years"], np.log(res["scc"]),label='baseline',linewidth=5.0,color=color_one)
                 else:
-                    plt.plot(res["years"], np.log(res["scc"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0)
+                    plt.plot(res["years"], np.log(res["scc"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,color=color_one)
 
                 plt.xlabel("Years")
                 plt.ticklabel_format(useOffset=False)

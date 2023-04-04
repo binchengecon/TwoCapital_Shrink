@@ -1,8 +1,8 @@
 #! /bin/bash
 
-# epsilonarray=(0.1) 
+epsilonarray=(0.1) 
 # epsilonarray=(0.01) 
-epsilonarray=(0.005) 
+# epsilonarray=(0.005) 
 
 
 
@@ -26,21 +26,22 @@ declare -A hXarr5=([0]=0.1 [1]=0.05 [2]=0.1)
 declare -A hXarr6=([0]=0.1 [1]=0.025 [2]=0.1)
 declare -A hXarr7=([0]=0.1 [1]=0.01 [2]=0.1)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-# hXarrays=(hXarr1)
+hXarrays=(hXarr1)
 # hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 # hXarrays=(hXarr4)
 # hXarrays=(hXarr5)
 # hXarrays=(hXarr6)
-hXarrays=(hXarr7)
+# hXarrays=(hXarr7)
 
 
 # Xminarr=(4.00 0.0 1.0 0.0)
 # Xmaxarr=(9.00 4.0 6.0 3.0)
 
 
-Xminarr=(5.00 0.5 1.0 0.5)
-Xmaxarr=(8.50 4.0 4.5 3.0)
+Xminarr=(4.00 0.0 1.0 0.0)
+Xmaxarr=(9.00 2.0 6.0 3.0)
+
 
 
 # xi_a=(0.0004 0.0002 0.0001 0.00005 0.0004 0.0002 0.0001 0.00005 1000.)
