@@ -186,7 +186,7 @@ def simulate_post(
     K_min, K_max, Y_min, Y_max, L_min, L_max = min(K), max(K), min(Y), max(Y), min(L), max(L)
     hK, hY, hL = K[1] - K[0], Y[1] - Y[0], L[1]-L[0]
 
-    delta, mu_k, kappa, sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar = model_args
+    delta, mu_k, kappa, sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar, gamma_3_i = model_args
     # ii, ee, xx, g_tech, g_damage, pi_c, v = controls
     ii, ee, xx, g_tech, pi_c, v = controls
     ME_base = ME
@@ -324,6 +324,9 @@ def simulate_post(
 
     mu_K_hist = np.zeros([pers])
     mu_L_hist = np.zeros([pers])
+    
+    gamma_3_term1 = np.zeros([pers])
+    gamma_3_term2 = np.zeros([pers])
 
     for tm in range(pers):
         if tm == 0:
@@ -363,6 +366,13 @@ def simulate_post(
             
             ME_total_hist[0] = ME_total_func(hist[0,:])
             ME_base_hist[0] = ME_base_func(hist[0,:])
+            
+            temp = 0 
+            for i in range(n_climate):
+                temp += pi_c_t[i, tm] * theta_ell[i]
+            gamma_3_term1[tm] = gamma_3_i* (hist[tm,1]>y_bar) * temp * e_hist[tm]
+            gamma_3_term2[tm] =  temp * e_hist[tm]
+            
 
         else:
             # other periods
@@ -409,6 +419,12 @@ def simulate_post(
             ME_total_hist[tm] = ME_total_func(hist[tm,:])
             ME_base_hist[tm] = ME_base_func(hist[tm,:])
             
+            temp = 0 
+            for i in range(n_climate):
+                temp += pi_c_t[i, tm] * theta_ell[i]
+            gamma_3_term1[tm] = gamma_3_i * (hist[tm,1]>y_bar) * temp * e_hist[tm]
+            gamma_3_term2[tm] =  temp * e_hist[tm]
+
         if printing==True:
             # print("time={}, K={},Y={},L={},ME_total_base={:.3f}, SVRD={}, SVRD_dis={}, SVRD_undis={}" .format(tm, hist[tm,0],hist[tm,1],hist[tm,2],np.log(ME_total_hist[tm]/ME_base_hist[tm])*100, dL_hist[tm], dvdL_dis_hist[tm], dvdL_undis_hist[tm]), flush=True)
             # print("time={}, K={},Y={},L={},ME_total_base={:.3f}, SVRD={}, SVRD_dis={}, SVRD_undis={},SVRD_dis_HJB={},SVRD_Undis_HJB={},SVRD_Undis_HJB_New={}" .format(tm, hist[tm,0],hist[tm,1],hist[tm,2],np.log(ME_total_hist[tm]/ME_base_hist[tm])*100, dL_hist[tm], dvdL_dis_hist[tm], dvdL_undis_hist[tm],dvdL_dis_HJB_hist[tm],dvdL_Undis_HJB_hist[tm],dvdL_Undis_HJB_New_hist[tm]), flush=True)
@@ -493,6 +509,8 @@ def simulate_post(
         # true_damage_prob = true_damage_prob,
         Ambiguity_mean_undis = Ambiguity_mean_undis,
         Ambiguity_mean_dis = Ambiguity_mean_dis,
+        gamma_3_term1 = gamma_3_term1,
+        gamma_3_term2 = gamma_3_term2,
         )
     
 
@@ -583,7 +601,7 @@ def model_simulation_generate(xi_a,xi_g,psi_0,psi_1):
     
     ME_family = ME_base
     
-    model_args = (delta, mu_k, kappa,sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar)
+    model_args = (delta, mu_k, kappa,sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar, gamma_3_i)
 
     # FKPDE = FKPDEsolver(grid = (K, Y_short, L),
     #                     model_args = model_args,
@@ -617,7 +635,6 @@ def model_simulation_generate(xi_a,xi_g,psi_0,psi_1):
 
     res = simulate_post(grid = (K, Y, L), 
                        model_args = model_args, 
-                    #    controls = (i,e,x, g_tech, g_damage, pi_c, v),
                        controls = (i,e,x, g_tech, pi_c, v),
                        ME = ME_family,
                        FK = FK_family,

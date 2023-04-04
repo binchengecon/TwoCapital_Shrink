@@ -37,8 +37,8 @@ hXarrays=(hXarr1)
 # Xminarr=(4.00 0.0 1.0 0.0)
 # Xmaxarr=(9.00 4.0 6.0 3.0)
 
-Xminarr=(4.00 0.0 1.0 0.0)
-Xmaxarr=(9.00 2.0 6.0 3.0)
+Xminarr=(4.00 0.0 1.0 2.0)
+Xmaxarr=(9.00 4.0 6.0 3.0)
 
 
 

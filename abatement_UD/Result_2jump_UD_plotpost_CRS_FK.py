@@ -558,6 +558,79 @@ for id_xiag in range(len(xiaarr)):
             plt.close()
 
 
+
+colors = ['blue','green','red']
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            
+            for id_gamma3 in range(len(gamma_3_list)):
+                color_one = colors[id_gamma3 % len(gamma_3_list)]
+                res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],gamma_3_list[id_gamma3])
+
+                # if xiaarr[id_xiag]>10:
+
+                #     plt.plot(res["years"], np.log(res["scc_dis"]),label='FK:baseline,$\\gamma_3={:.4f}$'.format(gamma_3_list[id_gamma3]),linewidth=5.0,linestyle = 'dashed',color=color_one)
+                # else:
+                #     plt.plot(res["years"], np.log(res["scc_dis"]),label='FK:$\\gamma_3={:.4f}$' .format(gamma_3_list[id_gamma3]) ,linewidth=5.0,linestyle = 'dashed',color=color_one)
+                
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"], res["gamma_3_term1"],label='baseline,$\\gamma_3={:.4f}$'.format(gamma_3_list[id_gamma3]),linewidth=5.0,color=color_one)
+                else:
+                    plt.plot(res["years"], res["gamma_3_term1"],label='$\\gamma_3={:.4f}$' .format(gamma_3_list[id_gamma3]) ,linewidth=5.0,color=color_one)
+
+                plt.xlabel("Years")
+                plt.ticklabel_format(useOffset=False)
+
+                plt.title("$\\gamma_3 realted term$: $\\xi_p={:.5f}$,$\\xi_m={:.3f}$, grid points=[{:d},{:d},{:d}]".format(xiaarr[id_xiag],xigarr[id_xiag],nK,nY,nL))
+                if auto==0:   
+                    plt.ylim(6.5,8.0)
+                plt.xlim(0,IntPeriod)
+                plt.legend(loc='upper left')
+
+            # plt.savefig(Plot_Dir+"/logSCC_orig_dis,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+            plt.savefig(Plot_Dir+"/gamma_3_term1,xia={:.5f},xig={:.3f},psi0={:.3f},psi1={:.3f}.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
+            plt.close()
+            
+
+colors = ['blue','green','red']
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            
+            for id_gamma3 in range(len(gamma_3_list)):
+                color_one = colors[id_gamma3 % len(gamma_3_list)]
+                res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],gamma_3_list[id_gamma3])
+
+                # if xiaarr[id_xiag]>10:
+
+                #     plt.plot(res["years"], np.log(res["scc_dis"]),label='FK:baseline,$\\gamma_3={:.4f}$'.format(gamma_3_list[id_gamma3]),linewidth=5.0,linestyle = 'dashed',color=color_one)
+                # else:
+                #     plt.plot(res["years"], np.log(res["scc_dis"]),label='FK:$\\gamma_3={:.4f}$' .format(gamma_3_list[id_gamma3]) ,linewidth=5.0,linestyle = 'dashed',color=color_one)
+                
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"], res["gamma_3_term2"],label='baseline,$\\gamma_3={:.4f}$'.format(gamma_3_list[id_gamma3]),linewidth=5.0,color=color_one)
+                else:
+                    plt.plot(res["years"], res["gamma_3_term2"],label='$\\gamma_3={:.4f}$' .format(gamma_3_list[id_gamma3]) ,linewidth=5.0,color=color_one)
+
+                plt.xlabel("Years")
+                plt.ticklabel_format(useOffset=False)
+
+                plt.title("$\\gamma_3$ realted term: $\\xi_p={:.5f}$,$\\xi_m={:.3f}$, grid points=[{:d},{:d},{:d}]".format(xiaarr[id_xiag],xigarr[id_xiag],nK,nY,nL))
+                if auto==0:   
+                    plt.ylim(6.5,8.0)
+                plt.xlim(0,IntPeriod)
+                plt.legend(loc='upper left')
+
+            # plt.savefig(Plot_Dir+"/logSCC_orig_dis,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+            plt.savefig(Plot_Dir+"/gamma_3_term2,xia={:.5f},xig={:.3f},psi0={:.3f},psi1={:.3f}.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))
+            plt.close()          
 # for id_xiag in range(len(xiaarr)): 
 #     for id_psi0 in range(len(psi0arr)):
 #         for id_psi1 in range(len(psi1arr)):
