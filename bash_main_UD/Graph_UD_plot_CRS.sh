@@ -3,7 +3,7 @@
 actiontime=1
 epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
-# epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
+# epsilonarraypost=(0.01) # Computation of fine grid and psi10.8, post
 
 NUM_DAMAGE=3
 # NUM_DAMAGE=20
@@ -26,12 +26,12 @@ hXarrays=(hXarr1)
 
 
 
-# Xminarr=(4.00 0.0 1.0 0.0)
-# Xmaxarr=(9.00 4.0 6.0 3.0)
-
-
 Xminarr=(4.00 0.0 1.0 0.0)
-Xmaxarr=(9.00 2.0 6.0 3.0)
+Xmaxarr=(9.00 4.0 6.0 3.0)
+
+
+# Xminarr=(4.00 0.0 1.0 0.0)
+# Xmaxarr=(9.00 2.0 6.0 3.0)
 
 
 # xi_a=(0.0004 0.0002 0.0001 0.00005 0.0004 0.0002 0.0001 0.00005 1000.)
@@ -89,7 +89,8 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS_PETSCFK"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS_PETSCFK_20dmg"
-        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS2_PETSCFK"
+        # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS2_PETSCFK"
+        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS2_PETSCFK"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS2_PETSCFK_simulate2"
 
 

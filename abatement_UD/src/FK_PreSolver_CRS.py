@@ -14,6 +14,7 @@ import petsclinearsystem
 import petsclinearsystem_new
 import time
 from datetime import datetime
+import matplotlib.pyplot as plt
 
 
 def PDESolver(stateSpace, A, B_r, B_f, B_k, C_rr, C_ff, C_kk, D, v0, ε = 1, tol = -10, smartguess = False, solverType = 'False Transient'):
@@ -337,6 +338,8 @@ def fk_pre_tech_petsc(
     print("PETSc preconditioned residual norm is {:g}; iterations: {}".format(ksp.getResidualNorm(), ksp.getIterationNumber()))
 
     print("D={},{}", D.min(), D.max())
+    print("dvdL={},{}", dvdL.min(), dvdL.max())
+    print("dvdL_orig={},{}", dvdL_orig.min(), dvdL_orig.max())
 
     print("absolute A={},{}", abs(A).min(), abs(A).max())
     print("sanity check: {}".format(np.max(abs(dvdL-dvdL_orig))))
@@ -721,9 +724,15 @@ def fk_y_pre_tech(
         A += - np.exp(L_mat - np.log(448)) * g_tech 
 
         
-        D =  - (    gamma_2 +gamma_3 * (Y_mat>y_bar) )  * np.sum( theta_ell * pi_c , axis = 0 ) * e
+        D =  - (    gamma_2 +gamma_3 * (Y_mat>= y_bar) )  * np.sum( theta_ell * pi_c , axis = 0 ) * e
+        # D =  - (    gamma_2 +gamma_3  )  * np.sum( theta_ell * pi_c , axis = 0 ) * e
 
+        # plt.plot(D)
+        
+        
         D +=    np.exp(L_mat - np.log(448)) * g_tech * F_m_II 
+        
+        # D += gamma_3 * 1/2 * (Y_mat > y_bar-1./1) *(Y_mat < y_bar + 1./1)  * sigma_y**2 * e**2 / 2
 
 
         out = PDESolver(stateSpace, A, B_1, B_2, B_3, C_1, C_2, C_3, D, dv0dL, epsilon, solverType="Feyman Kac")
@@ -735,6 +744,18 @@ def fk_y_pre_tech(
         ddvddY = finiteDiff_3D(v, 1, 1, hY)
         ddvddY_orig = finiteDiff_3D(dvdY_orig, 1, 1, hY)    
 
+        os.makedirs('./abatement_UD/pdf_2tech/gamma3={},xi_a={},xi_g={}/'.format(gamma_3, xi_a, xi_g),exist_ok=True)
+
+        for i in range(len(K_orig)):
+            for j in range(len(L_orig)):
+                
+                plt.plot(Y_orig,dvdY_orig[i,:,j],label='dvdY')
+                plt.plot(Y_orig,dvdY[i,:,j],label='F')
+                plt.legend()
+                plt.savefig("./abatement_UD/pdf_2tech/gamma3={},xi_a={},xi_g={}/D_{},K={},L={}.png".format(gamma_3, xi_a, xi_g, len(Y_orig),K_orig[i],L_orig[j]))
+                plt.close()
+                
+                
         print("F range: {},{}".format(dvdY.min(),dvdY.max()))
         print("dvdY range: {},{}".format(dvdY_orig.min(),dvdY_orig.max()))
         print("sanity check 1st: {}".format(np.max(abs(dvdY-dvdY_orig))))
@@ -758,6 +779,191 @@ def fk_y_pre_tech(
                 "ddvddY": ddvddY,
                 }
     return res
+
+def fk_y_pre_tech_plot(
+        state_grid=(), 
+        model_args=(), 
+        controls=(),
+        VF=(),
+        FFK=(),
+        V_post_damage=None, 
+        tol=1e-8, epsilon=0.1, fraction=0.5, max_iter=10000,
+        v0=None,
+        smart_guess=None,
+        ):
+
+    K_orig, Y_orig, L_orig = state_grid
+    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_g, xi_p = model_args
+    
+    K = K_orig
+    Y = Y_orig
+    L = L_orig
+    pi_c_o = pi_c_o
+    theta_ell = theta_ell
+    
+    K_min, K_max, Y_min, Y_max, L_min, L_max = K.min(), K.max(), Y.min(), Y.max(), L.min(), L.max()
+    hK, hY, hL = K[1] - K[0], Y[1] - Y[0], L[1]-L[0]
+    nK, nY, nL = len(K), len(Y), len(L)
+    
+    ######## post jump, 3 states
+    (K_mat, Y_mat, L_mat) = np.meshgrid(K, Y, L, indexing = 'ij')
+    stateSpace = np.hstack([K_mat.reshape(-1,1,order = 'F'), Y_mat.reshape(-1,1,order = 'F'), L_mat.reshape(-1, 1, order='F')])
+
+    K_mat_1d = K_mat.ravel(order='F')
+    Y_mat_1d = Y_mat.ravel(order='F')
+    L_mat_1d = L_mat.ravel(order='F')
+
+
+
+    
+    #### Model type
+    if isinstance(gamma_3, (np.ndarray, list)):
+        model = "Pre damage"
+        pi_d_o = np.ones(len(gamma_3)) / len(gamma_3)
+        pi_d_o = np.array([temp * np.ones(K_mat.shape) for temp in pi_d_o ])
+        # v_i = V_post_damage
+        y_bar_lower = 1.5
+        r_1 = 1.5
+        r_2 = 2.5
+        Intensity = r_1 * (np.exp(r_2 / 2 * (Y_mat - y_bar_lower)**2) -1) * (Y_mat > y_bar_lower)
+        Intensity_prime = r_1 * r_2 * np.exp(r_2 / 2 * (Y_mat - y_bar_lower)**2) * (Y_mat - y_bar_lower)* (Y_mat > y_bar_lower)
+        i,e,x,pi_c,g_tech,g_damage = controls
+
+        
+        Phi_m, Phi = VF
+        F_II, F_m = FFK
+
+
+        i = i
+        e = e
+        x = x
+        pi_c = pi_c
+        g_tech = g_tech
+        g_damage = g_damage
+        
+        Phi = Phi
+        Phi_m = Phi_m
+        F_II = F_II
+        F_m = F_m
+        dv0dL = finiteDiff_3D(Phi,1,1,hY)
+
+                
+        A = -delta * np.ones(K_mat.shape) 
+        B_1 = mu_k + i - 0.5 * kappa * i**2 - 0.5 * sigma_k**2
+        B_2 = np.sum(theta_ell * pi_c, axis=0) * e
+        B_3 = - zeta + psi_0 * (x * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
+
+        C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
+        C_2 = 0.5 * sigma_y**2 * e**2
+        C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
+
+
+        A += - np.exp(L_mat - np.log(448)) * g_tech 
+        A += - Intensity*np.sum(pi_d_o*g_damage,axis=0)
+
+        D = -( gamma_2 * np.sum( theta_ell * pi_c , axis = 0 ) * e )
+        D += np.exp(L_mat - np.log(448)) * g_tech * F_II 
+        D += Intensity * np.sum(pi_d_o*g_damage* F_m,axis=0)  
+        D += Intensity_prime * np.sum(pi_d_o*g_damage* (Phi_m-Phi),axis=0)
+        D += xi_p * Intensity_prime * np.sum(pi_d_o*(1-g_damage+g_damage*np.log(g_damage)),axis=0)
+        
+        # out = PDESolver(stateSpace, A, B_1, B_2, B_3, C_1, C_2, C_3, D, dv0dL, epsilon, solverType="Feyman Kac")
+        # v  = out[2].reshape(dv0dL.shape, order="F")
+            
+        # dvdY = v    
+        # dvdY_orig = finiteDiff_3D(Phi, 1, 1, hY)    
+        # ddvddY = finiteDiff_3D(v, 1, 1, hY)
+        # ddvddY_orig = finiteDiff_3D(Phi, 1, 2, hY)    
+        
+        # print("F range: {},{}".format(dvdY.min(),dvdY.max()))
+        # print("dvdY range: {},{}".format(dvdY_orig.min(),dvdY_orig.max()))
+        # print("sanity check 1st: {}".format(np.max(abs(dvdY-dvdY_orig))))
+        # print("sanity check 2nd: {}".format(np.max(abs(ddvddY-ddvddY_orig))))
+        # print("sanity check FOC: {}".format(np.max(abs(ddvddY-ddvddY_orig))))
+
+        
+    else:
+        model = "Post damage"
+        i,e,x,pi_c,g_tech = controls
+        
+        Phi_m_II, Phi_m = VF
+        F_m_II = FFK
+
+
+        i = i
+        e = e
+        x = x
+        pi_c = pi_c
+        g_tech = g_tech
+        
+        Phi_m_II = Phi_m_II
+        Phi_m = Phi_m
+        F_m_II = F_m_II
+        dv0dL = finiteDiff_3D(Phi_m,1,1,hY)
+        A = -delta * np.ones(K_mat.shape) 
+        B_1 = mu_k + i - 0.5 * kappa * i**2 - 0.5 * sigma_k**2
+        B_2 = np.sum(theta_ell * pi_c, axis=0) * e
+        B_3 = - zeta + psi_0 * (x * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
+
+        C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
+        C_2 = 0.5 * sigma_y**2 * e**2
+        C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
+        
+
+        A += - np.exp(L_mat - np.log(448)) * g_tech 
+
+        
+        D =  - (    gamma_2 +gamma_3 * (Y_mat>=y_bar) )  * np.sum( theta_ell * pi_c , axis = 0 ) * e
+
+        # plt.plot(Y_orig, D[-1,:,-1])
+        
+        # plt.savefig("./abatement_UD/pdf_2tech/D_{}.png".format(len(D)))
+        os.makedirs('./abatement_UD/pdf_2tech/gamma3={},xi_a={},xi_g={}/'.format(gamma_3, xi_a, xi_g),exist_ok=True)
+        for i in range(len(K_orig)):
+            for j in range(len(L_orig)):
+                
+                plt.plot(Y_orig,D[i,:,j])
+                plt.savefig("./abatement_UD/pdf_2tech/gamma3={},xi_a={},xi_g={}/D_{},K={},L={}.png".format(gamma_3, xi_a, xi_g, len(Y_orig),K_orig[i],L_orig[j]))
+                plt.close()
+        D +=    np.exp(L_mat - np.log(448)) * g_tech * F_m_II 
+        
+        # D += gamma_3 * 1/2 * (Y_mat > y_bar-1./1) *(Y_mat < y_bar + 1./1)  * sigma_y**2 * e**2 / 2
+
+
+        # out = PDESolver(stateSpace, A, B_1, B_2, B_3, C_1, C_2, C_3, D, dv0dL, epsilon, solverType="Feyman Kac")
+
+        # v  = out[2].reshape(dv0dL.shape, order="F")
+            
+        # dvdY = v    
+        # dvdY_orig = finiteDiff_3D(Phi_m, 1, 1, hY)    
+        # ddvddY = finiteDiff_3D(v, 1, 1, hY)
+        # ddvddY_orig = finiteDiff_3D(dvdY_orig, 1, 1, hY)    
+
+        # print("F range: {},{}".format(dvdY.min(),dvdY.max()))
+        # print("dvdY range: {},{}".format(dvdY_orig.min(),dvdY_orig.max()))
+        # print("sanity check 1st: {}".format(np.max(abs(dvdY-dvdY_orig))))
+        # print("sanity check 2nd: {}".format(np.max(abs(ddvddY-ddvddY_orig)))) 
+        
+    # print("PETSc preconditioned residual norm is {:g}; iterations: {}".format(ksp.getResidualNorm(), ksp.getIterationNumber()))
+
+    # if model == "Post damage":
+    #     res = {
+    #             "v0": v,
+    #             "dvdY": dvdY,
+    #             "ddvddY": ddvddY,
+    #             # "v0": dvdY_orig,
+    #             # "dvdY": dvdY_orig,
+    #             # "ddvddY": ddvddY_orig,
+    #             }
+    # if model == "Pre damage":
+    #     res = {                
+    #             "v0": v,
+    #             "dvdY": dvdY,
+    #             "ddvddY": ddvddY,
+    #             }
+    # return res
+    
+    # return 0
 
 
 def fk_yshort_pre_tech_petsc(

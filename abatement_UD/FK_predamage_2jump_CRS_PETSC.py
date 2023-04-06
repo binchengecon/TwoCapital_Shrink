@@ -306,14 +306,15 @@ model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k
 
 Guess = None
 # model_tech1_pre_damage = fk_yshort_pre_tech(
-model_tech1_pre_damage = fk_yshort_pre_tech_petsc(
+# model_tech1_pre_damage = fk_yshort_pre_tech_petsc(
 # model_tech1_pre_damage = fk_y_pre_tech_petsc(
+model_tech1_pre_damage = fk_y_pre_tech(
         state_grid=(K, Y_short, L), 
         model_args=model_args, 
         controls = (i,e,x,pi_c,g_tech,g_damage),
         VF = (Phi_m,Phi),
         FFK = (F_II, F_m),
-        n_bar = 50,
+        # n_bar = 50,
         V_post_damage=None, 
         tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], max_iter=maxiterarr[1],
         )
@@ -398,14 +399,16 @@ model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k
 #########################################
 
 Guess = None
-model_tech1_pre_damage = fk_yshort_pre_tech_petsc(
+# model_tech1_pre_damage = fk_yshort_pre_tech_petsc(
+# model_tech1_pre_damage = fk_yshort_pre_tech_petsc(
+model_tech1_pre_damage = fk_y_pre_tech(
 # model_tech1_pre_damage = fk_y_pre_tech_petsc(
         state_grid=(K, Y_short, L), 
         model_args=model_args, 
         controls = (i,e,x,pi_c,g_tech,g_damage),
         VF = (Phi_m,Phi),
         FFK = (F_II, F_m),
-        n_bar = 50,
+        # n_bar = 50,
         V_post_damage=None, 
         tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], max_iter=maxiterarr[1],
         )

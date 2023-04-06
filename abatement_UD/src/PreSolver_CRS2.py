@@ -238,8 +238,8 @@ def hjb_pre_tech(
         ddG = gamma_2 
     else:
         model = "Post damage"
-        dG  = gamma_1 + gamma_2 * Y_mat + gamma_3 * (Y_mat - y_bar) * (Y_mat > y_bar)
-        ddG = gamma_2 + gamma_3 * (Y_mat > y_bar)
+        dG  = gamma_1 + gamma_2 * Y_mat + gamma_3 * (Y_mat - y_bar) * (Y_mat >= y_bar)
+        ddG = gamma_2 + gamma_3 * (Y_mat >= y_bar)
 
     # Initial setup of HJB
     FC_Err   = 1
@@ -262,6 +262,8 @@ def hjb_pre_tech(
         g_tech = smart_guess['g_tech']
         if model == "Pre damage":
             g_damage = smart_guess['g_damage']
+            
+    
 
     dVec = np.array([hX1, hX2, hX3])
     increVec = np.array([1, nX1, nX1 * nX2],dtype=np.int32)
@@ -335,7 +337,45 @@ def hjb_pre_tech(
         x_star = xx
         epoch += 1
 
+    dX1  = finiteDiff_3D(v0,0,1,hX1)
+    dX1[dX1 <= 1e-16] = 1e-16
+    dK = dX1
+    dX2  = finiteDiff_3D(v0,1,1,hX2)
+    dY = dX2
+    dX3  = finiteDiff_3D(v0,2,1,hX3)
+    dX3[dX3 <= 1e-16] = 1e-16
+    dL = dX3
+    ######## second order
+    ddX1 = finiteDiff_3D(v0,0,2,hX1)
+    ddX2 = finiteDiff_3D(v0,1,2,hX2)
+    ddY = ddX2
+    ddX3 = finiteDiff_3D(v0,2,2,hX3)
+    
+    G = dY -  dG
+    F = ddY - ddG
+    j_star = alpha * vartheta_bar * (1 - e_star / (alpha * lambda_bar * np.exp(K_mat)))**theta
+    j_star[j_star <= 1e-16] = 1e-16
+    consumption = alpha - i_star - j_star - x_star
+    consumption[consumption <= 1e-16] = 1e-16
+    mc  = delta / consumption
+    temp = mc * vartheta_bar * theta / (lambda_bar * np.exp(K_mat))
+    a = temp / (alpha * lambda_bar * np.exp(K_mat))**(theta - 1)
+    b = - 2 * temp / (alpha * lambda_bar * np.exp(K_mat)) +  F * sigma_y**2
+    c = temp + G * np.sum(theta_ell * pi_c, axis=0)
+    temp = b ** 2 - 4 * a * c
+    temp = temp * (temp > 0)
+    root1 = (- b - np.sqrt(temp)) / (2 * a)
+    root2 = (- b + np.sqrt(temp)) / (2 * a)
+    if root1.all() > 0 :
+        # print("use root1")
+        e_new = root1
+    else:
+        # print("use root2")
+        e_new = root2
         
+        
+    print("e_new=[{},{}]".format(e_new.min(),e_new.max()))    
+    
     ME = - dX2 * np.sum(pi_c * theta_ell, axis=0) - ddX2 * sigma_y**2 * ee + dG * np.sum(theta_ell * pi_c, axis=0) +  ddG * sigma_y**2 * ee
     jj = alpha * vartheta_bar * (1 - ee / (alpha * lambda_bar * np.exp(K_mat)))**theta
     
@@ -352,6 +392,7 @@ def hjb_pre_tech(
             "v0"    : v0,
             "i_star": i_star,
             "e_star": e_star,
+            "e_orig": e_new,
             "x_star": x_star,
             "pi_c"  : pi_c,
             "g_tech": g_tech,
@@ -363,6 +404,7 @@ def hjb_pre_tech(
                 "v0"    : v0,
                 "i_star": i_star,
                 "e_star": e_star,
+                "e_orig": e_new,
                 "x_star": x_star,
                 "pi_c"  : pi_c,
                 "g_tech": g_tech,

@@ -174,7 +174,7 @@ def simulate_post(
     ME = (),
     FK = (),
     n_bar = (),  
-    initial=(np.log(85/0.115), 1.1, np.log(448/40)), 
+    initial=(np.log(85/0.115), 2, np.log(448/40)), 
     T0=0, T=40, dt=1/12,
     printing=True):
 
