@@ -18,7 +18,6 @@ ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
 maxiterarr=(80000 200000)
 # maxiterarr=(10 10)
-
 declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr3=([0]=0.05 [1]=0.05 [2]=0.05)
@@ -26,24 +25,29 @@ declare -A hXarr4=([0]=0.2 [1]=0.01 [2]=0.2)
 declare -A hXarr5=([0]=0.1 [1]=0.05 [2]=0.1)
 declare -A hXarr6=([0]=0.1 [1]=0.025 [2]=0.1)
 declare -A hXarr7=([0]=0.1 [1]=0.01 [2]=0.1)
+declare -A hXarr8=([0]=0.2 [1]=0.1 [2]=0.2)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-hXarrays=(hXarr1)
+# hXarrays=(hXarr1)
 # hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 # hXarrays=(hXarr4)
 # hXarrays=(hXarr5)
 # hXarrays=(hXarr6)
 # hXarrays=(hXarr7)
-
+hXarrays=(hXarr8)
 
 # Xminarr=(4.00 0.0 1.0 0.0)
 # Xmaxarr=(9.00 4.0 6.0 3.0)
 
-Xminarr=(4.00 2.0 1.0 0.0)
+# Xminarr=(4.00 0.5 1.0 0.0)
+# Xmaxarr=(9.00 3.5 6.0 3.0)
+
+# Xminarr=(4.00 1.0 1.0 0.0)
+# Xmaxarr=(9.00 4.0 6.0 3.0)
+
+Xminarr=(4.00 1.5 1.0 0.0)
 Xmaxarr=(9.00 4.0 6.0 3.0)
 
-# Xminarr=(4.00 0.0 1.0 2.0)
-# Xmaxarr=(9.00 4.0 6.0 3.0)
 
 
 
@@ -78,7 +82,8 @@ for epsilon in ${epsilonarray[@]}; do
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_CRS2_PETSCFK"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_notonpoint_100gamma3"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_notonpoint_100gamma3"
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_notonpoint"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_notonpoint"
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_vartheta=0.05"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_CRS2_PETSCFK"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_CRS2_PETSCFK_10dmg"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_CRS2_PETSCFK_simulate2"

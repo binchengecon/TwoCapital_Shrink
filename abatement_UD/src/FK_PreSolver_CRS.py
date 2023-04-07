@@ -724,7 +724,7 @@ def fk_y_pre_tech(
         A += - np.exp(L_mat - np.log(448)) * g_tech 
 
         
-        D =  - (    gamma_2 +gamma_3 * (Y_mat>= y_bar) )  * np.sum( theta_ell * pi_c , axis = 0 ) * e
+        D =  - (    gamma_2 +gamma_3  )  * np.sum( theta_ell * pi_c , axis = 0 ) * e
         # D =  - (    gamma_2 +gamma_3  )  * np.sum( theta_ell * pi_c , axis = 0 ) * e
 
         # plt.plot(D)
@@ -744,16 +744,16 @@ def fk_y_pre_tech(
         ddvddY = finiteDiff_3D(v, 1, 1, hY)
         ddvddY_orig = finiteDiff_3D(dvdY_orig, 1, 1, hY)    
 
-        os.makedirs('./abatement_UD/pdf_2tech/gamma3={},xi_a={},xi_g={}/'.format(gamma_3, xi_a, xi_g),exist_ok=True)
+        # os.makedirs('./abatement_UD/pdf_2tech/gamma3={},xi_a={},xi_g={}/'.format(gamma_3, xi_a, xi_g),exist_ok=True)
 
-        for i in range(len(K_orig)):
-            for j in range(len(L_orig)):
+        # for i in range(len(K_orig)):
+        #     for j in range(len(L_orig)):
                 
-                plt.plot(Y_orig,dvdY_orig[i,:,j],label='dvdY')
-                plt.plot(Y_orig,dvdY[i,:,j],label='F')
-                plt.legend()
-                plt.savefig("./abatement_UD/pdf_2tech/gamma3={},xi_a={},xi_g={}/D_{},K={},L={}.png".format(gamma_3, xi_a, xi_g, len(Y_orig),K_orig[i],L_orig[j]))
-                plt.close()
+        #         plt.plot(Y_orig,dvdY_orig[i,:,j],label='dvdY')
+        #         plt.plot(Y_orig,dvdY[i,:,j],label='F')
+        #         plt.legend()
+        #         plt.savefig("./abatement_UD/pdf_2tech/gamma3={},xi_a={},xi_g={}/D_{},K={},L={}.png".format(gamma_3, xi_a, xi_g, len(Y_orig),K_orig[i],L_orig[j]))
+        #         plt.close()
                 
                 
         print("F range: {},{}".format(dvdY.min(),dvdY.max()))

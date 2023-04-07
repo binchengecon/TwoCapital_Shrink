@@ -238,9 +238,10 @@ def hjb_pre_tech(
         ddG = gamma_2 
     else:
         model = "Post damage"
-        dG  = gamma_1 + gamma_2 * Y_mat + gamma_3 * (Y_mat - y_bar) * (Y_mat >= y_bar)
-        ddG = gamma_2 + gamma_3 * (Y_mat >= y_bar)
-
+        # dG  = gamma_1 + gamma_2 * Y_mat + gamma_3 * (Y_mat - y_bar) * (Y_mat >= y_bar)
+        # ddG = gamma_2 + gamma_3 * (Y_mat >= y_bar)
+        dG  = gamma_1 + gamma_2 * Y_mat + gamma_3 * (Y_mat - y_bar) 
+        ddG = gamma_2 + gamma_3 
     # Initial setup of HJB
     FC_Err   = 1
     epoch    = 0

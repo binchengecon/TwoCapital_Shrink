@@ -101,7 +101,8 @@ y_bar_lower = 1.5
 # Tech
 theta = 3
 lambda_bar = 0.1206
-vartheta_bar = 0.0453
+# vartheta_bar = 0.0453
+vartheta_bar = 0.05
 
 lambda_bar_first = lambda_bar / 2.
 vartheta_bar_first = vartheta_bar / 2.
@@ -488,6 +489,8 @@ def simulate_post(
         scc = scc_hist,
         scc_dis = scc_dis_hist,
         scc_undis = scc_undis_hist,
+        dY_hist = dY_hist,
+        dvdY_dis_hist=dvdY_dis_hist,
         scrd = scrd_hist,
         scrd_dis = scrd_dis_hist,
         scrd_undis = scrd_undis_hist,
