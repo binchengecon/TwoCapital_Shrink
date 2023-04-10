@@ -250,7 +250,7 @@ def hjb_pre_tech(
         v0 = K_mat + L_mat - np.average(pi_c_o, axis=0) * Y_mat
 
     i_star = np.zeros(K_mat.shape)
-    e_star = 0.01*np.ones(K_mat.shape)
+    e_star = np.ones(K_mat.shape)
     # e_star = np.zeros(K_mat.shape)
     x_star = np.zeros(K_mat.shape)
     
