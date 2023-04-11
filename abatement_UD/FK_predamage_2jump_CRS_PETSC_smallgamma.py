@@ -577,7 +577,7 @@ g_tech = model_tech1_pre_damage['g_tech']
 g_tech = np.ones(Phi.shape)
 
 g_damage = model_tech1_pre_damage['g_damage']
-# g_damage = np.ones(Phi.shape)
+g_damage = np.ones(Phi.shape)
 
 pi_d_o = np.ones(len(gamma_3_list)) / len(gamma_3_list)
 pi_d_o = np.array([temp * np.ones((nK, nY_short)) for temp in pi_d_o])
