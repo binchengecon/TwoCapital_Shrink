@@ -40,8 +40,17 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_a=(0.0004 0.0002 0.0001 0.00005)
 # xi_p=(0.025 0.025 0.025 0.025)
 
-xi_a=(1000. 0.0002 0.0002)
-xi_p=(1000. 0.050 0.025)
+# xi_a=(1000. 0.0002 0.0002)
+# xi_p=(1000. 0.050 0.025)
+
+
+# xi_a=(1000. 0.0002 0.0002)
+# xi_p=(1000. 0.050 0.025)
+
+
+xi_a=(100000. 100000.)
+xi_p=(0.050 0.025)
+
 
 psi0arr=(0.105830)
 # psi0arr=(0.000001)
@@ -53,7 +62,8 @@ psi1arr=(0.5)
 
 
 # python_name_unit="Result_2jump_UD_simulate_CRS_FK_smallgamma.py"
-python_name_unit="Result_2jump_UD_simulate2_CRS_FK.py"
+# python_name_unit="Result_2jump_UD_simulate2_CRS_FK.py"
+python_name_unit="Result_2jump_UD_simulate_CRS_FK.py"
 
 
 server_name="mercury"
@@ -68,8 +78,8 @@ interp_action_name="2jump_step_0.2_0.2_0.2_LR_0.01"
 fstr_SG="NearestNDInterpolator"
 
 auto=1
-year=25
-# year=40
+# year=25
+year=40
 
 # scheme_array=("macroannual" "newway" "newway" "newway" "check")
 # HJBsolution_array=("simple" "iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
@@ -102,7 +112,8 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS_PETSCFK"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS_PETSCFK_20dmg"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS2_PETSCFK"
-			action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_testpostivee"
+			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_testpostivee"
+			action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_globalmiss"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS2_PETSCFK_simulate2"
 
 

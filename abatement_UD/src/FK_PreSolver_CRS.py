@@ -86,7 +86,7 @@ def fk_pre_tech(
         r_1 = 1.5
         r_2 = 2.5
         Intensity = r_1 * (np.exp(r_2 / 2 * (Y_mat - y_bar_lower)**2) -1) * (Y_mat > y_bar_lower)
-        i,e,x,pi_c,g_tech,g_damage = controls
+        i,e,x,pi_c,g_tech,g_damage,h = controls
         
         Phi_II, Phi = VF
         F_II, F_m = FFK
@@ -97,6 +97,7 @@ def fk_pre_tech(
         A = -delta * np.ones(K_mat.shape) - psi_0 * psi_1 * (x * np.exp(K_mat-L_mat) )**psi_1 - np.exp(L_mat - np.log(448)) * g_tech - Intensity*np.sum(pi_d_o*g_damage,axis=0)
         B_1 = mu_k + i - 0.5 * kappa * i**2 - 0.5 * sigma_k**2
         B_2 = np.sum(theta_ell * pi_c, axis=0) * e
+        B_2 += sigma_y * h * e
         B_3 = - zeta + psi_0 * (x * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
 
         C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
@@ -116,7 +117,7 @@ def fk_pre_tech(
         
     else:
         model = "Post damage"
-        i,e,x,pi_c,g_tech = controls
+        i,e,x,pi_c,g_tech,h = controls
         
         Phi_m_II, Phi_m = VF
         F_m_II = FFK
@@ -126,6 +127,7 @@ def fk_pre_tech(
         A = -delta * np.ones(K_mat.shape) - psi_0 * psi_1 * (x * np.exp(K_mat-L_mat) )**psi_1 - np.exp(L_mat - np.log(448)) * g_tech
         B_1 = mu_k + i - 0.5 * kappa * i**2 - 0.5 * sigma_k**2
         B_2 = np.sum(theta_ell * pi_c, axis=0) * e
+        B_2 += sigma_y * h * e
         B_3 = - zeta + psi_0 * (x * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
 
         C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
@@ -150,6 +152,7 @@ def fk_pre_tech(
             "x_star": x,
             "pi_c"  : pi_c,
             "g_tech": g_tech,
+            "h": h,
             "dvdL": dvdL,
             }
     if model == "Pre damage":
@@ -161,6 +164,7 @@ def fk_pre_tech(
                 "pi_c"  : pi_c,
                 "g_tech": g_tech,
                 "g_damage": g_damage,
+                "h": h,
                 "dvdL": dvdL,
                 }
     return res
@@ -217,7 +221,7 @@ def fk_pre_tech_petsc(
         r_1 = 1.5
         r_2 = 2.5
         Intensity = r_1 * (np.exp(r_2 / 2 * (Y_mat - y_bar_lower)**2) -1) * (Y_mat > y_bar_lower)
-        i,e,x,pi_c,g_tech,g_damage = controls
+        i,e,x,pi_c,g_tech,g_damage,h = controls
         
         Phi_II, Phi = VF
         F_II, F_m = FFK
@@ -228,6 +232,7 @@ def fk_pre_tech_petsc(
         A = -delta * np.ones(K_mat.shape) - psi_0 * psi_1 * (x * np.exp(K_mat-L_mat) )**psi_1 
         B_1 = mu_k + i - 0.5 * kappa * i**2 - 0.5 * sigma_k**2
         B_2 = np.sum(theta_ell * pi_c, axis=0) * e
+        B_2 += sigma_y * h * e
         B_3 = - zeta + psi_0 * (x * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
 
         C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
@@ -278,7 +283,7 @@ def fk_pre_tech_petsc(
         
     else:
         model = "Post damage"
-        i,e,x,pi_c,g_tech = controls
+        i,e,x,pi_c,g_tech,h = controls
         
         Phi_m_II, Phi_m = VF
         F_m_II = FFK
@@ -288,6 +293,7 @@ def fk_pre_tech_petsc(
         A = -delta * np.ones(K_mat.shape) - psi_0 * psi_1 * (x * np.exp(K_mat-L_mat) )**psi_1 
         B_1 = mu_k + i - 0.5 * kappa * i**2 - 0.5 * sigma_k**2
         B_2 = np.sum(theta_ell * pi_c, axis=0) * e
+        B_2 += sigma_y * h * e
         B_3 = - zeta + psi_0 * (x * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
 
         C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
@@ -438,7 +444,7 @@ def fk_y_pre_tech_petsc(
         r_2 = 2.5
         Intensity = r_1 * (np.exp(r_2 / 2 * (Y_mat - y_bar_lower)**2) -1) * (Y_mat > y_bar_lower)
         Intensity_prime = r_1 * r_2 * np.exp(r_2 / 2 * (Y_mat - y_bar_lower)**2) * (Y_mat - y_bar_lower)* (Y_mat > y_bar_lower)
-        i,e,x,pi_c,g_tech,g_damage = controls
+        i,e,x,pi_c,g_tech,g_damage,h = controls
         
         Phi_m, Phi = VF
         F_II, F_m = FFK
@@ -446,6 +452,7 @@ def fk_y_pre_tech_petsc(
         A = -delta * np.ones(K_mat.shape) 
         B_1 = mu_k + i - 0.5 * kappa * i**2 - 0.5 * sigma_k**2
         B_2 = np.sum(theta_ell * pi_c, axis=0) * e
+        B_2 += sigma_y * h * e
         B_3 = - zeta + psi_0 * (x * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
 
         C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
@@ -507,7 +514,7 @@ def fk_y_pre_tech_petsc(
         
     else:
         model = "Post damage"
-        i,e,x,pi_c,g_tech = controls
+        i,e,x,pi_c,g_tech,h = controls
         
         Phi_m_II, Phi_m = VF
         F_m_II = FFK
@@ -515,6 +522,7 @@ def fk_y_pre_tech_petsc(
         A = -delta * np.ones(K_mat.shape) 
         B_1 = mu_k + i - 0.5 * kappa * i**2 - 0.5 * sigma_k**2
         B_2 = np.sum(theta_ell * pi_c, axis=0) * e
+        B_2 += sigma_y * h * e
         B_3 = - zeta + psi_0 * (x * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
 
         C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
@@ -638,7 +646,7 @@ def fk_y_pre_tech(
         r_2 = 2.5
         Intensity = r_1 * (np.exp(r_2 / 2 * (Y_mat - y_bar_lower)**2) -1) * (Y_mat > y_bar_lower)
         Intensity_prime = r_1 * r_2 * np.exp(r_2 / 2 * (Y_mat - y_bar_lower)**2) * (Y_mat - y_bar_lower)* (Y_mat > y_bar_lower)
-        i,e,x,pi_c,g_tech,g_damage = controls
+        i,e,x,pi_c,g_tech,g_damage,h = controls
 
         
         Phi_m, Phi = VF
@@ -662,6 +670,7 @@ def fk_y_pre_tech(
         A = -delta * np.ones(K_mat.shape) 
         B_1 = mu_k + i - 0.5 * kappa * i**2 - 0.5 * sigma_k**2
         B_2 = np.sum(theta_ell * pi_c, axis=0) * e
+        B_2 += sigma_y * h * e
         B_3 = - zeta + psi_0 * (x * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
 
         C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
@@ -695,7 +704,7 @@ def fk_y_pre_tech(
         
     else:
         model = "Post damage"
-        i,e,x,pi_c,g_tech = controls
+        i,e,x,pi_c,g_tech, h = controls
         
         Phi_m_II, Phi_m = VF
         F_m_II = FFK
@@ -706,6 +715,7 @@ def fk_y_pre_tech(
         x = x
         pi_c = pi_c
         g_tech = g_tech
+        h = h
         
         Phi_m_II = Phi_m_II
         Phi_m = Phi_m
@@ -714,6 +724,7 @@ def fk_y_pre_tech(
         A = -delta * np.ones(K_mat.shape) 
         B_1 = mu_k + i - 0.5 * kappa * i**2 - 0.5 * sigma_k**2
         B_2 = np.sum(theta_ell * pi_c, axis=0) * e
+        B_2 += sigma_y * h * e
         B_3 = - zeta + psi_0 * (x * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
 
         C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
@@ -1292,7 +1303,7 @@ def hjb_pre_tech_check(
     #### Model type
     if isinstance(gamma_3, (np.ndarray, list)):
         model = "Pre damage"
-        ii, ee, xx, pi_c, g_tech, g_damage, v0 = controls
+        ii, ee, xx, pi_c, g_tech, g_damage, h, v0 = controls
 
         pi_d_o = np.ones(len(gamma_3)) / len(gamma_3)
         pi_d_o = np.array([temp * np.ones(K_mat.shape) for temp in pi_d_o ])
@@ -1304,7 +1315,8 @@ def hjb_pre_tech_check(
         dG  = gamma_1 + gamma_2 * Y_mat
         ddG = gamma_2 
         
-        
+        dY = finiteDiff_3D(v0,1,1,hY)
+
         jj =  alpha * vartheta_bar * (1 - ee / (alpha * lambda_bar * np.exp(K_mat)))**theta
         jj[jj <= 1e-16] = 1e-16
         consumption = alpha - ii - jj - xx
@@ -1314,6 +1326,7 @@ def hjb_pre_tech_check(
         A   = - delta * np.ones(K_mat.shape) - np.exp(  L_mat - np.log(448) ) * g_tech
         B_1 = mu_k + ii - 0.5 * kappa * ii**2 - 0.5 * sigma_k**2
         B_2 = np.sum(theta_ell * pi_c, axis=0) * ee
+        B_2 += sigma_y * h * ee
         B_3 = - zeta + psi_0 * (xx * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
         # B_3 = - zeta + psi_0 * xx** psi_1 * np.exp( psi_1 * K_mat ) * np.sum(pi_c * np.exp( -( 1-psi_2) * L_mat  ), axis=0 )- 0.5 * sigma_g**2
 
@@ -1323,12 +1336,15 @@ def hjb_pre_tech_check(
         D = delta * np.log(consumption) + delta * K_mat  - dG * np.sum(theta_ell * pi_c, axis=0) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_a * entropy + xi_g * np.exp((L_mat - np.log(448))) * (1 - g_tech + g_tech * np.log(g_tech)) + np.exp( (L_mat - np.log(448)) ) * g_tech * V_post_tech
         D += xi_p * Intensity * np.sum( pi_d_o*(1-g_damage+g_damage*np.log(g_damage)),axis=0) +Intensity*np.sum(pi_d_o*g_damage*v_i,axis=0)
         A -=  Intensity*np.sum(pi_d_o*g_damage,axis=0)
+        D += 1/2 *xi_g *h**2
 
     else:
         model = "Post damage"
         
-        ii, ee, xx, pi_c, g_tech, v0 = controls
+        ii, ee, xx, pi_c, g_tech, h, v0 = controls
 
+        dY = finiteDiff_3D(v0,1,1,hY)
+        
         dG  = gamma_1 + gamma_2 * Y_mat + gamma_3 * (Y_mat - y_bar) * (Y_mat > y_bar)
         ddG = gamma_2 + gamma_3 * (Y_mat > y_bar)
         
@@ -1341,6 +1357,7 @@ def hjb_pre_tech_check(
         A   = - delta * np.ones(K_mat.shape) - np.exp(  L_mat - np.log(448) ) * g_tech
         B_1 = mu_k + ii - 0.5 * kappa * ii**2 - 0.5 * sigma_k**2
         B_2 = np.sum(theta_ell * pi_c, axis=0) * ee
+        B_2 += sigma_y * h * ee
         B_3 = - zeta + psi_0 * (xx * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
         # B_3 = - zeta + psi_0 * xx** psi_1 * np.exp( psi_1 * K_mat ) * np.sum(pi_c * np.exp( -( 1-psi_2) * L_mat  ), axis=0 )- 0.5 * sigma_g**2
 
@@ -1348,6 +1365,7 @@ def hjb_pre_tech_check(
         C_2 = 0.5 * sigma_y**2 * ee**2
         C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
         D = delta * np.log(consumption) + delta * K_mat  - dG * np.sum(theta_ell * pi_c, axis=0) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_a * entropy + xi_g * np.exp((L_mat - np.log(448))) * (1 - g_tech + g_tech * np.log(g_tech)) + np.exp( (L_mat - np.log(448)) ) * g_tech * V_post_tech
+        D += 1/2 *xi_g * h**2
 
     # Initial setup of HJB
     FC_Err   = 1
@@ -1444,6 +1462,7 @@ def hjb_pre_tech_check(
             "x_star": x_star,
             "pi_c"  : pi_c,
             "g_tech": g_tech,
+            "h": h,
             "FC_Err": FC_Err,
             "dvdL": dL,
             }
@@ -1456,6 +1475,7 @@ def hjb_pre_tech_check(
                 "pi_c"  : pi_c,
                 "g_tech": g_tech,
                 "g_damage": g_damage,
+                "h": h,
                 "FC_Err": FC_Err,
                 "dvdL": dL,
                 }

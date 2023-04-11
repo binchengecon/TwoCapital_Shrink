@@ -158,15 +158,23 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     # Technology
     gg = np.exp(1 / xi_g * (v0 - V_post_tech))
     gg[gg <=1e-16] = 1e-16
+    
+    # gloabal misspecification
+    
+    h = - 1/ xi_g * sigma_y * ee * dY
+    
     # gg[gg >= 1] = 1
     jj =  alpha * vartheta_bar * (1 - ee / (alpha * lambda_bar * np.exp(K_mat)))**theta
     jj[jj <= 1e-16] = 1e-16
     consumption = alpha - ii - jj - xx
     consumption[consumption <= 1e-16] = 1e-16
     # Step (2), solve minimization problem in HJB and calculate drift distortion
+    
+    
     A   = - delta * np.ones(K_mat.shape) - np.exp(  L_mat - np.log(448) ) * gg
     B_1 = mu_k + ii - 0.5 * kappa * ii**2 - 0.5 * sigma_k**2
     B_2 = np.sum(theta_ell * pi_c, axis=0) * ee
+    B_2 += sigma_y * h * ee
     B_3 = - zeta + psi_0 * (xx * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
     # B_3 = - zeta + psi_0 * xx** psi_1 * np.exp( psi_1 * K_mat ) * np.sum(pi_c * np.exp( -( 1-psi_2) * L_mat  ), axis=0 )- 0.5 * sigma_g**2
 
@@ -174,8 +182,9 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     C_2 = 0.5 * sigma_y**2 * ee**2
     C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
     D = delta * np.log(consumption) + delta * K_mat  - dG * np.sum(theta_ell * pi_c, axis=0) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_a * entropy + xi_g * np.exp((L_mat - np.log(448))) * (1 - gg + gg * np.log(gg)) + np.exp( (L_mat - np.log(448)) ) * gg * V_post_tech
-
-    return A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c, gg
+    D += 1/2 *xi_g *h**2
+    
+    return A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c, gg, h
 
 
 def hjb_pre_tech(
@@ -288,7 +297,7 @@ def hjb_pre_tech(
         FOC_args = (delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_g )
 
         start_ep = time.time()
-        A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c, g_tech = _FOC_update(v0, steps= (hX1, hX2, hX3), states = (K_mat, Y_mat, L_mat), args=FOC_args, controls=(i_star, e_star, x_star), fraction=fraction)
+        A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c, g_tech, h = _FOC_update(v0, steps= (hX1, hX2, hX3), states = (K_mat, Y_mat, L_mat), args=FOC_args, controls=(i_star, e_star, x_star), fraction=fraction)
 
         if model == "Pre damage":
             g_damage = np.exp(- (v_i-v0)/xi_p)
@@ -398,6 +407,7 @@ def hjb_pre_tech(
             "x_star": x_star,
             "pi_c"  : pi_c,
             "g_tech": g_tech,
+            "h": h,
             "ME": ME,
             "FC_Err": FC_Err,
             }
@@ -410,6 +420,7 @@ def hjb_pre_tech(
                 "x_star": x_star,
                 "pi_c"  : pi_c,
                 "g_tech": g_tech,
+                "h": h,
                 "ME": ME,
                 "g_damage": g_damage,
                 "FC_Err": FC_Err,
