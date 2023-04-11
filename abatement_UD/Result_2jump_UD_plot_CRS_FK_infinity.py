@@ -289,7 +289,7 @@ for id_xiag in range(len(xiaarr)):
                 # plt.plot(res2["years"], res2["distorted_tech_prob"],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
                 # plt.plot(res3["years"], res3["distorted_tech_prob"],label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]),linewidth=7.0)
                 plt.xlabel('Years')
-                plt.title("Distorted probability of a technology jump")
+                plt.title("Distorted Probability of a Technology Jump")
                 plt.ylim(0,1)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
@@ -313,7 +313,7 @@ for id_xiag in range(len(xiaarr)):
                 # plt.plot(res2["years"], res2["distorted_damage_prob"],label=r'$\xi_p=\\xi_g=0.050$',linewidth=7.0)
                 # plt.plot(res3["years"], res3["distorted_damage_prob"],label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]),linewidth=7.0)
                 plt.xlabel('Years')
-                plt.title("Distorted probability of damage changes")
+                plt.title("Distorted Probability of Damage Changes")
                 plt.ylim(0,1)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
@@ -336,7 +336,7 @@ for id_xiag in range(len(xiaarr)):
                     plt.plot(res["years"], res["true_tech_prob"],label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0)
 
                 plt.xlabel("Years")
-                plt.title("True probability of a technology jump")
+                plt.title("True Probability of a Technology Jump")
                 plt.ylim(0.0,1.0)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
@@ -359,7 +359,7 @@ for id_xiag in range(len(xiaarr)):
                     plt.plot(res["years"], res["true_damage_prob"],label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0)
 
                 plt.xlabel("Years")
-                plt.title("True probability of damage changes")
+                plt.title("True Probability of Damage Changes")
                 plt.ylim(0,1)
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
@@ -1106,7 +1106,7 @@ for id_xiag in range(len(xiaarr)):
                 print("mean of condition = {}" .format(np.average(theta_ell,weights = pi_c)))
                     
                 plt.hist(theta_ell, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
-                        alpha=0.5, ec="darkgrey", color="C3",label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]))
+                        alpha=0.5, ec="darkgrey", color="C3",label='baseline' .format(xiaarr[id_xiag],xigarr[id_xiag]))
                 plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
                         alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]))
                 plt.legend(loc='upper left')
@@ -1185,7 +1185,7 @@ for id_xiag in range(len(xiaarr)):
                 print("mean of condition = {}" .format(np.average(theta_ell,weights = pi_c)))
                     
                 plt.hist(theta_ell, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
-                        alpha=0.5, ec="darkgrey", color="C3",label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]))
+                        alpha=0.5, ec="darkgrey", color="C3",label='baseline' .format(xiaarr[id_xiag],xigarr[id_xiag]))
                 plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
                         alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]))
                 plt.legend(loc='upper left')
@@ -1252,7 +1252,7 @@ for id_xiag in range(len(xiaarr)):
                 γ3_distort = res["gt_dmg"][:, -1] 
                 # plt.figure(figsize=(16,10))
                 plt.hist(gamma_3_list, weights=np.ones(len(gamma_3_list)) / len(gamma_3_list), 
-                        alpha=0.5, color="C3", ec="darkgray",label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]), bins=NUM_DAMAGE)
+                        alpha=0.5, color="C3", ec="darkgray",label='baseline' .format(xiaarr[id_xiag],xigarr[id_xiag]), bins=NUM_DAMAGE)
                 plt.hist(gamma_3_list, weights= γ3_distort / np.sum(γ3_distort), 
                         alpha=0.5, color="C0", ec="darkgray",label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]), bins=NUM_DAMAGE)
                 plt.ylim(0, 0.15)
