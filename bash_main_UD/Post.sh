@@ -2,7 +2,7 @@
 
 epsilonarray=(0.1) 
 # epsilonarray=(0.2) 
-# epsilonarray=(0.005) 
+# epsilonarray=(0.05) 
 # epsilonarray=(0.001) 
 
 

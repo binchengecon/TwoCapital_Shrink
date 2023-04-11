@@ -161,8 +161,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel('Years')
                 plt.ylabel('$\%$ of GDP')
                 plt.title('R&D investment as percentage of  GDP')
-                if auto==0:   
-                    plt.ylim(0,0.4)
+                # if auto==0:   
+                plt.ylim(0,0.55)
                 plt.xlim(0,25)
 
                 plt.legend(loc='upper left')        
@@ -331,14 +331,14 @@ for id_xiag in range(len(xiaarr)):
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["true_tech_prob"][res["states"][:, 1]<1.5],label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]),linewidth=5.0)
+                    plt.plot(res["years"], res["true_tech_prob"],label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]),linewidth=5.0)
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["true_tech_prob"][res["states"][:, 1]<1.5],label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0)
+                    plt.plot(res["years"], res["true_tech_prob"],label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0)
 
                 plt.xlabel("Years")
                 plt.title("True probability of a technology jump")
                 plt.ylim(0.0,1.0)
-                plt.xlim(0,25)
+                plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/TPIg,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
@@ -354,14 +354,14 @@ for id_xiag in range(len(xiaarr)):
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["true_damage_prob"][res["states"][:, 1]<1.5],label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]),linewidth=5.0)
+                    plt.plot(res["years"], res["true_damage_prob"],label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]),linewidth=5.0)
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["true_damage_prob"][res["states"][:, 1]<1.5],label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0)
+                    plt.plot(res["years"], res["true_damage_prob"],label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0)
 
                 plt.xlabel("Years")
                 plt.title("True probability of damage changes")
                 plt.ylim(0,1)
-                plt.xlim(0,25)
+                plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/TPId,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
@@ -1055,7 +1055,7 @@ for id_xiag in range(len(xiaarr)):
 
             plt.xlabel("Years")
             plt.title("Mean Difference")
-            plt.ylim(0,0.06)
+            plt.ylim(0,0.10)
             plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/MeanDiff_h_{},xia={},xig={},psi0={},psi1={}.pdf".format(IntPeriod, xiaarr,xigarr,psi0arr,psi1arr))

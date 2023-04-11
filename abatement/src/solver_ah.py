@@ -199,7 +199,6 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
     D = delta * np.log(consumption) + delta * K_mat  - dG * (theta_ell + sigma_y * gg_mean) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_g * np.exp(L_mat) * (1 - gg + gg * np.log(gg)) + np.exp(L_mat) * gg * V_post_tech
 
-    B_2 += sigma_y*gg_mean*ee
     D += xi_m/2*gg_mean**2
     D -= dG*sigma_y*gg_mean*ee
 

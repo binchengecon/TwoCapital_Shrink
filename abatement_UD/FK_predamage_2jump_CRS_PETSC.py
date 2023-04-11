@@ -384,10 +384,10 @@ pi_c = np.ones(pi_c.shape)/len(theta_ell)
 g_tech = model_tech1_pre_damage['g_tech']
 g_tech = np.ones(g_tech.shape)
 g_damage = model_tech1_pre_damage['g_damage']
+g_damage = np.ones(g_damage.shape)
 h = model_tech1_pre_damage['h']
 h = np.zeros(h.shape)
 print(g_damage.min(),g_damage.max())
-# g_damage = np.ones(g_damage.shape)
 pi_d_o = np.ones(len(gamma_3_list)) / len(gamma_3_list)
 pi_d_o = np.array([temp * np.ones((nK, nY_short)) for temp in pi_d_o])
 pi_c_o = np.ones(len(theta_ell)) / len(theta_ell)

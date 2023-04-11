@@ -323,6 +323,7 @@ def simulate_pre(
     mu_L_hist = np.zeros([pers])
     
     theta_ell_hist = np.zeros([len(theta_ell),pers])
+    theta_ell_hist2 = np.zeros([pers])
 
     for tm in range(pers):
         if tm == 0:
@@ -366,6 +367,7 @@ def simulate_pre(
             ME_base_hist[0] = ME_base_func(hist[0,:])
             
             theta_ell_hist[:,tm] = theta_ell + sigma_y*ht[tm]
+            theta_ell_hist2[tm] = np.average(theta_ell, weights= pi_c_t[:,tm]) 
 
         else:
             # other periods
@@ -414,6 +416,7 @@ def simulate_pre(
             ME_base_hist[tm] = ME_base_func(hist[tm,:])
             
             theta_ell_hist[:,tm] = theta_ell + sigma_y*ht[tm]
+            theta_ell_hist2[tm] = np.average(theta_ell, weights= pi_c_t[:,tm]) 
 
         if printing==True:
             # print("time={}, K={},Y={},L={},ME_total_base={:.3f}, SVRD={}, SVRD_dis={}, SVRD_undis={}" .format(tm, hist[tm,0],hist[tm,1],hist[tm,2],np.log(ME_total_hist[tm]/ME_base_hist[tm])*100, dL_hist[tm], dvdL_dis_hist[tm], dvdL_undis_hist[tm]), flush=True)
@@ -431,11 +434,11 @@ def simulate_pre(
 
     # theta_ell_hist = np.array([temp * np.ones(ME_base_hist.shape) for temp in theta_ell])
 
-    RHS_undis  = - (dvdY_undis_hist - (gamma_1 + gamma_2*hist[:,1] )) * np.mean(theta_ell) 
+    RHS_undis  = - (dvdY_undis_hist - (gamma_1 + gamma_2*hist[:,1] )) * ( theta_ell_hist2 + sigma_y*ht) 
     RHS_undis  += -(ddvddY_undis_hist - gamma_2)*sigma_y**2 * e_hist
     RHS_undis  = RHS_undis / MC * np.exp(hist[:,0])
  
-    RHS_dis  = - (dvdY_dis_hist - (gamma_1 + gamma_2*hist[:,1] )) * np.mean(theta_ell)
+    RHS_dis  = - (dvdY_dis_hist - (gamma_1 + gamma_2*hist[:,1] )) *  ( theta_ell_hist2 + sigma_y*ht) 
     RHS_dis  += -(ddvddY_dis_hist - gamma_2)*sigma_y**2 * e_hist
     RHS_dis  = RHS_dis / MC * np.exp(hist[:,0])
        

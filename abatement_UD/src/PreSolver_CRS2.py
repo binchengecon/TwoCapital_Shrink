@@ -161,7 +161,10 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     
     # gloabal misspecification
     
-    h = - 1/ xi_g * sigma_y * ee * dY
+    h = - 1/ xi_g * sigma_y * ee * G
+    
+    h[h<=1e-16] = 1e-16
+    h[h>=1] = 1
     
     # gg[gg >= 1] = 1
     jj =  alpha * vartheta_bar * (1 - ee / (alpha * lambda_bar * np.exp(K_mat)))**theta
@@ -181,7 +184,7 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
     C_2 = 0.5 * sigma_y**2 * ee**2
     C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
-    D = delta * np.log(consumption) + delta * K_mat  - dG * np.sum(theta_ell * pi_c, axis=0) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_a * entropy + xi_g * np.exp((L_mat - np.log(448))) * (1 - gg + gg * np.log(gg)) + np.exp( (L_mat - np.log(448)) ) * gg * V_post_tech
+    D = delta * np.log(consumption) + delta * K_mat  - dG * (np.sum(theta_ell * pi_c, axis=0) + sigma_y * h) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_a * entropy + xi_g * np.exp((L_mat - np.log(448))) * (1 - gg + gg * np.log(gg)) + np.exp( (L_mat - np.log(448)) ) * gg * V_post_tech
     D += 1/2 *xi_g *h**2
     
     return A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c, gg, h
