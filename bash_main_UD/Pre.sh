@@ -15,13 +15,14 @@ epsilonarraypre=(0.1) #
 
 # python_name="predamage_2jump_CRS.py"
 python_name="predamage_2jump_CRS2.py"
+# python_name="predamage_2jump_CRS2_smallgamma.py"
 # python_name="predamage_2jump_CRS3.py"
 # python_name="predamage_2jump_CRS_MulJump.py"
 # python_name="predamage_2jump_DRS.py"
 
 
-# NUM_DAMAGE=20
-NUM_DAMAGE=3
+NUM_DAMAGE=20
+# NUM_DAMAGE=10
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
@@ -38,14 +39,14 @@ declare -A hXarr6=([0]=0.1 [1]=0.025 [2]=0.1)
 declare -A hXarr7=([0]=0.1 [1]=0.01 [2]=0.1)
 declare -A hXarr8=([0]=0.2 [1]=0.1 [2]=0.2)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-# hXarrays=(hXarr1)
+hXarrays=(hXarr1)
 # hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 # hXarrays=(hXarr4)
 # hXarrays=(hXarr5)
 # hXarrays=(hXarr6)
 # hXarrays=(hXarr7)
-hXarrays=(hXarr8)
+# hXarrays=(hXarr8)
 
 
 
@@ -55,8 +56,11 @@ hXarrays=(hXarr8)
 # Xminarr=(4.00 1.0 1.0 0.0)
 # Xmaxarr=(9.00 3.0 6.0 3.0)
 
-Xminarr=(4.00 1.5 1.0 0.0)
-Xmaxarr=(9.00 2.5 6.0 3.0)
+Xminarr=(4.00 1.2 1.0 0.0)
+Xmaxarr=(9.00 4.0 6.0 3.0)
+
+# Xminarr=(4.00 1.5 1.0 0.0)
+# Xmaxarr=(9.00 2.5 6.0 3.0)
 
 
 # Xminarr=(4.00 0.0 1.0 0.0)
@@ -96,7 +100,8 @@ for epsilon in ${epsilonarraypre[@]}; do
 			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS_PETSCFK_20dmg"
 			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS2_PETSCFK"
 			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS2_PETSCFK"
-			action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_vartheta=0.05"
+			action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_testpostivee"
+			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_smallgamma"
 			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS2_PETSCFK_simulate2"
 			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_CRS2_PETSCFK"
 

@@ -331,7 +331,8 @@ def hjb_pre_tech(
             print("petsc total: {:.3f}s, Residual Norm is {:g}".format((end_ksp - bpoint1),ksp.getResidualNorm()))
             print("Epoch {:d} (PETSc): PDE Error: {:.10f}; False Transient Error: {:.10f}" .format(epoch, PDE_Err, FC_Err))
             print("Epoch time: {:.4f}".format(time.time() - start_ep))
-            
+        
+
         v0     = out_comp
         i_star = ii
         e_star = ee

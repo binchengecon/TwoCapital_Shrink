@@ -4,7 +4,7 @@ actiontime=1
 epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
 
-NUM_DAMAGE=4
+NUM_DAMAGE=3
 
 declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)

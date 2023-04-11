@@ -29,8 +29,8 @@ hXarrays=(hXarr1)
 # hXarrays=(hXarr8)
 
 
-# Xminarr=(4.00 0.0 1.0 0.0)
-# Xmaxarr=(9.00 4.0 6.0 3.0)
+Xminarr=(4.00 0.0 1.0 0.0)
+Xmaxarr=(9.00 4.0 6.0 3.0)
 
 # Xminarr=(4.00 0.5 1.0 0.0)
 # Xmaxarr=(9.00 3.5 6.0 3.0)
@@ -38,8 +38,8 @@ hXarrays=(hXarr1)
 # Xminarr=(4.00 1.0 1.0 0.0)
 # Xmaxarr=(9.00 4.0 6.0 3.0)
 
-Xminarr=(4.00 1.2 1.0 0.0)
-Xmaxarr=(9.00 4.0 6.0 3.0)
+# Xminarr=(4.00 1.2 1.0 0.0)
+# Xmaxarr=(9.00 4.0 6.0 3.0)
 
 # Xminarr=(4.00 1.5 1.0 0.0)
 # Xmaxarr=(9.00 4.0 6.0 3.0)
@@ -64,7 +64,8 @@ psi1arr=(0.5)
 # psi2arr=(0.5)
 
 
-python_name_unit="Result_2jump_UD_simulatepost_CRS_FK.py"
+# python_name_unit="Result_2jump_UD_simulatepost_CRS_FK.py"
+python_name_unit="Result_2jump_UD_simulatepost_CRS_FK_smallgamma.py"
 # python_name_unit="Result_2jump_UD_simulate2_CRS_FK.py"
 
 
@@ -117,7 +118,8 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS2_PETSCFK"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS2_PETSCFK_10dmg"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_notonpoint"
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_testpostivee"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_testpostivee"
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_smallgamma"
 
 		for i in $(seq 0 $ID_MAX_DAMAGE); do
             for PSI_0 in ${psi0arr[@]}; do

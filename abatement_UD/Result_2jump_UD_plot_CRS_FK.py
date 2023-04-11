@@ -294,8 +294,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/PIgd,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
-plt.savefig(Plot_Dir+"/PIgd,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig(Plot_Dir+"/ProbTechJump,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig(Plot_Dir+"/ProbTechJump,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -318,8 +318,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/PIdd,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
-plt.savefig(Plot_Dir+"/PIdd,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig(Plot_Dir+"/ProbDamageChange,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig(Plot_Dir+"/ProbDamageChange,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -769,6 +769,46 @@ plt.savefig(Plot_Dir+"/logSVRD_orig_undis_HJB,xia={},xig={},psi0={},psi1={}.pdf"
 plt.savefig(Plot_Dir+"/logSVRD_orig_undis_HJB,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
 plt.close()
 
+
+colors = ['blue','green','red']
+
+
+                
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            
+                color_one = colors[id_xiag % len(xiaarr)]   
+                
+                res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"], np.log(res["scrd_dis"]),label='FK: baseline',linewidth=5.0,linestyle = 'dashed',color=color_one)
+                else:
+                    plt.plot(res["years"], np.log(res["scrd_dis"]),label='FK: $\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed',color=color_one)
+                
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"], np.log(res["scrd"]),label='baseline',linewidth=5.0,color=color_one)
+                else:
+                    plt.plot(res["years"], np.log(res["scrd"]),label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,color=color_one)
+
+                plt.xlabel("Years")
+                plt.ticklabel_format(useOffset=False)
+
+                plt.title("Log of Social Value of R&D: Comparison")
+                if auto==0:   
+                    plt.ylim(6.5,8.0)
+                plt.xlim(0,IntPeriod)
+                plt.legend(loc='upper left')
+
+plt.savefig(Plot_Dir+"/logSVRD_orig_dis_FK,xia={},xig={},psi0={},psi1={}.pdf".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.savefig(Plot_Dir+"/logSVRD_orig_dis_FK,xia={},xig={},psi0={},psi1={}.png".format(xiaarr,xigarr,psi0arr,psi1arr))
+plt.close()
+
+
+
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
         for id_psi1 in range(len(psi1arr)):
@@ -1192,10 +1232,10 @@ for id_xiag in range(len(xiaarr)):
                         alpha=0.5, color="C3", ec="darkgray",label='baseline')
                 plt.hist(gamma_3_list, weights= γ3_distort / np.sum(γ3_distort), 
                         alpha=0.5, color="C0", ec="darkgray",label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]))
-                plt.ylim(0, 0.3)
+                plt.ylim(0, 0.15)
                 plt.title("Distorted probability of Damage Models")
                 plt.xlabel("Damage Curvature")
-                plt.legend(loc='upper left')
+                plt.legend(loc='upper left',frameon=False)
 
                     
                 plt.savefig(Plot_Dir+"/Gamma3,xia={:.5f},xig={:.3f},psi0={:.3f},psi1={:.3f}.png".format(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1]))

@@ -8,10 +8,10 @@ epsilonarray=(0.1)
 
 # python_name="FK_postdamage_2jump_CRS.py" # 3 dmg
 python_name="FK_postdamage_2jump_CRS_PETSC.py" # 3 dmg
-# python_name="FK_postdamage_2jump_CRS2.py" # 3 dmg
+# python_name="FK_postdamage_2jump_CRS_PETSC_smallgamma.py" # 3 dmg
 
-# NUM_DAMAGE=20
-NUM_DAMAGE=3
+NUM_DAMAGE=20
+# NUM_DAMAGE=3
 # NUM_DAMAGE=10
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
@@ -43,15 +43,13 @@ hXarrays=(hXarr1)
 # Xmaxarr=(9.00 3.5 6.0 3.0)
 
 # Xminarr=(4.00 1.0 1.0 0.0)
-# Xmaxarr=(9.00 4.0 6.0 3.0)
+# Xmaxarr=(9.00 3.0 6.0 3.0)
 
 Xminarr=(4.00 1.2 1.0 0.0)
 Xmaxarr=(9.00 4.0 6.0 3.0)
 
-
 # Xminarr=(4.00 1.5 1.0 0.0)
 # Xmaxarr=(9.00 4.0 6.0 3.0)
-
 
 
 
@@ -88,7 +86,7 @@ for epsilon in ${epsilonarray[@]}; do
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_notonpoint_100gamma3"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_notonpoint"
 		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_testpostivee"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_CRS2_PETSCFK"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_smallgamma"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_CRS2_PETSCFK_10dmg"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_CRS2_PETSCFK_simulate2"
 

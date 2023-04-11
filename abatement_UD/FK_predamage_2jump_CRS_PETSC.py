@@ -80,7 +80,8 @@ sigma_k = np.sqrt(0.0087**2 + 0.0038**2)
 # Technology
 theta        = 3
 lambda_bar   = 0.1206
-vartheta_bar = 0.0453
+# vartheta_bar = 0.0453
+vartheta_bar = 0.05
 # Damage function
 gamma_1 = 1.7675/10000
 gamma_2 = 0.0022 * 2

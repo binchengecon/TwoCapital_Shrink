@@ -3,12 +3,12 @@ post_damage.py
 ======================
 Solver for solving post damage HJBs, with different values of gamma_3 
 
-python3 -u /home/bcheng4/TwoCapital_Shrink/abatement_UD/postdamage_2jump_CRS.py --num_gamma 5 --xi_a 0.0002 --xi_g 0.025  --epsilonarr 0.1 0.1  --fractionarr 0.1 0.1   --maxiterarr 80000 200000  --id 0 --psi_0 0.105830 --psi_1 0.5 --name 2jump_step_4.00,9.00_0.0,4.0_1.0,6.0_SS_0.2,0.2,0.2_LR_0.1_CRS_PETSCFK --hXarr 0.2 0.2 0.2 --Xminarr 4.00 0.0 1.0 0.0 --Xmaxarr 9.00 4.0 6.0 3.0
+python3 -u /home/bcheng4/TwoCapital_Shrink/abatement_UD/postdamage_2jump_CRS.py --num_gamma 3 --xi_a 0.0002 --xi_g 0.025  --epsilonarr 0.1 0.01  --fractionarr 0.1 0.01   --maxiterarr 80000 200000  --id 3 --psi_0 0.105830 --psi_1 0.5 --name 2jump_step_4.00,9.00_0.0,4.0_1.0,6.0_SS_0.2,0.2,0.2_LR_0.1_CRS_PETSCFK --hXarr 0.2 0.2 0.2 --Xminarr 4.00 0.0 1.0 0.0 --Xmaxarr 9.00 4.0 6.0 3.0
 
 
 """
 # Optimization of post jump HJB
-#Required packages
+# Required packages
 import os
 import sys
 sys.path.append('./src')
@@ -26,8 +26,8 @@ from scipy.sparse import csr_matrix
 from datetime import datetime
 # from solver import solver_3d
 from src.PostSolver2 import hjb_post_damage_post_tech, hjb_pre_damage_post_tech
-from src.PreSolver_CRS3 import pde_one_interation
-from src.PreSolver_CRS3 import hjb_pre_tech
+from src.PreSolver_CRS2 import pde_one_interation
+from src.PreSolver_CRS2 import hjb_pre_tech
 import argparse
 
 reporterror = True
@@ -82,7 +82,8 @@ sigma_k = np.sqrt(0.0087**2 + 0.0038**2)
 # Technology
 theta        = 3
 lambda_bar   = 0.1206
-vartheta_bar = 0.0453
+# vartheta_bar = 0.0453
+vartheta_bar = 0.05
 # Damage function
 gamma_1 = 1.7675/10000
 gamma_2 = 0.0022 * 2
@@ -92,7 +93,7 @@ gamma_2 = 0.0022 * 2
 # gamma_3_list = np.linspace(0,1./3.,num_gamma)
 
 num_gamma = args.num_gamma
-gamma_3_list = np.linspace(0,1./3.,num_gamma)
+gamma_3_list = np.linspace(0,1./30.,num_gamma)
 
 id_damage = args.id
 gamma_3_i = gamma_3_list[id_damage]

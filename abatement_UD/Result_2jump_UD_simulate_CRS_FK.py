@@ -620,7 +620,7 @@ def model_simulation_generate(xi_a,xi_g,psi_0,psi_1):
     with open(Data_Dir + File_Dir+"model_tech1_pre_damage"+"_FK_simul_{}".format(IntPeriod)+ scheme + "_" +HJB_solution, "wb") as f:
         pickle.dump(res,f)
 
-
+    print(Data_Dir + File_Dir+"model_tech1_pre_damage"+"_FK_simul_{}".format(IntPeriod)+ scheme + "_" +HJB_solution)
     
     return res
 
