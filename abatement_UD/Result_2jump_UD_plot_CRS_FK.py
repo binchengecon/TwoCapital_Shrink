@@ -1225,13 +1225,13 @@ for id_xiag in range(len(xiaarr)):
                 gamma_3_list = np.linspace(0., 1./3., NUM_DAMAGE)
 
                 # γ3_distort = np.load("γ3_5.npy")
-
+                print(NUM_DAMAGE)
                 γ3_distort = res["gt_dmg"][:, -1] 
                 # plt.figure(figsize=(16,10))
                 plt.hist(gamma_3_list, weights=np.ones(len(gamma_3_list)) / len(gamma_3_list), 
-                        alpha=0.5, color="C3", ec="darkgray",label='baseline')
+                        alpha=0.5, color="C3", ec="darkgray",label='baseline', bins=NUM_DAMAGE)
                 plt.hist(gamma_3_list, weights= γ3_distort / np.sum(γ3_distort), 
-                        alpha=0.5, color="C0", ec="darkgray",label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]))
+                        alpha=0.5, color="C0", ec="darkgray",label='$\\xi_p={:.5f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]), bins=NUM_DAMAGE)
                 plt.ylim(0, 0.15)
                 plt.title("Distorted probability of Damage Models")
                 plt.xlabel("Damage Curvature")
