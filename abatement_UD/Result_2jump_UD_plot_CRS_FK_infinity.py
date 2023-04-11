@@ -454,7 +454,7 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc_undis"])[res["states"][:, 1]<1.5],label='FK: Infinity',linewidth=5.0,linestyle = 'dashed',color=color_one)
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc_undis"])[res["states"][:, 1]<1.5],label='FK: $\\xi_a={:.f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed',color=color_one)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scc_undis"])[res["states"][:, 1]<1.5],label='FK: $\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed',color=color_one)
                 
                 if xiaarr[id_xiag]>10:
 
@@ -489,7 +489,7 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.plot(res["years"], np.log(res["scc_undis"]),label='FK: Infinity',linewidth=5.0,linestyle = 'dashed',color=color_one)
                 else:
-                    plt.plot(res["years"], np.log(res["scc_undis"]),label='FK: $\\xi_a={:.f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed',color=color_one)
+                    plt.plot(res["years"], np.log(res["scc_undis"]),label='FK: $\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed',color=color_one)
                 
                 if xiaarr[id_xiag]>10:
 
@@ -525,7 +525,7 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.plot(res["years"], np.log(res["scc_dis"]),label='FK: Infinity',linewidth=5.0,linestyle = 'dashed',color=color_one)
                 else:
-                    plt.plot(res["years"], np.log(res["scc_dis"]),label='FK: $\\xi_a={:.f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed',color=color_one)
+                    plt.plot(res["years"], np.log(res["scc_dis"]),label='FK: $\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed',color=color_one)
                 
                 if xiaarr[id_xiag]>10:
 
@@ -786,7 +786,7 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.plot(res["years"], np.log(res["scrd_dis"]),label='FK: Infinity',linewidth=5.0,linestyle = 'dashed',color=color_one)
                 else:
-                    plt.plot(res["years"], np.log(res["scrd_dis"]),label='FK: $\\xi_a={:.f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed',color=color_one)
+                    plt.plot(res["years"], np.log(res["scrd_dis"]),label='FK: $\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed',color=color_one)
                 
                 if xiaarr[id_xiag]>10:
 
@@ -854,7 +854,7 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000)[res["states"][:, 1]<1.5],label='$\\xi_a={:.1f}$, $\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]))
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000)[res["states"][:, 1]<1.5],label='$\\xi_a={:.f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000)[res["states"][:, 1]<1.5],label='$\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
 
                 plt.xlabel("Years")
                 plt.title("Mean Difference")
@@ -878,7 +878,7 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.plot(res["years"], res["ME_total"],label='$\\xi_a={:.1f}$, $\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]))
                 else:
-                    plt.plot(res["years"], res["ME_total"],label='$\\xi_a={:.f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
+                    plt.plot(res["years"], res["ME_total"],label='$\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
                     
                 plt.xlabel("Years")
 
@@ -902,7 +902,7 @@ plt.close()
 
 #                     plt.plot(res["years"], np.log(res["temp_Lars"]),label='$\\xi_a={:.1f}$, $\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]))
 #                 else:
-#                     plt.plot(res["years"], np.log(res["temp_Lars"]),label='$\\xi_a={:.f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
+#                     plt.plot(res["years"], np.log(res["temp_Lars"]),label='$\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
                     
 #                 plt.xlabel("Years")
 
@@ -930,7 +930,7 @@ plt.close()
 
 #                         plt.plot(res["years"], res["ME_total2"],label='$\\xi_a={:.1f}$, $\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]))
 #                     else:
-#                         plt.plot(res["years"], res["ME_total2"],label='$\\xi_a={:.f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
+#                         plt.plot(res["years"], res["ME_total2"],label='$\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
                         
 #                     plt.xlabel("Years")
 
@@ -979,7 +979,7 @@ plt.close()
 
 #                         plt.plot(res["years"], res["ME_SCC"],label='$\\xi_a={:.1f}$, $\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]))
 #                     else:
-#                         plt.plot(res["years"], res["ME_SCC"],label='$\\xi_a={:.f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
+#                         plt.plot(res["years"], res["ME_SCC"],label='$\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
                         
 #                     plt.xlabel("Years")
 
@@ -1005,7 +1005,7 @@ plt.close()
 
 #                         plt.plot(res["years"], res["ME_consumption"],label='$\\xi_a={:.1f}$, $\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]))
 #                     else:
-#                         plt.plot(res["years"], res["ME_consumption"],label='$\\xi_a={:.f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
+#                         plt.plot(res["years"], res["ME_consumption"],label='$\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
                         
 #                     plt.xlabel("Years")
 
@@ -1027,7 +1027,7 @@ for id_xiag in range(len(xiaarr)):
 
                         plt.plot(res["years"], res["ME_total_base"],label='$\\xi_a={:.1f}$, $\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]))
                     else:
-                        plt.plot(res["years"], res["ME_total_base"],label='$\\xi_a={:.f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
+                        plt.plot(res["years"], res["ME_total_base"],label='$\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag]))
                         
                     plt.xlabel("Years")
 
