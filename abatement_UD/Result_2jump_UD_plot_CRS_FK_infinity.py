@@ -1110,7 +1110,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
                         alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]))
                 plt.legend(loc='upper left')
-                plt.title("Distorted probability of Climate Models")
+                plt.title("Distorted Probability of Climate Models")
 
                 plt.ylim(0, 1.4)
                 plt.xlabel("Climate Sensitivity")
@@ -1189,7 +1189,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.hist(theta_ell, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
                         alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]))
                 plt.legend(loc='upper left')
-                plt.title("Distorted probability of Climate Models")
+                plt.title("Distorted Probability of Climate Models")
 
                 plt.ylim(0, 1.4)
                 plt.xlabel("Climate Sensitivity")
@@ -1256,7 +1256,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.hist(gamma_3_list, weights= γ3_distort / np.sum(γ3_distort), 
                         alpha=0.5, color="C0", ec="darkgray",label='$\\xi_p={:.1f}$,$\\xi_m={:.3f}$' .format(xiaarr[id_xiag],xigarr[id_xiag]), bins=NUM_DAMAGE)
                 plt.ylim(0, 0.15)
-                plt.title("Distorted probability of Damage Models")
+                plt.title("Distorted Probability of Damage Models")
                 plt.xlabel("Damage Curvature")
                 plt.legend(loc='upper left',frameon=False)
 
@@ -1305,7 +1305,7 @@ for id_xiag in range(len(xiaarr)):
             plt.hist(theta_ell_new*1000, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
                     alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_a={:.4f}$,$\\xi_g=\\xi_d=\\xi_m={:.3f}$'.format(xiaarr[id_xiag],xigarr[id_xiag],xigarr[id_xiag])  )
             plt.legend(loc='upper left')
-            plt.title("Distorted probability of Climate Models")
+            plt.title("Distorted Probability of Climate Models")
 
 
             print("mean of uncondition = {}" .format(np.average(theta_ell,weights = pi_c_o)))
