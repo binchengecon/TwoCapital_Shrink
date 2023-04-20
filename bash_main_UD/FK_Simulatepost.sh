@@ -5,8 +5,8 @@ epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.01) # Computation of fine grid and psi10.8, post
 
-# NUM_DAMAGE=20
-NUM_DAMAGE=3
+NUM_DAMAGE=20
+# NUM_DAMAGE=3
 # NUM_DAMAGE=10
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
@@ -29,8 +29,8 @@ hXarrays=(hXarr1)
 # hXarrays=(hXarr8)
 
 
-Xminarr=(4.00 0.0 1.0 0.0)
-Xmaxarr=(9.00 4.0 6.0 3.0)
+# Xminarr=(4.00 0.0 1.0 0.0)
+# Xmaxarr=(9.00 4.0 6.0 3.0)
 
 # Xminarr=(4.00 0.5 1.0 0.0)
 # Xmaxarr=(9.00 3.5 6.0 3.0)
@@ -38,8 +38,8 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # Xminarr=(4.00 1.0 1.0 0.0)
 # Xmaxarr=(9.00 4.0 6.0 3.0)
 
-# Xminarr=(4.00 1.2 1.0 0.0)
-# Xmaxarr=(9.00 4.0 6.0 3.0)
+Xminarr=(4.00 1.2 1.0 0.0)
+Xmaxarr=(9.00 4.0 6.0 3.0)
 
 # Xminarr=(4.00 1.5 1.0 0.0)
 # Xmaxarr=(9.00 4.0 6.0 3.0)
@@ -52,8 +52,14 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_a=(0.0004 0.0002 0.0001 0.00005)
 # xi_p=(0.025 0.025 0.025 0.025)
 
-xi_a=(1000. 0.0002 0.0002)
-xi_p=(1000. 0.050 0.025)
+# xi_a=(1000. 0.0002 0.0002)
+# xi_p=(1000. 0.050 0.025)
+
+xi_a=(100000. 100000. 100000.)
+xi_p=(0.050 0.025 100000.)
+
+# xi_a=(100000.)
+# xi_p=(100000.)
 
 psi0arr=(0.105830)
 # psi0arr=(0.000001)
@@ -119,7 +125,7 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS2_PETSCFK_10dmg"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_notonpoint"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_testpostivee"
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_smallgamma"
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_globalmiss"
 
 		for i in $(seq 0 $ID_MAX_DAMAGE); do
             for PSI_0 in ${psi0arr[@]}; do

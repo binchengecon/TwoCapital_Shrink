@@ -50,7 +50,7 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
 
     hX1, hX2, hX3 = steps
     K_mat, Y_mat, L_mat = states
-    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_g = args
+    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_c, xi_d, xi_g, varrho = args
 
     i_star, e_star, x_star = controls
     # First order derivative
@@ -159,9 +159,9 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     gg = np.exp(1 / xi_g * (v0 - V_post_tech))
     gg[gg <=1e-16] = 1e-16
     
-    # gloabal misspecification
+    # Climate 
     
-    h = - 1/ xi_g * sigma_y * ee * G
+    h = - 1/ xi_c * sigma_y * ee * G
     
     h[h<=1e-16] = 1e-16
     h[h>=1] = 1
@@ -174,7 +174,7 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     # Step (2), solve minimization problem in HJB and calculate drift distortion
     
     
-    A   = - delta * np.ones(K_mat.shape) - np.exp(  L_mat - np.log(448) ) * gg
+    A   = - delta * np.ones(K_mat.shape) - np.exp(  L_mat - np.log(varrho) ) * gg
     B_1 = mu_k + ii - 0.5 * kappa * ii**2 - 0.5 * sigma_k**2
     B_2 = np.sum(theta_ell * pi_c, axis=0) * ee
     B_2 += sigma_y * h * ee
@@ -184,8 +184,8 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
     C_2 = 0.5 * sigma_y**2 * ee**2
     C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
-    D = delta * np.log(consumption) + delta * K_mat  - dG * (np.sum(theta_ell * pi_c, axis=0) + sigma_y * h) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_a * entropy + xi_g * np.exp((L_mat - np.log(448))) * (1 - gg + gg * np.log(gg)) + np.exp( (L_mat - np.log(448)) ) * gg * V_post_tech
-    D += 1/2 *xi_g *h**2
+    D = delta * np.log(consumption) + delta * K_mat  - dG * (np.sum(theta_ell * pi_c, axis=0) + sigma_y * h) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_a * entropy + xi_g * np.exp((L_mat - np.log(varrho))) * (1 - gg + gg * np.log(gg)) + np.exp( (L_mat - np.log(varrho)) ) * gg * V_post_tech
+    D += 1/2 *xi_c *h**2
     
     return A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c, gg, h
 
@@ -201,7 +201,7 @@ def hjb_pre_tech(
     current_time = now.strftime("%d-%H:%M")
     K, Y, L = state_grid
 
-    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_g, xi_p = model_args
+    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_c, xi_d, xi_g, varrho = model_args
 
 
     X1     = K
@@ -297,15 +297,15 @@ def hjb_pre_tech(
     # Enter the optimization
     while FC_Err > tol and epoch < max_iter:
         
-        FOC_args = (delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_g )
+        FOC_args = (delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_c, xi_d, xi_g, varrho)
 
         start_ep = time.time()
         A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c, g_tech, h = _FOC_update(v0, steps= (hX1, hX2, hX3), states = (K_mat, Y_mat, L_mat), args=FOC_args, controls=(i_star, e_star, x_star), fraction=fraction)
 
         if model == "Pre damage":
-            g_damage = np.exp(- (v_i-v0)/xi_p)
+            g_damage = np.exp(- (v_i-v0)/xi_d)
 
-            D += xi_p * Intensity * np.sum( pi_d_o*(1-g_damage+g_damage*np.log(g_damage)),axis=0) +Intensity*np.sum(pi_d_o*g_damage*v_i,axis=0)
+            D += xi_d * Intensity * np.sum( pi_d_o*(1-g_damage+g_damage*np.log(g_damage)),axis=0) +Intensity*np.sum(pi_d_o*g_damage*v_i,axis=0)
             A -=  Intensity*np.sum(pi_d_o*g_damage,axis=0)
 
 

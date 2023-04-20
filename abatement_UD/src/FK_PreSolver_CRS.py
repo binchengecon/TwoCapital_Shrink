@@ -59,7 +59,7 @@ def fk_pre_tech(
         ):
 
     K, Y, L = state_grid
-    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_g, xi_p = model_args
+    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_c, xi_d, xi_g, varrho = model_args
     
 
     
@@ -94,7 +94,7 @@ def fk_pre_tech(
 
         dv0dL = finiteDiff_3D(Phi, 2, 1, hL)       
 
-        A = -delta * np.ones(K_mat.shape) - psi_0 * psi_1 * (x * np.exp(K_mat-L_mat) )**psi_1 - np.exp(L_mat - np.log(448)) * g_tech - Intensity*np.sum(pi_d_o*g_damage,axis=0)
+        A = -delta * np.ones(K_mat.shape) - psi_0 * psi_1 * (x * np.exp(K_mat-L_mat) )**psi_1 - np.exp(L_mat - np.log(varrho)) * g_tech - Intensity*np.sum(pi_d_o*g_damage,axis=0)
         B_1 = mu_k + i - 0.5 * kappa * i**2 - 0.5 * sigma_k**2
         B_2 = np.sum(theta_ell * pi_c, axis=0) * e
         B_2 += sigma_y * h * e
@@ -104,8 +104,12 @@ def fk_pre_tech(
         C_2 = 0.5 * sigma_y**2 * e**2
         C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
 
-        D = np.exp(L_mat - np.log(448)) * g_tech * (Phi_II - Phi)  + np.exp(L_mat - np.log(448)) * g_tech * F_II + Intensity * np.sum(pi_d_o*g_damage* F_m,axis=0)  
-        D += xi_g * np.exp(L_mat - np.log(448)) * (1-g_tech +g_tech *np.log(g_tech))
+        D = np.exp(L_mat - np.log(varrho)) * g_tech * (Phi_II - Phi)  + np.exp(L_mat - np.log(varrho)) * g_tech * F_II + Intensity * np.sum(pi_d_o*g_damage* F_m,axis=0)  
+        D += xi_g * np.exp(L_mat - np.log(varrho)) * (1-g_tech +g_tech *np.log(g_tech))
+
+
+
+
 
         out = PDESolver(stateSpace, A, B_1, B_2, B_3, C_1, C_2, C_3, D, dv0dL, epsilon, solverType="Feyman Kac")
         v  = out[2].reshape(dv0dL.shape, order="F")
@@ -124,7 +128,7 @@ def fk_pre_tech(
 
         dv0dL = finiteDiff_3D(Phi_m, 2, 1, hL)       
 
-        A = -delta * np.ones(K_mat.shape) - psi_0 * psi_1 * (x * np.exp(K_mat-L_mat) )**psi_1 - np.exp(L_mat - np.log(448)) * g_tech
+        A = -delta * np.ones(K_mat.shape) - psi_0 * psi_1 * (x * np.exp(K_mat-L_mat) )**psi_1 - np.exp(L_mat - np.log(varrho)) * g_tech
         B_1 = mu_k + i - 0.5 * kappa * i**2 - 0.5 * sigma_k**2
         B_2 = np.sum(theta_ell * pi_c, axis=0) * e
         B_2 += sigma_y * h * e
@@ -134,9 +138,12 @@ def fk_pre_tech(
         C_2 = 0.5 * sigma_y**2 * e**2
         C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
 
-        D = np.exp(L_mat - np.log(448)) * g_tech * (Phi_m_II - Phi_m)+ np.exp(L_mat - np.log(448)) * g_tech * F_m_II
-        D += xi_g * np.exp(L_mat - np.log(448)) * (1-g_tech +g_tech *np.log(g_tech))
+        D = np.exp(L_mat - np.log(varrho)) * g_tech * (Phi_m_II - Phi_m)+ np.exp(L_mat - np.log(varrho)) * g_tech * F_m_II
+        D += xi_g * np.exp(L_mat - np.log(varrho)) * (1-g_tech +g_tech *np.log(g_tech))
 
+
+        
+        
         out = PDESolver(stateSpace, A, B_1, B_2, B_3, C_1, C_2, C_3, D, dv0dL, epsilon, solverType="Feyman Kac")
         v  = out[2].reshape(dv0dL.shape, order="F")
             
@@ -183,7 +190,7 @@ def fk_pre_tech_petsc(
         ):
 
     K, Y, L = state_grid
-    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_g, xi_p = model_args
+    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_c, xi_d, xi_g, varrho = model_args
     
     K_min, K_max, Y_min, Y_max, L_min, L_max = K.min(), K.max(), Y.min(), Y.max(), L.min(), L.max()
     hK, hY, hL = K[1] - K[0], Y[1] - Y[0], L[1]-L[0]
@@ -240,10 +247,11 @@ def fk_pre_tech_petsc(
         C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
 
         # D = np.zeros(A.shape)
-        A += - np.exp(L_mat - np.log(448)) * g_tech - Intensity*np.sum(pi_d_o*g_damage,axis=0)
-        # D = np.exp(L_mat - np.log(448)) * g_tech * (Phi_II - Phi)  + np.exp(L_mat - np.log(448)) * g_tech * F_II + Intensity * np.sum(pi_d_o*g_damage* F_m,axis=0)  
-        D = np.exp(L_mat - np.log(448)) * g_tech * (Phi_II - Phi)  + np.exp(L_mat - np.log(448)) * g_tech * F_II + Intensity * np.sum(pi_d_o*g_damage* F_m,axis=0)  
-        D += xi_g * np.exp(L_mat - np.log(448)) * (1-g_tech +g_tech *np.log(g_tech))
+        A += - np.exp(L_mat - np.log(varrho)) * g_tech - Intensity*np.sum(pi_d_o*g_damage,axis=0)
+        # D = np.exp(L_mat - np.log(varrho)) * g_tech * (Phi_II - Phi)  + np.exp(L_mat - np.log(varrho)) * g_tech * F_II + Intensity * np.sum(pi_d_o*g_damage* F_m,axis=0)  
+        D = np.exp(L_mat - np.log(varrho)) * g_tech * (Phi_II - Phi)  + np.exp(L_mat - np.log(varrho)) * g_tech * F_II + Intensity * np.sum(pi_d_o*g_damage* F_m,axis=0)  
+        D += xi_g * np.exp(L_mat - np.log(varrho)) * (1-g_tech +g_tech *np.log(g_tech))
+
 
         # out = PDESolver(stateSpace, A, B_1, B_2, B_3, C_1, C_2, C_3, D, dv0dL, epsilon, solverType="Feyman Kac")
 
@@ -302,13 +310,13 @@ def fk_pre_tech_petsc(
         
         # D = np.zeros(A.shape)
 
-        A += - np.exp(L_mat - np.log(448)) * g_tech
-        D = np.exp(L_mat - np.log(448)) * g_tech * (Phi_m_II - Phi_m)+ np.exp(L_mat - np.log(448)) * g_tech * F_m_II
-        D += xi_g * np.exp(L_mat - np.log(448)) * (1-g_tech +g_tech *np.log(g_tech))
+        A += - np.exp(L_mat - np.log(varrho)) * g_tech
+        D = np.exp(L_mat - np.log(varrho)) * g_tech * (Phi_m_II - Phi_m)+ np.exp(L_mat - np.log(varrho)) * g_tech * F_m_II
+        D += xi_g * np.exp(L_mat - np.log(varrho)) * (1-g_tech +g_tech *np.log(g_tech))
         
-        # A += - np.exp(L_mat - np.log(448)) * g_tech
-        # D =  np.exp(L_mat - np.log(448)) * g_tech * F_m_II
-        # D += xi_g * np.exp(L_mat - np.log(448)) * (1-np.exp(-(Phi_m_II-Phi_m)/xi_g))
+        # A += - np.exp(L_mat - np.log(varrho)) * g_tech
+        # D =  np.exp(L_mat - np.log(varrho)) * g_tech * F_m_II
+        # D += xi_g * np.exp(L_mat - np.log(varrho)) * (1-np.exp(-(Phi_m_II-Phi_m)/xi_g))
 
         bpoint1 = time.time()
         A_1d   = A.ravel(order = 'F')
@@ -405,7 +413,7 @@ def fk_y_pre_tech_petsc(
         ):
 
     K, Y, L = state_grid
-    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_g, xi_p = model_args
+    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_c, xi_d, xi_g, varrho = model_args
     
     K_min, K_max, Y_min, Y_max, L_min, L_max = K.min(), K.max(), Y.min(), Y.max(), L.min(), L.max()
     hK, hY, hL = K[1] - K[0], Y[1] - Y[0], L[1]-L[0]
@@ -460,14 +468,14 @@ def fk_y_pre_tech_petsc(
         C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
 
 
-        A += - np.exp(L_mat - np.log(448)) * g_tech 
+        A += - np.exp(L_mat - np.log(varrho)) * g_tech 
         A += - Intensity*np.sum(pi_d_o*g_damage,axis=0)
 
         D = -( gamma_2 * (np.sum( theta_ell * pi_c , axis = 0 ) + sigma_y * h) * e )
-        D += np.exp(L_mat - np.log(448)) * g_tech * F_II 
+        D += np.exp(L_mat - np.log(varrho)) * g_tech * F_II 
         D += Intensity * np.sum(pi_d_o*g_damage* F_m,axis=0)  
         D += Intensity_prime * np.sum(pi_d_o*g_damage* (Phi_m-Phi),axis=0)
-        D += xi_p * Intensity_prime * np.sum(pi_d_o*(1-g_damage+g_damage*np.log(g_damage)),axis=0)
+        D += xi_d * Intensity_prime * np.sum(pi_d_o*(1-g_damage+g_damage*np.log(g_damage)),axis=0)
         
         # out = PDESolver(stateSpace, A, B_1, B_2, B_3, C_1, C_2, C_3, D, dv0dL, epsilon, solverType="Feyman Kac")
 
@@ -530,15 +538,15 @@ def fk_y_pre_tech_petsc(
         C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
         
 
-        A += - np.exp(L_mat - np.log(448)) * g_tech 
+        A += - np.exp(L_mat - np.log(varrho)) * g_tech 
 
         # D =  - (    gamma_2 +gamma_3 * (Y_mat>y_bar) )  * np.sum( theta_ell * pi_c , axis = 0 ) * e
         # D += - (    gamma_3 * (Y_mat>y_bar) * sigma_y**2/2* e**2 )
-        # D +=    np.exp(L_mat - np.log(448)) * g_tech * F_m_II 
+        # D +=    np.exp(L_mat - np.log(varrho)) * g_tech * F_m_II 
         
         D =  - (    gamma_2 +gamma_3 )  * (np.sum( theta_ell * pi_c , axis = 0 ) + sigma_y * h) * e
         # D += - (    gamma_3 * (Y_mat>y_bar) * sigma_y**2/2* e**2 )
-        D +=    np.exp(L_mat - np.log(448)) * g_tech * F_m_II 
+        D +=    np.exp(L_mat - np.log(varrho)) * g_tech * F_m_II 
 
 
         A_1d   = A.ravel(order = 'F')
@@ -612,7 +620,7 @@ def fk_y_pre_tech(
         ):
 
     K_orig, Y_orig, L_orig = state_grid
-    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_g, xi_p = model_args
+    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_c, xi_d, xi_g, varrho = model_args
     
     K = K_orig
     Y = Y_orig
@@ -678,14 +686,14 @@ def fk_y_pre_tech(
         C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
 
 
-        A += - np.exp(L_mat - np.log(448)) * g_tech 
+        A += - np.exp(L_mat - np.log(varrho)) * g_tech 
         A += - Intensity*np.sum(pi_d_o*g_damage,axis=0)
 
         D = -( gamma_2 * (np.sum( theta_ell * pi_c , axis = 0 ) + sigma_y * h) * e )
-        D += np.exp(L_mat - np.log(448)) * g_tech * F_II 
+        D += np.exp(L_mat - np.log(varrho)) * g_tech * F_II 
         D += Intensity * np.sum(pi_d_o*g_damage* F_m,axis=0)  
         D += Intensity_prime * np.sum(pi_d_o*g_damage* (Phi_m-Phi),axis=0)
-        D += xi_p * Intensity_prime * np.sum(pi_d_o*(1-g_damage+g_damage*np.log(g_damage)),axis=0)
+        D += xi_d * Intensity_prime * np.sum(pi_d_o*(1-g_damage+g_damage*np.log(g_damage)),axis=0)
         
         out = PDESolver(stateSpace, A, B_1, B_2, B_3, C_1, C_2, C_3, D, dv0dL, epsilon, solverType="Feyman Kac")
         v  = out[2].reshape(dv0dL.shape, order="F")
@@ -732,7 +740,7 @@ def fk_y_pre_tech(
         C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
         
 
-        A += - np.exp(L_mat - np.log(448)) * g_tech 
+        A += - np.exp(L_mat - np.log(varrho)) * g_tech 
 
         
         D =  - (    gamma_2 +gamma_3  )  * (np.sum( theta_ell * pi_c , axis = 0 ) + sigma_y * h) * e
@@ -741,7 +749,7 @@ def fk_y_pre_tech(
         # plt.plot(D)
         
         
-        D +=    np.exp(L_mat - np.log(448)) * g_tech * F_m_II 
+        D +=    np.exp(L_mat - np.log(varrho)) * g_tech * F_m_II 
         
         # D += gamma_3 * 1/2 * (Y_mat > y_bar-1./1) *(Y_mat < y_bar + 1./1)  * sigma_y**2 * e**2 / 2
 
@@ -762,8 +770,9 @@ def fk_y_pre_tech(
                 
         #         plt.plot(Y_orig,dvdY_orig[i,:,j],label='dvdY')
         #         plt.plot(Y_orig,dvdY[i,:,j],label='F')
+        #         plt.title("K={:.1f},L={:.1f}".format(K_orig[i],L_orig[j]))
         #         plt.legend()
-        #         plt.savefig("./abatement_UD/pdf_2tech/gamma3={},xi_a={},xi_g={}/D_{},K={},L={}.png".format(gamma_3, xi_a, xi_g, len(Y_orig),K_orig[i],L_orig[j]))
+        #         plt.savefig("./abatement_UD/pdf_2tech/gamma3={},xi_a={},xi_g={}/D_{},K={:.1f},L={:.1f}.png".format(gamma_3, xi_a, xi_g, len(Y_orig),K_orig[i],L_orig[j]))
         #         plt.close()
                 
                 
@@ -841,7 +850,7 @@ def hjb_pre_tech_check(
 
     start_func = time.time()
     K, Y, L = state_grid
-    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_g, xi_p = model_args
+    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_c, xi_d, xi_g, varrho = model_args
 
     
     V_post_tech = v_tech2
@@ -897,7 +906,7 @@ def hjb_pre_tech_check(
         consumption[consumption <= 1e-16] = 1e-16
         entropy = np.sum(pi_c * (np.log(pi_c) - np.log(pi_c_o)), axis=0)
 
-        A   = - delta * np.ones(K_mat.shape) - np.exp(  L_mat - np.log(448) ) * g_tech
+        A   = - delta * np.ones(K_mat.shape) - np.exp(  L_mat - np.log(varrho) ) * g_tech
         B_1 = mu_k + ii - 0.5 * kappa * ii**2 - 0.5 * sigma_k**2
         B_2 = np.sum(theta_ell * pi_c, axis=0) * ee
         B_2 += sigma_y * h * ee
@@ -907,10 +916,10 @@ def hjb_pre_tech_check(
         C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
         C_2 = 0.5 * sigma_y**2 * ee**2
         C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
-        D = delta * np.log(consumption) + delta * K_mat  - dG * (np.sum(theta_ell * pi_c, axis=0) + sigma_y * h) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_a * entropy + xi_g * np.exp((L_mat - np.log(448))) * (1 - g_tech + g_tech * np.log(g_tech)) + np.exp( (L_mat - np.log(448)) ) * g_tech * V_post_tech
-        D += xi_p * Intensity * np.sum( pi_d_o*(1-g_damage+g_damage*np.log(g_damage)),axis=0) +Intensity*np.sum(pi_d_o*g_damage*v_i,axis=0)
+        D = delta * np.log(consumption) + delta * K_mat  - dG * (np.sum(theta_ell * pi_c, axis=0) + sigma_y * h) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_a * entropy + xi_g * np.exp((L_mat - np.log(varrho))) * (1 - g_tech + g_tech * np.log(g_tech)) + np.exp( (L_mat - np.log(varrho)) ) * g_tech * V_post_tech
+        D += xi_d * Intensity * np.sum( pi_d_o*(1-g_damage+g_damage*np.log(g_damage)),axis=0) +Intensity*np.sum(pi_d_o*g_damage*v_i,axis=0)
         A -=  Intensity*np.sum(pi_d_o*g_damage,axis=0)
-        D += 1/2 *xi_g *h**2
+        D += 1/2 *xi_c *h**2
 
     else:
         model = "Post damage"
@@ -928,7 +937,7 @@ def hjb_pre_tech_check(
         consumption[consumption <= 1e-16] = 1e-16
         entropy = np.sum(pi_c * (np.log(pi_c) - np.log(pi_c_o)), axis=0)
 
-        A   = - delta * np.ones(K_mat.shape) - np.exp(  L_mat - np.log(448) ) * g_tech
+        A   = - delta * np.ones(K_mat.shape) - np.exp(  L_mat - np.log(varrho) ) * g_tech
         B_1 = mu_k + ii - 0.5 * kappa * ii**2 - 0.5 * sigma_k**2
         B_2 = np.sum(theta_ell * pi_c, axis=0) * ee
         B_2 += sigma_y * h * ee
@@ -938,8 +947,8 @@ def hjb_pre_tech_check(
         C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
         C_2 = 0.5 * sigma_y**2 * ee**2
         C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
-        D = delta * np.log(consumption) + delta * K_mat  - dG * (np.sum(theta_ell * pi_c, axis=0) + sigma_y * h) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_a * entropy + xi_g * np.exp((L_mat - np.log(448))) * (1 - g_tech + g_tech * np.log(g_tech)) + np.exp( (L_mat - np.log(448)) ) * g_tech * V_post_tech
-        D += 1/2 *xi_g * h**2
+        D = delta * np.log(consumption) + delta * K_mat  - dG * (np.sum(theta_ell * pi_c, axis=0) + sigma_y * h) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_a * entropy + xi_g * np.exp((L_mat - np.log(varrho))) * (1 - g_tech + g_tech * np.log(g_tech)) + np.exp( (L_mat - np.log(varrho)) ) * g_tech * V_post_tech
+        D += 1/2 *xi_c * h**2
 
     # Initial setup of HJB
     FC_Err   = 1
